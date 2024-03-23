@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "Tajawal", sans-serif;
+}
+
+body{
+    background-color: black;
+}
+
+.header-container{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.header-sidebar{
+    width: 256px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding: 24px;
+    border-radius: 0 30px 30px 0;
+}
+
+.header-sidebar .header-head{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.header-user-img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.header-user-img img{
+    width: 100%;
+    object-fit: cover;
+}
+
+.header-user-details .header-title{
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+    text-transform: uppercase;
+}
+
+.header-user-details .header-name{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.header-menu .header-menu-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: #757575;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.header-menu ul li{
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+.header-menu ul li a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #757575;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.header-menu ul li:hover a,
+.header-menu ul li.header-menu-active a{
+    color: black;
+    background-color: #f6f6f6;
+}
+
+.header-menu ul li .header-menu-icon{
+    font-size: 20px;
+}
+
+
+
+.header-menu ul li .header-menu-arrow{
+    font-size: 14px;
+}

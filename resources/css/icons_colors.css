@@ -1,0 +1,14 @@
+:root path{
+    --blue: #53C6FF;
+    --red: #ff5353;
+    --green: #53ff7e;
+}
+
+.root-icon-color path {
+    fill: gray;
+    transition: all 0.2s;
+}
+
+.root-icon-color path:hover {
+    fill: black;
+}
