@@ -1,0 +1,139 @@
+main{
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.main-col-1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 50%;
+
+    /*extra*/
+    justify-content: center;
+    align-items: center;
+}
+
+/*extra*/
+.dash-extra-elements{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dashboard-employee-name{
+    font-size: 40px;
+    color: var(--color-texto-2);
+    font-weight: 500;
+}
+
+.dashboard-clock{
+    font-size: 60px;
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+
+/*
+.dashboard-date{
+    font-size: 30px;
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+*/
+
+.dashboard-date{
+    font-size: 20px;
+    color: var(--color-texto-2);
+    background-color: var(--color-extra-4);
+    padding: 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.dash-inbox{
+    margin-top: 50px;
+    background-color: var(--color-extra-4);
+    width: 100%;
+    border-radius: 20px;
+}
+
+.dash-inbox-header{
+    display: flex;
+    width: 100%;
+    padding: 15px 0px 15px 0px;
+}
+
+.dash-inbox-header-title{
+    width: 90%;
+    padding-left: 30px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+.dash-inbox-header-title b{
+    font-weight: 500;
+    color: var(--color-texto-2);
+    font-size: 22px;
+}
+
+.dash-inbox-alert{
+    width: 20%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.dash-inbox-alert p{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-texto-1);
+    padding: 10px;
+    background-color: var(--color-main--1);
+    margin-right: 30px;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* Clases de la card */
+
+.dash-inbox-content-card{
+    background-color: var(--color-extra-2);
+    margin: 5px 20px 20px 20px;
+    border-radius: 10px;
+    display: flex;
+}
+
+.dash-inbox-content-card-col1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.dash-inbox-content-card-col2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.marked-zone{
+    background-color: var(--color-fondo-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+}

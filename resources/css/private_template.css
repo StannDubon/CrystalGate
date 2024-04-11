@@ -11,23 +11,27 @@ body{
     background-color: black;
 }
 
+.logo{
+    height: 30vh;
+}
+
 .header-container{
     width: 100%;
     min-height: 100vh;
 }
 
 .header-sidebar{
-    width: 256px;
+    width: 40vh;
     height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
     background-color: white;
-    padding: 24px;
-    border-radius: 0 30px 30px 0;
+    padding: 24px 0px 24px 24px;
 }
 
 .header-sidebar .header-head{
+    height: 20vh;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -57,6 +61,10 @@ body{
 .header-user-details .header-name{
     font-size: 18px;
     font-weight: 500;
+}
+
+.header-menu{
+    height: 80vh;
 }
 
 .header-menu .header-menu-title{

@@ -1,0 +1,22 @@
+:root{
+
+    /* Fondo */
+    --color-fondo-1: white;
+    --color-fondo-2: whitesmoke;
+    --color-fondo-3: #2D2D2D;
+    --color-fondo-4: #D1D1D1;
+
+    /* Principalmente texto */
+    --color-texto-1: white;
+    --color-texto-2: #737373;
+    --color-texto-3: #737373;
+
+    /* Colores extra */
+    --color-extra-1: #888888;
+    --color-extra-2: #E7E7E7;
+    --color-extra-3: #626262;
+    --color-extra-4: #F5F5F5;
+
+    /* Main */
+    --color-main--1: #F54C60;
+}
