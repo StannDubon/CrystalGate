@@ -3,6 +3,7 @@ main{
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: calc(100vh - 80px);
 }
 
 .main-col-1{
@@ -10,7 +11,7 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    width: 50%;
+    width: 70%;
 
     /*extra*/
     justify-content: center;
@@ -23,6 +24,7 @@ main{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 35%;
 }
 
 .dashboard-employee-name{
@@ -52,7 +54,7 @@ main{
     padding: 10px;
     border-radius: 20px;
     font-weight: 600;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .dash-inbox{
@@ -60,6 +62,7 @@ main{
     background-color: var(--color-extra-4);
     width: 100%;
     border-radius: 20px;
+    height: 65%;
 }
 
 .dash-inbox-header{
@@ -78,7 +81,7 @@ main{
 }
 
 .dash-inbox-header-title b{
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-texto-2);
     font-size: 22px;
 }
@@ -105,14 +108,22 @@ main{
     font-size: 20px;
 }
 
+.dash-inbox-content{
+    margin: 5px 20px 10px 20px;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 85%;
+}
+
 /* Clases de la card */
 
 .dash-inbox-content-card{
     background-color: var(--color-extra-2);
-    margin: 5px 20px 10px 20px;
+    margin-bottom: 10px;
     border-radius: 10px;
     display: flex;
     padding: 15px;
+    margin-right: 10px;
 }
 
 .dash-inbox-content-card-col1{
@@ -165,4 +176,50 @@ main{
 .dash-inbox-content-card-reason, .dash-inbox-content-card-time{
     color: var(--color-fondo-5);
     font-weight: 500;
+}
+
+/* Permission measurer */
+
+.main-col-2{
+    width: 30%;
+}
+
+.permission-quantity{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-extra-4);
+    padding: 15px 25px 15px 25px;
+    border-radius: 20px;
+}
+
+.measurer{
+    display: flex;
+    margin-left: 15px;
+}
+
+.measurer-number{
+    font-size: 40px;
+    color: var(--color-texto-2);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.measurer-text{
+    margin-left: 15px;
+    margin-top: 10px;
+    font-size: 20px;
+    color: var(--color-texto-2);
+    font-weight: 500;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+/* Graph */
+
+.dash-graph{
+    background-color: var(--color-extra-4);
+    margin-top: 40px;
 }

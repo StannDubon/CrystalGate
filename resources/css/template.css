@@ -15,10 +15,15 @@ body{
     display: flex;
 }
 
+main{
+    margin-left: 15%;
+}
+
 .nav-container{
     background-color: var(--color-fondo-2);
     height: 100vh;
-    width: 35vh;
+    width: 15%;
+    position: fixed;
 }
 
 .nav-logo{
@@ -117,4 +122,32 @@ body{
 
 .nav-rol{
     font-weight: 400;
+}
+
+
+
+/* Scroll Bar personalizado */
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #E6E6E6;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9B9B9B;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888888;
+  border-radius: 10px;
 }
