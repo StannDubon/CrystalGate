@@ -109,22 +109,40 @@ main{
 
 .dash-inbox-content-card{
     background-color: var(--color-extra-2);
-    margin: 5px 20px 20px 20px;
+    margin: 5px 20px 10px 20px;
     border-radius: 10px;
     display: flex;
+    padding: 15px;
 }
 
 .dash-inbox-content-card-col1{
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 45%;
+}
+
+.dash-inbox-content-card-col1 p{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 100%;
 }
 
 .dash-inbox-content-card-col2{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+}
+
+.dash-inbox-content-card-col2 svg{
+    margin: 10px;
+}
+
+.dash-inbox-content-card-col3{
+    width: 10%;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -136,4 +154,15 @@ main{
     justify-content: center;
     padding: 10px;
     border-radius: 10px;
+    width: 30%;
+}
+
+.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+
+.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+    color: var(--color-fondo-5);
+    font-weight: 500;
 }
