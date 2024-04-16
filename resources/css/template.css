@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root{
+    --navbar-main-fixer: 300px;
 
+    --large-text-size: 20px;
+    --normal-text-size: 16px;
+    --small-text-size: 18px;
+
+    --thin-text-weight: 400;
+    --medium-text-weight: 500;
+    --bold-text-weight: 600;
+}
 
 /*Boton para abrir el sidebar*/
 
@@ -24,18 +34,6 @@
 }
 
 /*Fixer*/
-
-:root{
-    --navbar-main-fixer: 15%;
-
-    --large-text-size: 20px;
-    --normal-text-size: clamp(15px, 5vw, 20px);
-    --small-text-size: 18px;
-
-    --thin-text-weight: 400;
-    --medium-text-weight: 500;
-    --bold-text-weight: 600;
-}
  
 *{
     margin: 0px;
@@ -83,10 +81,13 @@ main{
     justify-content: start;
     font-weight: var(--thin-text-weight);
     font-size: larger;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-left: 15px;
-    padding-left: 15px;
+
+    margin-left: 20px;
+    margin-bottom: 2px;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
 }
 
@@ -129,10 +130,13 @@ main{
     justify-content: start;
     font-weight: 400;
     font-size: larger;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-left: 15px;
-    padding-left: 15px;
+    
+    margin-left: 20px;
+    margin-bottom: 7px;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
     background-color: var(--color-fondo-3);
 }
@@ -198,6 +202,10 @@ main{
   border-radius: 10px;
 }
 
+.blured{
+    filter: blur(10px);
+}
+
 /* RESPONSIVE */
 
 @media only screen and (max-width: 600px) {
@@ -226,6 +234,4 @@ main{
         visibility: visible;
     }
 
-
-    
-  }
+}

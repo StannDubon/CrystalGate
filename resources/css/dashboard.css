@@ -279,12 +279,7 @@ main{
     padding: 5px;
 }
 
-.blured{
-    filter: blur(10px);
-}
-
 @media only screen and (max-width: 600px) {
-
 
     main{
         padding: 25px 0px 25px 0px;
