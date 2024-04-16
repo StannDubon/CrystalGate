@@ -1,12 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root{
+    --navbar-main-fixer: 300px;
+
+    --large-text-size: 20px;
+    --normal-text-size: 16px;
+    --small-text-size: 12px;
+
+    --thin-text-weight: 400;
+    --medium-text-weight: 500;
+    --bold-text-weight: 600;
+}
+
+/*Boton para abrir el sidebar*/
+
+#nav-side-bar-button{
+    background-color: var(--color-fondo-3);
+    position: fixed;
+    padding: 15px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    top: 15px;
+    right: 15px;
+    visibility: hidden;
+}
+
+#nav-side-bar-button svg{
+    width: 25px;
+    height: 25px;
+}
+
 /*Fixer*/
  
 *{
     margin: 0px;
     padding: 0px;
     font-family: "Poppins", sans-serif;
-    font-weight: 400;
+    font-weight: var(--thin-text-weight);
     font-style: normal;
 }
 
@@ -16,15 +49,18 @@ body{
 }
 
 main{
-    margin-left: 15%;
+    margin-left: var(--navbar-main-fixer);
+    z-index: 0;
+    filter: none;
 }
 
 .nav-container{
     background-color: var(--color-fondo-2);
     height: 100vh;
-    width: 15%;
+    width: var(--navbar-main-fixer);
     position: fixed;
     transition: all 0.3s ease;
+    z-index: 1;
 }
 
 .nav-logo{
@@ -36,25 +72,30 @@ main{
 
 .nav-content{
     height: 60vh;
+    overflow-y: auto;
 }
 
 .nav-content-element{
     display: flex;
     align-items: center;
     justify-content: start;
-    font-weight: 400;
+    font-weight: var(--thin-text-weight);
     font-size: larger;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-left: 15px;
-    padding-left: 15px;
+
+    margin-left: 20px;
+    margin-bottom: 2px;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
 }
 
 .nav-content-element b{
     color: var(--color-extra-1);
-    font-weight: 500;
+    font-weight: var(--bold-text-weight);
     margin-left: 20px;
+    font-size: var(--normal-text-size)
 }
 
 .nav-content-element svg{
@@ -65,6 +106,9 @@ main{
 
 .nav-profile{
     height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 
 
@@ -86,18 +130,22 @@ main{
     justify-content: start;
     font-weight: 400;
     font-size: larger;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-left: 15px;
-    padding-left: 15px;
+    
+    margin-left: 20px;
+    margin-bottom: 7px;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
     background-color: var(--color-fondo-3);
 }
 
 .nav-profile-element b{
     color: var(--color-texto-1);
-    font-weight: 600;
+    font-weight: var(--bold-text-weight);
     margin-left: 20px;
+    font-size: var(--normal-text-size)
 }
 
 .nav-profile-element svg{
@@ -117,12 +165,13 @@ main{
 }
  
 .nav-nombre{
-    font-size: 20px;
-    font-weight: 600;
+    font-size: var(--normal-text-size);
+    font-weight: var(--bold-text-weight);
 }
 
 .nav-rol{
-    font-weight: 400;
+    font-size: var(--small-text-size);
+    font-weight: var(--thin-text-weight);
 }
 
 
@@ -153,6 +202,36 @@ main{
   border-radius: 10px;
 }
 
-.nav-container{
-    position: -3500px;
+.blured{
+    filter: blur(10px);
+}
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 600px) {
+    
+    :root{
+        --navbar-main-fixer: 0%;
+    }
+
+    .nav-container{
+        left: -100%;
+        width: 80vw;
+        height: 100vh;
+        position: fixed;
+    }
+
+    .show-nav-bar{
+        left: 0;
+    }
+    
+
+    .nav-content-element svg{
+        display: none;
+    }
+    
+    #nav-side-bar-button{
+        visibility: visible;
+    }
+
 }
