@@ -1,0 +1,77 @@
+/*aplicando font*/
+*{
+    font-family: "Poppins", sans-serif;
+}
+
+
+/*imagen de fono*/
+
+body{
+    background-attachment: fixed;
+    background-image: url("../img/background_login.png");
+    background-size: cover;
+    background-position: center;
+}
+
+/*contenedor del login*/
+.contenedor{
+    height: 88vh;
+    width: 67vw;
+    background-color: white;
+    opacity: 70%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 10vh 15vw 0px 15vw;
+    justify-content: center;
+    text-align: center;
+}
+
+.logo{
+    padding-top: 1vh;
+    height: 15%;
+    width: auto;
+}
+
+.textfield {
+    display: block; 
+    background-color: #D1D1D1;
+    border: none;
+    margin: 60px auto; /* Margin: 60px arriba y abajo, y centrado horizontalmente */
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-fondo-5);
+    width: 320px;
+    cursor: text;
+}
+
+.btn-login {
+    background-color: #8DDA8C;
+    display: flex; /* Convertido a flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px auto; /* Modificado a 10px */
+    color: white;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .contenedor {
+        max-width: 90%;
+    }
+    .textfield {
+        width: 70%; /* Ajuste adicional para pantallas más pequeñas */
+        font-size: 5vw; /* Tamaño de fuente relativo adicional para pantallas más pequeñas */
+    }
+    .logo {
+        width: 70%; /* Ajuste adicional para pantallas más pequeñas */
+        height: auto;
+        margin-bottom: 5%; /* Ajuste adicional para pantallas más pequeñas */
+    }
+
+}

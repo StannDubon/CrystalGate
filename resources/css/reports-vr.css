@@ -1,0 +1,19 @@
+.customize-type-vr{
+    display: none;
+}
+
+/*MAXIMIZADO*/
+.customize.active .customize-type-vr.selected {
+    background-color: var(--color-extra-4);
+    padding: 11px;
+    margin-left: 40px;
+    margin-top: -6px;
+    font-weight: 600;
+    font-size: 23px;
+    color: var(--color-fondo-5);
+    width: 1018px;
+    height: 0px;
+    border-radius: 0px 20px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
