@@ -60,6 +60,31 @@ body{
     cursor: pointer;
 }
 
+.social-icons {
+    margin: 10px auto;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    margin-top: 60px;
+    flex-wrap:  wrap;
+}
+
+.social-icons div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background-color: #D1D1D1;
+    margin: 0 10px;
+}
+
+.social-icons img {
+    height: auto; 
+    max-width: 100%;
+}
+
 @media (max-width: 600px) {
     .contenedor {
         max-width: 90%;
