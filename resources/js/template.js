@@ -17,6 +17,7 @@ showMenu('nav-side-bar-button','nav-bar')
 window.addEventListener('resize', function() {
     if (window.innerWidth > 600) {
         document.querySelector('main').classList.remove("blured");
+        document.getElementById('nav-bar').classList.remove("show-nav-bar");
     }
     if (window.innerWidth < 1500) {
         document.getElementById('sort-graph-month').innerText="M"

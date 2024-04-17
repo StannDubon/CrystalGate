@@ -3,9 +3,13 @@
 :root{
     --navbar-main-fixer: 300px;
 
+    --larger-xl-text-size: 40px;
+    --larger-text-size: 35px;
     --large-text-size: 20px;
     --normal-text-size: 16px;
-    --small-text-size: 12px;
+    --small-text-size: 15px;
+    --smaller-text-size: 12px;
+    --smaller-xs-text-size: 12px;
 
     --thin-text-weight: 400;
     --medium-text-weight: 500;
@@ -31,6 +35,10 @@
 #nav-side-bar-button svg{
     width: 25px;
     height: 25px;
+}
+
+#TEMPLATE{
+    
 }
 
 /*Fixer*/
