@@ -30,13 +30,13 @@ main{
 }
 
 .dashboard-employee-name{
-    font-size: 40px;
+    font-size: var(--larger-xl-text-size);
     color: var(--color-texto-2);
     font-weight: 500;
 }
 
 .dashboard-clock{
-    font-size: 60px;
+    font-size: calc(var(--larger-xl-text-size) + 20px);
     color: var(--color-texto-2);
     font-weight: 600;
 }
@@ -50,7 +50,7 @@ main{
 */
 
 .dashboard-date{
-    font-size: 20px;
+    font-size: var(--large-text-size);
     color: var(--color-texto-2);
     background-color: var(--color-extra-4);
     padding: 10px;
@@ -84,7 +84,7 @@ main{
 .dash-inbox-header-title b{
     font-weight: 600;
     color: var(--color-texto-2);
-    font-size: 22px;
+    font-size: var(--large-text-size);
 }
 
 .dash-inbox-alert{
@@ -106,7 +106,7 @@ main{
     margin-right: 30px;
     border-radius: 50%;
     font-weight: 600;
-    font-size: 20px;
+    font-size: var(--large-text-size);
 }
 
 .dash-inbox-content{
@@ -205,7 +205,7 @@ main{
 }
 
 .measurer-number{
-    font-size: 40px;
+    font-size: var(--larger-xl-text-size);
     color: var(--color-texto-2);
     font-weight: 600;
     display: flex;
@@ -218,7 +218,7 @@ main{
     margin-top: 10px;
     font-weight: 600;
     color: var(--color-texto-2);
-    font-size: 22px;
+    font-size: var(--large-text-size);
     display: flex;
     justify-content: start;
     align-items: start;
@@ -248,7 +248,7 @@ main{
 .dash-graph-header b{
     font-weight: 600;
     color: var(--color-texto-2);
-    font-size: 22px;
+    font-size: var(--large-text-size);
     width: 60%;
 }
 
@@ -258,7 +258,7 @@ main{
     flex-direction: row;
     background-color: var(--color-fondo-6);
     padding: 7px;
-    font-size: 15px;
+    font-size: var(--small-text-size);
     border-radius: 50px;
 }
 
@@ -279,7 +279,144 @@ main{
     padding: 5px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1500px) {
+
+    /* Card responsive */
+
+    .dash-inbox-content{
+        height: 60vh;
+    }
+
+    .dash-inbox-content-card{
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+        align-items: center;
+    }
+    
+    .dash-inbox-content-card-col1{
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 90%;
+        padding: 10px 0px 10px 0px;
+    }
+    
+    .dash-inbox-content-card-col2{
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .dash-inbox-content-card-col2 svg{
+        margin: 10px;
+        padding: 0%;
+    }
+    
+    .dash-inbox-content-card-col3{
+        background-color: var(--color-fondo-4);
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px 0px 10px 0px;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .dash-inbox-content-card-col3 svg path{
+        fill: var(--color-extra-1);
+    }
+    
+    .marked-zone{
+        padding: 5px;
+        width: 35%;
+    }
+    
+
+
+    /* measurer responsive */
+
+    .permission-quantity{
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-extra-4);
+        padding: 0px;
+        border-radius: 20px;
+        height: 30%;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .measurer{
+        display: flex;
+        margin-left: 0px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0px 10px 0px;
+    }
+    
+    .measurer-number{
+        font-size: var(--larger-text-size);
+        color: var(--color-texto-2);
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .measurer-text{
+        margin-left: 15px;
+        margin-top: 0px;
+        font-weight: 600;
+        color: var(--color-texto-2);
+        font-size: var(--large-text-size);
+        display: flex;
+        justify-content: start;
+        align-items: start;
+    }
+
+
+    
+}
+
+@media only screen and (max-width: 1390px) {
+
+    main{
+        align-items: center;
+        justify-content: center ;
+    }
+
+    .main-col-1{
+        flex-direction: column;
+        width: 50%;
+        row-gap: 20px;
+    }
+
+    .main-col-2{
+        flex-direction: column;
+        width: 40%;
+        row-gap: 20px;
+    }   
+    
+}
+
+@media only screen and (max-width: 1000px) {
+
+    :root{
+        --larger-xl-text-size: 30px;
+        --larger-text-size: 35px;
+        --large-text-size: 20px;
+
+        --normal-text-size: 16px;
+        --small-text-size: 15px;
+        --smaller-text-size: 12px;
+        --smaller-xs-text-size: 12px;
+    }
+
+    .dash-extra-elements{
+        align-items: center;
+    }
 
     main{
         padding: 25px 0px 25px 0px;
@@ -300,6 +437,6 @@ main{
         flex-direction: column;
         width: 90%;
         row-gap: 20px;
-    }
+    }   
     
 }

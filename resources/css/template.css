@@ -3,9 +3,13 @@
 :root{
     --navbar-main-fixer: 300px;
 
+    --larger-xl-text-size: 40px;
+    --larger-text-size: 35px;
     --large-text-size: 20px;
     --normal-text-size: 16px;
-    --small-text-size: 18px;
+    --small-text-size: 15px;
+    --smaller-text-size: 12px;
+    --smaller-xs-text-size: 12px;
 
     --thin-text-weight: 400;
     --medium-text-weight: 500;
@@ -18,7 +22,7 @@
     background-color: var(--color-fondo-3);
     position: fixed;
     padding: 15px;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,6 +35,10 @@
 #nav-side-bar-button svg{
     width: 25px;
     height: 25px;
+}
+
+#TEMPLATE{
+    
 }
 
 /*Fixer*/
@@ -50,7 +58,7 @@ body{
 
 main{
     margin-left: var(--navbar-main-fixer);
-    z-index: -1;
+    z-index: 0;
     filter: none;
 }
 
@@ -60,7 +68,7 @@ main{
     width: var(--navbar-main-fixer);
     position: fixed;
     transition: all 0.3s ease;
-    z-index: 0;
+    z-index: 1;
 }
 
 .nav-logo{
