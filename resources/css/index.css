@@ -59,3 +59,19 @@ body{
     height: 30px;
     cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .contenedor {
+        max-width: 90%;
+    }
+    .textfield {
+        width: 70%; /* Ajuste adicional para pantallas más pequeñas */
+        font-size: 5vw; /* Tamaño de fuente relativo adicional para pantallas más pequeñas */
+    }
+    .logo {
+        width: 70%; /* Ajuste adicional para pantallas más pequeñas */
+        height: auto;
+        margin-bottom: 5%; /* Ajuste adicional para pantallas más pequeñas */
+    }
+
+}
