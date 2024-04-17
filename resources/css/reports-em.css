@@ -74,3 +74,27 @@
     -moz-border-radius: 0px 0px 20px 20px;
     -webkit-border-radius: 0px 0px 20px 20px;
 }
+
+@media only screen and (max-width: 600px){
+    .customize.active .customize-type-em.selected {
+        margin-left: 0px;
+        color: var(--color-fondo-5);
+        width: 250px;
+        height: 380px;
+        border-radius: 0px 0px 0px 0px;
+    }
+    .customize-type-em.selected .type{
+        width: 80%;
+        height: auto;
+        margin: 5px;
+        padding: 8px 20px;
+    }
+
+
+
+    .customize.active .customize-filter-bottom.selected{
+        margin-left: 0px;
+        width: 290px;
+        height: 60px;
+    }
+}

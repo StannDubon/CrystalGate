@@ -101,7 +101,6 @@ main {
     width: 700px;
 }
 .date-text{
-    position: absolute;
     margin: 0px 50px 0px 10px;
     color: var(--color-texto-2);
 }
@@ -111,6 +110,7 @@ main {
     background-color: var(--color-extra-2);
     padding: 10px 0px 10px 0px;
     margin: 0px 50px 0px 65px;
+    margin-top: -22px;
     width: 200px;
     border-radius: 20px;
     font-weight: 550;
@@ -363,4 +363,94 @@ main {
     font-size: 25px;
     color: var(--color-texto-1);
     padding: 10px;    
+}
+
+@media only screen and (max-width: 600px){
+    .main{
+        display: table;
+    }
+
+    .dash-extra-elements{
+        padding-left: 0px;
+    }
+
+    .filter-btn {
+        width: 270px;
+        margin-left: 0px;
+    }
+    .report-filter .filter-option {
+        width: 290px;
+    }
+
+
+    .date{
+        display: table;
+        margin: 0px 0px 30px 0px;
+        width: auto;
+    }
+    
+    .date-from{
+        margin-bottom: 20px;
+    }
+
+    .customize-filter{
+        margin-left: 0px;
+    }
+    .customize .customize-type{
+        margin-left: 0px;
+    }
+    .customize .customize-filter-bottom{
+        margin-left: 0px;
+    }
+
+    .customize.active .customize-filter-bottom{
+        display: table;
+        margin-left: 0px;
+        width: 290px;
+        height: 60px;
+    }
+    .customize.active .customize-type.selected {
+        margin-left: 0px;
+        color: var(--color-fondo-5);
+        width: 250px;
+        height: 830px;
+        border-radius: 0px 0px 0px 0px;
+    }
+    .customize-type.selected .type{
+        width: 80%;
+        height: 65px;
+        margin: 5px;
+        padding: 0 20px;
+    }
+
+    /*CUSTOMIZE BOTTOM*/
+    .customize.active .customize-filter-bottom.selected{
+        margin-left: 0px;
+        width: 290px;
+        height: 60px;
+    }
+    .customize.active .pending-btn{
+        width: 100%;
+        border-radius: 0px 0px 0px 0px;
+        -moz-border-radius: 0px 0px 0px 0px;
+        -webkit-border-radius: 0px 0px 0px 0px;
+    }
+    .customize.active .accepted-btn{
+        width: 100%;
+    }
+    .customize.active .rejected-btn{
+        width: 100%;
+        border-radius: 0px 0px 20px 20px;
+        -moz-border-radius: 0px 0px 20px 20px;
+        -webkit-border-radius: 0px 0px 20px 20px;
+    }
+
+    .btn-report{
+        width: 280px;
+        height: 120px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 20px;
+        padding-top: 30px;
+    }
 }
