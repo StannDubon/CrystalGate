@@ -17,3 +17,14 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+@media only screen and (max-width: 600px){
+    .customize.active .customize-type-vr.selected {
+        margin-left: 0px;
+        color: var(--color-fondo-5);
+        width: 268px;
+        height: 0px;
+        border-radius: 0px 0px 0px 0px;
+        padding: 11px;
+    }
+}
