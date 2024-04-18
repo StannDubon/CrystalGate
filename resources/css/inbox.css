@@ -13,7 +13,7 @@ main{
 /*Custom textbox*/
 
 .main-header{
-    width: 90%;
+    width: var(--general-main-width);
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -156,21 +156,69 @@ main{
 /* MAIN CONTENT */
 
 .main-content{
-    width: 80%;
+    width: var(--general-main-width);
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    margin-top: 20px;
+    row-gap: 15px;
 }
 
 /* CARDS */
 
 .dash-inbox-content-card{
-    background-color: ;
+    background-color: var(--color-extra-2);
+    display: flex;
+    width: 80%;
+    border-radius: 10px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dash-inbox-content-card-col1{
+    width: 45%;
+}
+
+.dash-inbox-content-card-col2{
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.dash-inbox-content-card-col3{
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marked-zone{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--color-fondo-4);
+    height: 60px;
+    width: 40%;
+    border-radius: 10px;
+}
+
+.dash-inbox-content-card-date,
+.dash-inbox-content-card-name{
+    color: var(--color-texto-2);
+    font-weight: var(--medium-text-weight);
+}
+
+.dash-inbox-content-card-reason,
+.dash-inbox-content-card-time{
+    color: var(--color-fondo-5);
 }
 
 @media only screen and (max-width: 1370px) {
-
-    :root{
-        --general-main-width: 98%;
-    }
-
     .main-utilities-search{
         align-items: center;
         width: 100%;
@@ -200,12 +248,85 @@ main{
         position: relative;
     }
 
+
+    /* CARDS */
+
+    .dash-inbox-content-card{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1200px){
+
+    /* CARDS */
+
+    .dash-inbox-content-card-col1{
+        width: 45%;
+    }
+    
+    .dash-inbox-content-card-col2{
+        width: 45%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .dash-inbox-content-card-col3{
+        width: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .marked-zone{
+        gap: 5px;
+    }
+}
+
+@media only screen and (max-width: 1000px){
+
+    /* CARDS */
+
+    .dash-inbox-content-card{
+        flex-direction: column;
+        height: 140px;
+    }
+
+    .dash-inbox-content-card-col1{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .dash-inbox-content-card-col2{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: var(--color-fondo-4);
+        border-radius: 0px 0px 10px 10px;
+    }
+    
+    .dash-inbox-content-card-col3{
+        display: none;
+    }
+    
+    .marked-zone{
+        gap: 5px;
+    }
 }
 
 @media only screen and (max-width: 800px) {
 
     :root{
-        --general-main-width: 98%;
+        --general-main-width: 90%;
     }
 
     .main-utilities{
