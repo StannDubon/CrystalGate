@@ -182,3 +182,82 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+
+@media only screen and (max-width: 600px){
+    main{
+        width: 80vh;
+        height: 100%;
+        
+    }
+    .main-row-2 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 15px;
+        width: 80%;
+        row-gap: 15px;
+    }
+    .employee-info {
+        width: calc(50% - 8px);
+    }
+
+   
+    
+    
+}
+@media only screen and (max-width: 800px){
+
+    main{
+        height: 100vh;
+    }
+
+    .main-row-2 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 15px;
+        width: 80%;
+        row-gap: 15px;
+    }
+    .employee-info {
+        width: 90%;
+    }
+    .employee-id {
+        font-size: 10px;
+    }
+    
+    .employee-name {
+        font-size: 20px;
+        /* Tamaño de fuente más grande */
+        /* Margen superior e inferior */
+        font-weight: 600;
+    }
+    
+    .employee-email {
+        /* Margen superior e inferior */
+        font-size: 10px;
+    }
+
+    .employee-info-icon svg{
+        margin-right: 20px;
+        
+    }
+}
+
+@media only screen and (max-width: 1270px){
+main{
+    height: 100vh;
+}
+    .main-row-2 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 15px;
+        width: 80%;
+        row-gap: 15px;
+    }
+    .employee-info {
+        width: calc(100% - 8px);
+    }
+}
