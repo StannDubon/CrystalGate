@@ -1,0 +1,177 @@
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 80px);
+    gap: 30px;
+}
+
+.main-row-1 {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    color: var(--color-extra-1);
+    font-size: 15px;
+
+}
+
+
+.employee-name {
+    font-size: 25px;
+    /* Tamaño de fuente más grande */
+    font-weight: 600;
+    margin: 20px 0px 20px 0px;
+}
+
+.employee-info-email {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-extra-2);
+    /* Color de fondo de las tarjetas */
+    padding: 10px;
+    border-radius: 20px;
+    /* Agrega bordes redondeados */
+}
+
+
+.employee-email {
+    margin: 0px 15px 0px 0px;
+}
+
+.employee-charge {
+    margin: 10px 0px 10px 0px;
+}
+
+.copy-icon svg {
+    margin-right: 15px;
+}
+
+
+.dash-inbox-content{
+    margin: 5px 20px 10px 20px;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 95%;
+    width: 900px;
+}
+
+/* Clases de la card */
+
+.dash-inbox-content-card{
+    background-color: var(--color-extra-2);
+
+}
+
+.dash-inbox-content-card-col1{
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 25%;
+    margin-left: 20px;
+}
+.padding{
+    padding: 10px;
+}
+
+.dash-inbox-content-card-col1 p{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dash-inbox-content-card {
+    background-color: var(--color-extra-2);
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    padding: 0px;
+    margin-right: 10px;
+}
+.dash-inbox-content-card-col2{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+}
+
+.dash-inbox-content-card-col2 svg{
+    margin: 10px;
+}
+
+.dash-inbox-content-card-col3{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marked-zone{
+ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+
+.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+    color: var(--color-fondo-5);
+    font-weight: 500;
+}
+
+.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+
+.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+    color: var(--color-fondo-5);
+    font-weight: 500;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+}
+
+.rejected-button {
+    background-color: var(--color-rejected);
+    border: none;
+    color:var(--color-texto-1);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px; 
+    width: 30%; 
+    margin: 0;
+    border-radius: 0;
+    display: block;
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.approved-button {
+    background-color: var(--color-approved);
+    border: none;
+    color: var(--color-texto-1);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px; 
+    width: 30%; 
+    margin: 0;
+    border-radius: 0;
+    display: block;
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

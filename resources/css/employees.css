@@ -1,0 +1,162 @@
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 80px);
+    gap: 30px;
+}
+
+
+
+/* Estilo para la clase "main-row-1" */
+.main-row-1 {
+    height: 10vh;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.employee-title {
+    margin: 0px 0px 20px 0px;
+    font-size: 35px;
+    color: var(--color-texto-2);
+    font-weight: 500;
+}
+
+.searchbar {
+
+    width: 40%;
+    display: flex;
+    justify-items: row;
+    gap: 10px;
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    /* Redondear esquinas */
+    align-items: center;
+}
+
+.searchbar svg{
+    margin: 0px 10px 0px 0px;
+}
+
+.searchbar input {
+    width: 100%;
+
+    border: none;
+    /* Quitar borde por defecto */
+    outline: none;
+
+    border-radius: 10px;
+    /* Redondear esquinas */
+    background-color: #F0F0F0;
+    /* Color de fondo */
+    padding: 10px;
+    font-size: large;
+    color: var(--color-fondo-5);
+}
+
+.filter {
+    width: 60%;
+    /* Ocupa el 30% del ancho disponible */
+}
+
+.filter select {
+    width: 50%;
+    border-radius: 10px;
+    /* Redondear esquinas */
+    background-color: #F0F0F0;
+    /* Color de fondo */
+    padding: 10px;
+    /* Espaciado interno */
+    font-size: large;
+    /* Tamaño de fuente */
+    border: none;
+    /* Quitar borde por defecto */
+    outline: none;
+    /* Quitar el contorno al seleccionar */
+    color: var(--color-fondo-5);
+}
+
+/* Estilo para la clase "main-row-2" */
+.main-row-2 {
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    /* Permite que los elementos se envuelvan a la siguiente línea si no caben */
+ 
+
+    margin-top: 30px;
+}
+
+.employee-elements {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
+
+/* Estilo para la clase "employee-info" */
+.employee-info {
+    width:  600px;
+    /* Cambia el ancho al 45% para dejar espacio para los bordes redondeados */
+    height: 25%;
+    margin: 0px 20px 10px 0px;
+    /* Reducir el margen para que las tarjetas estén más cercanas */
+    background-color: var(--color-extra-2);
+    /* Color de fondo de las tarjetas */
+    padding: 20px;
+    /* Espacio interno de las tarjetas */
+    box-sizing: border-box;
+    /* Incluye el padding y el borde en el ancho y alto total */
+    position: relative;
+    /* Permite posicionar los elementos hijos relativamente */
+    border-radius: 20px;
+    /* Agrega bordes redondeados */
+}
+
+/* Estilo para alinear el contenido del empleado a la izquierda */
+.employee-info-content {
+    width: 75%;
+    height: 25%;
+    text-align: left;
+    /* Alinea el texto a la izquierda */
+    color: var(--color-extra-1);
+}
+
+.employee-id {
+    margin-bottom: 0px;
+    font-size: 15px;
+}
+
+.employee-name {
+    font-size: 25px;
+    /* Tamaño de fuente más grande */
+    margin: 10px 0;
+    /* Margen superior e inferior */
+   font-weight: 600;
+}
+
+.employee-email {
+    /* Margen superior e inferior */
+    font-size: 15px;
+}
+
+.employee-info-content-email {
+    margin: 25px 0px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.employee-info-icon {
+    width: 25%;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    /* Centra verticalmente */
+}
