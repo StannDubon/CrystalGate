@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 80px);
+    gap: 30px;
+}
+
+.main-col {
+    display: flex;
+    flex-direction: row;
+    padding-left: 20px;
+}
+
+.main-col-1 {
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 30px;
+    margin-left: 50px;
+
+}
+
+.main-col-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-row-1 {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding-left: 60px;
+}
+
+.main-row-1 .approved {
+    background-color: var(--color-extra-5);
+}
+
+.main-row-1 .rejected {
+    background-color: var(--color-rejected);
+}
+
+.main-row-1 .info {
+    background-color: var(--color-extra-2);
+}
+
+
+.main-row-1 .col1 {
+
+    margin-right: 10px;
+    width: 8%;
+    display: flex;
+    justify-content: center;
+
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.col1 svg {
+    margin: 10px;
+}
+
+.main-row-1 .col2 {
+    width: 70%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--color-fondo-1);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.employee-title {
+    font-weight: 500;
+    font-size: 35px;
+    padding: 10px;
+}
+
+.employee-info {
+    width: 50vh;
+    background-color: var(--color-extra-2);
+    /* Color de fondo de las tarjetas */
+    padding: 20px;
+    /* Espacio interno de las tarjetas */
+    box-sizing: border-box;
+    /* Incluye el padding y el borde en el ancho y alto total */
+    position: relative;
+    /* Permite posicionar los elementos hijos relativamente */
+    border-radius: 20px;
+    /* Agrega bordes redondeados */
+
+    color: var(--color-extra-1);
+    font-size: 15px;
+
+
+    display: flex;
+    flex-direction: column;
+    height: 130px;
+    border-radius: 20px;
+    justify-content: start;
+    align-items: start;
+}
+
+
+.employee-info-content {
+    width: 77%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Alinea el texto a la izquierda */
+    color: var(--color-extra-1);
+}
+
+.employee-info-content-textinfo {
+    height: 80%;
+}
+
+.employee-info-content-email {
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+
+}
+
+.employee-info-content-email .copy-icon {
+    margin-left: 10px;
+}
+
+.employee-name {
+    font-size: 25px;
+    /* Tamaño de fuente más grande */
+    font-weight: 600;
+
+}
+
+.attached-files {
+
+    background-color: var(--color-extra-2);
+    padding: 30px;
+    border-radius: 20px;
+    /* Agrega bordes redondeados */
+}
+
+.attached-files b {
+    font-size: 25px;
+    color: var(--color-extra-1);
+}
+
+.btn-report {
+    background-color: var(--color-extra-6);
+    display: flex;
+    border-radius: 20px;
+    padding: 10px;
+
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 180px;
+    cursor: pointer;
+}
+
+.btn-report-pdf {
+    background-color: var(--color-main--1);
+    display: flex;
+    border-radius: 20px;
+    padding: 10px;
+
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 180px;
+    cursor: pointer;
+}
+
+.btn-report-cont {
+    display: grid;
+    grid-column: auto;
+    justify-items: center;
+}
+
+
+.btn-report-text {
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--color-texto-1);
+    padding: 10px;
+}
+
+.date-range {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.marked-zone {
+    background-color: var(--color-extra-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.date-range svg {
+    margin: 10px;
+}
+
+.date-range .bold {
+    color: var(--color-texto-2);
+    font-weight: 600;
+}
+
+.date-range .time {
+    color: var(--color-fondo-5);
+    font-weight: 500;
+}
+
+
+
+.calendar-info {
+    padding-top: 30px;
+}
+
+/* CALENDAR */
+
+.wrapper {
+    width: 80%;
+    background: #E7E7E7;
+    border-radius: 10px;
+}
+
+.wrapper header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+}
+
+header .icons {
+    display: flex;
+}
+
+header .icons span {
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    color: #878787;
+    text-align: center;
+    line-height: 38px;
+    font-size: 1.9rem;
+    user-select: none;
+    border-radius: 50%;
+}
+
+.icons span:last-child {
+    margin-right: -10px;
+}
+
+header .icons span:hover {
+    background: #f2f2f2;
+}
+
+header .current-date {
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.calendar {
+    padding: 20px;
+}
+
+.calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+}
+
+.calendar .days {
+    margin-bottom: 20px;
+}
+
+.calendar li {
+    color: #333;
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+}
+
+.calendar .weeks li {
+    font-weight: 600;
+    cursor: default;
+}
+
+.calendar .days li {
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    margin-top: 30px;
+}
+
+.days li.inactive {
+    color: #aaa;
+}
+
+.days li.active {
+    color: #fff;
+}
+
+.days li::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.days li.active::before {
+    background: #9B59B6;
+}
+
+.days li:not(.active):hover::before {
+    background: #f2f2f2;
+}
+
+
+/*MODAL*/
+
+.modal {
+    display: none;
+    /* Modal está oculto por defecto */
+    position: fixed;
+    /* Positioned to the viewport */
+    z-index: 1;
+    /* Asegura que aparecerá por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Ancho completo */
+    height: 100%;
+    /* Altura completa */
+    overflow: auto;
+    /* Habilita barras de desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo semi-transparente negro */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* 15% desde la parte superior y centrado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+
+}
+
+
+
+.modal-content-text {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-title {
+    font-weight: 500;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-cancel {
