@@ -1,0 +1,184 @@
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 80px);
+    gap: 30px;
+}
+
+
+
+/* Estilo para la clase "main-row-1" */
+.main-row-1 {
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* Estilo para la clase "main-row-2" */
+.main-row-2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 80%;
+    row-gap: 15px;
+}
+
+
+.employee-title {
+    height: 70%;
+
+    font-size: 35px;
+    color: var(--color-texto-2);
+    font-weight: 500;
+}
+
+.searchbar {
+
+    width: 50%;
+    display: flex;
+
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    /* Redondear esquinas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchbar svg {
+    width: 10%;
+}
+
+.searchbar input {
+
+    width: 85%;
+
+    border: none;
+    /* Quitar borde por defecto */
+    outline: none;
+
+    border-radius: 10px;
+    /* Redondear esquinas */
+    background-color: #F0F0F0;
+    /* Color de fondo */
+
+    font-size: large;
+    color: var(--color-fondo-5);
+}
+
+.filter {
+    width: 60%;
+    /* Ocupa el 30% del ancho disponible */
+    display: flex;
+
+}
+
+.filter select {
+    width: 50%;
+    border-radius: 10px;
+    /* Redondear esquinas */
+    background-color: #F0F0F0;
+    /* Color de fondo */
+    padding: 10px;
+    /* Espaciado interno */
+    font-size: large;
+    /* Tamaño de fuente */
+    border: none;
+    /* Quitar borde por defecto */
+    outline: none;
+    /* Quitar el contorno al seleccionar */
+    color: var(--color-fondo-5);
+}
+
+.employee-elements {
+    height: 50%;
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
+
+/* Estilo para la clase "employee-info" */
+.employee-info {
+    width: calc(50% - 8px);
+    height: 130px;
+    /* Cambia el ancho al 45% para dejar espacio para los bordes redondeados */
+    /* Reducir el margen para que las tarjetas estén más cercanas */
+    background-color: var(--color-extra-2);
+    /* Color de fondo de las tarjetas */
+    /* Espacio interno de las tarjetas */
+    box-sizing: border-box;
+    /* Permite posicionar los elementos hijos relativamente */
+    border-radius: 20px;
+    /* Agrega bordes redondeados */
+    display: flex;
+    flex-direction: row;
+    height: 130px;
+    border-radius: 20px;
+    justify-content: end;
+    align-items: center;
+}
+
+/* Estilo para alinear el contenido del empleado a la izquierda */
+.employee-info-content {
+    width: 77%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Alinea el texto a la izquierda */
+    color: var(--color-extra-1);
+}
+
+.employee-info-content-textinfo {
+    height: 80%;
+}
+
+.employee-info-content-email {
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+}
+
+.employee-info-content-email p {
+    width: fit-content;
+
+}
+
+.employee-info-content-email .copy-icon {
+    margin-left: 10px;
+}
+
+
+.employee-id {
+    font-size: 15px;
+}
+
+.employee-name {
+    font-size: 25px;
+    /* Tamaño de fuente más grande */
+    /* Margen superior e inferior */
+    font-weight: 600;
+}
+
+.employee-email {
+    /* Margen superior e inferior */
+    font-size: 15px;
+}
+
+
+
+.employee-info-icon {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

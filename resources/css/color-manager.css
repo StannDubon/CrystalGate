@@ -27,4 +27,9 @@
 
     /* Main */
     --color-main--1: #F54C60;
+
+    /* Medical*/
+    --color-approved: #8DDA8C;
+    --color-rejected:#F54C60;
+
 }
