@@ -37,7 +37,7 @@ main{
 /* DISTRIBUCIÓN DE ESPACIADOS*/
 
 .main-content{
-    height: 75vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -45,14 +45,14 @@ main{
 
 .main-content-row-1{
     display: flex;
-    height: 90%;
+    height: 80%;
     justify-content: center;
     align-items: center;
     gap: 20px;
 }
 
 .main-content-row-2{
-    height: 10%;
+    height: 20%;
     display: flex;
     justify-content: end;
 }
@@ -62,7 +62,7 @@ main{
     gap: 20px;
     display: flex;
     flex-direction: column;
-    width: 45%;
+    width: 55%;
 }
 
 .main-content-col2{
@@ -70,7 +70,7 @@ main{
     gap: 20px;
     display: flex;
     flex-direction: column;
-    width: 45%;
+    width: 35%;
 }
 
 /* Información de empleado */
@@ -94,6 +94,7 @@ main{
     width: 90%;
     height: 20%;
     display: flex;
+    align-items: center;
 }
 
 /* Información de calendario */
@@ -107,17 +108,99 @@ main{
 
 .attached-files{
     background-color: var(--color-extra-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    height: 80%;
+    overflow: auto;
 }
 
 .attached-files .title{
-    background-color: var(--color-extra-2);
     color: var(--color-texto-2);
     font-weight: var(--bold-text-weight);
     font-size: var(--large-text-size);
+    width: 90%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
 }
 
+.attached-files-content{
+    height: 100%;
+    gap: 10px;
+}
 
+.attached-files div{
+    width: 80%;
+    height: 120px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
 
+.attached-files div *{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.attached-files div p{
+    color: var(--color-fondo-1);
+}
+
+.attached-files .pdf-view{
+    background-color: var(--color-main--1);
+}
+
+.attached-files .doc-view{
+    background-color: var(--color-extra-6);
+}
+
+/* DATE ESPECIFIED */
+
+.permission-date{
+    height: calc(20% - 20px);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.permission-date svg{
+    width: 10%;
+}
+
+.permission-info-wraper{
+    background-color: var(--color-extra-2);
+    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+
+}
+
+.permission-begin-date{
+    font-weight: var(--medium-text-weight);
+    font-size: var(--large-text-size);
+    color: var(--color-texto-2);
+}
+
+.permission-begin-time{
+    font-weight: var(--normal-text-weight);
+    font-size: var(--large-text-size);
+    color: var(--color-fondo-5);
+}
 
 /* CARDS */
 
