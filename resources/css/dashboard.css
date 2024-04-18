@@ -1,4 +1,4 @@
-main{
+main {
     padding: 40px;
     display: flex;
     flex-direction: row;
@@ -7,7 +7,11 @@ main{
     gap: 30px;
 }
 
-.main-col-1{
+main *{
+    font-size: var(--normal-text-size);
+}
+
+.main-col-1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,7 +25,7 @@ main{
 }
 
 /*extra*/
-.dash-extra-elements{
+.dash-extra-elements {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,13 +33,13 @@ main{
     height: 30%;
 }
 
-.dashboard-employee-name{
+.dashboard-employee-name {
     font-size: var(--larger-xl-text-size);
     color: var(--color-texto-2);
     font-weight: 500;
 }
 
-.dashboard-clock{
+.dashboard-clock {
     font-size: calc(var(--larger-xl-text-size) + 20px);
     color: var(--color-texto-2);
     font-weight: 600;
@@ -49,7 +53,7 @@ main{
 }
 */
 
-.dashboard-date{
+.dashboard-date {
     font-size: var(--large-text-size);
     color: var(--color-texto-2);
     background-color: var(--color-extra-4);
@@ -59,20 +63,23 @@ main{
     margin-top: 5px;
 }
 
-.dash-inbox{
+.dash-inbox {
     background-color: var(--color-extra-4);
     width: 100%;
     border-radius: 20px;
     height: 70%;
 }
 
-.dash-inbox-header{
+.dash-inbox-header {
     display: flex;
     width: 100%;
-    padding: 15px 0px 15px 0px;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.dash-inbox-header-title{
+.dash-inbox-header-title {
     width: 90%;
     padding-left: 30px;
     display: flex;
@@ -81,20 +88,20 @@ main{
     gap: 15px;
 }
 
-.dash-inbox-header-title b{
+.dash-inbox-header-title b {
     font-weight: 600;
     color: var(--color-texto-2);
     font-size: var(--large-text-size);
 }
 
-.dash-inbox-alert{
+.dash-inbox-alert {
     width: 20%;
     display: flex;
     justify-content: end;
     align-items: end;
 }
 
-.dash-inbox-alert p{
+.dash-inbox-alert p {
     width: 20px;
     height: 20px;
     display: flex;
@@ -109,16 +116,18 @@ main{
     font-size: var(--large-text-size);
 }
 
-.dash-inbox-content{
-    margin: 5px 20px 10px 20px;
+.dash-inbox-content {
     overflow: hidden;
     overflow-y: auto;
-    height: 85%;
+    height: 88%;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Clases de la card */
 
-.dash-inbox-content-card{
+.dash-inbox-content-card {
     background-color: var(--color-extra-2);
     margin-bottom: 10px;
     border-radius: 10px;
@@ -127,19 +136,19 @@ main{
     margin-right: 10px;
 }
 
-.dash-inbox-content-card-col1{
+.dash-inbox-content-card-col1 {
     margin-top: auto;
     margin-bottom: auto;
     width: 45%;
 }
 
-.dash-inbox-content-card-col1 p{
+.dash-inbox-content-card-col1 p {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.dash-inbox-content-card-col2{
+.dash-inbox-content-card-col2 {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -147,18 +156,18 @@ main{
     width: 45%;
 }
 
-.dash-inbox-content-card-col2 svg{
+.dash-inbox-content-card-col2 svg {
     margin: 10px;
 }
 
-.dash-inbox-content-card-col3{
+.dash-inbox-content-card-col3 {
     width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.marked-zone{
+.marked-zone {
     background-color: var(--color-fondo-4);
     display: flex;
     flex-direction: column;
@@ -169,19 +178,21 @@ main{
     width: 30%;
 }
 
-.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+.dash-inbox-content-card-name,
+.dash-inbox-content-card-date {
     color: var(--color-texto-2);
     font-weight: 600;
 }
 
-.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+.dash-inbox-content-card-reason,
+.dash-inbox-content-card-time {
     color: var(--color-fondo-5);
     font-weight: 500;
 }
 
 /* Permission measurer */
 
-.main-col-2{
+.main-col-2 {
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -189,22 +200,22 @@ main{
     row-gap: 30px;
 }
 
-.permission-quantity{
+.permission-quantity {
     display: flex;
     flex-direction: column;
     background-color: var(--color-extra-4);
-    padding: 15px 25px 15px 25px;
     border-radius: 20px;
     height: 20%;
     justify-content: center;
+    align-items: center;
 }
 
-.measurer{
+.measurer {
     display: flex;
-    margin-left: 15px;
+    width: 80%;
 }
 
-.measurer-number{
+.measurer-number {
     font-size: var(--larger-xl-text-size);
     color: var(--color-texto-2);
     font-weight: 600;
@@ -213,7 +224,7 @@ main{
     align-items: center;
 }
 
-.measurer-text{
+.measurer-text {
     margin-left: 15px;
     margin-top: 10px;
     font-weight: 600;
@@ -226,13 +237,13 @@ main{
 
 /* Graph */
 
-.dash-graph{
+.dash-graph {
     background-color: var(--color-extra-4);
     height: 80%;
     border-radius: 20px;
 }
 
-.dash-graph-header{
+.dash-graph-header {
     display: flex;
     flex-direction: row;
     padding: 20px 25px 20px 25px;
@@ -245,14 +256,14 @@ main{
     user-select: none;
 }
 
-.dash-graph-header b{
+.dash-graph-header b {
     font-weight: 600;
     color: var(--color-texto-2);
     font-size: var(--large-text-size);
     width: 60%;
 }
 
-.dash-graph-header .toggle{
+.dash-graph-header .toggle {
     width: 40%;
     display: flex;
     flex-direction: row;
@@ -262,7 +273,7 @@ main{
     border-radius: 50px;
 }
 
-.dash-graph-header .toggle p{
+.dash-graph-header .toggle p {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -272,7 +283,7 @@ main{
     font-weight: 500;
 }
 
-.dash-graph-header .toggle .selected-statistics-sort{
+.dash-graph-header .toggle .selected-statistics-sort {
     background-color: var(--color-extra-4);
     color: var(--color-texto-2);
     font-weight: 600;
@@ -283,37 +294,33 @@ main{
 
     /* Card responsive */
 
-    .dash-inbox-content{
-        height: 60vh;
-    }
-
-    .dash-inbox-content-card{
+    .dash-inbox-content-card {
         display: flex;
         flex-direction: column;
         padding: 0px;
         align-items: center;
     }
-    
-    .dash-inbox-content-card-col1{
+
+    .dash-inbox-content-card-col1 {
         margin-top: auto;
         margin-bottom: auto;
         width: 90%;
         padding: 10px 0px 10px 0px;
     }
-    
-    .dash-inbox-content-card-col2{
+
+    .dash-inbox-content-card-col2 {
         margin-top: 10px;
         width: 100%;
         justify-content: center;
         align-items: center;
     }
-    
-    .dash-inbox-content-card-col2 svg{
+
+    .dash-inbox-content-card-col2 svg {
         margin: 10px;
         padding: 0%;
     }
-    
-    .dash-inbox-content-card-col3{
+
+    .dash-inbox-content-card-col3 {
         background-color: var(--color-fondo-4);
         width: 100%;
         margin-top: 10px;
@@ -321,31 +328,31 @@ main{
         border-radius: 0px 0px 10px 10px;
     }
 
-    .dash-inbox-content-card-col3 svg path{
+    .dash-inbox-content-card-col3 svg path {
         fill: var(--color-extra-1);
     }
-    
-    .marked-zone{
+
+    .marked-zone {
         padding: 5px;
         width: 35%;
     }
-    
+
 
 
     /* measurer responsive */
 
-    .permission-quantity{
+    .permission-quantity {
         display: flex;
         flex-direction: column;
         background-color: var(--color-extra-4);
         padding: 0px;
         border-radius: 20px;
-        height: 30%;
+        height: 25%;
         justify-content: center;
         gap: 10px;
     }
-    
-    .measurer{
+
+    .measurer {
         display: flex;
         margin-left: 0px;
         width: 100%;
@@ -353,10 +360,9 @@ main{
         align-items: center;
         display: flex;
         flex-direction: column;
-        padding: 10px 0px 10px 0px;
     }
-    
-    .measurer-number{
+
+    .measurer-number {
         font-size: var(--larger-text-size);
         color: var(--color-texto-2);
         font-weight: 600;
@@ -364,10 +370,10 @@ main{
         justify-content: center;
         align-items: center;
     }
-    
-    .measurer-text{
-        margin-left: 15px;
-        margin-top: 0px;
+
+    .measurer-text {
+        margin: 0px;
+        padding: 0px;
         font-weight: 600;
         color: var(--color-texto-2);
         font-size: var(--large-text-size);
@@ -377,48 +383,49 @@ main{
     }
 
 
-    
+
 }
 
 @media only screen and (max-width: 1390px) {
 
-    main{
-        align-items: center;
-        justify-content: center ;
-    }
-
-    .main-col-1{
-        flex-direction: column;
-        width: 50%;
-        row-gap: 20px;
-    }
-
-    .main-col-2{
-        flex-direction: column;
-        width: 40%;
-        row-gap: 20px;
-    }   
     
-}
-
-@media only screen and (max-width: 1000px) {
-
-    :root{
+    :root {
         --larger-xl-text-size: 30px;
         --larger-text-size: 35px;
         --large-text-size: 20px;
 
         --normal-text-size: 16px;
+
         --small-text-size: 15px;
         --smaller-text-size: 12px;
         --smaller-xs-text-size: 12px;
     }
 
-    .dash-extra-elements{
+    main {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-col-1 {
+        flex-direction: column;
+        width: 50%;
+        row-gap: 20px;
+    }
+
+    .main-col-2 {
+        flex-direction: column;
+        width: 40%;
+        row-gap: 20px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .dash-extra-elements {
         align-items: center;
     }
 
-    main{
+    main {
         padding: 25px 0px 25px 0px;
         flex-direction: column;
         width: 100%;
@@ -427,16 +434,46 @@ main{
     }
 
 
-    .main-col-1{
+    .main-col-1 {
+        flex-direction: column;
+        width: 90%;
+        row-gap: 20px;
+        height: 900px;
+    }
+
+    .main-col-2 {
         flex-direction: column;
         width: 90%;
         row-gap: 20px;
     }
 
-    .main-col-2{
-        flex-direction: column;
-        width: 90%;
-        row-gap: 20px;
-    }   
+    .dash-extra-elements {
+        align-items: start;
+        width: 100%;
+    }
+
+    .dash-extra-elements p{
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    :root {
+        --larger-xl-text-size: 22px;
+        --larger-text-size: 20px;
+        --large-text-size: 18px;
+
+        --normal-text-size: 16px;
+
+        --small-text-size: 15px;
+        --smaller-text-size: 12px;
+        --smaller-xs-text-size: 12px;
+    }
+
+    .permission-quantity{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
     
 }
