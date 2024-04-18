@@ -53,3 +53,18 @@
     display: block;
 }
 
+@media only screen and (max-width: 600px){
+    .customize.active .customize-type-ml.selected {
+        margin-left: 0px;
+        color: var(--color-fondo-5);
+        width: 250px;
+        height: 250px;
+        border-radius: 0px 0px 0px 0px;
+    }
+    .customize-type-ml.selected .type{
+        width: 80%;
+        height: 65px;
+        margin: 5px;
+        padding: 2px 20px;
+    }
+}
