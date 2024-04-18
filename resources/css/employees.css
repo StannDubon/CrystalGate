@@ -15,11 +15,9 @@ main {
     display: flex;
     justify-content: start;
     flex-direction: column;
-    gap: 10px;
 }
 
 .employee-title {
-    margin: 0px 0px 20px 0px;
     font-size: 35px;
     color: var(--color-texto-2);
     font-weight: 500;
@@ -81,38 +79,30 @@ main {
 
 /* Estilo para la clase "main-row-2" */
 .main-row-2 {
-    height: 600px;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    /* Permite que los elementos se envuelvan a la siguiente línea si no caben */
- 
-
-    margin-top: 30px;
+    gap: 15px;
+    width: 80%;
+    row-gap: 15px;
 }
 
 .employee-elements {
     display: flex;
     flex-direction: row;
-    gap: 20px;
 }
 
 
 
 /* Estilo para la clase "employee-info" */
 .employee-info {
-    width:  600px;
+    width:  calc(50% - 8px);
+    height: 130px;
     /* Cambia el ancho al 45% para dejar espacio para los bordes redondeados */
-    height: 25%;
-    margin: 0px 20px 10px 0px;
     /* Reducir el margen para que las tarjetas estén más cercanas */
     background-color: var(--color-extra-2);
     /* Color de fondo de las tarjetas */
-    padding: 20px;
     /* Espacio interno de las tarjetas */
     box-sizing: border-box;
-    /* Incluye el padding y el borde en el ancho y alto total */
-    position: relative;
     /* Permite posicionar los elementos hijos relativamente */
     border-radius: 20px;
     /* Agrega bordes redondeados */
@@ -154,7 +144,6 @@ main {
 
 .employee-info-icon {
     width: 25%;
-    position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
