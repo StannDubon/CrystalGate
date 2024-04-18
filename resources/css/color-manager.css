@@ -7,6 +7,7 @@
     --color-fondo-4: #D1D1D1;
     --color-fondo-5: #9B9B9B;
     --color-fondo-6: #D9D9D9;
+    --calor-fondo-7: #F0F0F0;
 
     /* Principalmente texto */
     --color-texto-1: white;
@@ -20,6 +21,9 @@
     --color-extra-4: #F5F5F5;
     --color-extra-5: #8DDA8C;
     --color-extra-6: #4292F6;
+    --color-extra-7: #3229B1;
+    --color-extra-8: #3452D3;
+    --color-extra-9: #3F91FD;
 
     /* Main */
     --color-main--1: #F54C60;

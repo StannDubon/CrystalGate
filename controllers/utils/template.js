@@ -20,7 +20,7 @@ SIDEBAR.innerHTML = `
         </svg>
     </div>
     <div class="nav-content">
-        <div class="nav-content-element nav-item-selected">
+        <div id="bridge-dashboard" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ SIDEBAR.innerHTML = `
             <b>Dashboard</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-inbox" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@ SIDEBAR.innerHTML = `
             <b>Inbox</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-medical-leave" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@ SIDEBAR.innerHTML = `
             <b>Medical Leave</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-vacation-request" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@ SIDEBAR.innerHTML = `
             <b>Vacation Request</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-permissions" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +71,7 @@ SIDEBAR.innerHTML = `
             <b>Permissions</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-employees" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +82,7 @@ SIDEBAR.innerHTML = `
             <b>Employees</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-reports" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,7 +92,7 @@ SIDEBAR.innerHTML = `
             <b>Reports</b>
         </div>
 
-        <div class="nav-content-element">
+        <div id="bridge-history" class="nav-content-element">
 
             <!-- LOGO -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@ SIDEBAR.innerHTML = `
     </div>
     <div class="nav-profile">
 
-        <div class="nav-profile-element">
+        <div id="bridge-log-out" class="nav-profile-element">
 
             <!-- LOGO -->
             <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">

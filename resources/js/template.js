@@ -19,11 +19,34 @@ window.addEventListener('resize', function() {
         document.querySelector('main').classList.remove("blured");
         document.getElementById('nav-bar').classList.remove("show-nav-bar");
     }
-    if (window.innerWidth < 1500) {
-        document.getElementById('sort-graph-month').innerText="M"
-        document.getElementById('sort-graph-week').innerText="W"
-    } else{
-        document.getElementById('sort-graph-month').innerText="Month"
-        document.getElementById('sort-graph-week').innerText="Week"
+});
+
+
+// Definir las rutas y los IDs
+const rutas = ['/dashboard', '/inbox', '/medical-leave', '/vacation-request', '/permissions', '/employees', '/reports', '/history', '/index'];
+const ids = ['dashboard', 'inbox', 'medical-leave', 'vacation-request', 'permissions', 'employees', 'reports', 'history', 'log-out'];
+
+// Agregar event listener a cada div
+ids.forEach((id, index) => {
+    const div = document.getElementById("bridge-"+id);
+    if (div) {
+        div.addEventListener('click', () => {
+            window.location.href = "/views"+rutas[index]+".html";
+        });
     }
 });
+
+// Colorear el lugar en el que esta actualmente
+
+const CurrentLocation = document.body.id;
+
+if (CurrentLocation.startsWith("local-")) {
+    const currentPageId = CurrentLocation.replace("local-", "");
+    const currentPageIndex = ids.indexOf(currentPageId);
+    if (currentPageIndex !== -1) {
+        const currentPageDiv = document.getElementById("bridge-" + currentPageId);
+        if (currentPageDiv) {
+            currentPageDiv.classList.add("nav-item-selected");
+        }
+    }
+}
