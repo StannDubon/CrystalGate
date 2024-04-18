@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Gate</title>
+
+    <!--INDEX-->
     <link rel="stylesheet" href="../resources/css/index.css">
+
+    <!-- PAGE TEMPLATE -->
+    <link rel="stylesheet" href="../resources/css/template.css">
 </head>
-<body>
+<body id="index"> 
     <div class="contenedor">
         <img src="../resources/img/logo_login.png" alt="logo" class="logo">
         <h2>Log In</h2>
         <input type="email" class="textfield" placeholder="Email">
         <input type="password" class="textfield" placeholder="Password">
-        <div class="btn-login"><h3>Login</h3></div>
+        <div class="btn-login" onclick="redirectToDashboard()"><h3>Login</h3></div>
 
         <div class="social-icons">
             <a href="https://www.facebook.com/GMBPO/"><div><img src="../resources/img/facebook_logo.png" alt="Facebook"></div></a>
@@ -20,5 +25,8 @@
         </div>
 
     </div>
+
+    <!-- REDIRECT -->
+    <script src="../resources/js/redirect.js"></script>
 </body>
 </html>
