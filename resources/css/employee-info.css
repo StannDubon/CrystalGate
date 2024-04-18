@@ -48,7 +48,7 @@ main {
 }
 
 
-.dash-inbox-content{
+.dash-inbox-content {
     margin: 5px 20px 10px 20px;
     overflow: hidden;
     overflow-y: auto;
@@ -58,23 +58,24 @@ main {
 
 /* Clases de la card */
 
-.dash-inbox-content-card{
+.dash-inbox-content-card {
     background-color: var(--color-extra-2);
 
 }
 
-.dash-inbox-content-card-col1{
+.dash-inbox-content-card-col1 {
     margin-top: auto;
     margin-bottom: auto;
     width: 15%;
     margin-left: 20px;
 
 }
-.padding{
+
+.padding {
     padding: 10px;
 }
 
-.dash-inbox-content-card-col1 p{
+.dash-inbox-content-card-col1 p {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -88,7 +89,8 @@ main {
     padding: 0px;
     margin-right: 10px;
 }
-.dash-inbox-content-card-col2{
+
+.dash-inbox-content-card-col2 {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -97,19 +99,19 @@ main {
 
 }
 
-.dash-inbox-content-card-col2 svg{
+.dash-inbox-content-card-col2 svg {
     margin: 10px;
 }
 
-.dash-inbox-content-card-col3{
+.dash-inbox-content-card-col3 {
     width: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.marked-zone{
- 
+.marked-zone {
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -119,22 +121,26 @@ main {
     width: 30%;
 }
 
-.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+.dash-inbox-content-card-name,
+.dash-inbox-content-card-date {
     color: var(--color-texto-2);
     font-weight: 600;
 }
 
-.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+.dash-inbox-content-card-reason,
+.dash-inbox-content-card-time {
     color: var(--color-fondo-5);
     font-weight: 500;
 }
 
-.dash-inbox-content-card-name, .dash-inbox-content-card-date{
+.dash-inbox-content-card-name,
+.dash-inbox-content-card-date {
     color: var(--color-texto-2);
     font-weight: 600;
 }
 
-.dash-inbox-content-card-reason, .dash-inbox-content-card-time{
+.dash-inbox-content-card-reason,
+.dash-inbox-content-card-time {
     color: var(--color-fondo-5);
     font-weight: 500;
 }
@@ -149,11 +155,11 @@ main {
 .rejected-button {
     background-color: var(--color-rejected);
     border: none;
-    color:var(--color-texto-1);
+    color: var(--color-texto-1);
     cursor: pointer;
     font-size: 16px;
-    padding: 10px; 
-    width: 30%; 
+    padding: 10px;
+    width: 30%;
     margin: 0;
     border-radius: 0;
     display: block;
@@ -168,12 +174,85 @@ main {
     color: var(--color-texto-1);
     cursor: pointer;
     font-size: 16px;
-    padding: 10px; 
-    width: 30%; 
+    padding: 10px;
+    width: 30%;
     margin: 0;
     border-radius: 0;
     display: block;
     text-align: center;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+@media only screen and (max-width: 600px){
+    main{
+        width: 80vh;
+        height: 100%;
+        
+    }
+    
+    .dash-inbox-content-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .dash-inbox-content-card .padding{
+        margin: 0px;
+
+    }
+
+    .dash-inbox-content {
+        width: 300px;
+    }
+
+    .rejected-button {
+        width: 100%;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .approved-button {
+        width: 100%;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .dash-inbox-content-card-col2 {
+        width: 100%; 
+    }
+
+    .marked-zone{
+        width: 80%;
+    }
+
+}
+@media only screen and (max-width: 800px){
+
+    main{
+        height: 100vh;
+    }
+
+    .dash-inbox-content-card-col1 {
+        width: 15%;
+    }
+
+    .dash-inbox-content-card-col2 {
+        width: 55%; 
+    }
+
+    .dash-inbox-content-card-col3 {
+        width: 15%;
+
+    }
+
+    
+
+}
+
+@media only screen and (max-width: 1270px){
+main{
+    height: 100vh;
+}
+    
 }
