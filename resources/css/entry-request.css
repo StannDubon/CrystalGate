@@ -1,0 +1,246 @@
+:root{
+    --general-main-width: 90%;
+}
+
+main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--normal-text-size);
+}
+
+/*Custom textbox*/
+
+.main-header{
+    width: 90%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+/* Titulo */
+
+.main-title{
+    color: var(--color-texto-2);
+    font-weight: var(--bold-text-weight);
+    width: var(--general-main-width);
+}
+
+.main-title p{
+    color: var(--color-texto-2);
+    font-weight: var(--normal-text-weight);
+    font-size: var(--larger-text-size);
+}
+
+/* DISTRIBUCIÓN DE ESPACIADOS*/
+
+.main-content{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.main-content-row-1{
+    display: flex;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.main-content-row-2{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.main-content-col1{
+    height: 100%;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.main-content-col2{
+    height: 100%;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+}
+
+/* Información de empleado */
+
+.employee-info{
+    height: calc(20% - 10px);
+    background-color: var(--color-extra-2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+}
+
+.employee-info .row-1{
+    width: 90%;
+    height: 70%;
+}
+
+.employee-info .row-2{
+    width: 90%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+}
+
+/* Información de calendario */
+.calendar-container{
+    height: calc(80% - 10px);
+    background-color: var(--color-extra-2);
+    border-radius: 20px;
+}
+
+/* Archivos adjuntos */
+
+.attached-files{
+    background-color: var(--color-extra-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    height: 80%;
+    overflow: auto;
+}
+
+.attached-files .title{
+    color: var(--color-texto-2);
+    font-weight: var(--bold-text-weight);
+    font-size: var(--large-text-size);
+    width: 90%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+}
+
+.attached-files-content{
+    height: 100%;
+    gap: 10px;
+}
+
+.attached-files div{
+    width: 80%;
+    height: 120px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.attached-files div *{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.attached-files div p{
+    color: var(--color-fondo-1);
+}
+
+.attached-files .pdf-view{
+    background-color: var(--color-main--1);
+}
+
+.attached-files .doc-view{
+    background-color: var(--color-extra-6);
+}
+
+/* DATE ESPECIFIED */
+
+.permission-date{
+    height: calc(20% - 20px);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.permission-date svg{
+    width: 10%;
+}
+
+.permission-info-wraper{
+    background-color: var(--color-extra-2);
+    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+
+}
+
+.permission-begin-date{
+    font-weight: var(--medium-text-weight);
+    font-size: var(--large-text-size);
+    color: var(--color-texto-2);
+}
+
+.permission-begin-time{
+    font-weight: var(--normal-text-weight);
+    font-size: var(--large-text-size);
+    color: var(--color-fondo-5);
+}
+
+/* BOTONES PARA APROBAR O RECHAZAR */
+
+.main-content-row-2 button{
+    width: 20%;
+    height: 35%;
+    border: none;
+    font-size: var(--large-text-size);
+    font-weight: var( --medium-text-weight);
+    color: var(--color-fondo-1);
+}
+
+.pending-reject{
+    border-radius: 0px 15px 15px 0px;
+    background-color: var(--color-rejected);
+    margin-right: calc(5% - 10px);
+}
+
+.pending-approve{
+    border-radius: 15px 0px 0px 15px;
+    background-color: var(--color-approved);
+}
+
+
+/* CARDS */
+
+@media only screen and (max-width: 1370px) {
+
+    :root{
+        --general-main-width: 98%;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+
+    :root{
+        --general-main-width: 98%;
+    }
+
+}

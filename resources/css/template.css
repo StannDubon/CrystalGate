@@ -89,7 +89,7 @@ main{
     justify-content: start;
     font-weight: var(--thin-text-weight);
     font-size: larger;
-
+    cursor: pointer;
     margin-left: 20px;
     margin-bottom: 2px;
 

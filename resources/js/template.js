@@ -23,7 +23,7 @@ window.addEventListener('resize', function() {
 
 
 // Definir las rutas y los IDs
-const rutas = ['/dashboard', '/inbox', '/medical-leave', '/vacation-request', '/permissions', '/employees', '/reports', '/history', '/index'];
+const rutas = ['/dashboard', '/inbox', '/medical', '/vacation', '/permissions', '/employees', '/reports', '/history', '/index'];
 const ids = ['dashboard', 'inbox', 'medical-leave', 'vacation-request', 'permissions', 'employees', 'reports', 'history', 'log-out'];
 
 // Agregar event listener a cada div
@@ -50,3 +50,27 @@ if (CurrentLocation.startsWith("local-")) {
         }
     }
 }
+
+
+/* CODIGO TOTALMENTE TEMPORAL */
+
+var botonesAbrirModal = document.querySelectorAll('.temp-info');
+botonesAbrirModal.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    window.location.href = "entry-request.html"
+  });
+});
+
+var botonesAbrirModal = document.querySelectorAll('.temp-approved');
+botonesAbrirModal.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    window.location.href = "employee-request-approved.html"
+  });
+});
+
+var botonesAbrirModal = document.querySelectorAll('.temp-rejected');
+botonesAbrirModal.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    window.location.href = "employee-request-rejected.html"
+  });
+});
