@@ -1,8 +1,12 @@
+html, body{
+    width: 100vw;
+}
+
 main {
-    padding: 40px;
+    padding: 5vw;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100vh - 5vw);
     height: calc(100vh - 80px);
     gap: 30px;
 }
@@ -25,7 +29,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    width: 80%;
+    width: 100%;
     row-gap: 15px;
 }
 
@@ -125,6 +129,7 @@ main {
     border-radius: 20px;
     justify-content: end;
     align-items: center;
+
 }
 
 /* Estilo para alinear el contenido del empleado a la izquierda */
@@ -185,11 +190,7 @@ main {
 
 
 @media only screen and (max-width: 680px){
-    main{
-        width: 70vh;
 
-        
-    }
     .main-row-2 {
         width: 70%;
     }
@@ -203,9 +204,6 @@ main {
 }
 @media only screen and (max-width: 800px){
 
-    main{
-       
-    }
 
     .main-row-2 {
         width: 90%;
@@ -237,7 +235,7 @@ main {
 
 @media only screen and (max-width: 1390px){
 main{
-    height: 100vh;
+   
 }
     .main-row-2 {
         display: flex;
