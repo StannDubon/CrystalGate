@@ -53,8 +53,10 @@ main{
 
 .main-content-row-2{
     height: 20%;
+    width: 100%;
     display: flex;
     justify-content: end;
+    align-items: center;
 }
 
 .main-content-col1{
@@ -201,6 +203,29 @@ main{
     font-size: var(--large-text-size);
     color: var(--color-fondo-5);
 }
+
+/* BOTONES PARA APROBAR O RECHAZAR */
+
+.main-content-row-2 button{
+    width: 20%;
+    height: 35%;
+    border: none;
+    font-size: var(--large-text-size);
+    font-weight: var( --medium-text-weight);
+    color: var(--color-fondo-1);
+}
+
+.pending-reject{
+    border-radius: 0px 15px 15px 0px;
+    background-color: var(--color-rejected);
+    margin-right: calc(5% - 10px);
+}
+
+.pending-approve{
+    border-radius: 15px 0px 0px 15px;
+    background-color: var(--color-approved);
+}
+
 
 /* CARDS */
 
