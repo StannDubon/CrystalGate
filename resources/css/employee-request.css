@@ -13,6 +13,7 @@ main {
     display: flex;
     flex-direction: row;
     padding-left: 20px;
+    gap: 10px;
 }
 
 .main-col-1 {
@@ -370,7 +371,7 @@ header .current-date {
     margin: 15% auto;
     /* 15% desde la parte superior y centrado */
     padding: 20px;
-    border: 1px solid #888;
+    border-radius: 10px;
     width: 30%;
 
 }
@@ -383,10 +384,19 @@ header .current-date {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: "Poppins", sans-serif;
+
+    gap: 20px;
+    padding: 5px;
+}
+
+.modal-content-text p {
+
+    font-weight: 200;
 }
 
 .modal-title {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .close-button {
@@ -403,3 +413,63 @@ header .current-date {
     cursor: pointer;
 }
 
+
+@media only screen and (max-width: 1390px) {
+
+    main {
+        height: 100%;
+    }
+
+    .main-col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-col-1 {
+
+        padding-left: 30px;
+        margin-left: 0px;
+
+    }
+
+    .main-col-2 {
+        padding-left: 30px;
+        padding-top: 30px;
+    }
+
+    .attached-files {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        margin-right: 5px;
+        padding: 30px;
+        gap: 10px;
+        /* Agrega bordes redondeados */
+    }
+
+    .main-row-1 {
+        width: 80%;
+
+    }
+
+    .main-row-1 .col2 {
+
+        width: 80%;
+    }
+
+
+    .main-row-1 .col1 {
+
+        width: 15%;
+    }
+
+    .date-range {
+        display: flex;
+        justify-content: flex-start;
+        align-items: self-start;
+   
+        padding-left: 0px;
+    }
+    
+
+}
