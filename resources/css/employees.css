@@ -1,100 +1,3 @@
-main {
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: calc(100vh - 80px);
-    gap: 30px;
-}
-
-
-
-/* Estilo para la clase "main-row-1" */
-.main-row-1 {
-
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    gap: 20px;
-}
-
-
-/* Estilo para la clase "main-row-2" */
-.main-row-2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    width: 80%;
-    row-gap: 15px;
-}
-
-
-.employee-title {
-    height: 70%;
-
-    font-size: 35px;
-    color: var(--color-texto-2);
-    font-weight: 500;
-}
-
-.searchbar {
-
-    width: 50%;
-    display: flex;
-
-    background-color: #F0F0F0;
-    border-radius: 10px;
-    /* Redondear esquinas */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.searchbar svg {
-    width: 10%;
-}
-
-.searchbar input {
-
-    width: 85%;
-
-    border: none;
-    /* Quitar borde por defecto */
-    outline: none;
-
-    border-radius: 10px;
-    /* Redondear esquinas */
-    background-color: #F0F0F0;
-    /* Color de fondo */
-
-    font-size: large;
-    color: var(--color-fondo-5);
-}
-
-.filter {
-    width: 60%;
-    /* Ocupa el 30% del ancho disponible */
-    display: flex;
-
-}
-
-.filter select {
-    width: 50%;
-    border-radius: 10px;
-    /* Redondear esquinas */
-    background-color: #F0F0F0;
-    /* Color de fondo */
-    padding: 10px;
-    /* Espaciado interno */
-    font-size: large;
-    /* Tamaño de fuente */
-    border: none;
-    /* Quitar borde por defecto */
-    outline: none;
-    /* Quitar el contorno al seleccionar */
-    color: var(--color-fondo-5);
-}
 
 .employee-elements {
     height: 50%;
@@ -104,6 +7,13 @@ main {
     gap: 20px;
 }
 
+.employee-title {
+    height: 70%;
+
+    font-size: 35px;
+    color: var(--color-texto-2);
+    font-weight: 500;
+}
 
 
 /* Estilo para la clase "employee-info" */
@@ -125,6 +35,7 @@ main {
     border-radius: 20px;
     justify-content: end;
     align-items: center;
+
 }
 
 /* Estilo para alinear el contenido del empleado a la izquierda */
@@ -183,71 +94,3 @@ main {
     align-items: center;
 }
 
-
-@media only screen and (max-width: 680px){
-    main{
-        width: 70vh;
-
-        
-    }
-    .main-row-2 {
-        width: 70%;
-    }
-    .employee-info {
-        width: 80px
-    }
-
-   
-    
-    
-}
-@media only screen and (max-width: 800px){
-
-    main{
-       
-    }
-
-    .main-row-2 {
-        width: 90%;
-    }
-    .employee-info {
-        width: 100%;
-    }
-    .employee-id {
-        font-size: 10px;
-    }
-    
-    .employee-name {
-        font-size: 20px;
-        /* Tamaño de fuente más grande */
-        /* Margen superior e inferior */
-        font-weight: 600;
-    }
-    
-    .employee-email {
-        /* Margen superior e inferior */
-        font-size: 10px;
-    }
-
-    .employee-info-icon svg{
-        margin-right: 20px;
-        
-    }
-}
-
-@media only screen and (max-width: 1390px){
-main{
-    height: 100vh;
-}
-    .main-row-2 {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        gap: 15px;
-        width: 80%;
-        row-gap: 15px;
-    }
-    .employee-info {
-        width: calc(100% - 8px);
-    }
-}
