@@ -86,7 +86,7 @@
 
 }
 
-@media only screen and (max-width: 1000px){
+@media (width < 1000px){
 
     /* PENDING CARDS STYLES */
 
@@ -231,4 +231,91 @@
         border-radius: 0%;
     }
 
+}
+
+
+
+
+
+/* DISEÑO DE TARJETA PARA EMPLEADOS */
+
+.main-content-card-fixer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: start;
+}
+
+.content-card-employee-info{
+    width: calc(40% - 10px);
+    height: 130px;
+    border-radius: 20px;
+    background-color: var(--color-extra-2);
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.content-card-employee-info .row-1,
+.content-card-employee-info .row-2{
+    width: 95%;
+    display: flex;
+}
+
+.content-card-employee-info .row-1{
+    height: 70%;
+    align-items: end;
+}
+
+
+.content-card-employee-info .row-1 .col-1{
+    width: 80%;
+    height: 85%;
+}
+
+.content-card-employee-info .row-1 .col-2{
+    width: 20%;
+    height: 100%;
+    background-color: var(--color-fondo-6);
+    border-radius: 0px 20px 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2{
+    height: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2 .icon,
+.content-card-employee-info .row-2 .icon svg{
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2 .icon svg{
+    margin-left: 10px;
+}
+
+/* Configuracion del texto de la card de empleados */
+
+.content-card-employee-info .row-1 .col-1
+.employee-id,
+.content-card-employee-info .row-2
+.employee-email
+{
+    color: var(--color-extra-1);
+    font-size: var(--small-text-size);
+    font-weight: var(--medium-text-weight);
+}
+
+.content-card-employee-info .row-1 .col-1
+.employee-name{
+    color: var(--color-texto-4);
+    font-size: var(--large-text-size);
+    font-weight: var(--medium-text-weight);
 }
