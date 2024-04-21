@@ -107,7 +107,6 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        gap: 10px;
     }
     
     .content-card-general-col2{
@@ -251,12 +250,12 @@
     width: 80%;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
 }
 
 .content-card-employee-info{
     height: 130px;
-    border-radius: 20px;
+    border-radius: 15px;
     background-color: var(--color-extra-2);
     display: flex;
     flex-direction: column;
@@ -341,12 +340,13 @@
 @media (width < 1200px){
 
     .content-card-employee-info{
-        width: 100%;        
+        width: 100%;      
     }
 
     .main-content
     .fixer-fixer-employees{
         flex-direction: column;
+        gap: 10px;  
     }
 
 }
@@ -354,7 +354,7 @@
 @media (width < 1000px){
 
     .content-card-employee-info{
-        height: 140px;
+        height: 110px;
     }
     
     .content-card-employee-info .row-1{
