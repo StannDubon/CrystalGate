@@ -107,6 +107,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
+        gap: 10px;
     }
     
     .content-card-general-col2{
@@ -123,6 +124,12 @@
     
     .content-card-general-col3{
         display: none;
+    }
+
+    .content-card-general-reason,
+    .content-card-general-name{
+        margin-left: 10px;
+        margin-right: 10px;
     }
     
     .marked-zone{
@@ -239,22 +246,22 @@
 
 /* DISEÑO DE TARJETA PARA EMPLEADOS */
 
-.main-content-card-fixer{
+.main-content
+.fixer-fixer-employees{
+    width: 80%;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: start;
 }
 
 .content-card-employee-info{
-    width: calc(40% - 10px);
     height: 130px;
     border-radius: 20px;
     background-color: var(--color-extra-2);
     display: flex;
     flex-direction: column;
     align-items: end;
+    width: calc(50% - 10px);
 }
 
 .content-card-employee-info .row-1,
@@ -299,6 +306,7 @@
 
 .content-card-employee-info .row-2 .icon svg{
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* Configuracion del texto de la card de empleados */
@@ -308,6 +316,7 @@
 .content-card-employee-info .row-2
 .employee-email
 {
+    word-break: break-all;
     color: var(--color-extra-1);
     font-size: var(--small-text-size);
     font-weight: var(--medium-text-weight);
@@ -318,4 +327,45 @@
     color: var(--color-texto-4);
     font-size: var(--large-text-size);
     font-weight: var(--medium-text-weight);
+}
+
+@media (width < 1400px) {
+
+    .main-content
+    .fixer-fixer-employees{
+        width: 100%;
+    }
+
+}
+
+@media (width < 1200px){
+
+    .content-card-employee-info{
+        width: 100%;        
+    }
+
+    .main-content
+    .fixer-fixer-employees{
+        flex-direction: column;
+    }
+
+}
+
+@media (width < 1000px){
+
+    .content-card-employee-info{
+        height: 140px;
+    }
+    
+    .content-card-employee-info .row-1{
+        height: 70%;
+        align-items: end;
+    }
+    .content-card-employee-info .row-2{
+        height: 30%;
+        display: flex;
+        align-items: center;
+    }
+    
+
 }

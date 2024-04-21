@@ -2,18 +2,6 @@
 
 :root{
     --navbar-main-fixer: 300px;
-
-    --larger-xl-text-size: 40px;
-    --larger-text-size: 35px;
-    --large-text-size: 20px;
-    --normal-text-size: 16px;
-    --small-text-size: 14px;
-    --smaller-text-size: 12px;
-    --smaller-xs-text-size: 12px;
-
-    --thin-text-weight: 400;
-    --medium-text-weight: 500;
-    --bold-text-weight: 600;
 }
 
 /*Boton para abrir el sidebar*/

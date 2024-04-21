@@ -224,14 +224,6 @@ main{
 
 @media only screen and (max-width: 600px) {
 
-    :root{
-        --larger-xl-text-size: 22px;
-        --larger-text-size: 20px;
-        --large-text-size: 18px;
-
-        --normal-text-size: 16px;
-    }
-
     .main-utilities{
         flex-direction: column;
         height: 100px;
