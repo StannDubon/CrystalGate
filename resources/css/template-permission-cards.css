@@ -65,7 +65,7 @@
     /* PENDING CARDS STYLES */
 
     .content-card-general-col1{
-        width: calc(35% - 20px);
+        width: calc(37% - 20px);
     }
     
     .content-card-general-col2{
@@ -366,6 +366,78 @@
         display: flex;
         align-items: center;
     }
-    
+}
 
+@media (width < 850px){
+
+    .content-card-employee-info{
+        height: 140px;
+    }
+    .content-card-employee-info .row-1{
+        height: 60%;
+    }
+    .content-card-employee-info .row-2{
+        height: 40%;
+    }
+}
+
+@media (width < 600px){
+
+    .content-card-employee-info{
+        height: 110px;
+    }
+    
+    .content-card-employee-info .row-1{
+        height: 60%;
+    }
+    .content-card-employee-info .row-2{
+        height: 40%;
+    }
+}
+
+/* CARDS PARA EL HISTORIAL XDDDD */
+
+.content-card-history-administrator-name{
+    background-color: var(--color-fondo-4);
+    padding: 10px 15px 10px 15px;
+    border-radius: 10px 10px 0px 0px;
+    width: calc(30% - 30px);
+    font-size: var(--normal-text-size);
+    font-weight: var(--medium-text-weight);
+    color: var(--color-texto-2);
+}
+
+.fixer-fixer-history{
+    row-gap: 0px;
+}
+
+.card-fixer-history{
+    margin-bottom: 20px;
+    border-radius: 0px 15px 15px 15px;
+}
+
+@media (width < 1400px) {
+
+    .content-card-history-administrator-name{
+        width: calc(40% - 30px);
+    }
+
+}
+
+@media (width < 1200px){
+    .content-card-history-administrator-name{
+        width: calc(50% - 30px);
+    }
+}
+
+@media (width < 1000px){
+    .content-card-history-administrator-name{
+        width: calc(50% - 30px);
+    }
+}
+
+@media (width < 600px){
+    .content-card-history-administrator-name{
+        width: calc(80% - 30px);
+    }
 }
