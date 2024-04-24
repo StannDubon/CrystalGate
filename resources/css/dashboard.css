@@ -386,20 +386,7 @@ main *{
 
 }
 
-@media only screen and (max-width: 1390px) {
-
-    
-    :root {
-        --larger-xl-text-size: 30px;
-        --larger-text-size: 35px;
-        --large-text-size: 20px;
-
-        --normal-text-size: 16px;
-
-        --small-text-size: 15px;
-        --smaller-text-size: 12px;
-        --smaller-xs-text-size: 12px;
-    }
+@media (width < 1390px) {
 
     main {
         align-items: center;
@@ -419,7 +406,7 @@ main *{
     }
 }
 
-@media only screen and (max-width: 1000px) {
+@media (width < 1000px) {
 
     .dash-extra-elements {
         align-items: center;
@@ -457,19 +444,7 @@ main *{
     }
 }
 
-@media only screen and (max-width: 600px) {
-
-    :root {
-        --larger-xl-text-size: 22px;
-        --larger-text-size: 20px;
-        --large-text-size: 18px;
-
-        --normal-text-size: 16px;
-
-        --small-text-size: 15px;
-        --smaller-text-size: 12px;
-        --smaller-xs-text-size: 12px;
-    }
+@media (width < 600px) {
 
     .permission-quantity{
         padding-top: 10px;
