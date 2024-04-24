@@ -163,6 +163,7 @@ main{
     flex-direction: column;
     margin-top: 50px;
     row-gap: 15px;
+    padding-bottom: 25px;
 }
 
 @media only screen and (max-width: 1370px) {
@@ -223,14 +224,6 @@ main{
 }
 
 @media only screen and (max-width: 600px) {
-
-    :root{
-        --larger-xl-text-size: 22px;
-        --larger-text-size: 20px;
-        --large-text-size: 18px;
-
-        --normal-text-size: 16px;
-    }
 
     .main-utilities{
         flex-direction: column;
