@@ -14,14 +14,14 @@ class tbUsuariosHandler{
     */
     public function checkUser($mail, $password)
     {
-        $sql = 'SELECT id_usuario, email_usuario, clave_usuario
+        $sql = 'SELECT id_usuario, correo, clave
                 FROM tb_usuarios
-                WHERE email_usuario = ?';
+                WHERE correo = ?';
         $params = array($mail);
         $data = Database::getRow($sql, $params);
-        if (password_verify($password, $data['clave_usuario'])) {
+        if (password_verify($password, $data['clave'])) {
             $this->id_usuario = $data['id_usuario'];
-            $this->email_usuario = $data['email_usuario'];
+            $this->email_usuario = $data['correo'];
             return true;
         } else {
             return false;
@@ -31,9 +31,9 @@ class tbUsuariosHandler{
     public function editProfile()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre_usuario = ?, apellido_usuario = ?, email_usuario = ?, id_cargo = ?
+                SET id_cargo = ?, nombre = ?, apellido = ?, correo = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre_usuario, $this->apellido_usuario, $this->email_usuario, $this->id_cargo);
+        $params = array($this->id_cargo, $this->nombre_usuario, $this->apellido_usuario, $this->email_usuario);
         return Database::executeRow($sql, $params);
     }
 
@@ -44,11 +44,11 @@ class tbUsuariosHandler{
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_usuario, nombre_usuario, apellido_usuario, email_usuario, cargo
+        $sql = 'SELECT id_usuario, nombre, apellido, correo, cargo
                 FROM tb_usuarios
                 INNER JOIN tb_cargos USING(id_cargo) 
-                WHERE apellido_usuario LIKE ? OR nombre_usuario LIKE ? OR email_usuario LIKE ?
-                ORDER BY apellido_usuario';
+                WHERE apellido LIKE ? OR nombre LIKE ? OR cargo LIKE ?
+                ORDER BY apellido';
         $params = array($value, $value, $value);
         return Database::getRows($sql, $params);
     }
@@ -56,13 +56,13 @@ class tbUsuariosHandler{
     public function createRow()
     {
         $sql = 'CALL InsertarUsuario(?, ?, ?, ?, ?)';
-        $params = array($this->nombre_usuario, $this->apellido_usuario, $this->email_usuario, $this->clave_usuario, $this->id_cargo);
+        $params = array($this->id_cargo, $this->nombre_usuario, $this->apellido_usuario, $this->email_usuario, $this->clave_usuario);
         return Database::executeRow($sql, $params);
     }
-    /* FUCNION PARA MOSTRAR A LOS USUARIOS */
+    /* FUCNION PARA MOSTRAR A LOS USUARIOS */  
     public function readAll()
     {
-        $sql = 'SELECT id_usuario, nombre_usuario, apellido_usuario, email_usuario, cargo
+        $sql = 'SELECT id_usuario, nombre, apellido, correo, cargo
                 FROM tb_usuarios
                 INNER JOIN tb_cargos USING(id_cargo) 
                 ORDER BY apellido_usuario';
@@ -71,7 +71,7 @@ class tbUsuariosHandler{
     /* FUNCION PARA MOSTRAR LOS DATOS DE UN USUARIO */
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, nombre_usuario, apellido_usuario, email_usuario, cargo
+        $sql = 'SELECT id_usuario, nombre, apellido, correo, cargo
                 FROM tb_usuarios
                 INNER JOIN tb_cargos USING(id_cargo) 
                 WHERE id_usuario = ?';
@@ -82,7 +82,7 @@ class tbUsuariosHandler{
     public function updateRow()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre_usuario = ?, apellido_usuario = ?, id_cargo = ?
+                SET nombre = ?, apellido = ?, id_cargo = ?
                 WHERE id_usuario = ?';
         $params = array($this->nombre_usuario, $this->apellido_usuario, $this->id_cargo);
         return Database::executeRow($sql, $params);
@@ -98,9 +98,9 @@ class tbUsuariosHandler{
     /* FUNCION PARA VERIFICAR DUPLICADOS EN LOS USUARIOS */
     public function checkDuplicate($value)
     {
-        $sql = 'SELECT id_usuario
+        $sql = 'SELECT id_usuario, correo
                 FROM tb_usuarios
-                WHERE email_usuario = ?';
+                WHERE correo = ?';
         $params = array($value, $value);
         return Database::getRow($sql, $params);
     }
