@@ -6,6 +6,7 @@ require_once('../../helpers/database.php');
  */
 class tbAdministradoresHandler{
     protected $id_administrador = null;
+    protected $id_tipo_administrador = null;
     protected $nombre_administrador = null;
     protected $apellido_administrador = null;
     protected $email_administrador = null;
@@ -16,15 +17,15 @@ class tbAdministradoresHandler{
      */
     public function checkAdmin($username, $password)
     {
-        $sql = 'SELECT id_administrador, email_administrador, clave_administrador
+        $sql = 'SELECT id_administrador, correo, clave
                 FROM tb_administradores
-                WHERE  email_administrador = ?';
+                WHERE  correo = ?';
         $params = array($username);
         if (!($data = Database::getRow($sql, $params))) {
             return false;
-        } elseif (password_verify($password, $data['clave_administrador'])) {
+        } elseif (password_verify($password, $data['clave'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['nombreAdministrador'] = $data['nombre_administrador '];
+            $_SESSION['nombreAdministrador'] = $data['nombre'];
             return true;
         } else {
             return false;
@@ -33,13 +34,13 @@ class tbAdministradoresHandler{
 
     public function checkPass($password)
     {
-        $sql = 'SELECT clave_administrador
+        $sql = 'SELECT clave
                 FROM tb_administradores
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['clave_administrador'])) {
+        if (password_verify($password, $data['clave'])) {
             return true;
         } else {
             return false;
@@ -49,7 +50,7 @@ class tbAdministradoresHandler{
     public function changePassword()
     {
         $sql = 'UPDATE tb_administradores
-                SET clave_administrador = ?
+                SET clave = ?
                 WHERE id_administrador = ?';
         $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
@@ -57,7 +58,7 @@ class tbAdministradoresHandler{
 
     public function readProfile()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, email_administrador 
+        $sql = 'SELECT id_administrador, id_tipo_administrador, nombre, apellido, correo 
                 FROM tb_administradores
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
@@ -67,9 +68,9 @@ class tbAdministradoresHandler{
     public function editProfile()
     {
         $sql = 'UPDATE tb_administradores
-                SET nombre_administrador = ?, apellido_administrador = ?, correo_administrador = ?
+                SET id_tipo_administrador = ?, nombre = ?, apellido = ?, correo = ?
                 WHERE id_administrador = ?';
-        $params = array($this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $_SESSION['idAdministrador']);
+        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
 
@@ -79,34 +80,37 @@ class tbAdministradoresHandler{
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, email_administrador
-                FROM tb_administradores
-                WHERE apellido_administrador LIKE ? OR nombre_administrador LIKE ?
-                ORDER BY apellido_administrador';
+        $sql = 'SELECT id_administrador, tipo_administrador, nombre, apellido, correo
+                FROM tb_administradores a
+                WHERE apellido LIKE ? OR nombre LIKE ?
+                INNER JOIN tb_tipos_administradores ta ON a.id_administrador = ta.id_administrador
+                ORDER BY apellido';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
     /* FUNCION PARA CREAR ADMINISTRADORES, USANDO PROCEDIMIENTO ALMACENADO */ 
     public function createRow()
     {
-        $sql = 'CALL InsertarAdministrador(?, ?, ?, ?)';
-        $params = array($this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $this->clave_administrador);
+        $sql = 'CALL InsertarAdministrador(?, ?, ?, ?, ?)';
+        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->clave_administrador, $this->email_administrador);
         return Database::executeRow($sql, $params);
     }
     /* FUCNION PARA MOSTRAR A LOS ADMINISTRADORES */
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, email_administrador 
-                FROM tb_administradores
+        $sql = 'SELECT id_administrador, tipo_administrador, nombre, apellido, email 
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores ta ON a.id_administrador = ta.id_administrador
                 ORDER BY apellido_administrador';
         return Database::getRows($sql);
     }
     /* FUNCION PARA MOSTRAR LOS DATOS DE UN ADMINISTRADOR */
     public function readOne()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, email_administrador 
-                FROM tb_administradores
-                WHERE id_administrador = ?';
+        $sql = 'SELECT id_administrador, tipo_administrador, nombre, apellido, email 
+                FROM tb_administradores a
+                WHERE id_administrador = ?
+                INNER JOIN tb_tipos_administradores ta ON a.id_administrador = ta.id_administrador';
         $params = array($this->id_administrador);
         return Database::getRow($sql, $params);
     }
@@ -114,9 +118,9 @@ class tbAdministradoresHandler{
     public function updateRow()
     {
         $sql = 'UPDATE tb_administradores
-                SET nombre_administrador = ?, apellido_administrador = ?, correo_administrador = ?
+                SET id_tipo_administrador, nombre = ?, apellido = ?, correo = ?
                 WHERE id_administrador = ?';
-        $params = array($this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $this->id_administrador);
+        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $this->id_administrador);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LA CONTRASEÑA DEL ADMINISTRADOR 
