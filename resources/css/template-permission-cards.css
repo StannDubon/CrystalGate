@@ -1,0 +1,443 @@
+/* PENDING CARDS STYLES */
+
+.content-card-general{
+    background-color: var(--color-extra-2);
+    display: flex;
+    width: 80%;
+    border-radius: 10px;
+    height: 90px;
+    align-items: center;
+    justify-content: end;
+}
+
+.content-card-general-col1{
+    width: calc(45% - 35px);
+}
+
+.content-card-general-col2{
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-right: 35px;
+}
+
+.content-card-general-col3{
+    width: 17.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marked-zone{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--color-fondo-4);
+    height: 60px;
+    width: 60%;
+    border-radius: 10px;
+}
+
+.content-card-general-date,
+.content-card-general-name{
+    color: var(--color-texto-2);
+    font-weight: var(--medium-text-weight);
+}
+
+.content-card-general-reason,
+.content-card-general-time{
+    color: var(--color-fondo-5);
+}
+
+@media (width < 1370px) {
+
+    .content-card-general{
+        width: 100%;
+    }
+
+}
+
+@media (width < 1200px){
+
+    /* PENDING CARDS STYLES */
+
+    .content-card-general-col1{
+        width: calc(37% - 20px);
+    }
+    
+    .content-card-general-col2{
+        width: 45%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-right: 20px;
+    }
+    
+    .content-card-general-col3{
+        width: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+}
+
+@media (width < 1000px){
+
+    /* PENDING CARDS STYLES */
+
+    .marked-zone{
+        background-color: #00000000;
+    }
+
+    .content-card-general{
+        flex-direction: column;
+        height: 140px;
+    }
+
+    .content-card-general-col1{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .content-card-general-col2{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: var(--color-fondo-4);
+        border-radius: 0px 0px 10px 10px;
+        margin-right: 0px;
+    }
+    
+    .content-card-general-col3{
+        display: none;
+    }
+
+    .content-card-general-reason,
+    .content-card-general-name{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .marked-zone{
+        gap: 5px;
+    }
+}
+
+
+
+/* APPROVED CARDS MODIFICATIONS */
+
+.approved-permission
+.content-card-general-col3{
+    background-color: var(--color-approved);
+    height: 100%;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.approved-permission
+.content-card-general-col3 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-texto-1);
+    font-weight: var(--bold-text-weight);
+}
+
+@media only screen and (max-width: 1000px){
+
+    .approved-permission{
+        height: calc(140px + 10px);
+    }
+
+    .approved-permission
+    .content-card-general-col3{
+        display:flex;
+        background-color: var(--color-approved);
+        width: 100%;
+        height: 10px;
+        border-radius: 0px 0px 10px 10px;
+    }
+    
+    .approved-permission
+    .content-card-general-col3 p{
+        visibility: hidden;
+    }
+    
+    .approved-permission
+    .content-card-general-col2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-texto-1);
+        font-weight: var(--bold-text-weight);
+        border-radius: 0%;
+    }
+
+}
+
+
+/* REJECTED CARDS MODIFICATIONS */
+
+.rejected-permission
+.content-card-general-col3{
+    background-color: var(--color-rejected);
+    height: 100%;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.rejected-permission
+.content-card-general-col3 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-texto-1);
+    font-weight: var(--bold-text-weight);
+}
+
+@media only screen and (max-width: 1000px){
+
+    .rejected-permission{
+        height: calc(140px + 10px);
+    }
+
+    .rejected-permission
+    .content-card-general-col3{
+        display:flex;
+        background-color: var(--color-rejected);
+        width: 100%;
+        height: 10px;
+        border-radius: 0px 0px 10px 10px;
+    }
+    
+    .rejected-permission
+    .content-card-general-col3 p{
+        visibility: hidden;
+    }
+    
+    .rejected-permission
+    .content-card-general-col2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-texto-1);
+        font-weight: var(--bold-text-weight);
+        border-radius: 0%;
+    }
+
+}
+
+
+
+
+
+/* DISEÑO DE TARJETA PARA EMPLEADOS */
+
+.main-content
+.fixer-fixer-employees{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.content-card-employee-info{
+    height: 130px;
+    border-radius: 15px;
+    background-color: var(--color-extra-2);
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: calc(50% - 10px);
+}
+
+.content-card-employee-info .row-1,
+.content-card-employee-info .row-2{
+    width: 95%;
+    display: flex;
+}
+
+.content-card-employee-info .row-1{
+    height: 70%;
+    align-items: end;
+}
+
+
+.content-card-employee-info .row-1 .col-1{
+    width: 80%;
+    height: 85%;
+}
+
+.content-card-employee-info .row-1 .col-2{
+    width: 20%;
+    height: 100%;
+    background-color: var(--color-fondo-6);
+    border-radius: 0px 20px 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2{
+    height: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2 .icon,
+.content-card-employee-info .row-2 .icon svg{
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-card-employee-info .row-2 .icon svg{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Configuracion del texto de la card de empleados */
+
+.content-card-employee-info .row-1 .col-1
+.employee-id,
+.content-card-employee-info .row-2
+.employee-email
+{
+    word-break: break-all;
+    color: var(--color-extra-1);
+    font-size: var(--small-text-size);
+    font-weight: var(--medium-text-weight);
+}
+
+.content-card-employee-info .row-1 .col-1
+.employee-name{
+    color: var(--color-texto-4);
+    font-size: var(--large-text-size);
+    font-weight: var(--medium-text-weight);
+}
+
+@media (width < 1400px) {
+
+    .main-content
+    .fixer-fixer-employees{
+        width: 100%;
+    }
+
+}
+
+@media (width < 1200px){
+
+    .content-card-employee-info{
+        width: 100%;      
+    }
+
+    .main-content
+    .fixer-fixer-employees{
+        flex-direction: column;
+        gap: 10px;  
+    }
+
+}
+
+@media (width < 1000px){
+
+    .content-card-employee-info{
+        height: 110px;
+    }
+    
+    .content-card-employee-info .row-1{
+        height: 70%;
+        align-items: end;
+    }
+    .content-card-employee-info .row-2{
+        height: 30%;
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (width < 850px){
+
+    .content-card-employee-info{
+        height: 140px;
+    }
+    .content-card-employee-info .row-1{
+        height: 60%;
+    }
+    .content-card-employee-info .row-2{
+        height: 40%;
+    }
+}
+
+@media (width < 600px){
+
+    .content-card-employee-info{
+        height: 110px;
+    }
+    
+    .content-card-employee-info .row-1{
+        height: 60%;
+    }
+    .content-card-employee-info .row-2{
+        height: 40%;
+    }
+}
+
+/* CARDS PARA EL HISTORIAL XDDDD */
+
+.content-card-history-administrator-name{
+    background-color: var(--color-fondo-4);
+    padding: 10px 15px 10px 15px;
+    border-radius: 10px 10px 0px 0px;
+    width: calc(30% - 30px);
+    font-size: var(--normal-text-size);
+    font-weight: var(--medium-text-weight);
+    color: var(--color-texto-2);
+}
+
+.fixer-fixer-history{
+    row-gap: 0px;
+}
+
+.card-fixer-history{
+    margin-bottom: 20px;
+    border-radius: 0px 15px 15px 15px;
+}
+
+@media (width < 1400px) {
+
+    .content-card-history-administrator-name{
+        width: calc(40% - 30px);
+    }
+
+}
+
+@media (width < 1200px){
+    .content-card-history-administrator-name{
+        width: calc(50% - 30px);
+    }
+}
+
+@media (width < 1000px){
+    .content-card-history-administrator-name{
+        width: calc(50% - 30px);
+    }
+}
+
+@media (width < 600px){
+    .content-card-history-administrator-name{
+        width: calc(80% - 30px);
+    }
+}
