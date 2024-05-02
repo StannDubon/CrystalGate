@@ -78,7 +78,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
-    public function settipo_usuario($value, $min = 2, $max = 50)
+    public function settipo_administrador($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
