@@ -1,6 +1,6 @@
 <?php
 require_once('../../helpers/database.php');
-class tbTiposProcesosHandler{
+class tbCargosHandler{
 
     protected $id_cargo = null;
     protected $cargo = null;

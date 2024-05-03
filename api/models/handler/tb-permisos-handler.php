@@ -1,7 +1,7 @@
 <?php
 require_once('../../helpers/database.php');
 
-class tbProcesosHandler{
+class tbPermisosHandler{
 
     protected $id_proceso = null;
     protected $id_usuario = null;

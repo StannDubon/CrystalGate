@@ -1,6 +1,6 @@
 <?php
 require_once('../../helpers/database.php');
-class tbTiposProcesosHandler{
+class tbClasificacionPermisosHandler{
 
     protected $id_clasificacion_permiso = null;
     protected $clasificacion_permiso = null;
