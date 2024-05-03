@@ -59,6 +59,15 @@ class tbUsuariosHandler{
         $params = array($this->id_cargo, $this->nombre_usuario, $this->apellido_usuario, $this->email_usuario, $this->clave_usuario);
         return Database::executeRow($sql, $params);
     }
+
+    public function readProfile()
+    {
+        $sql = 'SELECT id_usuario, nombre, apellido, correo 
+                FROM tb_usuario
+                WHERE id_usuario = ?';
+        $params = array($_SESSION['idUsuario']);
+        return Database::getRow($sql, $params);
+    }
     /* FUCNION PARA MOSTRAR A LOS USUARIOS */  
     public function readAll()
     {
@@ -93,6 +102,15 @@ class tbUsuariosHandler{
         $sql = 'DELETE FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($this->id_usuario);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function changePassword()
+    {
+        $sql = 'UPDATE tb_usuarios
+                SET clave = ?
+                WHERE id_usuario = ?';
+        $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA VERIFICAR DUPLICADOS EN LOS USUARIOS */
