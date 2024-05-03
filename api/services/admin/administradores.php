@@ -23,16 +23,16 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setid_cargo($_POST['idCargo']) or
                     !$administrador->setNombre($_POST['nombre']) or
                     !$administrador->setApellido($_POST['apellido']) or
                     !$administrador->setEmail($_POST['correo']) or
-                    !$administrador->setClave($_POST['clave'])
+                    !$administrador->setClave($_POST['clave']) or
+                    !$administrador->settipo_administrador($_POST['idTipoAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'administrador creado correctamente';
+                    $result['message'] = 'Administrador creado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al crear el administrador';
                 }
@@ -51,23 +51,22 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $administrador->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'administrador inexistente';
+                    $result['error'] = 'Administrador inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setid_administrador($_POST['idadministrador']) or 
-                    !$administrador->setid_cargo($_POST['idCargo']) or
                     !$administrador->setNombre($_POST['nombre']) or
                     !$administrador->setApellido($_POST['apellido']) or
                     !$administrador->setEmail($_POST['correo']) or
-                    !$administrador->setClave($_POST['clave'])
+                    !$administrador->setClave($_POST['clave']) or
+                    !$administrador->settipo_administrador($_POST['idTipoAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'administrador modificado correctamente';
+                    $result['message'] = 'Administrador modificado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el administrador';
                 }
@@ -79,14 +78,110 @@ if (isset($_GET['action'])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'administrador eliminado correctamente';
+                    $result['message'] = 'Administrador eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el administrador';
+                }
+                break;
+            case 'logOut':
+                if (session_destroy()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión eliminada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
+                }
+                break;
+            case 'readProfile':
+                if ($result['dataset'] = $administrador->readProfile()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrió un problema al leer el perfil';
+                }
+                break;
+            case 'editProfile':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$administrador->setNombre($_POST['nombre']) or
+                    !$administrador->setApellido($_POST['apellido']) or
+                    !$administrador->setEmail($_POST['correo']) or
+                    !$administrador->setClave($_POST['clave']) or
+                    !$administrador->settipo_administrador($_POST['idTipoAdministrador'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->editProfile()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil modificado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                }
+                break;
+            case 'changePassword':
+                $_POST = Validator::validateForm($_POST);
+                if (!$administrador->checkPassword($_POST['claveActual'])) {
+                    $result['error'] = 'Contraseña actual incorrecta';
+                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->changePassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
+    }else {
+        // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
+        switch ($_GET['action']) {
+            case 'readUsers':
+                if ($administrador->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Debe autenticarse para ingresar';
+                } else {
+                    $result['error'] = 'Debe crear un administrador para comenzar';
+                }
+                break;
+            case 'signUp':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$administrador->setNombre($_POST['nombre']) or
+                    !$administrador->setApellido($_POST['apellido']) or
+                    !$administrador->setEmail($_POST['correo']) or
+                    !$administrador->setClave($_POST['clave']) or
+                    !$administrador->settipo_administrador($_POST['idTipoAdministrador'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST['clave'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($administrador->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Administrador registrado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al registrar el administrador';
+                }
+                break;
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                if ($administrador->checkAdmin($_POST['correo'], $_POST['clave'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Autenticación correcta';
+                } else {
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
+            default:
+                $result['error'] = 'Acción no disponible fuera de la sesión';
+        }
     }
+    $result['exception'] = Database::getException();
+    // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
+    header('Content-type: application/json; charset=utf-8');
+    // Se imprime el resultado en formato JSON y se retorna al controlador.
+    print(json_encode($result));
 
+}else {
+    print(json_encode('Recurso no disponible'));
 }
