@@ -8,171 +8,374 @@
     <!-- COLOR MANAGER -->
     <link rel="stylesheet" href="../resources/css/color-manager.css">
 
+    <!-- FONT MANAGER -->
+    <link rel="stylesheet" href="../resources/css/font-manager.css">
+
     <!-- PAGE TEMPLATE -->
     <link rel="stylesheet" href="../resources/css/template.css">
 
-    <!-- EMPLOYEES-->
-    <link rel="stylesheet" href="../resources/css/employees.css">
+    <!-- PERMISSIONS TEMPLATE-->
+    <link rel="stylesheet" href="../resources/css/template-permission-display.css">
+
+    <!-- CARDS TEMPLATE-->
+    <link rel="stylesheet" href="../resources/css/template-permission-cards.css">
+
 </head>
 
 <body id="local-employees">
     <div id="TEMPLATE"></div>
+
     <main>
-        <div class="main-row-1">
-            <div class="main-row-1-title">
-                <b class="employee-title">Employees</b>
+        <div class="main-header">
+            <div class="main-title">
+                <p>Employees</p>
             </div>
-            <div class="employee-elements">
-                <div class="searchbar">
-                    <input type="search" class="search">
-                    <svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M11.5465 0C5.18004 0 0 5.37161 0 11.9735C0 18.5754 5.18004 23.947 11.5465 23.947C13.5001 23.9466 15.4107 23.4293 17.1028 22.458C18.0031 21.9412 19.1677 21.9944 19.8883 22.7416L23.9017 26.9034C24.4794 27.5025 25.4389 27.5025 26.0166 26.9034C26.5654 26.3344 26.5654 25.433 26.0166 24.8639L21.8408 20.5337C21.158 19.8256 21.1083 18.7336 21.5828 17.8718C22.5673 16.0838 23.0925 14.0521 23.093 11.9735C23.093 5.37161 17.9129 0 11.5465 0Z"
-                            fill="#888888" />
-                    </svg>
-                </div>
-                <div class="filter">
-                    <select id="options" name="options">
-                        <option value="option1">Filter</option>
 
+            <div class="main-utilities">
+                <div class="main-utilities-search">
+                    <input type="text" placeholder="Search">
+
+                    <div class="icon">
+                        <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--color-fondo-1)"
+                                d="M9.40824 0C4.22077 0 0 4.41239 0 9.83536C0 15.2583 4.22077 19.6707 9.40824 19.6707C10.883 19.6704 12.3278 19.3057 13.6287 18.6175C14.5518 18.1292 15.7243 18.1778 16.4461 18.9323L19.4687 22.0922C19.942 22.5869 20.7322 22.5869 21.2054 22.0922V22.0922C21.6499 21.6276 21.6499 20.8956 21.2054 20.431L18.0013 17.0814C17.3255 16.3749 17.2804 15.2914 17.7234 14.4198C18.4369 13.0156 18.8161 11.4426 18.8165 9.83536C18.8165 4.41239 14.5957 0 9.40824 0Z"
+                                fill="#888888" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="main-utilities-filter">
+                    <select class="select-box">
+                        <option value="">No Filter</option>
+                        <option value="first">First</option>
+                        <option value="Second">Second</option>
                     </select>
-                </div>
-            </div>
-        </div>
-        <div class="main-row-2">
 
-            <div class="employee-info">
-                <div class="employee-info-content">
-                    <div class="employee-info-content-textinfo">
-                        <p class="employee-id">ID: 00001</p>
-                        <b class="employee-name">Marcela Gozo</b>
-                    </div>
-                    <div class="employee-info-content-email">
-                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
-                        <div class="copy-icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
-                                    fill="#888888" />
-                                <path
-                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
-                                    fill="#888888" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="employee-info-icon">
-                    <a href="employee-info.html">
-                        <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
-                                fill="#9B9B9B" />
+                    <div class="icon">
+                        <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--color-fondo-1)"
+                                d="M21.8256 1.46822C21.0407 0.663381 19.7468 0.663447 18.9619 1.46837L13.4319 7.13963C12.647 7.9446 11.353 7.94461 10.5681 7.13963L5.03808 1.46837C4.25321 0.663449 2.9593 0.663382 2.17435 1.46822L1.362 2.30116C0.604351 3.078 0.604396 4.31729 1.3621 5.09408L10.5683 14.5322C11.3532 15.3369 12.6468 15.3369 13.4317 14.5322L22.6379 5.09408C23.3956 4.31729 23.3956 3.078 22.638 2.30116L21.8256 1.46822Z"
+                                fill="#888888" />
                         </svg>
-                    </a>
-
-                </div>
-            </div>
-            <div class="employee-info">
-                <div class="employee-info-content">
-                    <div class="employee-info-content-textinfo">
-                        <p class="employee-id">ID: 00001</p>
-                        <b class="employee-name">Marcela Gozo</b>
                     </div>
-                    <div class="employee-info-content-email">
-                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
-                        <div class="copy-icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
-                                    fill="#888888" />
-                                <path
-                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
-                                    fill="#888888" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="employee-info-icon">
-                    <a href="employee-info.html">
-                        <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
-                                fill="#9B9B9B" />
-                        </svg>
-                    </a>
-
-                </div>
-            </div>
-            <div class="employee-info">
-                <div class="employee-info-content">
-                    <div class="employee-info-content-textinfo">
-                        <p class="employee-id">ID: 00001</p>
-                        <b class="employee-name">Marcela Gozo</b>
-                    </div>
-                    <div class="employee-info-content-email">
-                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
-                        <div class="copy-icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
-                                    fill="#888888" />
-                                <path
-                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
-                                    fill="#888888" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="employee-info-icon">
-                    <a href="employee-info.html">
-                        <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
-                                fill="#9B9B9B" />
-                        </svg>
-                    </a>
-
-                </div>
-            </div>
-            <div class="employee-info">
-                <div class="employee-info-content">
-                    <div class="employee-info-content-textinfo">
-                        <p class="employee-id">ID: 00001</p>
-                        <b class="employee-name">Marcela Gozo</b>
-                    </div>
-                    <div class="employee-info-content-email">
-                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
-                        <div class="copy-icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
-                                    fill="#888888" />
-                                <path
-                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
-                                    fill="#888888" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="employee-info-icon">
-                    <a href="employee-info.html">
-                        <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
-                                fill="#9B9B9B" />
-                        </svg>
-                    </a>
-
                 </div>
             </div>
         </div>
 
+        <div class="main-content">
+
+            <div class="fixer-fixer-employees">
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Marcela Gozo</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Stalin Jafet Dubón Lemus</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Marcela Gozo</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Stalin Jafet Dubón Lemus</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Marcela Gozo</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Stalin Jafet Dubón Lemus</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Marcela Gozo</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+
+
+                <!-- INICIO TARJETA -->
+
+                <div class="content-card-employee-info">
+                    <div class="row-1">
+                        <div class="col-1">
+                            <p class="employee-id">ID: 0001</p>
+                            <p class="employee-name">Stalin Jafet Dubón Lemus</p>
+                        </div>
+
+                        <div class="col-2">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path var(--color-extra-1)
+                                    d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                    fill="#9B9B9B" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <p class="employee-email">marcelagozo@glassmountainbpo.com</p>
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FINAL TARJETA -->
+            </div>
+
+        </div>
     </main>
-
     <!-- TEMPLATE DASHBOARD -->
     <script src="../controllers/utils/template.js"></script>
     <script src="../resources/js/template.js"></script>

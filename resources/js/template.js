@@ -61,6 +61,15 @@ botonesAbrirModal.forEach(function (boton) {
   });
 });
 
+
+var botonesAbrirModal = document.querySelectorAll('.temp-employee-info');
+botonesAbrirModal.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    window.location.href = "employee-info.html"
+  });
+});
+
+
 var botonesAbrirModal = document.querySelectorAll('.temp-approved');
 botonesAbrirModal.forEach(function (boton) {
   boton.addEventListener('click', function () {
