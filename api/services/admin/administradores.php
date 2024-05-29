@@ -1,5 +1,5 @@
 <?php
-require_once('../../models/data/administrador_data.php');
+require_once('../../models/data/tb-administrador-data.php');
 
 if (isset($_GET['action'])) {
     session_start();
