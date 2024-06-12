@@ -9,6 +9,8 @@ CREATE TABLE
         tipo_administrador VARCHAR(50) UNIQUE
     );
 
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('SuperAdmin');
+
 CREATE TABLE
     tb_tipos_peticiones (
         id_tipo_peticion INT PRIMARY KEY AUTO_INCREMENT,
@@ -116,6 +118,10 @@ CREATE TABLE
         clave VARCHAR(275) NOT NULL,
         correo VARCHAR(75) NOT NULL
     );
+
+INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
+VALUES(1,'Fernando','Gonzalez','$2a$12$pzLTjkLhY1GAsKgDydlRXO13sttKH3m3m0UyGB0ViUNItLnL5QS1C',
+'fernandomelen20@gmail.com');
 
 CREATE TABLE
     tb_notificaciones (
