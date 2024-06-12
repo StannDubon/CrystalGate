@@ -8,7 +8,7 @@ require_once('../../models/handler/tb-clasificaciones-permisos-handler.php');
  */
 class ClasificacionesPermisosData extends ClasificacionesPermisosHandler
 {
-     *  Atributos adicionales.
+     /*  Atributos adicionales.
      */
     private $data_error = null;
 
@@ -23,13 +23,13 @@ class ClasificacionesPermisosData extends ClasificacionesPermisosHandler
         }
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setClafisicacion($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre de la clasificacion debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->clasificacion_permiso = $value;
             return true;
         } else {
             $this->data_error = 'El nombre de la clasificacion debe tener una longitud entre ' . $min . ' y ' . $max;

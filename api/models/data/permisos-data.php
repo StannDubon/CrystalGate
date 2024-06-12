@@ -8,10 +8,11 @@ require_once('../../models/handler/tb-permisos-handler.php');
  */
 class PermisosData extends PermisosHandler
 {
+    private $data_error = null;
     public function setid_permiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_pedido = $value;
+            $this->id = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del pedido es incorrecto';
@@ -22,7 +23,7 @@ class PermisosData extends PermisosHandler
     public function setid_usuario($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_pedido = $value;
+            $this->id = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del pedido es incorrecto';
@@ -33,7 +34,7 @@ class PermisosData extends PermisosHandler
     public function setid_tipo_permiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_pedido = $value;
+            $this->id = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del pedido es incorrecto';

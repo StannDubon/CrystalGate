@@ -1,14 +1,14 @@
 <?php
 require_once('../../helpers/database.php');
-class tbNotificacionesHandler{
+class NotificacionesHandler{
 
     //campos de la tabla
 
-    protected id = null;
-    protected id_admin = null;
-    protected id_permiso = null;
-    protected fecha = null;
-    protected descripcion = null;
+    protected $id = null;
+    protected $id_admin = null;
+    protected $id_permiso = null;
+    protected $fecha = null;
+    protected $descripcion = null;
 
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).

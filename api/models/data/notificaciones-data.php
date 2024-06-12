@@ -27,7 +27,7 @@ class NotificacionesData extends NotificacionesHandler
     public function setIdAdministrador($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_administrador = $value;
+            $this->id_admin = $value;
             return true;
         } else {
             $this->data_error = 'El id del administrador es incorrecto';
@@ -57,7 +57,7 @@ class NotificacionesData extends NotificacionesHandler
     }
 
     public function setDescripcion($value, $min=2, $max=250){
-        if(Validator::validateLength($value,min,max)){
+        if(Validator::validateLength($value,$min,$max)){
             $this -> descripcion = $value;
             return true;
         }

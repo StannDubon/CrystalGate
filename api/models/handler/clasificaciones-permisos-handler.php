@@ -1,8 +1,8 @@
 <?php
 require_once('../../helpers/database.php');
-class tbClasificacionPermisosHandler{
+class ClasificacionesPermisosHandler{
 
-    protected $id_clasificacion_permiso = null;
+    protected $id = null;
     protected $clasificacion_permiso = null;
 
     /*
@@ -11,6 +11,7 @@ class tbClasificacionPermisosHandler{
     /* FUNCION PARA BUSCAR LAS CLASIFICACION DE PERMISO POR EL NOMBRE DE LA CLASIFICACION */
     public function searchRows()
     {
+        $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_clasificacion_permiso, clasificacion_permiso
                 FROM tb_clasificaciones_permisos
                 WHERE clasificacion_permiso LIKE ?';
@@ -37,7 +38,7 @@ class tbClasificacionPermisosHandler{
         $sql = 'SELECT id_clasificacion_permiso, clasificacion_permiso
                 FROM tb_clasificaciones_permisos
                 WHERE id_clasificacion_permiso = ?';
-        $params = array($this->id_clasificacion_permiso);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LOS DATOS DE LA CLASIFICACION DE PERMISO  */
@@ -46,7 +47,7 @@ class tbClasificacionPermisosHandler{
         $sql = 'UPDATE tb_clasificaciones_permisos
                 SET clasificacion_permiso = ?
                 WHERE id_clasificacion_permiso = ?';
-        $params = array($this->clasificacion_permiso, $this->id_clasificacion_permiso);
+        $params = array($this->clasificacion_permiso, $this->id);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ELIMINAR UNA CLASIFICACION DE PERMISO */
@@ -54,7 +55,7 @@ class tbClasificacionPermisosHandler{
     {
         $sql = 'DELETE FROM tb_clasificaciones_permisos
                 WHERE id_clasificacion_permiso = ?';
-        $params = array($this->id_clasificacion_permiso);
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }

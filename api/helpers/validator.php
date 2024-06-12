@@ -190,7 +190,7 @@ class Validator
         $date = explode('-', $value);
         if (checkdate($date[1], $date[2], $date[0])) {
             return true;
-        } else {
+        } else { 
             return false;
         }
     }
