@@ -97,7 +97,7 @@ body{
     border-left: 0px;
 }
 
-.container form a{
+.container form button{
     width: 80%;
     margin-top: 10%;
     border-radius: 10px;
