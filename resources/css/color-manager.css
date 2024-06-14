@@ -34,4 +34,7 @@
     --color-approved: #8DDA8C;
     --color-rejected:#F54C60;
 
+    /* Hover Primary */
+    --primary-hover-blue: #2d44ac;
+    --primary-hover-red:#c23c4b;
 }

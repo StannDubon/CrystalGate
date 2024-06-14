@@ -6,12 +6,14 @@ require_once('../../models/handler/tb-tipos-permisos-handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
-class TIposPermisosData extends TiposPermisosHandler
+class TiposPermisosData extends TiposPermisosHandler
 {
+
+    private $data_error = null;
     public function setid_tipo_permiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_pedido = $value;
+            $this->id = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del tipo permiso es incorrecto';
@@ -22,7 +24,7 @@ class TIposPermisosData extends TiposPermisosHandler
     public function setid_clasificacion_permiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_pedido = $value;
+            $this->id_clasificacion_proceso = $value;
             return true;
         } else {
             $this->data_error = 'El identificador de la clasificacion del permiso es incorrecto';
@@ -36,7 +38,7 @@ class TIposPermisosData extends TiposPermisosHandler
             $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->tipo_proceso = $value;
             return true;
         } else {
             $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;

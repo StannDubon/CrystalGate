@@ -4,13 +4,13 @@ require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
-class tbAdministradoresHandler{
-    protected $id_administrador = null;
+class AdministradoresHandler{
+    protected $id = null;
     protected $id_tipo_administrador = null;
-    protected $nombre_administrador = null;
-    protected $apellido_administrador = null;
-    protected $email_administrador = null;
-    protected $clave_administrador = null;
+    protected $nombre = null;
+    protected $apellido = null;
+    protected $email = null;
+    protected $clave = null;
 
     /*
      *  Métodos para gestionar la cuenta del administrador.
@@ -70,7 +70,7 @@ class tbAdministradoresHandler{
         $sql = 'UPDATE tb_administradores
                 SET id_tipo_administrador = ?, nombre = ?, apellido = ?, correo = ?
                 WHERE id_administrador = ?';
-        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $_SESSION['idAdministrador']);
+        $params = array($this->id_tipo_administrador, $this->nombre, $this->apellido, $this->email, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
 
@@ -92,7 +92,7 @@ class tbAdministradoresHandler{
     public function createRow()
     {
         $sql = 'CALL InsertarAdministrador(?, ?, ?, ?, ?)';
-        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->clave_administrador, $this->email_administrador);
+        $params = array($this->id_tipo_administrador, $this->nombre, $this->apellido, $this->clave, $this->email);
         return Database::executeRow($sql, $params);
     }
     /* FUCNION PARA MOSTRAR A LOS ADMINISTRADORES */
@@ -111,7 +111,7 @@ class tbAdministradoresHandler{
                 FROM tb_administradores a
                 WHERE id_administrador = ?
                 INNER JOIN tb_tipos_administradores ta ON a.id_administrador = ta.id_administrador';
-        $params = array($this->id_administrador);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LOS DATOS DEL ADMINISTRADOR */
@@ -120,7 +120,7 @@ class tbAdministradoresHandler{
         $sql = 'UPDATE tb_administradores
                 SET id_tipo_administrador, nombre = ?, apellido = ?, correo = ?
                 WHERE id_administrador = ?';
-        $params = array($this->id_tipo_administrador, $this->nombre_administrador, $this->apellido_administrador, $this->email_administrador, $this->id_administrador);
+        $params = array($this->id_tipo_administrador, $this->nombre, $this->apellido, $this->email, $this->id);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LA CONTRASEÑA DEL ADMINISTRADOR 
@@ -133,7 +133,7 @@ class tbAdministradoresHandler{
     {
         $sql = 'DELETE FROM tb_administradores
                 WHERE id_administrador = ?';
-        $params = array($this->id_administrador);
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }

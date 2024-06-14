@@ -1,12 +1,12 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/tb-clasificaciones-permisos-data.php');
+require_once('../../models/data/tb-tipos-permisos-data.php');
 
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
-    $clasification = new ClasificactionData;
+    $tipo = new TiposPermisosData;
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
 
     if (isset($_SESSION['idAdministrador'])){
@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $clasification->searchRows()) {
+                } elseif ($result['dataset'] = $tipo->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -25,57 +25,59 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$clasification->setNombre($_POST['nombreClasification'])
+                    !$tipo->setid_clasificacion_permiso($_POST['idClasification']) or
+                    !$tipo->settipo_permiso($_POST['nombreTipo'])
                 ) {
-                    $result['error'] = $clasification->getDataError();
-                } elseif ($clasification->createRow()) {
+                    $result['error'] = $tipo->getDataError();
+                } elseif ($tipo->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Clasificación de permiso creada correctamente';
+                    $result['message'] = 'Tipo de permiso creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear la clasificación de permiso';
+                    $result['error'] = 'Ocurrió un problema al crear el tipo de permiso';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $clasification->readAll()) {
+                if ($result['dataset'] = $tipo->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen clasificaciones registradas';
+                    $result['error'] = 'No existen tipos de permisos registrados';
                 }
                 break;
             case 'readOne':
-                if (!$clasification->setid_clasificacion_permiso($_POST['idClasification'])) {
-                    $result['error'] = $clasification->getDataError();
-                } elseif ($result['dataset'] = $clasification->readOne()) {
+                if (!$tipo->setid_tipo_permiso($_POST['idTipo'])) {
+                    $result['error'] = $tipo->getDataError();
+                } elseif ($result['dataset'] = $tipo->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Clasificación de permiso inexistente';
+                    $result['error'] = 'Tipo de permiso inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$clasification->setid_clasificacion_permiso($_POST['idClasification']) or 
-                    !$clasification->setNombre($_POST['nombreClasification'])
+                    !$tipo->setid_tipo_permiso($_POST['idTipo']) or 
+                    !$tipo->setid_clasificacion_permiso($_POST['idClasification']) or 
+                    !$tipo->settipo_permiso($_POST['nombreTipo'])
                 ) {
-                    $result['error'] = $clasification->getDataError();
-                } elseif ($clasification->updateRow()) {
+                    $result['error'] = $tipo->getDataError();
+                } elseif ($tipo->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Clasificación de permiso modificada correctamente';
+                    $result['message'] = 'Tipo de permiso modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la clasificación de permiso';
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de permiso';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$clasification->setid_clasificacion_permiso($_POST['idClasification']) 
+                    !$tipo->setid_tipo_permiso($_POST['idTipo']) 
                 ) {
-                    $result['error'] = $clasification->getDataError();
-                } elseif ($clasification->deleteRow()) {
+                    $result['error'] = $tipo->getDataError();
+                } elseif ($tipo->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Clasificación de permiso eliminada correctamente';
+                    $result['message'] = 'Tipo de permiso eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la clasificación de permiso';
+                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de permiso';
                 }
                 break;
             default:
