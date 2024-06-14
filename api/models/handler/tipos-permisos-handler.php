@@ -1,8 +1,8 @@
 <?php
 require_once('../../helpers/database.php');
-class tbTiposPermisosHandler{
+class TiposPermisosHandler{
 
-    protected $id_tipo_proceso = null;
+    protected $id = null;
     protected $tipo_proceso = null;
     protected $id_clasificacion_proceso = null;
     protected $lapso_proceso = null;
@@ -13,6 +13,7 @@ class tbTiposPermisosHandler{
     /* FUNCION PARA BUSCAR TIPOS DE PROCESOS POR EL TIPO Y LA CLASIFICACION */
     public function searchRows()
     {
+        $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_tipo_permiso, tipo_permiso, clasificacion_permiso, lapso
                 FROM tb_tipos_permisos
                 INNER JOIN tb_clasificaciones_permisos USING(id_clasificacion_permiso)
@@ -44,7 +45,7 @@ class tbTiposPermisosHandler{
                 FROM tb_tipos_permisos
                 INNER JOIN tb_clasificaciones_permisos USING(id_clasificacion_permiso)
                 WHERE id_tipo_permiso = ?';
-        $params = array($this->id_tipo_proceso);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LOS DATOS DEL TIPO DE PROCESO */
@@ -53,7 +54,7 @@ class tbTiposPermisosHandler{
         $sql = 'UPDATE tb_tipos_permisos
                 SET tipo_permiso = ?, id_clasificacion_permiso = ?, lapso = ?
                 WHERE id_tipo_permiso = ?';
-        $params = array($this->tipo_proceso, $this->id_clasificacion_proceso, $this->lapso_proceso, $this->id_tipo_proceso);
+        $params = array($this->tipo_proceso, $this->id_clasificacion_proceso, $this->lapso_proceso, $this->id);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ELIMINAR UN TIPO DE PROCESO */
@@ -61,7 +62,7 @@ class tbTiposPermisosHandler{
     {
         $sql = 'DELETE FROM tb_tipos_permisos
                 WHERE id_tipo_permiso = ?';
-        $params = array($this->id_tipo_proceso);
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }
