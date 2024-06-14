@@ -1,9 +1,9 @@
 <?php
-require_once('../../models/data/tb-administrador-data.php');
+require_once('../../models/data/administradores-data.php');
 
 if (isset($_GET['action'])) {
     session_start();
-    $administrador = new AdministradorData;
+    $administrador = new AdministradoresData;
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
 
     if (isset($_SESSION['idAdministrador'])){
@@ -117,7 +117,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
-                if (!$administrador->checkPassword($_POST['claveActual'])) {
+                if (!$administrador->setClave($_POST['claveActual'])) {
                     $result['error'] = 'Contraseña actual incorrecta';
                 } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Confirmación de contraseña diferente';

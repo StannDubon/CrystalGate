@@ -1,12 +1,12 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/tb-cargos-data.php');
+require_once('../../models/data/cargos-data.php');
 
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
-    $cargo = new CargoData;
+    $cargo = new CargosData;
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
 
     if (isset($_SESSION['idAdministrador'])){
@@ -25,7 +25,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$cargo->setNombre($_POST['nombreCargo'])
+                    !$cargo->setCargo($_POST['nombreCargo'])
                 ) {
                     $result['error'] = $cargo->getDataError();
                 } elseif ($cargo->createRow()) {
@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$cargo->setid_cargo($_POST['idCargo']) or 
-                    !$cargo->setNombre($_POST['nombreCargo'])
+                    !$cargo->setCargo($_POST['nombreCargo'])
                 ) {
                     $result['error'] = $cargo->getDataError();
                 } elseif ($cargo->updateRow()) {
