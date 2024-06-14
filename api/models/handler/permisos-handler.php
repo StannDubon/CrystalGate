@@ -1,9 +1,9 @@
 <?php
 require_once('../../helpers/database.php');
 
-class tbPermisosHandler{
+class PermisosHandler{
 
-    protected $id_proceso = null;
+    protected $id = null;
     protected $id_usuario = null;
     protected $id_tipo_proceso = null;
     protected $id_estado_proceso = null;
@@ -19,6 +19,7 @@ class tbPermisosHandler{
     /* FUNCION PARA BUSCAR PERMISOS POR EL TIPO Y EL NOMBRE */
     public function searchRows()
     {
+        $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT u.nombre, tp.tipo_permiso, p.fecha_inicio, p.fecha_final, ep.estado_permiso
                 FROM tb_permisos p
                 INNER JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
@@ -31,15 +32,16 @@ class tbPermisosHandler{
         return Database::getRows($sql, $params);
     }
     /* FUNCION PARA BUSCAR PERMISOS POR LA FECHA DE ENVIO*/
-    public function searchRows()
+    public function searchPermissionsRows()
     {
+        $value = '%enviado%';
         $sql = 'SELECT u.nombre, tp.tipo_permiso, p.fecha_inicio, p.fecha_final, ep.estado_permiso
                 FROM tb_permisos p
                 INNER JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
                 INNER JOIN tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
                 INNER JOIN tb_clasificaciones_permisos cp ON tp.id_clasificacion_permiso = cp.id_clasificacion_permiso
                 INNER JOIN tb_estados_permisos ep ON p.id_estado_permiso = ep.id_estado_permiso
-                WHERE ep.estado_permiso LIKE 'enviado'
+                WHERE ep.estado_permiso LIKE ?
                 ORDER BY p.fecha_envio DESC';
         $params = array($value);
         return Database::getRows($sql, $params);
@@ -61,9 +63,7 @@ class tbPermisosHandler{
                 INNER JOIN tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
                 INNER JOIN tb_clasificaciones_permisos cp ON tp.id_clasificacion_permiso = cp.id_clasificacion_permiso
                 INNER JOIN tb_estados_permisos ep ON p.id_estado_permiso = ep.id_estado_permiso
-                WHERE cp.clasificacion_permiso LIKE ?
                 ORDER BY ep.estado_permiso';
-        $params = array($value);
         return Database::getRows($sql);
     }
     /* FUNCION PARA MOSTRAR LOS DATOS DE UN PERMISO */
@@ -77,7 +77,7 @@ class tbPermisosHandler{
                 INNER JOIN tb_clasificaciones_permisos cp ON tp.id_clasificacion_permiso = cp.id_clasificacion_permiso
                 INNER JOIN tb_estados_permisos ep ON p.id_estado_permiso = ep.id_estado_permiso
                 WHERE p.id_permiso LIKE ?';
-        $params = array($this->id_proceso);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     /* FUNCION PARA ACTUALIZAR LOS DATOS DEL PERMISO */
@@ -86,7 +86,7 @@ class tbPermisosHandler{
         $sql = 'UPDATE tb_permisos
                 SET id_tipo_permiso = ?, fecha_inicio = ?, fecha_final = ?, id_estado_permiso = ?, descripcion_permiso = ?
                 WHERE id_permiso = ?';
-        $params = array($this->id_tipo_proceso, $this->fecha_inicio, $this->fecha_final, $this->id_estado_proceso, $this->descripcion_proceso, $this->id_proceso);
+        $params = array($this->id_tipo_proceso, $this->fecha_inicio, $this->fecha_final, $this->id_estado_proceso, $this->descripcion_proceso, $this->id);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ELIMINAR UN PERMISO */
@@ -94,7 +94,7 @@ class tbPermisosHandler{
     {
         $sql = 'DELETE FROM tb_permisos
                 WHERE id_permiso = ?';
-        $params = array($this->id_proceso);
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }

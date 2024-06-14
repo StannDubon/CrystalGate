@@ -1,12 +1,12 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/tb-usuarios-data.php');
+require_once('../../models/data/cargos-data.php');
 
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
-    $usuario = new UsuarioData;
+    $cargo = new CargosData;
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
 
     if (isset($_SESSION['idAdministrador'])){
@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $usuario->searchRows()) {
+                } elseif ($result['dataset'] = $cargo->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -25,65 +25,57 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$usuario->setid_cargo($_POST['idCargo']) or
-                    !$usuario->setNombre($_POST['nombre']) or
-                    !$usuario->setApellido($_POST['apellido']) or
-                    !$usuario->setEmail($_POST['correo']) or
-                    !$usuario->setClave($_POST['clave'])
+                    !$cargo->setCargo($_POST['nombreCargo'])
                 ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->createRow()) {
+                    $result['error'] = $cargo->getDataError();
+                } elseif ($cargo->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario creado correctamente';
+                    $result['message'] = 'Cargo creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el usuario';
+                    $result['error'] = 'Ocurrió un problema al crear el cargo';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $usuario->readAll()) {
+                if ($result['dataset'] = $cargo->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen usuarios registrados';
+                    $result['error'] = 'No existen cargos registrados';
                 }
                 break;
             case 'readOne':
-                if (!$usuario->setid_usuario($_POST['idUsuario'])) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($result['dataset'] = $usuario->readOne()) {
+                if (!$cargo->setid_cargo($_POST['idCargo'])) {
+                    $result['error'] = $cargo->getDataError();
+                } elseif ($result['dataset'] = $cargo->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Usuario inexistente';
+                    $result['error'] = 'Cargo inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$usuario->setid_usuario($_POST['idUsuario']) or 
-                    !$usuario->setid_cargo($_POST['idCargo']) or
-                    !$usuario->setNombre($_POST['nombre']) or
-                    !$usuario->setApellido($_POST['apellido']) or
-                    !$usuario->setEmail($_POST['correo']) or
-                    !$usuario->setClave($_POST['clave'])
+                    !$cargo->setid_cargo($_POST['idCargo']) or 
+                    !$cargo->setCargo($_POST['nombreCargo'])
                 ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->updateRow()) {
+                    $result['error'] = $cargo->getDataError();
+                } elseif ($cargo->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario modificado correctamente';
+                    $result['message'] = 'Cargo modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el usuario';
+                    $result['error'] = 'Ocurrió un problema al modificar el cargo';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$usuario->setid_usuario($_POST['idUsuario']) 
+                    !$cargo->setid_cargo($_POST['idCargo']) 
                 ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->deleteRow()) {
+                    $result['error'] = $cargo->getDataError();
+                } elseif ($cargo->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario eliminado correctamente';
+                    $result['message'] = 'Cargo eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el usuario';
+                    $result['error'] = 'Ocurrió un problema al eliminar el cargo';
                 }
                 break;
             default:

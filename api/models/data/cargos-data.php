@@ -24,16 +24,16 @@ class CargosData extends CargosHandler
         }
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setCargo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'El cargo debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->cargo = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El cargo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }

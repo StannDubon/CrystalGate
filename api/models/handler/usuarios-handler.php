@@ -1,12 +1,12 @@
 <?php
 require_once('../../helpers/database.php');
-class tbUsuariosHandler{
+class UsuariosHandler{
 
-    protected $id_usuario = null;
-    protected $nombre_usuario = null;
-    protected $apellido_usuario = null;
-    protected $email_usuario = null;
-    protected $clave_usuario = null;
+    protected $id = null;
+    protected $nombre = null;
+    protected $apellido = null;
+    protected $email = null;
+    protected $clave = null;
     protected $id_cargo = null;
 
     /*
@@ -20,8 +20,8 @@ class tbUsuariosHandler{
         $params = array($mail);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave'])) {
-            $this->id_usuario = $data['id_usuario'];
-            $this->email_usuario = $data['correo'];
+            $this->id = $data['id_usuario'];
+            $this->email = $data['correo'];
             return true;
         } else {
             return false;
@@ -33,7 +33,7 @@ class tbUsuariosHandler{
         $sql = 'UPDATE tb_usuarios
                 SET id_cargo = ?, nombre = ?, apellido = ?, correo = ?
                 WHERE id_usuario = ?';
-        $params = array($this->id_cargo, $this->nombre_usuario, $this->apellido_usuario, $this->email_usuario);
+        $params = array($this->id_cargo, $this->nombre, $this->apellido, $this->email);
         return Database::executeRow($sql, $params);
     }
 
@@ -56,8 +56,17 @@ class tbUsuariosHandler{
     public function createRow()
     {
         $sql = 'CALL InsertarUsuario(?, ?, ?, ?, ?)';
-        $params = array($this->id_cargo, $this->nombre_usuario, $this->apellido_usuario, $this->email_usuario, $this->clave_usuario);
+        $params = array($this->id_cargo, $this->nombre, $this->apellido, $this->email, $this->clave);
         return Database::executeRow($sql, $params);
+    }
+
+    public function readProfile()
+    {
+        $sql = 'SELECT id_usuario, nombre, apellido, correo 
+                FROM tb_usuario
+                WHERE id_usuario = ?';
+        $params = array($_SESSION['idUsuario']);
+        return Database::getRow($sql, $params);
     }
     /* FUCNION PARA MOSTRAR A LOS USUARIOS */  
     public function readAll()
@@ -71,7 +80,7 @@ class tbUsuariosHandler{
     /* FUNCION PARA MOSTRAR LOS DATOS DE UN USUARIO */
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, nombre, apellido, correo, cargo
+        $sql = 'SELECT id_usuario, nombre,  apellido, correo, cargo
                 FROM tb_usuarios
                 INNER JOIN tb_cargos USING(id_cargo) 
                 WHERE id_usuario = ?';
@@ -84,7 +93,7 @@ class tbUsuariosHandler{
         $sql = 'UPDATE tb_usuarios
                 SET nombre = ?, apellido = ?, id_cargo = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre_usuario, $this->apellido_usuario, $this->id_cargo);
+        $params = array($this->nombre, $this->apellido, $this->id_cargo);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA ELIMINAR UN USUARIO*/
@@ -92,7 +101,16 @@ class tbUsuariosHandler{
     {
         $sql = 'DELETE FROM tb_usuarios
                 WHERE id_usuario = ?';
-        $params = array($this->id_usuario);
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function changePassword()
+    {
+        $sql = 'UPDATE tb_usuarios
+                SET clave = ?
+                WHERE id_usuario = ?';
+        $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
     /* FUNCION PARA VERIFICAR DUPLICADOS EN LOS USUARIOS */
