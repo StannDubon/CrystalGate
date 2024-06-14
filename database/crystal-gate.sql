@@ -1,83 +1,134 @@
+DROP DATABASE if EXISTS CrystalGate;
 create database CrystalGate;
 use CrystalGate;
 
 /* TABLAS INDEPENDIENTES */
+CREATE TABLE
+    tb_tipos_administradores (
+        id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
+        tipo_administrador VARCHAR(50) UNIQUE
+    );
 
-create table tb_tipos_administradores(
-    id_tipo_administrador int primary key auto_increment,
-    tipo_administrador varchar(50)
-);
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('SuperAdmin');
 
-create table tb_clasificaciones_permisos(
-    id_clasificacion_permiso int primary key auto_increment,
-    clasificacion_permiso varchar(50)
-);
+CREATE TABLE
+    tb_tipos_peticiones (
+        id_tipo_peticion INT PRIMARY KEY AUTO_INCREMENT,
+        tipo_peticion VARCHAR(32) UNIQUE
+    );
 
-create table tb_estados_permisos(
-    id_estado_permiso int primary key auto_increment,
-    estado_permiso varchar(50)
-);
+CREATE TABLE
+    tb_idiomas (
+        id_idioma INT PRIMARY KEY AUTO_INCREMENT,
+        idioma VARCHAR(32) UNIQUE
+    );
 
-create table tb_cargos(
-    id_cargo int primary key auto_increment,
-    cargo varchar(50)
-);
+CREATE TABLE
+    tb_centros_entregas (
+        id_centro_entrega INT PRIMARY KEY AUTO_INCREMENT,
+        centro_entrega VARCHAR(64) UNIQUE
+    );
+
+CREATE TABLE
+    tb_clasificaciones_permisos (
+        id_clasificacion_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        clasificacion_permiso VARCHAR(50)
+    );
+
+CREATE TABLE
+    tb_estados_permisos (
+        id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        estado_permiso VARCHAR(50) UNIQUE
+    );
+
+CREATE TABLE
+    tb_cargos (
+        id_cargo INT PRIMARY KEY AUTO_INCREMENT,
+        cargo VARCHAR(50) UNIQUE
+    );
 
 /* TABLAS DEPENDIENTES */
+CREATE TABLE
+    tb_usuarios (
+        id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+        id_cargo INT NOT NULL,
+        /* NOT ID'S */
+        nombre VARCHAR(50) NOT NULL,
+        apellido VARCHAR(50) NOT NULL,
+        clave VARCHAR(275) NOT NULL,
+        correo VARCHAR(75) NOT NULL
+    );
 
-create table tb_usuarios(
-    id_usuario int primary key auto_increment,
-    id_cargo int,
+CREATE TABLE
+    tb_peticiones (
+        id_peticion INT PRIMARY KEY AUTO_INCREMENT,
+        id_usuario INT NOT NULL,
+        id_tipo_peticion INT NOT NULL,
+        id_idioma INT NOT NULL,
+        id_centro_entrega INT NOT NULL,
+        /* NOT ID'S */
+        direccion VARCHAR(256),
+        modo_entrega BOOL NOT NULL,
+        telefono_contacto VARCHAR(16),
+        CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
+        CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
+        CONSTRAINT fk_peticion_centro_entrega FOREIGN KEY (id_centro_entrega) references tb_centros_entregas (id_centro_entrega),
+        CONSTRAINT fk_peticion_usuario FOREIGN KEY (id_usuario) references tb_usuarios (id_usuario)
+    );
 
-    nombre varchar(50) not null,
-    apellido varchar(50) not null,
-    clave varchar(275) not null,
-    correo varchar(75) not null
-);
+CREATE TABLE
+    tb_tipos_permisos (
+        id_tipo_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        id_clasificacion_permiso INT,
+        /* NOT ID'S */
+        tipo_permiso VARCHAR(50) UNIQUE,
+        lapso ENUM ('1', '2', '3')
+    );
 
-create table tb_tipos_permisos(
-    id_tipo_permiso int primary key auto_increment,
-    tipo_permiso varchar(50),
-    id_clasificacion_permiso int,
-    lapso boolean
-);
+CREATE TABLE
+    tb_permisos (
+        id_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        id_usuario INT,
+        id_tipo_permiso INT,
+        id_estado_permiso INT,
+        /* NOT ID'S */
+        fecha_inicio DATETIME NOT NULL,
+        fecha_final DATETIME NOT NULL,
+        fecha_envio DATETIME NOT NULL,
+        documento_permiso blob NOT NULL,
+        descripcion_permiso VARCHAR(300)
+    );
 
-create table tb_permisos(
-    id_permiso int primary key auto_increment,
-    id_usuario int,
-    id_tipo_permiso int,
-    id_estado_permiso int,
+CREATE TABLE
+    tb_permisos_automaticos (
+        id_permiso_automatico INT PRIMARY KEY AUTO_INCREMENT,
+        id_permiso INT,
+        /* NOT ID'S */
+        hora_envio time NOT NULL,
+        estado boolean
+    );
 
-    fecha_inicio datetime not null,
-    fecha_final datetime not null,
-    fecha_envio datetime not null,
-    documento_permiso blob not null,
-    descripcion_permiso varchar(300)
-);
+CREATE TABLE
+    tb_administradores (
+        id_administrador INT PRIMARY KEY AUTO_INCREMENT,
+        id_tipo_administrador INT NOT NULL,
+        /* NOT ID'S */
+        nombre VARCHAR(50) NOT NULL,
+        apellido VARCHAR(50) NOT NULL,
+        clave VARCHAR(275) NOT NULL,
+        correo VARCHAR(75) NOT NULL
+    );
 
-create table tb_permisos_automaticos(
-    id_permiso_automatico int primary key auto_increment,
-    id_permiso int,
+INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
+VALUES(1,'Fernando','Gonzalez','$2a$12$pzLTjkLhY1GAsKgDydlRXO13sttKH3m3m0UyGB0ViUNItLnL5QS1C',
+'fernandomelen20@gmail.com');
 
-    hora_envio time not null,
-    estado boolean
-);
-
-create table tb_administradores(
-    id_administrador int primary key auto_increment,
-    id_tipo_administrador int,
-
-    nombre varchar(50) not null,
-    apellido varchar(50) not null,
-    clave varchar(275) not null,
-    correo varchar(75) not null
-);
-
-create table tb_notificaciones(
-    id_notificacion int primary key auto_increment,
-    id_administrador int,
-    id_permiso int,
-
-    fecha_envio datetime not null,
-    descripcion varchar(300),
-);
+CREATE TABLE
+    tb_notificaciones (
+        id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
+        id_administrador INT,
+        id_permiso INT,
+        /* NOT ID'S */
+        fecha_envio DATETIME NOT NULL,
+        descripcion VARCHAR(300)
+    );
