@@ -2,13 +2,18 @@
 // Se incluye la clase del modelo.
 require_once('../models/data/administrador-data.php');
 
-const POST_ID = "nombreAdministrador";
-const POST_ID_TIPO_ADMIN = "nombreAdministrador";
+const POST_ID = "idAdministrador";
+const POST_ID_TIPO_ADMIN = "idTipoAdministrador";
 const POST_NOMBRE = "nombreAdministrador";
-const POST_APELLIDO = "nombreAdministrador";
-const POST_CORREO = "nombreAdministrador";
-const POST_CLAVE = "nombreAdministrador";
+const POST_APELLIDO = "apellidoAdministrador";
+const POST_CORREO = "correoAdministrador";
+const POST_CLAVE = "claveAdministrador";
+const POST_IMAGEN = "imagenAdministrador";
 
+// Variables para acciones con contraseaña
+const POST_CLAVE_ACTUAL = "claveActual";
+const POST_CLAVE_NUEVA = "claveNueva";
+const POST_CLAVE_CONFIRMAR = "confirmarClave";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -37,17 +42,19 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST[POST_NOMBRE]) or
-                    !$administrador->setIdTipoAdmin($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
+                    !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or
+                    !$administrador->setApellido($_POST[POST_APELLIDO]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO]) or
+                    !$administrador->setClave($_POST[POST_CLAVE]) or 
+                    !$administrador->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $administrador->getDataError();
-                } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
+                } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
                     $result['error'] = 'Contraseñas diferentes';
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador creado correctamente';
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al crear el administrador';
                 }
@@ -61,7 +68,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$administrador->setId($_POST['idAdministrador'])) {
+                if (!$administrador->setId($_POST[POST_ID])) {
                     $result['error'] = 'Administrador incorrecto';
                 } elseif ($result['dataset'] = $administrador->readOne()) {
                     $result['status'] = 1;
@@ -72,23 +79,26 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setId($_POST['idAdministrador']) or
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador'])
+                    !$administrador->setId($_POST[POST_ID]) or
+                    !$administrador->setNombre($_POST[POST_NOMBRE]) or
+                    !$administrador->setApellido($_POST[POST_APELLIDO]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO]) or
+                    !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or 
+                    !$administrador->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador modificado correctamente';
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el administrador';
                 }
                 break;
             case 'deleteRow':
-                if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
+                if ($_POST[POST_ID] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
-                } elseif (!$administrador->setId($_POST['idAdministrador'])) {
+                } elseif (!$administrador->setId($_POST[POST_ID])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->deleteRow()) {
                     $result['status'] = 1;
@@ -98,9 +108,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'getUser':
-                if (isset($_SESSION['aliasAdministrador'])) {
+                if (isset($_SESSION['correoAdministrador'])) {
                     $result['status'] = 1;
-                    $result['username'] = $_SESSION['aliasAdministrador'];
+                    $result['username'] = $_SESSION['correoAdministrador'];
                 } else {
                     $result['error'] = 'Alias de administrador indefinido';
                 }
@@ -123,27 +133,28 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador'])
+                    !$administrador->setNombre($_POST[POST_NOMBRE]) or
+                    !$administrador->setApellido($_POST[POST_APELLIDO]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO]) or 
+                    !$administrador->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->editProfile()) {
                     $result['status'] = 1;
                     $result['message'] = 'Perfil modificado correctamente';
-                    $_SESSION['aliasAdministrador'] = $_POST['aliasAdministrador'];
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
+                    $_SESSION['correoAdministrador'] = $_POST['correoAdministrador'];
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
-                if (!$administrador->checkPassword($_POST['claveActual'])) {
+                if (!$administrador->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
                     $result['error'] = 'Contraseña actual incorrecta';
-                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
                     $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                } elseif (!$administrador->setClave($_POST[POST_CLAVE_NUEVA])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->changePassword()) {
                     $result['status'] = 1;
@@ -166,28 +177,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Debe crear un administrador para comenzar';
                 }
                 break;
-            case 'signUp':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Contraseñas diferentes';
-                } elseif ($administrador->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Administrador registrado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al registrar el administrador';
-                }
-                break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
-                if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
+                if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
                 } else {

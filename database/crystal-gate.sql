@@ -1,6 +1,11 @@
-DROP DATABASE if EXISTS CrystalGate;
-create database CrystalGate;
-use CrystalGate;
+DROP USER IF EXISTS 'crystal-gate-admin'@'localhost';
+CREATE USER 'crystal-gate-admin'@'localhost' IDENTIFIED BY '#CrY5t4lG4t3-2024';
+GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
+FLUSH PRIVILEGES;
+
+DROP DATABASE IF EXISTS CrystalGate;
+CREATE database CrystalGate;
+USE CrystalGate;
 
 /* TABLAS INDEPENDIENTES */
 CREATE TABLE

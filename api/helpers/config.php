@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *');
 date_default_timezone_set('America/El_Salvador');
 // Constantes para establecer las credenciales de conexión con el servidor de bases de datos.
 define('SERVER', 'localhost');
-define('DATABASE', 'db_cristalgate');
-define('USERNAME', 'root');
-define('PASSWORD', ''); 
+define('DATABASE', 'CrystalGate');
+define('USERNAME', 'crystal-gate-admin');
+define('PASSWORD', '#CrY5t4lG4t3-2024'); 
 ?>
