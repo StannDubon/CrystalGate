@@ -1,5 +1,6 @@
 <?php
-require_once('../../models/data/administradores-data.php');
+require_once('../models/data/administradores-data.php');
+
 
 if (isset($_GET['action'])) {
     session_start();

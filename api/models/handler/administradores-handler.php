@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once('../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -15,17 +15,17 @@ class AdministradoresHandler{
     /*
      *  Métodos para gestionar la cuenta del administrador.
      */
-    public function checkAdmin($username, $password)
+    public function checkAdmin($email, $password)
     {
         $sql = 'SELECT id_administrador, correo, clave
                 FROM tb_administradores
-                WHERE  correo = ?';
-        $params = array($username);
+                WHERE  correo = ? ';
+        $params = array($email);  
         if (!($data = Database::getRow($sql, $params))) {
             return false;
         } elseif (password_verify($password, $data['clave'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['nombreAdministrador'] = $data['nombre'];
+            $_SESSION['correo'] = $data['correo'];
             return true;
         } else {
             return false;
