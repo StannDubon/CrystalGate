@@ -1,4 +1,4 @@
-const ADMIN_API = 'services/admin/administradores.php';
+const ADMIN_API = 'services/administradores.php';
 const LOGIN_FORM = document.getElementById('loginForm');
 const CORREO = document.getElementById('correo');
 const CLAVE = document.getElementById('clave');
@@ -10,7 +10,7 @@ BTN.addEventListener('click', async (event) =>{
     // Se evita recargar la página se recargue.
     event.preventDefault();
     const FORM = new FormData(LOGIN_FORM);
-    const DATA = await fetchData(ADMIN_API,'LogIn',FORM);
+    const DATA = await fetchData(ADMIN_API,'logIn',FORM);
     if(DATA.status){
         sweetAlert(1, DATA.message, true, 'inbox.html');
     }
