@@ -17,3 +17,7 @@ npm install @react-navigation/bottom-tabs
 npm install react-native-svg
 
 npm install react-native-svg-transformer --save
+
+npm install react-native-animatable
+
+npx react-native-asset 
