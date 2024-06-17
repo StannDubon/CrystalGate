@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "crystalgate",
+    "slug": "crystalgate",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/img/icon/logo.svg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/img/icon/logo.svg",
+      "resizeMode": "contain",
+      "backgroundColor": "#F1F5FF"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/img/icon/logo.svg",
+        "backgroundColor": "#F1F5FF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/img/icon/logo.svg"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts"]
+        }
+      ]
+    ]
+  }
+}
