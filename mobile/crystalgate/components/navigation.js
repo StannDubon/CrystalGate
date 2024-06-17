@@ -29,9 +29,9 @@ const screenOptions = {
     },
 };
 
-const navigation = () => {
+const Navigation = () => {
     return (
-        <NavigationContainer>
+        
             <Tab.Navigator screenOptions={screenOptions}>
                 <Tab.Screen
                     name="CreatePermission"
@@ -201,7 +201,7 @@ const navigation = () => {
                     }}
                 />
             </Tab.Navigator>
-        </NavigationContainer>
+        
     );
 };
 
@@ -213,3 +213,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 });
+
+export default Navigation;

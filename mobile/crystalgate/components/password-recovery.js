@@ -37,7 +37,7 @@ const PasswordRecovery = () => {
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>
-                            <EmailInputForm onChangeText={onChangeText} value={text} />
+                            <EmailInputForm onChangeText={onChangeText} value={text} placeholder="Email"/>
                         </SafeAreaView>
 
                         <SendButton onPress={handleSend} />
