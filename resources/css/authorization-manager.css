@@ -1,0 +1,63 @@
+.authorization-box {
+    margin-bottom: 10px;
+}
+
+.authorization-box span {
+    font-size: calc(var(--large-text-size) + 5px);
+    color: var(--color-texto-2);
+    font-weight: var(--medium-text-weight);
+}
+
+.authorization-box ul {
+    margin-top: 10px;
+}
+
+.authorization-box li {
+    list-style: none;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.authorization-box li span {
+    font-size: var(--normal-text-size);
+    color: var(--color-texto-2);
+    font-weight: var(--medium-text-weight);
+}
+
+.authorization-action-button {
+    display: flex;
+    margin-right: 10px;
+}
+
+.authorization-delete-button {
+    background-color: var(--color-rejected);
+    border-radius: 8px 0px 0px 8px;
+}
+
+.authorization-edit-button {
+    background-color: var(--color-extra-8);
+    border-radius: 0px 8px 8px 0px;
+}
+
+.authorization-delete-button:hover {
+    background-color: var(--primary-hover-red);
+}
+
+.authorization-edit-button:hover {
+    background-color: var(--primary-hover-blue);
+}
+
+.authorization-edit-button, .authorization-delete-button{
+    padding: 5px 10px 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.authorization-edit-button svg, .authorization-delete-button svg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
