@@ -1,10 +1,10 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/idioma-data.php');
+require_once('../models/data/cargo-data.php');
 
-const POST_ID = "idIdioma";
-const POST_IDIOMA = "idioma";
-const POST_ESTADO = "estadoIdioma";
+const POST_ID = "idCargo";
+const POST_CARGO = "cargo";
+const POST_ESTADO = "estadoCargo";
 
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
@@ -12,7 +12,7 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $Idioma = new IdiomaData;
+    $Cargo = new CargoData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -22,7 +22,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $Idioma->searchRows()) {
+                } elseif ($result['dataset'] = $Cargo->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -32,11 +32,11 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado($_POST[POST_ESTADO])
+                    !$Cargo->setCargo($_POST[POST_CARGO]) or
+                    !$Cargo->setEstado($_POST[POST_ESTADO])
                 ) {
-                    $result['error'] = $Idioma->getDataError();
-                } elseif ($Idioma->createRow()) {
+                    $result['error'] = $Cargo->getDataError();
+                } elseif ($Cargo->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Idioma creado correctamente';
                 } else {
@@ -44,7 +44,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $Idioma->readAll()) {
+                if ($result['dataset'] = $Cargo->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -52,9 +52,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$Idioma->setId($_POST[POST_ID])) {
-                    $result['error'] = $Idioma->getDataError();
-                } elseif ($result['dataset'] = $Idioma->readOne()) {
+                if (!$Cargo->setId($_POST[POST_ID])) {
+                    $result['error'] = $Cargo->getDataError();
+                } elseif ($result['dataset'] = $Cargo->readOne()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Idioma inexistente';
@@ -63,12 +63,12 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Idioma->setId($_POST[POST_ID]) or
-                    !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado($_POST[POST_ESTADO])
+                    !$Cargo->setId($_POST[POST_ID]) or
+                    !$Cargo->setCargo($_POST[POST_CARGO]) or
+                    !$Cargo->setEstado($_POST[POST_ESTADO])
                 ) {
-                    $result['error'] = $Idioma->getDataError();
-                } elseif ($Idioma->updateRow()) {
+                    $result['error'] = $Cargo->getDataError();
+                } elseif ($Cargo->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Idioma modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
@@ -78,10 +78,10 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$Idioma->setId($_POST[POST_ID])
+                    !$Cargo->setId($_POST[POST_ID])
                 ) {
-                    $result['error'] = $Idioma->getDataError();
-                } elseif ($Idioma->deleteRow()) {
+                    $result['error'] = $Cargo->getDataError();
+                } elseif ($Cargo->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Idioma eliminado correctamente';
                 } else {

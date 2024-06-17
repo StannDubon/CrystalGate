@@ -3,7 +3,7 @@
 require_once('../models/data/centro-entrega-data.php');
 
 const POST_ID = "idCentroEntrega";
-const POST_TIPO = "centroEntrega";
+const POST_CENTRO = "centroEntrega";
 const POST_ESTADO = "estadoCentroEntrega";
 
 
@@ -32,7 +32,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$CentroEntrega->setCentro($_POST[POST_TIPO]) or
+                    !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
                     !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$CentroEntrega->setId($_POST[POST_ID]) or
-                    !$CentroEntrega->setCentro($_POST[POST_TIPO]) or
+                    !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
                     !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
