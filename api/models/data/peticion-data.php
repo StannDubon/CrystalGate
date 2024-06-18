@@ -72,6 +72,17 @@ class PeticionData extends PeticionHandler
         }
     }
 
+    public function setFechaEnvio($value)
+    {
+        if (Validator::validateDateTime($value)) {
+            $this->fechaEnvio = $value;
+            return true;
+        } else {
+            $this->data_error = 'La fecha de envio es incorrecta';
+            return false;
+        }
+    }
+
     public function setDireccion($value, $min = 2, $max = 255)
     {
         if(!Validator::validateLength($value, $min, $max)){
@@ -82,6 +93,26 @@ class PeticionData extends PeticionHandler
             return true;
         } else {
             $this->data_error = 'La direccion es incorrecta';
+            return false;
+        }
+    }
+
+    public function setEstado($value)
+    {
+        // Validar el valor booleano usando validateBoolean
+        if (Validator::validateBoolean($value)) {
+            // Convertir cadenas 'true' y 'false' a booleanos
+            if (is_string($value)) {
+                $value = ($value === 'true' || $value === '1');
+            } elseif (is_numeric($value)) {
+                $value = (int) $value === 1;
+            }
+
+            // Asignar el valor validado a $this->status
+            $this->estado = (bool) $value;
+            return true;
+        } else {
+            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
             return false;
         }
     }
@@ -101,7 +132,7 @@ class PeticionData extends PeticionHandler
             $this->modoEntrega = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'El valor del modo de entrega debe ser booleano (true/false o 1/0)';
             return false;
         }
     }
