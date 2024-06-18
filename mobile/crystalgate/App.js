@@ -11,7 +11,9 @@ import Loading from "../crystalgate/components/loading";
 export default function App() {
     return (
         <View style={styles.container}>
-            <Loading/>
+            <NavigationContainer>
+                <Navigation/>
+            </NavigationContainer>
         </View>
     );
 }
