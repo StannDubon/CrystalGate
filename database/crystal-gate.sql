@@ -39,7 +39,7 @@ CREATE TABLE
 CREATE TABLE
     tb_clasificaciones_permisos (
         id_clasificacion_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        clasificacion_permiso VARCHAR(50),
+        clasificacion_permiso VARCHAR(50) UNIQUE,
         estado BOOLEAN DEFAULT TRUE
     );
 
@@ -66,7 +66,7 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL,
+        correo VARCHAR(75) NOT NULL UNIQUE,
         imagen VARCHAR(75) DEFAULT 'default.png',
 
         CONSTRAINT fk_usuario_cargo FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id_cargo)
@@ -136,7 +136,7 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL,
+        correo VARCHAR(75) NOT NULL UNIQUE,
         imagen VARCHAR(75) DEFAULT 'default.png',
 
         CONSTRAINT fk_administrador_tipo FOREIGN KEY (id_tipo_administrador) REFERENCES tb_tipos_administradores(id_tipo_administrador)
