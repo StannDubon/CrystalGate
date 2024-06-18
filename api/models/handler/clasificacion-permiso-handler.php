@@ -41,7 +41,7 @@ class ClasificacionPermisoHandler
 
     public function readOne()
     {
-        $sql = 'SELECT a
+        $sql = 'SELECT *
                 FROM tb_clasificaciones_permisos 
                 WHERE id_clasificacion_permiso = ?';
         $params = array($this->id);
