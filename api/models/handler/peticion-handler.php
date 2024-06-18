@@ -11,17 +11,19 @@ class PeticionHandler
      */
     // IDS
     protected $id = null;
-    protected $id_idioma = null;
-    protected $id_usuario = null;
-    protected $id_tipo_peticion = null;
-    protected $id_centro_entrega = null;
+    protected $idIdioma = null;
+    protected $idUsuario = null;
+    protected $idTipoPeticion = null;
+    protected $idCentroEntrega = null;
     // NOT IDS
     protected $direccion = null;
-    protected $modo_entrega = null;
-    protected $telefono_contacto = null;
+    protected $modoEntrega = null;
+    protected $telefono = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+     
 
 }
