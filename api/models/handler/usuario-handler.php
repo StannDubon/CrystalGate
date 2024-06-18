@@ -60,7 +60,7 @@ class UsuarioHandler
     public function readProfile()
     {
         $sql = 'SELECT a.id_usuario, ta.tipo_administrador, a.nombre, a.apellido, a.correo, a.imagen
-                FROM tb_usuarios a INNER JOIN tb_tipos_administradores ta ON a.id_cargo = ta.id_cargo
+                FROM tb_usuarios a INNER JOIN tb_cargos ta ON a.id_cargo = ta.id_cargo
                 WHERE a.id_usuario = ?;';
         $params = array($_SESSION['idUsuario']);
         return Database::getRow($sql, $params);
@@ -79,7 +79,8 @@ class UsuarioHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT * FROM tb_usuarios WHERE id_usuario LIKE ?, tipo_administrador LIKE ?, nombre LIKE ?, apellido LIKE ?';
+        $sql = 'SELECT a.*, b.cargo FROM tb_usuarios a, tb_cargos b 
+                WHERE a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?';
         $params = array($value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }
@@ -93,16 +94,16 @@ class UsuarioHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_usuario, id_cargo, nombre, apellido, clave, correo, imagen
-                FROM tb_usuarios
-                ORDER BY apellido';
+        $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_usuarios a, tb_cargos b WHERE a.id_cargo = b.id_cargo
+                ORDER BY a.apellido';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, id_cargo, nombre, apellido, clave, correo, imagen
-                FROM tb_usuarios
+        $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_usuarios a, tb_cargos b WHERE a.id_cargo = b.id_cargo
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);

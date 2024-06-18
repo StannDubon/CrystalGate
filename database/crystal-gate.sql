@@ -1,11 +1,11 @@
+DROP DATABASE IF EXISTS CrystalGate;
+CREATE database CrystalGate;
+USE CrystalGate;
+
 DROP USER IF EXISTS 'crystal-gate-admin'@'localhost';
 CREATE USER 'crystal-gate-admin'@'localhost' IDENTIFIED BY '#CrY5t4lG4t3-2024';
 GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
 FLUSH PRIVILEGES;
-
-DROP DATABASE IF EXISTS CrystalGate;
-CREATE database CrystalGate;
-USE CrystalGate;
 
 /* TABLAS INDEPENDIENTES */
 CREATE TABLE
@@ -39,7 +39,7 @@ CREATE TABLE
 CREATE TABLE
     tb_clasificaciones_permisos (
         id_clasificacion_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        clasificacion_permiso VARCHAR(50),
+        clasificacion_permiso VARCHAR(50) UNIQUE,
         estado BOOLEAN DEFAULT TRUE
     );
 
@@ -66,8 +66,10 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL,
-        imagen VARCHAR(75) DEFAULT 'default.png'
+        correo VARCHAR(75) NOT NULL UNIQUE,
+        imagen VARCHAR(75) DEFAULT 'default.png',
+
+        CONSTRAINT fk_usuario_cargo FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id_cargo)
     );
 
 CREATE TABLE
@@ -93,7 +95,9 @@ CREATE TABLE
         id_clasificacion_permiso INT,
         /* NOT ID'S */
         tipo_permiso VARCHAR(50) UNIQUE,
-        lapso ENUM ('1', '2', '3')
+        lapso ENUM ('1', '2', '3'),
+
+        CONSTRAINT fk_tipo_clasificacion_permiso FOREIGN KEY (id_clasificacion_permiso) REFERENCES tb_clasificaciones_permisos(id_clasificacion_permiso)
     );
 
 CREATE TABLE
@@ -106,8 +110,12 @@ CREATE TABLE
         fecha_inicio DATETIME NOT NULL,
         fecha_final DATETIME NOT NULL,
         fecha_envio DATETIME NOT NULL,
-        documento_permiso blob NOT NULL,
-        descripcion_permiso VARCHAR(300)
+        documento_permiso varchar(32) NOT NULL,
+        descripcion_permiso VARCHAR(300),
+
+        CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
+        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso),
+        CONSTRAINT fk_estado_permiso FOREIGN KEY (id_estado_permiso) REFERENCES tb_estados_permisos(id_estado_permiso)
     );
 
 CREATE TABLE
@@ -116,7 +124,8 @@ CREATE TABLE
         id_permiso INT,
         /* NOT ID'S */
         hora_envio time NOT NULL,
-        estado boolean
+        estado boolean,
+        CONSTRAINT fk_permiso_automatico FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
 CREATE TABLE
@@ -127,8 +136,10 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL,
-        imagen VARCHAR(75) DEFAULT 'default.png'
+        correo VARCHAR(75) NOT NULL UNIQUE,
+        imagen VARCHAR(75) DEFAULT 'default.png',
+
+        CONSTRAINT fk_administrador_tipo FOREIGN KEY (id_tipo_administrador) REFERENCES tb_tipos_administradores(id_tipo_administrador)
     );
     
     CREATE TABLE
@@ -138,7 +149,10 @@ CREATE TABLE
         id_permiso INT,
         /* NOT ID'S */
         fecha_envio DATETIME NOT NULL,
-        descripcion VARCHAR(300)
+        descripcion VARCHAR(300),
+
+        CONSTRAINT fk_notificacion_administrador FOREIGN KEY (id_administrador) REFERENCES tb_administradores(id_administrador),
+        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
 INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');

@@ -13,7 +13,6 @@ class TipoAdministradorData extends TipoAdministradorHandler
      *  Atributos adicionales.
      */
     private $data_error = null;
-    private $filename = null;
 
     /*
      *  Métodos para validar y establecer los datos.
@@ -70,10 +69,5 @@ class TipoAdministradorData extends TipoAdministradorHandler
     public function getDataError()
     {
         return $this->data_error;
-    }
-
-    public function getFilename()
-    {
-        return $this->filename;
     }
 }

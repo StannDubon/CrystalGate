@@ -28,7 +28,7 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         }
     }
 
-    public function setidPermiso($value)
+    public function setIdPermiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->idPermiso = $value;
@@ -74,4 +74,4 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         return $this->data_error;
     }
 }
-?>
+

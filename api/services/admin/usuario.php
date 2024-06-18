@@ -107,47 +107,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el usuario';
                 }
                 break;
-            case 'getUser':
-                if (isset($_SESSION['correoUsuario";'])) {
-                    $result['status'] = 1;
-                    $result['username'] = $_SESSION['correoUsuario";'];
-                } else {
-                    $result['error'] = 'Alias de usuario indefinido';
-                }
-                break;
-            case 'logOut':
-                if (session_destroy()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
-                }
-                break;
-            case 'readProfile':
-                if ($result['dataset'] = $usuario->readProfile()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'Ocurrió un problema al leer el perfil';
-                }
-                break;
-            case 'editProfile':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuario->setNombre($_POST[POST_NOMBRE]) or
-                    !$usuario->setApellido($_POST[POST_APELLIDO]) or
-                    !$usuario->setCorreo($_POST[POST_CORREO]) or 
-                    !$usuario->setImagen($_FILES[POST_IMAGEN])
-                ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->editProfile()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Perfil modificado correctamente';
-                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $usuario::RUTA_IMAGEN);
-                    $_SESSION['correoUsuario";'] = $_POST['correoUsuario";'];
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
-                }
-                break;
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
@@ -166,30 +125,7 @@ if (isset($_GET['action'])) {
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
-    } else {
-        // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
-        switch ($_GET['action']) {
-            case 'readUsers':
-                if ($usuario->readAll()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Debe autenticarse para ingresar';
-                } else {
-                    $result['error'] = 'Debe crear un usuario para comenzar';
-                }
-                break;
-            case 'logIn':
-                $_POST = Validator::validateForm($_POST);
-                if ($usuario->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Autenticación correcta';
-                } else {
-                    $result['error'] = 'Credenciales incorrectas';
-                }
-                break;
-            default:
-                $result['error'] = 'Acción no disponible fuera de la sesión';
-        }
-    }
+    } 
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
