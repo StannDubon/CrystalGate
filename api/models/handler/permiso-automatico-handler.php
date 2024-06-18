@@ -72,4 +72,4 @@ class PermisoAutomaticoHandler
         return Database::executeRow($sql, $params);
     }
 }
-?>
+

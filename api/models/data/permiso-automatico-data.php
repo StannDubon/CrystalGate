@@ -74,4 +74,4 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         return $this->data_error;
     }
 }
-?>
+

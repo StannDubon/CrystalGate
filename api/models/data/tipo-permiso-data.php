@@ -71,4 +71,4 @@ class TipoPermisoData extends TipoPermisoHandler
         return $this->data_error;
     }
 }
-?>
+

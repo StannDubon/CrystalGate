@@ -74,4 +74,4 @@ public function searchRows()
          return Database::executeRow($sql, $params);
      }
  }
-?>
+
