@@ -1,50 +1,60 @@
-DROP DATABASE if EXISTS CrystalGate;
-create database CrystalGate;
-use CrystalGate;
+DROP USER IF EXISTS 'crystal-gate-admin'@'localhost';
+CREATE USER 'crystal-gate-admin'@'localhost' IDENTIFIED BY '#CrY5t4lG4t3-2024';
+GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
+FLUSH PRIVILEGES;
+
+DROP DATABASE IF EXISTS CrystalGate;
+CREATE database CrystalGate;
+USE CrystalGate;
 
 /* TABLAS INDEPENDIENTES */
 CREATE TABLE
     tb_tipos_administradores (
         id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
-        tipo_administrador VARCHAR(50) UNIQUE
+        tipo_administrador VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
-
-INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('SuperAdmin');
 
 CREATE TABLE
     tb_tipos_peticiones (
         id_tipo_peticion INT PRIMARY KEY AUTO_INCREMENT,
-        tipo_peticion VARCHAR(32) UNIQUE
+        tipo_peticion VARCHAR(32) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
 
 CREATE TABLE
     tb_idiomas (
         id_idioma INT PRIMARY KEY AUTO_INCREMENT,
-        idioma VARCHAR(32) UNIQUE
+        idioma VARCHAR(32) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
 
 CREATE TABLE
     tb_centros_entregas (
         id_centro_entrega INT PRIMARY KEY AUTO_INCREMENT,
-        centro_entrega VARCHAR(64) UNIQUE
+        centro_entrega VARCHAR(64) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
 
 CREATE TABLE
     tb_clasificaciones_permisos (
         id_clasificacion_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        clasificacion_permiso VARCHAR(50)
+        clasificacion_permiso VARCHAR(50),
+        estado BOOLEAN DEFAULT TRUE
     );
 
 CREATE TABLE
     tb_estados_permisos (
         id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        estado_permiso VARCHAR(50) UNIQUE
+        estado_permiso VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
 
 CREATE TABLE
     tb_cargos (
         id_cargo INT PRIMARY KEY AUTO_INCREMENT,
-        cargo VARCHAR(50) UNIQUE
+        cargo VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
     );
 
 /* TABLAS DEPENDIENTES */
@@ -56,7 +66,8 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL
+        correo VARCHAR(75) NOT NULL,
+        imagen VARCHAR(75) DEFAULT 'default.png'
     );
 
 CREATE TABLE
@@ -116,14 +127,11 @@ CREATE TABLE
         nombre VARCHAR(50) NOT NULL,
         apellido VARCHAR(50) NOT NULL,
         clave VARCHAR(275) NOT NULL,
-        correo VARCHAR(75) NOT NULL
+        correo VARCHAR(75) NOT NULL,
+        imagen VARCHAR(75) DEFAULT 'default.png'
     );
-
-INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
-VALUES(1,'Fernando','Gonzalez','$2a$12$pzLTjkLhY1GAsKgDydlRXO13sttKH3m3m0UyGB0ViUNItLnL5QS1C',
-'fernandomelen20@gmail.com');
-
-CREATE TABLE
+    
+    CREATE TABLE
     tb_notificaciones (
         id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
         id_administrador INT,
@@ -132,3 +140,9 @@ CREATE TABLE
         fecha_envio DATETIME NOT NULL,
         descripcion VARCHAR(300)
     );
+
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
+
+INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
+VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',
+'test@root.com');

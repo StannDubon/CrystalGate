@@ -1,21 +1,28 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/tb-tipos-permisos-data.php');
+require_once('../models/data/tipo-permiso-data.php');
 
+const POST_ID = "idTipoPermiso";
+const POST_CLASIFICACION = "idClasificacionPermiso";
+const POST_TIPO = "tipoPermiso";
+const POST_LAPSO = "lapsoPermiso";
+
+// Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
-
-    $tipo = new TiposPermisosData;
-    $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
-
-    if (isset($_SESSION['idAdministrador'])){
-
-        switch ($_GET['action']){
+    // Se instancia la clase correspondiente.
+    $TipoPermiso = new TipoPermisoData;
+    // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
+    $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null);
+    // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
+    if (isset($_SESSION['idAdministrador'] )) {
+        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+        switch ($_GET['action']) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $tipo->searchRows()) {
+                } elseif ($result['dataset'] = $TipoPermiso->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -25,11 +32,12 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$tipo->setid_clasificacion_permiso($_POST['idClasification']) or
-                    !$tipo->settipo_permiso($_POST['nombreTipo'])
+                    !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
+                    !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
+                    !$TipoPermiso->setLapso($_POST[POST_LAPSO])
                 ) {
-                    $result['error'] = $tipo->getDataError();
-                } elseif ($tipo->createRow()) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($TipoPermiso->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de permiso creado correctamente';
                 } else {
@@ -37,17 +45,17 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $tipo->readAll()) {
+                if ($result['dataset'] = $TipoPermiso->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen tipos de permisos registrados';
+                    $result['error'] = 'No existen tipos de permiso registrados';
                 }
                 break;
             case 'readOne':
-                if (!$tipo->setid_tipo_permiso($_POST['idTipo'])) {
-                    $result['error'] = $tipo->getDataError();
-                } elseif ($result['dataset'] = $tipo->readOne()) {
+                if (!$TipoPermiso->setId($_POST[POST_ID])) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($result['dataset'] = $TipoPermiso->readOne()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Tipo de permiso inexistente';
@@ -56,12 +64,13 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$tipo->setid_tipo_permiso($_POST['idTipo']) or 
-                    !$tipo->setid_clasificacion_permiso($_POST['idClasification']) or 
-                    !$tipo->settipo_permiso($_POST['nombreTipo'])
+                    !$TipoPermiso->setId($_POST[POST_ID]) or
+                    !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
+                    !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
+                    !$TipoPermiso->setLapso($_POST[POST_LAPSO])
                 ) {
-                    $result['error'] = $tipo->getDataError();
-                } elseif ($tipo->updateRow()) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($TipoPermiso->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de permiso modificado correctamente';
                 } else {
@@ -70,10 +79,10 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$tipo->setid_tipo_permiso($_POST['idTipo']) 
+                    !$TipoPermiso->setId($_POST[POST_ID])
                 ) {
-                    $result['error'] = $tipo->getDataError();
-                } elseif ($tipo->deleteRow()) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($TipoPermiso->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de permiso eliminado correctamente';
                 } else {
@@ -83,12 +92,16 @@ if (isset($_GET['action'])) {
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
+        // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
+        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
+        // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
-    }else {
+    } else {
         print(json_encode('Acceso denegado'));
     }
-}else {
+} else {
     print(json_encode('Recurso no disponible'));
 }
+?>
