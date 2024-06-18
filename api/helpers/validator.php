@@ -266,6 +266,19 @@ class Validator
         }
     }
 
+
+    /*
+    *   Método para validar una fecha y hora en el formato 'Y-m-d H:i:s'.
+    *   Parámetros: $value (dato a validar).
+    *   Retorno: booleano (true si el valor es una fecha y hora válidas en el formato especificado, false en caso contrario).
+    */
+    public static function validateDateTime($value)
+    {
+        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+        return $dateTime && $dateTime->format('Y-m-d H:i:s') === $value;
+    }
+
+
     /*
     *   Método para validar una fecha.
     *   Parámetros: $value (dato a validar).
@@ -281,6 +294,22 @@ class Validator
             return false;
         }
     }
+
+    /*
+*   Método para validar una hora en formato HH:MM:SS.
+*   Parámetros: $value (dato a validar).
+*   Retorno: booleano (true si el valor es correcto o false en caso contrario).
+*/
+public static function validateTime($value)
+{
+    // Se verifica que el valor tenga el formato HH:MM:SS.
+    if (preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/', $value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
     /*
     *   Método para validar un valor de búsqueda.
