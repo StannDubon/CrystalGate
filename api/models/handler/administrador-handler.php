@@ -101,9 +101,9 @@ class AdministradorHandler
 
     public function readOne()
     {
-        $sql = 'SELECT id_administrador, id_tipo_administrador, nombre, apellido, clave, correo, imagen
-                FROM tb_administradores
-                WHERE id_administrador = ?';
+        $sql = 'SELECT b.cargo, a.id_administrador, a.id_tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_administradores a, tb_cargos b
+                WHERE a.id_administrador = ? AND a.id_cargo = b.id_cargo';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
