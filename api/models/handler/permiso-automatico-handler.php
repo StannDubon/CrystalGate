@@ -21,7 +21,9 @@ class PermisoAutomaticoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT * FROM tb_permisos_automaticos WHERE hora_envio LIKE ? OR estado LIKE ?';
+        $sql = 'SELECT a.*, c.nombre, c.apellido, b.id_usuario FROM tb_permisos_automaticos a, tb_permisos b, tb_usuarios c
+                WHERE (hora_envio LIKE ? OR estado LIKE ?) AND a.id_permiso = b.id_permiso 
+                AND b.id_usuario = c.id_usuario';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
@@ -35,13 +37,16 @@ class PermisoAutomaticoHandler
 
     public function readAll()
     {
-        $sql = 'SELECT * FROM tb_permisos_automaticos ORDER BY hora_envio';
+        $sql = 'SELECT a.*, c.nombre, c.apellido, b.id_usuario FROM tb_permisos_automaticos a, tb_permisos b, tb_usuarios c 
+                WHERE a.id_permiso = b.id_permiso AND b.id_usuario = c.id_usuario
+                ORDER BY hora_envio';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT * FROM tb_permisos_automaticos WHERE id_permiso_automatico = ?';
+        $sql = 'SELECT a.*, c.nombre, c.apellido, b.id_usuario FROM tb_permisos_automaticos a, tb_permisos b, tb_usuarios c 
+                WHERE id_permiso_automatico = ? AND a.id_permiso = b.id_permiso AND b.id_usuario = c.id_usuario';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
