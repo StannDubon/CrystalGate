@@ -89,9 +89,6 @@ class Validator
             } elseif ($image[0] < $dimension) {
                 self::$file_error = 'La dimensión de la imagen es menor a ' . $dimension . 'px';
                 return false;
-            } elseif ($image[0] != $image[1]) {
-                self::$file_error = 'La imagen no es cuadrada';
-                return false;
             } elseif ($image['mime'] == 'image/jpeg' || $image['mime'] == 'image/png') {
                 // Se obtiene la extensión del archivo (.jpg o .png) y se convierte a minúsculas.
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -128,13 +125,23 @@ class Validator
     */
     public static function validateBoolean($value)
     {
-        if ($value == 1 || $value == 0) {
+        if (is_bool($value)) {
+            // Si $value es booleano, es válido
             return true;
-        } else {
-            return false;
+        } elseif (is_numeric($value)) {
+            // Si $value es numérico, validar como 0 o 1
+            $numericValue = (int) $value;
+            return $numericValue === 0 || $numericValue === 1;
+        } elseif (is_string($value)) {
+            // Si $value es una cadena, validar como 'true' o 'false'
+            $lowercaseValue = strtolower($value);
+            return $lowercaseValue === 'true' || $lowercaseValue === 'false';
         }
+    
+        // Si no es ninguno de los tipos anteriores, no es válido
+        return false;
     }
-
+    
     /*
     *   Método para validar una cadena de texto (letras, digitos, espacios en blanco y signos de puntuación).
     *   Parámetros: $value (dato a validar).
@@ -259,6 +266,19 @@ class Validator
         }
     }
 
+
+    /*
+    *   Método para validar una fecha y hora en el formato 'Y-m-d H:i:s'.
+    *   Parámetros: $value (dato a validar).
+    *   Retorno: booleano (true si el valor es una fecha y hora válidas en el formato especificado, false en caso contrario).
+    */
+    public static function validateDateTime($value)
+    {
+        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+        return $dateTime && $dateTime->format('Y-m-d H:i:s') === $value;
+    }
+
+
     /*
     *   Método para validar una fecha.
     *   Parámetros: $value (dato a validar).
@@ -274,6 +294,22 @@ class Validator
             return false;
         }
     }
+
+    /*
+*   Método para validar una hora en formato HH:MM:SS.
+*   Parámetros: $value (dato a validar).
+*   Retorno: booleano (true si el valor es correcto o false en caso contrario).
+*/
+public static function validateTime($value)
+{
+    // Se verifica que el valor tenga el formato HH:MM:SS.
+    if (preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/', $value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
     /*
     *   Método para validar un valor de búsqueda.
