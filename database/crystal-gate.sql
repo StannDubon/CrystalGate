@@ -110,7 +110,7 @@ CREATE TABLE
         fecha_inicio DATETIME NOT NULL,
         fecha_final DATETIME NOT NULL,
         fecha_envio DATETIME NOT NULL,
-        documento_permiso blob NOT NULL,
+        documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
 
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),

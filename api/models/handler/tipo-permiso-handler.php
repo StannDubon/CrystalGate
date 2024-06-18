@@ -66,4 +66,3 @@ class TipoPermisoHandler
         return Database::executeRow($sql, $params);
     }
 }
-?>

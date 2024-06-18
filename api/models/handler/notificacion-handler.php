@@ -24,7 +24,8 @@ public function searchRows()
 {
     $value = '%' . Validator::getSearchValue() . '%';
     // Se prepara la consulta SQL para buscar notificaciones por fecha de envío.
-    $sql = "SELECT * FROM tb_notificaciones WHERE DATE(fecha_envio) = ?";
+    $sql = "SELECT a.*, b.nombre, b.apellido  FROM tb_notificaciones a, tb_administradores b 
+    WHERE DATE(fecha_envio) = ? AND a.id_administrador = b.id_administrador";
     // Se ejecuta la consulta preparada con la fecha proporcionada.
     $params = array( $value);
     return Database::getRows($sql, $params);
@@ -41,16 +42,17 @@ public function searchRows()
  
      public function readAll()
      {
-         $sql = 'SELECT id_notificacion, id_administrador, id_permiso, fecha_envio, descripcion
-                 FROM tb_notificaciones';
+         $sql = 'SELECT a.id_notificacion, b.id_administrador, b.nombre, b.apellido, a.id_permiso, 
+                 a.fecha_envio, a.descripcion
+                 FROM tb_notificaciones a, tb_administradores b WHERE a.id_administrador = b.id_administrador';
          return Database::getRows($sql);
      }
  
      public function readOne()
      {
-         $sql = 'SELECT id_notificacion, id_administrador, id_permiso, fecha_envio, descripcion
-                 FROM tb_notificaciones
-                 WHERE id_notificacion = ?';
+         $sql = 'SELECT a.id_notificacion, b.id_administrador, b.nombre, b.apelido, a.id_permiso, a.fecha_envio, a.descripcion
+                 FROM tb_notificaciones a, tb_administradores b
+                 WHERE id_notificacion = ? AND a.id_administrador = b.id_administrador';
          $params = array($this->id);
          return Database::getRow($sql, $params);
      }
@@ -72,4 +74,4 @@ public function searchRows()
          return Database::executeRow($sql, $params);
      }
  }
-?>
+
