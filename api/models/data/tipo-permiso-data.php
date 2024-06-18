@@ -12,7 +12,6 @@ class TipoPermisoData extends TipoPermisoHandler
      *  Atributos adicionales.
      */
     private $data_error = null;
-    private $filename = null;
 
     /*
      *  Métodos para validar y establecer los datos.
@@ -70,11 +69,6 @@ class TipoPermisoData extends TipoPermisoHandler
     public function getDataError()
     {
         return $this->data_error;
-    }
-
-    public function getFilename()
-    {
-        return $this->filename;
     }
 }
 ?>
