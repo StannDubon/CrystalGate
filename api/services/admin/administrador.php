@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/administrador-data.php');
+require_once('../../models/data/administrador-data.php');
 
 const POST_ID = "idAdministrador";
 const POST_ID_TIPO_ADMIN = "idTipoAdministrador";

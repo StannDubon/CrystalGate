@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once('../helpers/validator.php');
+require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../models/handler/peticion-handler.php');
+require_once('../../models/handler/peticion-handler.php');
 
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla PERMISOS_AUTOMATICOS.
@@ -86,7 +86,7 @@ class PeticionData extends PeticionHandler
     public function setDireccion($value, $min = 2, $max = 255)
     {
         if(!Validator::validateLength($value, $min, $max)){
-            $this->data_error = 'El tamaño de la direccion debe estar entre ' + $min ' y ' +$max ' caracteres.';
+            $this->data_error = 'El tamaño de la direccion debe estar entre ' + $min + ' y ' +$max + ' caracteres.';
         }
         else if (Validator::validateString($value)) {
             $this->direccion = $value;

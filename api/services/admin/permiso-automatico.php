@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/permiso-automatico-data.php');
+require_once('../../models/data/permiso-automatico-data.php');
 
 const POST_ID = "idPermisoAutomatico";
 const POST_PERMISO_ID = "idPermiso";

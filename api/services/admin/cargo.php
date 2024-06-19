@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/cargo-data.php');
+require_once('../../models/data/cargo-data.php');
 
 const POST_ID = "idCargo";
 const POST_CARGO = "cargo";

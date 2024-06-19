@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/estado-permiso-data.php');
+require_once('../../models/data/estado-permiso-data.php');
 
 const POST_ID = "idEstadoPermiso";
 const POST_ESTPERMISO = "EstadoPermiso";
