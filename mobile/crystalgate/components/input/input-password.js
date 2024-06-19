@@ -2,19 +2,19 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const CheckInputForm = ({ onChangeText, value, placeholder }) => {
+const PasswordInputForm = ({ onChangeText, value, placeholder }) => {
     return (
         <View style={styles.div}>
             <Svg
-                width="25"
-                height="19"
-                viewBox="0 0 15 12"
+                width="24"
+                height="14"
+                viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 
             >
                 <Path
-                    d="M4.707 8.293L1.414 5L0 6.414L4.707 11.121L14.414 1.414L13 0L4.707 8.293Z"
+                    d="M20 12c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5S7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7z"
                     fill="#4292F6"
                 />
             </Svg>
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CheckInputForm;
+export default PasswordInputForm;
