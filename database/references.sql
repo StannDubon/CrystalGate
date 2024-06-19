@@ -38,7 +38,7 @@ REFERENCES tb_tipos_administradores(id_tipo_administrador);
 ALTER TABLE tb_notificaciones 
 ADD CONSTRAINT fk_notificacion_administrador 
 FOREIGN KEY (id_administrador) 
-REFERENCES tb_administradores(id_administradores);
+REFERENCES tb_administradores(id_administrador);
 
 -- Relación entre tb_notificaciones y tb_permisos
 ALTER TABLE tb_notificaciones 

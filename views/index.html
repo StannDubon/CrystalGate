@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Gate</title>
-
+    
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="../resources/css/poppins.css">
+    
     <!-- COLOR MANAGER -->
     <link rel="stylesheet" href="../resources/css/color-manager.css">
 
@@ -35,7 +38,7 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="email" placeholder="Email" id="correo" name="correo">
+                    <input type="email" placeholder="Email" id="correoAdministrador" name="correoAdministrador">
                 </div>
 
 
@@ -47,7 +50,7 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Password" id="clave" name="clave">
+                    <input type="password" placeholder="Password" id="claveAdministrador" name="claveAdministrador">
                 </div>
             </div>
             <button id="btnLogin">Log In</button>
@@ -79,10 +82,15 @@
         </div>
     </div>
 
-    <script src="../controllers/private/index.js"></script>
-    <script src="../controllers/utils/components.js"></script>
+    <!-- SWEET ALERTS -->
     <script src="../resources/js/sweetalert.min.js"></script>
 
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+
+    <!-- CONTROLADORES ESPECIFICOS -->
+    <script src="../controllers/private/index.js"></script>
 </body>
 
 </html>
