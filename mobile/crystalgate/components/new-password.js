@@ -7,14 +7,16 @@ import {
     SafeAreaView,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import EmailInputForm from "../components/input/input-email";
-import SendButton from "../components/button/button-send";
 import BackButton from "../components/button/button-back";
 import BackgroundImage from "../components/background/background-mountain"; // Asegúrate de ajustar la ruta si es necesario
+import NewInputForm from "./input/input-new";
+import PasswordInputForm from "./input/input-password";
+import ResetButton from "./button/button-reset";
+import BackLogInButton from "./button/button-backLG";
 
 const fondo = require("../assets/img/background/background.png");
 
-const PasswordRecovery = () => {
+const NewPasswordRecovery = () => {
     const [text, onChangeText] = React.useState("");
 
     const handleSend = () => {
@@ -37,10 +39,14 @@ const PasswordRecovery = () => {
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>
-                            <EmailInputForm onChangeText={onChangeText} value={text} placeholder="Email"/>
+                            <NewInputForm onChangeText={onChangeText} value={text} placeholder="New Password"/>
+                        </SafeAreaView>
+                        <SafeAreaView>
+                            <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Confirm Password"/>
                         </SafeAreaView>
 
-                        <SendButton onPress={handleSend} />
+                        <ResetButton onPress={handleSend} />
+                        <BackLogInButton onPress={handleBack} />
                     </View>
                 </View>
             </BackgroundImage>
@@ -85,6 +91,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    loginButton: {
+        marginTop: 20,
+    },
+    loginButtonText: {
+        fontFamily: "Poppins",
+        fontSize: 16,
+        fontWeight: "Medium",
+        color: "#007bff",
+        textAlign: "center",
+    },
 });
 
-export default PasswordRecovery;
+export default NewPasswordRecovery;
