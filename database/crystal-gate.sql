@@ -160,3 +160,4 @@ INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
 VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',
 'test@root.com');
+/* CONTRASEÑA: 123456789 */

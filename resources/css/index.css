@@ -107,6 +107,11 @@ body{
     color: var(--color-texto-1);
     text-align: center;
     text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.container form button:hover{
+    background-color: var(--primary-hover-green);
 }
 
 .container form a:hover {
