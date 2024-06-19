@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/notificacion-data.php');
+require_once('../../models/data/notificacion-data.php');
 
 const POST_ID = "idNotificacion";
 const POST_ADMINISTRADOR_ID = "idAdministrador";

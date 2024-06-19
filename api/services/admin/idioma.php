@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/idioma-data.php');
+require_once('../../models/data/idioma-data.php');
 
 const POST_ID = "idIdioma";
 const POST_IDIOMA = "idioma";

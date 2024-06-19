@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/clasificacion-permiso-data.php');
+require_once('../../models/data/clasificacion-permiso-data.php');
 
 const POST_ID = "idClasificacionPermiso";
 const POST_CLASIFICACION = "clasificacionPermiso";
