@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/centro-entrega-data.php');
+require_once('../../models/data/centro-entrega-data.php');
 
 const POST_ID = "idCentroEntrega";
 const POST_CENTRO = "centroEntrega";
