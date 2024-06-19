@@ -2,19 +2,18 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const CheckInputForm = ({ onChangeText, value, placeholder }) => {
+const UsernameInputForm = ({ onChangeText, value, placeholder }) => {
     return (
         <View style={styles.div}>
             <Svg
-                width="25"
-                height="19"
-                viewBox="0 0 15 12"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24" 
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                
+                xmlns="http://www.w3.org/2000/svg" 
             >
                 <Path
-                    d="M4.707 8.293L1.414 5L0 6.414L4.707 11.121L14.414 1.414L13 0L4.707 8.293Z"
+                    d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
                     fill="#4292F6"
                 />
             </Svg>
@@ -25,7 +24,6 @@ const CheckInputForm = ({ onChangeText, value, placeholder }) => {
                 value={value}
                 placeholder={placeholder}
                 placeholderTextColor={"#4292F6"}
-                keyboardType="numeric"
             />
         </View>
     );
@@ -60,4 +58,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CheckInputForm;
+export default UsernameInputForm;
