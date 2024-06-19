@@ -17,8 +17,19 @@ const POST_CLAVE_CONFIRMAR = "confirmarClave";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
+
+    // Se establecen los parametros para la sesion
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'None'
+    ]);
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
+
     // Se instancia la clase correspondiente.
     $administrador = new AdministradorData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
