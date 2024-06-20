@@ -48,7 +48,6 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$peticion->setNombre($_POST[POST_NOMBRE]) or
                     !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
@@ -88,7 +87,6 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$peticion->setId($_POST[POST_ID]) or
-                    !$peticion->setNombre($_POST[POST_NOMBRE]) or
                     !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
