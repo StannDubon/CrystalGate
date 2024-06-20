@@ -31,9 +31,9 @@ const PasswordRecovery = () => {
                 <BackButton onPress={handleBack} />
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Password Recovery</Text>
+                    <Text style={styles.title}>New Password</Text>
                     <Text style={styles.subTitle}>
-                        Enter the email address associated with your account
+                        Enter the new password for your account
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>

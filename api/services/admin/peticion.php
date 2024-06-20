@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../models/data/peticion-data.php');
+require_once('../../models/data/peticion-data.php');
 
 const POST_ID = "idPeticion";
 const POST_ID_USUARIO = "idUsuario";
@@ -15,6 +15,15 @@ const POST_TELEFONO = "telefonoContacto";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
+    // Se establecen los parametros para la sesion
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'None'
+    ]);
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
@@ -39,7 +48,6 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$peticion->setNombre($_POST[POST_NOMBRE]) or
                     !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
@@ -79,7 +87,6 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$peticion->setId($_POST[POST_ID]) or
-                    !$peticion->setNombre($_POST[POST_NOMBRE]) or
                     !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
