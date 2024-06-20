@@ -18,6 +18,7 @@ const fondo = require("../assets/img/background/background.png");
 
 const NewPassword = () => {
     const [text, onChangeText] = React.useState("");
+    
 
     const handleSend = () => {
         // Función para manejar el envío
