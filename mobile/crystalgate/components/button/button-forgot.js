@@ -11,10 +11,9 @@ const ForgotButton = ({ onPress }) => {
 
 const styles = StyleSheet.create({
     forgotPassword: {
-        color: '#007bff',
+        color: '#4292F6',
         marginLeft: 'auto',
         marginBottom: 20,
     },
 });
-
 export default ForgotButton;

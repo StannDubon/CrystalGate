@@ -41,13 +41,13 @@ const Login = () => {
                     <SafeAreaView>
                         <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Password"/>
                     </SafeAreaView>
-                    <View style={styles.checkboxContainer}>
-                        <CheckBox value={false} style={styles.checkbox} />
-                        <Text style={styles.label}>Remember me</Text>
-                    <ForgotButton onPress={handleSend} />
+                    <View style={styles.ContentButton}>
+                        <ForgotButton/>
                     </View>
-                    <LoginButton onPress={handleSend} />
-                </View>
+                    </View>
+                    <View style={styles.ContentButton}>
+                        <LoginButton/>
+                    </View>
             </View>
         </BackgroundImage>
     </View>
@@ -91,18 +91,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    checkboxContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
+    ContentButton:{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 70
     },
-    checkbox: {
-        marginRight: 10,
-    },
-    label: {
-        color: '#666',
-    },
-
 });
 
 export default Login;
