@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
+                    !$TipoPeticion->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$TipoPeticion->setId($_POST[POST_ID]) or
                     !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
+                    !$TipoPeticion->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->updateRow()) {
