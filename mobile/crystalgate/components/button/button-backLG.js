@@ -4,22 +4,23 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 const BackLogInButton = ({ onPress }) => {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Back to Log In</Text>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     loginButton: {
-        marginTop: 20,
+        marginBotton: 20,
     },
     loginButtonText: {
         fontFamily: "Poppins",
         fontSize: 16,
         fontWeight: "Medium",
-        color: "#007bff",
+        color: "#66A0E9",
         textAlign: "center",
     },
+
 });
 
 export default BackLogInButton;

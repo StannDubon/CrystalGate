@@ -16,8 +16,9 @@ import BackLogInButton from "./button/button-backLG";
 
 const fondo = require("../assets/img/background/background.png");
 
-const NewPasswordRecovery = () => {
+const NewPassword = () => {
     const [text, onChangeText] = React.useState("");
+    
 
     const handleSend = () => {
         // Función para manejar el envío
@@ -44,9 +45,12 @@ const NewPasswordRecovery = () => {
                         <SafeAreaView>
                             <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Confirm Password"/>
                         </SafeAreaView>
-
-                        <ResetButton onPress={handleSend} />
-                        <BackLogInButton onPress={handleBack} />
+                        <View style={styles.ContentButton}>
+                            <ResetButton/>
+                        </View>
+                        <View style={styles.ContentButton}>
+                            <BackLogInButton/>
+                        </View>
                     </View>
                 </View>
             </BackgroundImage>
@@ -90,17 +94,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: 80,
+
     },
-    loginButton: {
-        marginTop: 20,
-    },
-    loginButtonText: {
-        fontFamily: "Poppins",
-        fontSize: 16,
-        fontWeight: "Medium",
-        color: "#007bff",
-        textAlign: "center",
+    ContentButton:{
+        display: "flex",
+        alignItems: "center",
     },
 });
 
-export default NewPasswordRecovery;
+export default NewPassword;
