@@ -11,17 +11,16 @@ const SIDEBAR = document.getElementById("TEMPLATE");
 document.querySelector("title").textContent = "CrystalGate";
 
 //Añadir el icono
-var link = document.createElement('link');
-link.rel = 'icon';
-link.href = '../resources/img/head-logo.png';
-link.type = 'image/png';
+var link = document.createElement("link");
+link.rel = "icon";
+link.href = "../resources/img/head-logo.png";
+link.type = "image/png";
 document.head.appendChild(link);
 
 /*  Función asíncrona para cargar el encabezado y pie del documento.
  *   Parámetros: ninguno.
  *   Retorno: ninguno.
  */
-
 
 const loadTemplate = async () => {
   // Petición para obtener en nombre del usuario que ha iniciado sesión.
@@ -93,10 +92,10 @@ const loadTemplate = async () => {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill="var(--color-extra-1)"
                       d="M20 2H8C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4V16C6 16.5304 6.21071 17.0391 6.58579 17.4142C6.96086 17.7893 7.46957 18 8 18H20C20.5304 18 21.0391 17.7893 21.4142 17.4142C21.7893 17.0391 22 16.5304 22 16V4C22 3.46957 21.7893 2.96086 21.4142 2.58579C21.0391 2.21071 20.5304 2 20 2ZM14 4.5C14.663 4.5 15.2989 4.76339 15.7678 5.23223C16.2366 5.70107 16.5 6.33696 16.5 7C16.5 7.66304 16.2366 8.29893 15.7678 8.76777C15.2989 9.23661 14.663 9.5 14 9.5C13.337 9.5 12.7011 9.23661 12.2322 8.76777C11.7634 8.29893 11.5 7.66304 11.5 7C11.5 6.33696 11.7634 5.70107 12.2322 5.23223C12.7011 4.76339 13.337 4.5 14 4.5ZM19 14.75C19 14.8881 18.8881 15 18.75 15H9.25C9.11193 15 9 14.8881 9 14.75V14.75C9 12.901 11.254 11 14 11C16.746 11 19 12.901 19 14.75V14.75Z"
-                      fill="black" />
+                      fill="#888888" />
                   <path fill="var(--color-extra-1)"
                       d="M4 9C4 8.44772 3.55228 8 3 8V8C2.44772 8 2 8.44772 2 9V20C2 21.103 2.897 22 4 22H15C15.5523 22 16 21.5523 16 21V21C16 20.4477 15.5523 20 15 20H6C4.89543 20 4 19.1046 4 18V9Z"
-                      fill="black" />
+                      fill="#888888" />
               </svg>
 
               <b>Employees</b>
@@ -108,7 +107,7 @@ const loadTemplate = async () => {
               <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill="var(--color-extra-1)"
                       d="M5.05263 22H1.26316C0.928148 22 0.606858 21.878 0.36997 21.6609C0.133082 21.4437 0 21.1492 0 20.8421V11.5789C0 11.2719 0.133082 10.9773 0.36997 10.7602C0.606858 10.543 0.928148 10.4211 1.26316 10.4211H5.05263C5.38764 10.4211 5.70893 10.543 5.94582 10.7602C6.18271 10.9773 6.31579 11.2719 6.31579 11.5789V20.8421C6.31579 21.1492 6.18271 21.4437 5.94582 21.6609C5.70893 21.878 5.38764 22 5.05263 22ZM13.8947 22H10.1053C9.77025 22 9.44896 21.878 9.21208 21.6609C8.97519 21.4437 8.8421 21.1492 8.8421 20.8421V1.15789C8.8421 0.850802 8.97519 0.556287 9.21208 0.339139C9.44896 0.121992 9.77025 0 10.1053 0H13.8947C14.2297 0 14.551 0.121992 14.7879 0.339139C15.0248 0.556287 15.1579 0.850802 15.1579 1.15789V20.8421C15.1579 21.1492 15.0248 21.4437 14.7879 21.6609C14.551 21.878 14.2297 22 13.8947 22ZM22.7368 22H18.9474C18.6124 22 18.2911 21.878 18.0542 21.6609C17.8173 21.4437 17.6842 21.1492 17.6842 20.8421V8.10526C17.6842 7.79817 17.8173 7.50366 18.0542 7.28651C18.2911 7.06936 18.6124 6.94737 18.9474 6.94737H22.7368C23.0719 6.94737 23.3931 7.06936 23.63 7.28651C23.8669 7.50366 24 7.79817 24 8.10526V20.8421C24 21.1492 23.8669 21.4437 23.63 21.6609C23.3931 21.878 23.0719 22 22.7368 22Z"
-                      fill="#737373" />
+                      fill="#888888" />
               </svg>
 
               <b>Reports</b>
@@ -120,7 +119,7 @@ const loadTemplate = async () => {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill="var(--color-extra-1)"
                       d="M12.0002 0.333344C5.56716 0.333344 0.333496 5.56701 0.333496 12C0.333496 18.433 5.56716 23.6667 12.0002 23.6667C18.4332 23.6667 23.6668 18.433 23.6668 12C23.6668 5.56701 18.4332 0.333344 12.0002 0.333344ZM16.6668 16.6667C16.2113 17.1222 15.4727 17.1222 15.0172 16.6667L11.4193 13.0688C11.0442 12.6937 10.8335 12.185 10.8335 11.6546V6.16668C10.8335 5.52234 11.3558 5.00001 12.0002 5.00001V5.00001C12.6445 5.00001 13.1668 5.52234 13.1668 6.16668V10.6886C13.1668 11.219 13.3775 11.7277 13.7526 12.1028L16.6668 15.017C17.1224 15.4726 17.1224 16.2111 16.6668 16.6667V16.6667Z"
-                      fill="black" />
+                      fill="#888888" />
               </svg>
 
 
@@ -129,13 +128,38 @@ const loadTemplate = async () => {
 
           <div id="bridge-admin" class="nav-content-element">
 
-          <!-- LOGO -->
-          <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M27 4.45167C27 2.58951 24.6787 1.73792 23.4745 3.1583L21.2027 5.83781C20.3471 6.84706 18.7648 6.76214 18.022 5.66709L15.1552 1.44034C14.3618 0.270545 12.6382 0.270546 11.8448 1.44034L8.97797 5.66709C8.23525 6.76214 6.65295 6.84706 5.79727 5.83781L3.52552 3.1583C2.32128 1.73793 0 2.58951 0 4.45167V20C0 21.1046 0.895431 22 2 22H25C26.1046 22 27 21.1046 27 20V4.45167Z" fill="#888888"/>
-          </svg>          
-          
+                <!-- LOGO -->
+                <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M27 4.45167C27 2.58951 24.6787 1.73792 23.4745 3.1583L21.2027 5.83781C20.3471 6.84706 18.7648 6.76214 18.022 5.66709L15.1552 1.44034C14.3618 0.270545 12.6382 0.270546 11.8448 1.44034L8.97797 5.66709C8.23525 6.76214 6.65295 6.84706 5.79727 5.83781L3.52552 3.1583C2.32128 1.73793 0 2.58951 0 4.45167V20C0 21.1046 0.895431 22 2 22H25C26.1046 22 27 21.1046 27 20V4.45167Z" fill="#888888"/>
+                </svg>          
+                
           <b>Admin</b>
-      </div>
+            </div>
+
+          <div id="bridge-requests-settings" class="nav-content-element">
+
+              <!-- LOGO -->
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.29876 0.0445932L6.98279 0.0778534L6.97447 2.00695C6.97447 3.07127 6.94121 4.37674 6.90795 4.9089C6.84975 5.84019 6.84143 5.89839 6.60861 6.14785C6.1596 6.61349 5.98498 6.66338 4.40512 6.7299C3.60687 6.76316 2.35961 6.79642 1.64452 6.79642L0.33074 6.80473V14.7456C0.33074 23.4847 0.305794 23.0108 0.854588 23.4931C1.12899 23.7259 1.21214 23.7591 1.92723 23.809C2.3513 23.834 6.29264 23.8506 10.683 23.834C19.605 23.809 18.8567 23.8589 19.339 23.2187C19.5219 22.9775 19.5801 22.8029 19.605 22.3872L19.6383 21.855L19.1145 22.1044C18.5989 22.3456 18.5407 22.3539 17.3849 22.3539C15.9298 22.3539 15.7136 22.2707 14.9736 21.4725C14.5162 20.9736 14.4663 20.9403 14.2668 21.0235C13.876 21.1732 13.2939 21.1149 12.8033 20.8904C12.2296 20.6244 10.9241 19.3272 10.6497 18.7535C10.4751 18.3959 10.4585 18.2629 10.4917 17.6559L10.5416 16.9657L10.0843 16.5666C9.79328 16.3172 9.55214 16.0178 9.42741 15.7517C9.2528 15.3692 9.22785 15.2113 9.22785 14.1719C9.22785 13.5233 9.26943 12.8747 9.32763 12.6918C9.43573 12.3342 9.99284 11.6524 10.3254 11.4695C10.525 11.3697 10.5333 11.3281 10.525 10.5631C10.5167 9.8231 10.5333 9.72332 10.7495 9.35746C11.0489 8.85856 12.0882 7.80254 12.5788 7.51983C13.0528 7.23712 13.7097 7.11239 14.1587 7.22049L14.5079 7.29532L14.9736 6.81305C15.7136 6.03144 15.7718 6.0148 17.4182 6.0148C18.7236 6.0148 18.8567 6.03143 19.181 6.19774C19.3722 6.30583 19.5552 6.38898 19.5801 6.38898C19.6632 6.38898 19.6217 1.28354 19.5385 0.967565C19.4304 0.601702 18.9897 0.194264 18.5657 0.0778534C18.2663 -0.00529719 8.05543 -0.0302424 7.29876 0.0445932Z" fill="#888888"/>
+              <path d="M3.67345 1.8074C1.88571 3.50367 0.621826 4.84239 0.621826 5.05027C0.621826 5.2332 1.8774 5.31635 3.87301 5.24983L5.38635 5.19994L5.43624 4.9006C5.50276 4.50147 5.50276 0.909369 5.43624 0.576766C5.40298 0.43541 5.35309 0.319 5.31152 0.319C5.27826 0.319 4.53822 0.992519 3.67345 1.8074Z" fill="#888888"/>
+              <path d="M16.4951 7.47826C16.1126 7.58636 16.0378 7.72771 15.9879 8.42618C15.963 8.76709 15.9131 9.06644 15.8881 9.09138C15.8549 9.10801 15.6387 9.19948 15.4059 9.29094L14.9735 9.45724L14.4912 9.08307C14.2334 8.87519 13.9258 8.69226 13.826 8.659C13.4186 8.55922 12.1131 9.71501 12.005 10.2555C11.9551 10.5548 11.9801 10.6214 12.5039 11.3697L12.745 11.7106L12.6037 12.0765C12.5289 12.2844 12.4208 12.4839 12.3626 12.5255C12.3043 12.5671 12.005 12.6253 11.6807 12.6585C11.1984 12.7001 11.0654 12.75 10.9157 12.9246C10.7411 13.1159 10.7245 13.2156 10.7245 14.0804C10.7245 15.0366 10.8076 15.4025 11.0405 15.494C11.107 15.5189 11.4313 15.5605 11.7639 15.5938L12.3626 15.6436L12.5871 16.0927C12.8282 16.5999 12.8448 16.5417 12.321 17.1404C11.7306 17.8222 11.8054 18.1132 12.7783 19.0279C13.5766 19.7679 13.7345 19.7845 14.4164 19.1942C14.6741 18.9614 14.9319 18.7784 14.9735 18.7784C15.0151 18.7784 15.2312 18.8699 15.4558 18.9863C15.8965 19.2108 15.963 19.3272 15.963 19.9924C15.963 20.3417 16.0045 20.4581 16.1875 20.641C16.412 20.8655 16.4203 20.8655 17.4763 20.8406C18.7901 20.8073 18.8067 20.799 18.8732 19.8594L18.9148 19.1859L19.3888 18.9697L19.8627 18.7618L20.3034 19.1443C21.0601 19.8095 21.3179 19.7762 22.2242 18.8616C23.064 18.0051 23.0807 17.7474 22.3489 16.9741C22.0247 16.6498 22.0163 16.6165 22.1078 16.3587C22.3074 15.785 22.4071 15.7019 22.9144 15.7019C23.405 15.7019 23.9039 15.5189 24.0203 15.2944C24.2531 14.8537 24.2115 13.2655 23.9537 12.9496C23.8373 12.8082 23.6793 12.7666 23.1555 12.7167L22.4903 12.6669L22.2492 12.1929L22.0163 11.7106L22.4404 11.245C22.931 10.7128 23.0141 10.4883 22.8395 10.164C22.6566 9.80648 22.1327 9.22442 21.7586 8.95834C21.268 8.60079 21.0019 8.63405 20.4198 9.12464L19.9209 9.52376L19.5218 9.35746C19.0395 9.1579 18.998 9.08307 18.9314 8.43449C18.8732 7.86075 18.6737 7.53647 18.3245 7.46163C17.9586 7.37848 16.7862 7.39511 16.4951 7.47826ZM18.3494 11.3448C19.5634 11.7605 20.3284 12.8581 20.3117 14.1636C20.3034 15.2778 19.7131 16.2506 18.7402 16.7412C18.3411 16.9408 18.1332 16.9907 17.4929 17.0156C16.8111 17.0489 16.6781 17.0323 16.2623 16.841C15.647 16.5583 15.0234 15.9596 14.7407 15.3776C14.5328 14.9701 14.5078 14.8121 14.5078 14.122C14.5078 13.4235 14.5328 13.2739 14.7407 12.8581C15.1065 12.1181 15.7967 11.5194 16.545 11.2866C16.9192 11.1785 17.9336 11.2034 18.3494 11.3448Z" fill="#888888"/>
+              </svg>                      
+
+
+              <b>Requests</b>
+          </div>
+
+          <div id="bridge-authorizations-settings" class="nav-content-element">
+
+              <!-- LOGO -->
+              <svg width="31" height="24" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.87212 0.125526C7.65603 0.217481 7.31645 0.432044 7.13122 0.615955C6.45207 1.22899 6.32859 1.68877 6.32859 3.38995V4.99917L3.95154 5.04515C1.3121 5.09113 1.08057 5.16776 0.355106 6.24057L9.26874e-05 6.74633V14.4706C9.26874e-05 23.0378 -0.030778 22.7006 1.03426 23.5129L1.58993 23.942L12.2558 23.988C21.6405 24.0186 22.9988 24.0033 23.5544 23.7888C23.9094 23.6508 24.3108 23.4209 24.4343 23.283C24.6658 23.0225 24.604 23.0225 23.1686 23.0684C21.98 23.1144 21.5633 23.0838 21.162 22.8845C20.7452 22.67 20.1895 21.9956 20.0197 21.5052C19.9889 21.4286 19.711 21.4592 19.3869 21.5665C18.4608 21.873 17.8588 21.6585 16.7629 20.6469C16.2226 20.1412 15.6978 19.5281 15.5898 19.2676C15.4046 18.8385 15.4354 18.0109 15.6515 17.3519C15.7441 17.0913 15.667 17.0147 15.2657 16.8921C14.3241 16.6009 14.1234 16.1105 14.1234 14.1028V12.3403L14.6945 11.8192C15.0187 11.528 15.4046 11.2981 15.5744 11.2981C15.8522 11.2981 15.8522 11.2675 15.6207 10.6238C15.4046 10.0567 15.4046 9.85749 15.5744 9.30576C15.7905 8.58544 16.9172 7.35936 17.7507 6.93024C18.2447 6.6697 19.2171 6.6697 19.7882 6.91491C19.9889 7.00687 20.0815 6.94556 20.1432 6.65437C20.3284 5.94938 21.0539 5.44362 22.1807 5.24439L23.2303 5.04515L21.0385 5.02982L18.8312 5.0145V3.34397C18.8312 1.53551 18.646 1.06041 17.7044 0.355415C17.2877 0.0488962 17.0562 0.0335702 12.7651 0.00291837C9.95589 -0.0124076 8.11909 0.0335702 7.87212 0.125526ZM16.3616 3.78842V5.0145H12.5799H8.79824V3.78842V2.56235H12.5799H16.3616V3.78842ZM7.56341 14.5166V21.4132H6.25141H4.9394V14.5166V7.6199H6.25141H7.56341V14.5166Z" fill="#888888"/>
+              <path d="M21.5479 6.88423C21.409 7.06814 21.3009 7.49727 21.3009 7.81911C21.3009 8.3402 21.2392 8.43215 20.7607 8.63139C20.2513 8.84595 20.205 8.83062 19.5258 8.35552L18.8158 7.86509L18.2756 8.15628C17.5501 8.53943 16.8247 9.42834 16.8247 9.90344C16.8247 10.118 17.0099 10.5471 17.226 10.869C17.5964 11.3901 17.6119 11.4973 17.4421 11.9111C17.2723 12.3096 17.1488 12.3862 16.4851 12.4629C15.5281 12.5855 15.2811 12.9226 15.2811 14.0874C15.2811 15.4821 15.42 15.6966 16.4079 15.8192C17.1025 15.9112 17.2877 15.9878 17.4266 16.2944C17.6582 16.8308 17.6582 16.8767 17.1179 17.6277C16.7938 18.1028 16.6703 18.4093 16.7321 18.6239C16.8864 19.0837 18.3065 20.3404 18.6769 20.3404C18.8621 20.3404 19.2634 20.1258 19.603 19.8653C20.1741 19.4055 20.205 19.4055 20.6681 19.6354C21.1311 19.8806 21.2546 20.1258 21.3318 21.0301C21.3935 21.7044 21.9338 21.9343 23.1686 21.8117C23.7088 21.7504 24.2491 21.6431 24.3571 21.5818C24.4652 21.5205 24.5886 21.1067 24.6504 20.6622C24.7276 19.9266 24.7893 19.85 25.2832 19.6507C25.7926 19.4208 25.8235 19.4362 26.3483 19.8806C27.0892 20.5396 27.5059 20.4783 28.4012 19.5741C29.3119 18.6852 29.3582 18.3174 28.7253 17.5204C28.324 17.03 28.2931 16.8921 28.432 16.5089C28.5555 16.1564 28.6944 16.0338 29.1421 15.9725C30.2997 15.7886 30.4232 15.7273 30.5776 15.3135C30.7782 14.8231 30.6702 13.0299 30.4386 12.8C30.346 12.7081 29.9293 12.6008 29.5125 12.5548C28.8179 12.4935 28.7253 12.4322 28.4938 11.9418C28.2314 11.4207 28.2314 11.4054 28.6018 11.0069C29.3582 10.21 29.4045 9.96474 28.926 9.2904C28.0616 8.049 27.2281 7.78846 26.41 8.47813C25.6228 9.12182 24.6967 8.69269 24.6967 7.68118C24.6967 6.8076 24.2799 6.54706 22.9371 6.54706C21.9183 6.54706 21.7485 6.59304 21.5479 6.88423ZM23.9712 11.0069C24.7739 11.2215 25.7 12.095 26.0241 12.9073C26.41 13.9495 26.2711 15.2522 25.6691 16.0798C25.0208 16.984 24.1101 17.4285 22.9679 17.4285C20.1124 17.4285 18.5689 14.2254 20.3748 12.0491C21.2392 10.9916 22.5666 10.6084 23.9712 11.0069Z" fill="#888888"/>
+              </svg>          
+
+
+              <b>Authorizations</b>
+          </div>
 
           <br>
       </div>
@@ -165,84 +189,100 @@ const loadTemplate = async () => {
           </div>
       </div>
   </div>`;
-        loadNavBarJs();
+      loadNavBarJs();
     } else {
       sweetAlert(3, DATA.error, false, "index.html");
     }
   } else {
     // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.
     if (!location.pathname.endsWith("index.html")) {
-        location.href = "index.html";
+      location.href = "index.html";
     }
   }
 };
 
 const loadNavBarJs = () => {
+  const container = document.querySelector("#bridge-inbox-container");
+  const content = document.querySelector(".contenttt");
+  const contentContainer = document.querySelector(
+    ".another-contenttt-container"
+  );
 
-    const container = document.querySelector('#bridge-inbox-container');
-    const content = document.querySelector('.contenttt');
-    const contentContainer = document.querySelector('.another-contenttt-container');
-
-    container.addEventListener('click', function () {
-        if (container.classList.contains('active')) {
-            container.classList.remove('active');
-            content.style.maxHeight = '0';
-        } else {
-            container.classList.add('active');
-            content.style.maxHeight = (content.scrollHeight + 20) + 'px';
-        }
-    });
-
-    const showMenu = (toggleId, navId) =>{
-        const toggle = document.getElementById(toggleId),
-        nav = document.getElementById(navId)
-        
-        // Validate that variables exist
-        if(toggle && nav){
-            toggle.addEventListener('click', ()=>{
-                // We add the show-menu class to the div tag with the nav__menu class
-                nav.classList.toggle('show-nav-bar')
-                document.querySelector('main').classList.toggle("blured")
-            })
-        }
+  container.addEventListener("click", function () {
+    if (container.classList.contains("active")) {
+      container.classList.remove("active");
+      content.style.maxHeight = "0";
+    } else {
+      container.classList.add("active");
+      content.style.maxHeight = content.scrollHeight + 20 + "px";
     }
-    
-    showMenu('nav-side-bar-button','nav-bar')
-    
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 600) {
-            document.querySelector('main').classList.remove("blured");
-            document.getElementById('nav-bar').classList.remove("show-nav-bar");
-        }
-    });
-    
-    
-    // Definir las rutas y los IDs
-    const rutas = ['/dashboard', '/medical', '/vacation', '/permissions', '/employees', '/reports', '/history', '/admin'];
-    const ids = ['dashboard', 'medical-leave', 'vacation-request', 'permissions', 'employees', 'reports', 'history', 'admin'];
-    
-    // Agregar event listener a cada div
-    ids.forEach((id, index) => {
-        const div = document.getElementById("bridge-"+id);
-        if (div) {
-            div.addEventListener('click', () => {
-                window.location.href = "/CrystalGate/views"+rutas[index]+".html";
-            });
-        }
-    });
-    
-    // Colorear el lugar en el que esta actualmente
-    
-    const CurrentLocation = document.body.id;
-    
-    if (CurrentLocation.startsWith("local-")) {
-        const currentPageId = CurrentLocation.replace("local-", "");
-        const currentPageIndex = ids.indexOf(currentPageId);
-        if (currentPageIndex !== -1) {
-            const currentPageDiv = document.getElementById("bridge-" + currentPageId);
-            if (currentPageDiv) {
-                currentPageDiv.classList.add("nav-item-selected");
-            }
-        }
+  });
+
+  const showMenu = (toggleId, navId) => {
+    const toggle = document.getElementById(toggleId),
+      nav = document.getElementById(navId);
+
+    // Validate that variables exist
+    if (toggle && nav) {
+      toggle.addEventListener("click", () => {
+        // We add the show-menu class to the div tag with the nav__menu class
+        nav.classList.toggle("show-nav-bar");
+        document.querySelector("main").classList.toggle("blured");
+      });
     }
-}
+  };
+
+  showMenu("nav-side-bar-button", "nav-bar");
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 600) {
+      document.querySelector("main").classList.remove("blured");
+      document.getElementById("nav-bar").classList.remove("show-nav-bar");
+    }
+  });
+
+  // Definir las rutas y los IDs
+  const rutas = [
+    "/dashboard",
+    "/employees",
+    "/reports",
+    "/history",
+    "/admin",
+    "/requests-settings",
+    "/authorizations-settings",
+  ];
+  const ids = [
+    "dashboard",
+    "employees",
+    "reports",
+    "history",
+    "admin",
+    "requests-settings",
+    "authorizations-settings",
+  ];
+
+  // Agregar event listener a cada div
+  ids.forEach((id, index) => {
+    const div = document.getElementById("bridge-" + id);
+    if (div) {
+      div.addEventListener("click", () => {
+        window.location.href = "/CrystalGate/views" + rutas[index] + ".html";
+      });
+    }
+  });
+
+  // Colorear el lugar en el que esta actualmente
+
+  const CurrentLocation = document.body.id;
+
+  if (CurrentLocation.startsWith("local-")) {
+    const currentPageId = CurrentLocation.replace("local-", "");
+    const currentPageIndex = ids.indexOf(currentPageId);
+    if (currentPageIndex !== -1) {
+      const currentPageDiv = document.getElementById("bridge-" + currentPageId);
+      if (currentPageDiv) {
+        currentPageDiv.classList.add("nav-item-selected");
+      }
+    }
+  }
+};
