@@ -31,6 +31,7 @@ const screenOptions = {
 
 const Navigation = () => {
     return (
+
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
                 name="CreatePermission"
@@ -192,6 +193,7 @@ const Navigation = () => {
                 }}
             />
         </Tab.Navigator>
+
     );
 };
 
