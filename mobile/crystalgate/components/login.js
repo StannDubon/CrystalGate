@@ -10,15 +10,22 @@ import UsernameInputForm from './input/input-username';
 import PasswordInputForm from './input/input-password';
 import LoginButton from './button/button-login';
 import ForgotButton from './button/button-forgot';
+import { useNavigation } from '@react-navigation/native';
 
 const fondo = require('../assets/img/background/background.png');
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
-  const handleSend = () => {
+  const handleSendNav = () => {
     // Función para manejar el envío
+    navigation.navigate('Navigation');
+  };
+  const handleSendPas = () => {
+    // Función para manejar el envío
+    navigation.navigate('PasswordRecovery');
   };
 
   return (
@@ -39,11 +46,14 @@ const Login = () => {
               <PasswordInputForm onChangeText={setPassword} value={password} placeholder="Password" secureTextEntry={true}/>
             </SafeAreaView>
             <View style={styles.ContentButton}>
-              <ForgotButton/>
+              <ForgotButton onPress={handleSendPas}/>
             </View>
           </View>
           <View style={styles.ContentButton}>
-            <LoginButton onPress={handleSend}/>
+
+              <LoginButton onPress={handleSendNav}/>
+
+            
           </View>
         </View>
       </BackgroundImage>

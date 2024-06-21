@@ -13,15 +13,21 @@ import NewInputForm from "./input/input-new";
 import PasswordInputForm from "./input/input-password";
 import ResetButton from "./button/button-reset";
 import BackLogInButton from "./button/button-backLG";
+import { useNavigation } from '@react-navigation/native';
 
 const fondo = require("../assets/img/background/background.png");
 
 const NewPassword = () => {
     const [text, onChangeText] = React.useState("");
-    
+    const navigation = useNavigation();
 
-    const handleSend = () => {
+    const handleSendRes = () => {
         // Función para manejar el envío
+        navigation.navigate('Login');
+    };
+    const handleSendLog = () => {
+        // Función para manejar el envío
+        navigation.navigate('Login');
     };
     const handleBack = () => {
         // Función para manejar el envío
@@ -46,10 +52,10 @@ const NewPassword = () => {
                             <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Confirm Password"/>
                         </SafeAreaView>
                         <View style={styles.ContentButton}>
-                            <ResetButton/>
+                            <ResetButton onPress={handleSendRes}/>
                         </View>
                         <View style={styles.ContentButton}>
-                            <BackLogInButton/>
+                            <BackLogInButton onPress={handleSendLog}/>
                         </View>
                     </View>
                 </View>

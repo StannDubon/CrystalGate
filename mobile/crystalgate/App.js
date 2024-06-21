@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Navigation from "../crystalgate/components/navigation";
 //import PasswordRecovery from "../crystalgate/components/password-recovery";
 //import Verification from "../crystalgate/components/verification";
@@ -12,11 +13,19 @@ import Verification from "./components/verification";
 //EL DE PROFILE SE DEBE INGRESAR A PROFILE EL NAVIGATION YA ESTA CONFIGURADO
 //import Profile from "../crystalgate/components/profile";
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
     return (
-        <View style={styles.container}>
-            <Login/>
-        </View>
+        <NavigationContainer>
+        <Stack.Navigator >
+          <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+          <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} options={{headerShown:false}}/>
+          <Stack.Screen name="Verification" component={Verification} options={{headerShown:false}}/>
+          <Stack.Screen name="NewPassword" component={NewPassword} options={{headerShown:false}}/>
+          <Stack.Screen name="Navigation" component={Navigation} options={{headerShown:false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     );
 }
 
