@@ -69,6 +69,7 @@ main{
     width: 200px;
     height: 100%;
     object-fit: contain;
+    user-select: none;
 }
 
 .nav-content{
@@ -158,6 +159,7 @@ main{
 .nav-profile-info{
     display: flex;
     padding: 30px;
+    align-items: center;
 }
 
 
@@ -165,6 +167,11 @@ main{
     color: var(--color-extra-3);
     padding-left: 20px;
     user-select: none;
+}
+
+.nav-profile-info img{
+    user-select: none;
+    border-radius: 50%;
 }
  
 .nav-nombre{
