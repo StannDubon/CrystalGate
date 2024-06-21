@@ -30,6 +30,9 @@ const loadTemplate = async () => {
     // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
       // Se agrega el encabezado de la página web antes del contenido principal.
+      const DATA_USER = await fetchData(USER_API, "readProfile");
+      if (DATA_USER.status) {
+      const DATASET_USER = DATA_USER.dataset;
       SIDEBAR.innerHTML = `
       <div id="nav-side-bar-button">
       <svg width="152" height="114" viewBox="0 0 152 114" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -160,8 +163,6 @@ const loadTemplate = async () => {
 
               <b>Authorizations</b>
           </div>
-
-          <br>
       </div>
       <div class="nav-profile">
 
@@ -181,14 +182,16 @@ const loadTemplate = async () => {
           </div>
 
           <div class="nav-profile-info">
-              <img src="../resources/svg/def-user.svg" alt="">
+              <img src="../api/images/admin/${DATASET_USER.imagen}" alt="">
               <div>
-                  <p class="nav-nombre">Joselito Perez</p>
-                  <p class="nav-rol">ADMINISTRATOR</p>
+                  <p class="nav-nombre">${DATASET_USER.nombre +" "+ DATASET_USER.apellido}</p>
+                  <p class="nav-rol">${DATASET_USER.tipo_administrador}</p>
               </div>
           </div>
       </div>
-  </div>`;
+  </div>
+      `;}
+
       loadNavBarJs();
     } else {
       sweetAlert(3, DATA.error, false, "index.html");
