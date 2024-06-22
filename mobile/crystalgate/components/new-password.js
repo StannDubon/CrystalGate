@@ -13,14 +13,21 @@ import NewInputForm from "./input/input-new";
 import PasswordInputForm from "./input/input-password";
 import ResetButton from "./button/button-reset";
 import BackLogInButton from "./button/button-backLG";
+import { useNavigation } from '@react-navigation/native';
 
 const fondo = require("../assets/img/background/background.png");
 
-const NewPasswordRecovery = () => {
+const NewPassword = () => {
     const [text, onChangeText] = React.useState("");
+    const navigation = useNavigation();
 
-    const handleSend = () => {
+    const handleSendRes = () => {
         // Función para manejar el envío
+        navigation.navigate('Login');
+    };
+    const handleSendLog = () => {
+        // Función para manejar el envío
+        navigation.navigate('Login');
     };
     const handleBack = () => {
         // Función para manejar el envío
@@ -44,9 +51,12 @@ const NewPasswordRecovery = () => {
                         <SafeAreaView>
                             <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Confirm Password"/>
                         </SafeAreaView>
-
-                        <ResetButton onPress={handleSend} />
-                        <BackLogInButton onPress={handleBack} />
+                        <View style={styles.ContentButton}>
+                            <ResetButton onPress={handleSendRes}/>
+                        </View>
+                        <View style={styles.ContentButton}>
+                            <BackLogInButton onPress={handleSendLog}/>
+                        </View>
                     </View>
                 </View>
             </BackgroundImage>
@@ -90,17 +100,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: 80,
+
     },
-    loginButton: {
-        marginTop: 20,
-    },
-    loginButtonText: {
-        fontFamily: "Poppins",
-        fontSize: 16,
-        fontWeight: "Medium",
-        color: "#007bff",
-        textAlign: "center",
+    ContentButton:{
+        display: "flex",
+        alignItems: "center",
     },
 });
 
-export default NewPasswordRecovery;
+export default NewPassword;

@@ -4,6 +4,9 @@ import Dashboard from "./dashboard";
 import History from "./history";
 import Profile from "./profile";
 import Login from "./login";
+import PasswordRecovery from "./password-recovery";
+import Verification from "./verification";
+import NewPassword from "./new-password";
 
 export {
     CreatePermission,
@@ -11,5 +14,8 @@ export {
     Dashboard,
     History,
     Profile,
-    Login
+    Login,
+    PasswordRecovery,
+    Verification,
+    NewPassword,
 }
