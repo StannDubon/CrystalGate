@@ -50,36 +50,3 @@ if (CurrentLocation.startsWith("local-")) {
         }
     }
 }
-
-
-/* CODIGO TOTALMENTE TEMPORAL */
-
-var botonesAbrirModal = document.querySelectorAll('.temp-info');
-botonesAbrirModal.forEach(function (boton) {
-  boton.addEventListener('click', function () {
-    window.location.href = "entry-request.html"
-  });
-});
-
-
-var botonesAbrirModal = document.querySelectorAll('.temp-employee-info');
-botonesAbrirModal.forEach(function (boton) {
-  boton.addEventListener('click', function () {
-    window.location.href = "employee-info.html"
-  });
-});
-
-
-var botonesAbrirModal = document.querySelectorAll('.temp-approved');
-botonesAbrirModal.forEach(function (boton) {
-  boton.addEventListener('click', function () {
-    window.location.href = "employee-request-approved.html"
-  });
-});
-
-var botonesAbrirModal = document.querySelectorAll('.temp-rejected');
-botonesAbrirModal.forEach(function (boton) {
-  boton.addEventListener('click', function () {
-    window.location.href = "employee-request-rejected.html"
-  });
-});

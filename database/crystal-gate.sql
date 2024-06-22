@@ -157,6 +157,7 @@ CREATE TABLE
 
 INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
 
-INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo) 
+INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
 VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',
-'test@root.com');
+'test@root.com', 'test.png');
+/* CONTRASEÑA: 123456789 */

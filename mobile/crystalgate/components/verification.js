@@ -9,15 +9,18 @@ import Svg, { Path } from "react-native-svg";
 import CheckInputForm from "../components/input/input-check";
 import SendButton from "../components/button/button-send";
 import BackButton from "../components/button/button-back";
-import BackgroundImage from "../components/background/background-mountain"; // Asegúrate de ajustar la ruta si es necesario
+import BackgroundImage from "../components/background/background-mountain";
+import { useNavigation } from '@react-navigation/native';
 
 const fondo = require("../assets/img/background/background.png");
 
 const Verification = () => {
     const [number, onChangeText] = React.useState("");
+    const navigation = useNavigation();
 
     const handleSend = () => {
         // Función para manejar el envío
+        navigation.navigate('NewPassword');
     };
     const handleBack = () => {
         // Función para manejar el envío

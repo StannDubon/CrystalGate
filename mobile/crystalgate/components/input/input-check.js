@@ -11,6 +11,7 @@ const CheckInputForm = ({ onChangeText, value, placeholder }) => {
                 viewBox="0 0 15 12"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                
             >
                 <Path
                     d="M4.707 8.293L1.414 5L0 6.414L4.707 11.121L14.414 1.414L13 0L4.707 8.293Z"

@@ -10,15 +10,18 @@ import Svg, { Path } from "react-native-svg";
 import EmailInputForm from "../components/input/input-email";
 import SendButton from "../components/button/button-send";
 import BackButton from "../components/button/button-back";
-import BackgroundImage from "../components/background/background-mountain"; // Asegúrate de ajustar la ruta si es necesario
+import BackgroundImage from "../components/background/background-mountain"; 
+import { useNavigation } from '@react-navigation/native';
 
 const fondo = require("../assets/img/background/background.png");
 
 const PasswordRecovery = () => {
     const [text, onChangeText] = React.useState("");
+    const navigation = useNavigation();
 
     const handleSend = () => {
         // Función para manejar el envío
+        navigation.navigate('Verification');
     };
     const handleBack = () => {
         // Función para manejar el envío
@@ -31,9 +34,9 @@ const PasswordRecovery = () => {
                 <BackButton onPress={handleBack} />
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Password Recovery</Text>
+                    <Text style={styles.title}>New Password</Text>
                     <Text style={styles.subTitle}>
-                        Enter the email address associated with your account
+                        Enter the new password for your account
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>

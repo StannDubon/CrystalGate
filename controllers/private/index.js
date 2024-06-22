@@ -1,22 +1,22 @@
-const ADMIN_API = 'services/administradores.php';
+const ADMIN_API = 'services/admin/administrador.php';
 const LOGIN_FORM = document.getElementById('loginForm');
-const CORREO = document.getElementById('correo');
-const CLAVE = document.getElementById('clave');
-const BTN = document.getElementById('btnLogin');
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Llamada a la función para mostrar el encabezado y pie del documento.
+    loadTemplate();
+});
 
-
-BTN.addEventListener('click', async (event) =>{
-    // Se evita recargar la página se recargue.
+LOGIN_FORM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+    // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(LOGIN_FORM);
-    const DATA = await fetchData(ADMIN_API,'logIn',FORM);
-    if(DATA.status){
-        sweetAlert(1, DATA.message, true, 'inbox.html');
-    }
-    else{
+    // Petición para iniciar sesión.
+    const DATA = await fetchData(ADMIN_API, 'logIn', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        sweetAlert(1, DATA.message, true, 'dashboard.html');
+    } else {
         sweetAlert(2, DATA.error, false);
     }
 });
-
-
