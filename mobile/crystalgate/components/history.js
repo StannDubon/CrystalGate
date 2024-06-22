@@ -12,9 +12,16 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import HeaderSingle from "../components/header/headerSigle";
 import FilterButton from "../components/button/filterButton";
+import FilterModal from "../components/filter/filterModal";
 
 const History = () => {
     const email = "cm.climber@glassmouantainbbo.com";
+    const [visible, setVisible] = useState(false);
+
+    const toggleWidget = () => {
+        setVisible(!visible);
+    };
+
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
@@ -29,8 +36,9 @@ const History = () => {
         <View style={styles.container}>
             <HeaderSingle title={"Your Journey"} subtitle={"History"}/>
             <View style={styles.filterContainer}>
-                <FilterButton></FilterButton>
+                <FilterButton onPress={toggleWidget}></FilterButton>
             </View>
+            <FilterModal visible={visible} setVisible={setVisible} />
         </View>
     );
 };
