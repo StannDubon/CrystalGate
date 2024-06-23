@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         color: Color.colorfont1,
     },
     subtitle: {
+        fontFamily: "Poppins-Regular",
         fontSize: 24,
         fontWeight: "normal",
         color: "#4292F6",

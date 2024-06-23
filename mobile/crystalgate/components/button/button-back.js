@@ -4,7 +4,7 @@ import Svg, { Path } from "react-native-svg";
 
 const BackButton = ({ onPress }) => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
             <Svg
                 width="29"
                 height="28"
