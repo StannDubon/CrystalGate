@@ -96,7 +96,7 @@ CREATE TABLE
         /* NOT ID'S */
         tipo_permiso VARCHAR(50) UNIQUE,
         lapso ENUM ('1', '2', '3'),
-        estado BOOLEAN DEFAULT TRUE
+        estado BOOLEAN DEFAULT TRUE,
         
         CONSTRAINT fk_tipo_clasificacion_permiso FOREIGN KEY (id_clasificacion_permiso) REFERENCES tb_clasificaciones_permisos(id_clasificacion_permiso)
     );
