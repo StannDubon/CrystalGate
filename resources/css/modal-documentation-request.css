@@ -92,6 +92,10 @@
     outline: none;
 }
 
+.modal-content input[type="file"] {
+    cursor: pointer;
+}
+
 input::placeholder {
     color: #9B9B9B; 
     opacity: 1;  
