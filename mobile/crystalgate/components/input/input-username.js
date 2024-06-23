@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     div: {
         display: "flex",
         flexDirection: "row",
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 20,
         fontWeight: "Medium",
         marginTop: 40,
