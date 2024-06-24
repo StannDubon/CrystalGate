@@ -22,6 +22,8 @@ const PermissionRequest = () => {
     const resquests_type = ['Vacations','Special Permission'];
     const send_by = ['Paternity/Maternity','ISSS'];
     const navigation = useNavigation();
+    const [selectedOption, setSelectedOption] = useState('Days');
+
 
     const handleSend = () => {
         // Función para manejar el envío
@@ -32,9 +34,12 @@ const PermissionRequest = () => {
         <View style={styles.container}>
             <HeaderForms title={"Documentation Request"} href={'Dashboard'}/>
             <View style={styles.formContainer}>
+                <Text style={styles.sectionText}>Details</Text>
                 <ComboBox label={"Permission Type"} options={resquests_type} placeholder={"Select an option"}></ComboBox>
                 <ComboBox label={"Sub-Permission Type"} options={send_by} placeholder={"Select an option"}></ComboBox>
                 <TextArea label={"Permission description"}></TextArea>
+                <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
+                <Text style={styles.sectionText}>DATE</Text>
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
         </View>
@@ -56,6 +61,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },  
+    sectionText:{
+        display: "flex",
+        alignSelf: "flex-start",
+        paddingLeft: 30,
+        fontFamily: "Poppins-Regular",
+        color: "#98ADE3",
+        paddingTop: 20,
+    },
 });
 
 export default PermissionRequest;
