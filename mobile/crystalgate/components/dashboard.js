@@ -9,6 +9,7 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import HeaderSingle from "./header/headerSigle";
 import NotificationCard from "./cards/notificationCard";
+import PermissionCard from "./cards/permissionCard";
 
 const Dashboard = () => {
 
@@ -20,8 +21,20 @@ const Dashboard = () => {
     { id: '5', title: 'Notification 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
   ];
 
-  const renderItem = ({ item }) => (
+  const permissions = [
+    { id: '1', title: 'Permission 1', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
+    { id: '2', title: 'Permission 2', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
+    { id: '3', title: 'Permission 3', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
+    { id: '4', title: 'Permission 4', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
+    { id: '5', title: 'Permission 5', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
+  ];
+
+  const renderNotification = ({ item }) => (
     <NotificationCard title={item.title} type={item.type} dateBegin={item.dateBegin} dateEnd={item.dateEnd}/>
+  );
+
+  const renderPermission = ({ item }) => (
+    <PermissionCard title={item.title} type={item.type} dateBegin={item.dateBegin} dateEnd={item.dateEnd}/>
   );
 
     return (
@@ -44,14 +57,14 @@ const Dashboard = () => {
                     <Text style={styles.textSection}>NOTIFICATIONS</Text>
                 </View>
 
-                <View style={styles.cardContainer}>
+                <View style={styles.notificationContainer}>
                     <FlatList
                       data={data}
-                      renderItem={renderItem}
+                      renderItem={renderNotification}
                       keyExtractor={item => item.id}
                       horizontal
                       showsHorizontalScrollIndicator={false}
-                      contentContainerStyle={styles.flatListContainer}
+                      contentContainerStyle={styles.flatListContainerNotifications}
                     />
                 </View>
 
@@ -70,19 +83,41 @@ const Dashboard = () => {
                     </Svg>
                     <Text style={styles.textSection}>PENDING</Text>
                 </View>
+                <View style={styles.permissionContainer}>
+                    <FlatList
+                      data={permissions}
+                      renderItem={renderPermission}
+                      keyExtractor={item => item.id}
+                      contentContainerStyle={styles.flatListContainerPermission}
+                    />
+                </View>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    cardContainer:{
+    notificationContainer:{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Color.colorBackground,
     },
-    flatListContainer: {
+    permissionContainer:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Color.colorBackground,
+        marginBottom: 100,
+    },
+    flatListContainerNotifications: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20, 
+    },
+    flatListContainerPermission: {
+        display: "flex",
+        flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20, 

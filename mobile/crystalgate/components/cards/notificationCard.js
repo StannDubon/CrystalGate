@@ -6,7 +6,6 @@ const NotificationCard = ({title, type = 1, dateBegin, timeBegin="7:00 a.m", dat
     const [colorCard, setColorCard] = useState("#8DDA8C");
 
     useEffect(() => {
-        // Actualizar el color dependiendo del tipo
         if (type === 1) {
             setColorCard("#8DDA8C");
         } else {
