@@ -29,15 +29,12 @@ const NewPassword = () => {
         // Función para manejar el envío
         navigation.navigate('Login');
     };
-    const handleBack = () => {
-        // Función para manejar el envío
-    };
 
     return (
         <View style={styles.container}>
             <BackgroundImage source={fondo}>
                 <View style={styles.header}>
-                <BackButton onPress={handleBack} />
+                
                 </View>
                 <View style={styles.content}>
                     <Text style={styles.title}>New Password</Text>
@@ -79,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Bold",
         fontSize: 32,
         fontWeight: "bold",
         color: "#4292F6",
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     subTitle: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 20,
         fontWeight: "Medium",
         color: "#66A0E9",

@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
         color: '#4292F6',
         marginLeft: 'auto',
         marginBottom: 20,
+        fontFamily: 'Poppins-Regular'
     },
 });
 export default ForgotButton;

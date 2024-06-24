@@ -1,0 +1,104 @@
+
+
+.main-content{
+    justify-content: center;
+    align-items: center;
+
+}
+
+.profile-info {
+    margin-top: 10vh;
+    background-color: var(--color-extra-4);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2 10px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.profile-info:hover {
+    scale: 1.02;
+    box-shadow: 0 1 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-picture img {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    margin-top: -40%;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.profile-details p {
+    font-size: var(--normal-text-size);
+    margin: 10px 0;
+    color: var(--color-extra-1);
+}
+
+.profile-name{
+    font-weight: var(--bold-text-weight);
+    font-size: var(--large-text-size);
+}
+
+.profile-email-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-extra-2);
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.profile-email-box p{
+    margin: 5px 0 3px 5px;
+    font-weight: var(--medium-text-weight);
+}
+.profile-email-box svg{
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.profile-action{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.button {
+    background-color: var(--color-extra-6);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.button svg{
+    margin-right: 5px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: var(--color-extra-9);
+}

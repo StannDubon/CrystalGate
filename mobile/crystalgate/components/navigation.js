@@ -32,7 +32,7 @@ const screenOptions = {
 const Navigation = () => {
     return (
 
-        <Tab.Navigator screenOptions={screenOptions}>
+        <Tab.Navigator screenOptions={screenOptions} initialRouteName="Dashboard">
             <Tab.Screen
                 name="CreatePermission"
                 component={CreatePermission}
