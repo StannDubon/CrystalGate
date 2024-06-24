@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Bold",
     fontSize: 32,
     fontWeight: "bold",
     color: "#4292F6",
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   subTitle: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Regular",
     fontSize: 20,
     fontWeight: "Medium",
     color: "#66A0E9",

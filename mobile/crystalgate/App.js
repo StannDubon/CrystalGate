@@ -3,6 +3,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Navigation from "../crystalgate/components/navigation";
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 //import PasswordRecovery from "../crystalgate/components/password-recovery";
 //import Verification from "../crystalgate/components/verification";
 import Loading from "../crystalgate/components/loading";
@@ -13,9 +15,20 @@ import Verification from "./components/verification";
 //EL DE PROFILE SE DEBE INGRESAR A PROFILE EL NAVIGATION YA ESTA CONFIGURADO
 //import Profile from "../crystalgate/components/profile";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+    let [fontsLoaded] = useFonts({
+      'Poppins-Regular': require('./assets/fonts/Regular.ttf'),
+      'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'), // Agrega otras variantes si es necesario
+    });
+
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+
     return (
         <NavigationContainer>
         <Stack.Navigator >

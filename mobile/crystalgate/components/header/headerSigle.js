@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../../assets/const/color";
 
-const HeaderSingle = () => {
+const HeaderSingle = ({title, subtitle}) => {
     return (
         <View style={styles.header}>
-            <Text style={styles.title}>Profile</Text>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.subtitle}>{subtitle}</Text>
+            </View>
             <Svg
                 width="85"
                 height="65"
@@ -47,12 +50,28 @@ const styles = StyleSheet.create({
         width: 390,
         height: 97,
     },
+    titleContainer:{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: Color.colorHeader,
+        justifyContent: "space-between",
+        alignItems: "left",
+        marginTop: 0,
+        paddingHorizontal: 20,
+    },
     title: {
         fontFamily: "Poppins-Bold",
         fontWeight: "bold",
         fontSize: 24,
         color: Color.colorfont1,
     },
+    subtitle: {
+        fontFamily: "Poppins-Regular",
+        fontSize: 24,
+        fontWeight: "normal",
+        color: "#4292F6",
+        textAlign: "begin",
+    }
 });
 
 export default HeaderSingle;

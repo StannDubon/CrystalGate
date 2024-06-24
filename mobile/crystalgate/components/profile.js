@@ -26,7 +26,7 @@ const Profile = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderSingle/>
+            <HeaderSingle title={"Profile"}/>
             <View style={styles.body}>
                 <View style={styles.topContrast}>
                     <View style={styles.circle}>

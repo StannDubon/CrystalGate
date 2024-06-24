@@ -25,6 +25,7 @@ const PasswordRecovery = () => {
     };
     const handleBack = () => {
         // Función para manejar el envío
+        navigation.navigate('Login');
     };
 
     return (
@@ -34,9 +35,9 @@ const PasswordRecovery = () => {
                 <BackButton onPress={handleBack} />
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.title}>New Password</Text>
+                    <Text style={styles.title}>Your email</Text>
                     <Text style={styles.subTitle}>
-                        Enter the new password for your account
+                        Enter the email of the account that you want to recover the password
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Bold",
         fontSize: 32,
         fontWeight: "bold",
         color: "#4292F6",
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     subTitle: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 20,
         fontWeight: "Medium",
         color: "#66A0E9",
