@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#4292F6',
     borderRadius: 8,
     display: "flex",
     flexDirection: "row",

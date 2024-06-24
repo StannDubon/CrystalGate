@@ -14,8 +14,8 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import HeaderSingle from "../components/header/headerSigle";
 import FilterButton from "../components/button/filterButton";
-import FilterModal from "../components/filter/filterModal";
 import PermissionCard from "./cards/permissionCard";
+import BottomSheet from "./filter/bottomSheet";
 
 const History = () => {
     const [visible, setVisible] = useState(false);
@@ -52,7 +52,7 @@ const History = () => {
                     />
                 ))}
             </ScrollView>
-            <FilterModal visible={visible} setVisible={setVisible} />
+            <BottomSheet visible={visible} onClose={toggleWidget} />
         </View>
     );
 };
