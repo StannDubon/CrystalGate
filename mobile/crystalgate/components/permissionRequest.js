@@ -16,6 +16,8 @@ import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
 import SwitchButton from "./button/switchButton";
+import DatePicker from "./datepicker/datePicker";
+import TimePicker from "./datepicker/timePicker";
 
 const PermissionRequest = () => {
 
@@ -40,6 +42,19 @@ const PermissionRequest = () => {
                 <TextArea label={"Permission description"}></TextArea>
                 <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
                 <Text style={styles.sectionText}>DATE</Text>
+                {
+                    selectedOption == "Days" ? 
+                    <>
+                        <DatePicker label={"From: "}></DatePicker>
+                        <DatePicker label={"To: "}></DatePicker>
+                    </>
+                    :
+                    <>
+                        <DatePicker label={"Of: "}></DatePicker>
+                        <TimePicker label={"From: "}></TimePicker>
+                        <TimePicker label={"To: "}></TimePicker>
+                    </>
+                }
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
         </View>
