@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     buttonText: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontWeight: "SemiBold",
         color: "#ffffff",

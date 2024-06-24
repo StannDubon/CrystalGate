@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
-                    !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
+                    !$ClasificacionPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$ClasificacionPermiso->setId($_POST[POST_ID]) or
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
-                    !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
+                    !$ClasificacionPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->updateRow()) {

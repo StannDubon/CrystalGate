@@ -20,9 +20,14 @@
     <!-- CSS FOR AUTHORIZATION MANAGER -->
     <link rel="stylesheet" href="../resources/css/authorization-manager.css">
 
+<<<<<<< HEAD
     <!-- CSS FOR MODAL TEMPLATE -->
     <link rel="stylesheet" href="../resources/css/modal-template.css">
 
+=======
+    <!-- CSS MODAL -->
+    <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
 </head>
 
 <body id="local-authorizations-settings">
@@ -48,6 +53,7 @@
                                 fill="#888888" />
                         </svg>
                     </div>
+<<<<<<< HEAD
                 </div>
                 </form>
 
@@ -55,30 +61,48 @@
                 <!-- Botón para abrir el modal de ejemplo-->
                 <!-- Botón para abrir el modal de autorización -->
                 <button id="btnOpenModalAuthorization" class="btn" onclick="openModalAuthorization()">
+=======
+
+                </div>
+                </form>
+
+                <button onclick="openCreateAuthorization()" class="" title="Add a authorization">
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                     <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M28.5 12.6308C28.5 11.437 27.5322 10.4692 26.3385 10.4692H18.4286C17.6001 10.4692 16.9286 9.79766 16.9286 8.96923V2.92857C16.9286 1.58731 15.8413 0.5 14.5 0.5C13.1587 0.5 12.0714 1.58731 12.0714 2.92857V8.96923C12.0714 9.79766 11.3999 10.4692 10.5714 10.4692H2.66154C1.46775 10.4692 0.5 11.437 0.5 12.6308C0.5 13.8246 1.46775 14.7923 2.66154 14.7923H10.5714C11.3999 14.7923 12.0714 15.4639 12.0714 16.2923V22.333C12.0714 23.6742 13.1587 24.7615 14.5 24.7615C15.8413 24.7615 16.9286 23.6742 16.9286 22.333V16.2923C16.9286 15.4639 17.6001 14.7923 18.4286 14.7923H26.3385C27.5322 14.7923 28.5 13.8246 28.5 12.6308Z"
                             fill="white" stroke="white" />
                     </svg>
+<<<<<<< HEAD
                     <p>Authorization</p>
                 </button>
 
 
                 <button id="btnOpenModalSubAuthorization" class="btn" onclick="openModalSubAuthorization()">
+=======
+                    Authorization
+                </button>
+
+                <button onclick="openCreateSubAuthorization()" class="" title="Add a sub authorization">
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                     <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M28.5 12.6308C28.5 11.437 27.5322 10.4692 26.3385 10.4692H18.4286C17.6001 10.4692 16.9286 9.79766 16.9286 8.96923V2.92857C16.9286 1.58731 15.8413 0.5 14.5 0.5C13.1587 0.5 12.0714 1.58731 12.0714 2.92857V8.96923C12.0714 9.79766 11.3999 10.4692 10.5714 10.4692H2.66154C1.46775 10.4692 0.5 11.437 0.5 12.6308C0.5 13.8246 1.46775 14.7923 2.66154 14.7923H10.5714C11.3999 14.7923 12.0714 15.4639 12.0714 16.2923V22.333C12.0714 23.6742 13.1587 24.7615 14.5 24.7615C15.8413 24.7615 16.9286 23.6742 16.9286 22.333V16.2923C16.9286 15.4639 17.6001 14.7923 18.4286 14.7923H26.3385C27.5322 14.7923 28.5 13.8246 28.5 12.6308Z"
                             fill="white" stroke="white" />
                     </svg>
+<<<<<<< HEAD
                     <p>Sub-Authorization</p>
+=======
+                    Sub Authorization
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                 </button>
             </div>
         </div>
 
         <!-- caja donde se mostrarán los datos de las tablas  -->
         <div class="main-content">
-
             <div class="authorization-box">
+<<<<<<< HEAD
                 <span>Permissions</span>
                 <ul id="box-permissions">
 
@@ -285,6 +309,82 @@
 
     <!-- JAVASCRIPT MODAL -->
     <script src="../resources/js/modal.js"></script>
+=======
+                <ul id="box-main-content"></ul>
+            </div>
+        </div>
+    </main>
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
+
+
+
+
+    <!-- Contenedor del modal -->
+    <div id="modal-authorization" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <form id="save-form-authorization">
+            <!-- Contenido del modal -->
+            <div class="modal-content">
+                <!-- Titulo del modal a usarse -->
+                <h1 id="modal-title-authorization" class="modal-title"></h1>
+                <!-- Campo de entrada oculto para el id -->
+                <input type="text" id="idClasificacionPermiso" name="idClasificacionPermiso" hidden>
+                <!-- Campo de entrada (input) -->
+                <input type="text" id="clasificacionPermiso" name="clasificacionPermiso" placeholder="Authorization"
+                    required>
+                <input class="form-check-input" type="checkbox" id="estadoClasificacionPermiso"
+                    name="estadoClasificacionPermiso" checked>
+                <label class="form-check-label" for="estado">Enabled</label>
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                    <!-- Botones del modal -->
+                    <!-- Botón para cerrar el modal-->
+                    <button id="btnCloseModal" class="btn-modal close" type="reset"
+                        onclick="closeModal()">Cancel</button>
+
+                    <!-- Botón para enviar los datos del modal-->
+                    <button class="btn-modal send" type="submit">Save</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Contenedor del modal -->
+    <div id="modal-sub-authorization" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <form id="save-form-sub-authorization">
+            <!-- Contenido del modal -->
+            <div class="modal-content">
+                <!-- Titulo del modal a usarse -->
+                <h1 id="modal-title-sub-authorization" class="modal-title"></h1>
+                <!-- Campo de entrada oculto para el id -->
+                <input type="text" id="idTipoPermiso" name="idTipoPermiso" hidden>
+                <!-- Campo de entrada (input) -->
+                 <select name="idClasificacionPermiso" id="selectIdClasificacionPermiso" required></select>
+                <input type="text" id="tipoPermiso" name="tipoPermiso" placeholder="Sub authorization" required>
+                <select name="lapsoPermiso" id="lapsoPermiso" required>
+                    <option value="1">Day</option>
+                    <option value="2">Hours</option>
+                    <option value="3">Day and hours</option>
+                </select>
+                <input class="form-check-input" type="checkbox" id="estadoTipoPermiso"
+                    name="estadoTipoPermiso" checked>
+                <label class="form-check-label" for="estado">Enabled</label>
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                    <!-- Botones del modal -->
+                    <!-- Botón para cerrar el modal-->
+                    <button id="btnCloseModal" class="btn-modal close" type="reset"
+                        onclick="closeModal()">Cancel</button>
+
+                    <!-- Botón para enviar los datos del modal-->
+                    <button class="btn-modal send" type="submit">Save</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 
     <!-- SWEET ALERTS -->
     <script src="../resources/js/sweetalert.min.js"></script>
@@ -295,6 +395,13 @@
     <!-- CONTROLADORES ESPECIFICOS -->
     <script src="../controllers/private/dashboard.js"></script>
     <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+<<<<<<< HEAD
+=======
+
+
+    <!-- Controlador de la pagina -->
+    <script src="../controllers/private/authorizations-settings.js"></script>
+>>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
 </body>
 
 </html>

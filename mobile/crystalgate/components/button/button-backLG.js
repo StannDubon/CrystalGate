@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         marginBotton: 20,
     },
     loginButtonText: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontWeight: "Medium",
         color: "#66A0E9",
