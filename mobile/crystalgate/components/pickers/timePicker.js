@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   container: {
-    margin: 20,
+    marginTop: 20,
     paddingRight: 20,
     paddingLeft: 20,
     display: "flex",
