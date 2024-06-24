@@ -35,3 +35,5 @@ npm install react-native-animatable
 npx react-native-asset 
 
 npm install @react-navigation/native-stack
+
+npm install @react-native-community/datetimepicker
