@@ -75,6 +75,7 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
     container: {
+        fontFamily: "Poppins-Regular",
         flex: 1,
         display: "flex",
         flexDirection: "column",

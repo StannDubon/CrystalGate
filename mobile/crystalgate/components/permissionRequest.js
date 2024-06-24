@@ -40,7 +40,7 @@ const PermissionRequest = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderForms title={"Documentation Request"} href={'Dashboard'}/>
+            <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
             <View style={styles.formContainer}>
                 <Text style={styles.sectionText}>Details</Text>
                 <ComboBox label={"Permission Type"} options={resquests_type} placeholder={"Select an option"}></ComboBox>

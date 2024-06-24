@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   buttonText: {
+    fontFamily:"Poppins-Regular",
     alignSelf: "left",
     marginLeft: 20,
     color: '#595959',

@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Dashboard from '../components/dashboard'
 
-export default function HistoryScreen() {
+export default function DashboardScreen() {
   return (
-    <View>
+    <ScrollView>
       <Dashboard></Dashboard>
-    </View>
+    </ScrollView>
   )
 }

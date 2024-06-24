@@ -40,7 +40,9 @@
         "expo-font",
         {
           "fonts": ["./assets/fonts"]
-        },
+        }
+      ],
+      [
         "expo-document-picker"
       ]
     ]
