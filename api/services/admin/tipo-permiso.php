@@ -6,6 +6,7 @@ const POST_ID = "idTipoPermiso";
 const POST_CLASIFICACION = "idClasificacionPermiso";
 const POST_TIPO = "tipoPermiso";
 const POST_LAPSO = "lapsoPermiso";
+const POST_ESTADO = "estadoTipoPermiso";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -43,7 +44,8 @@ if (isset($_GET['action'])) {
                 if (
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPermiso->setLapso($_POST[POST_LAPSO])
+                    !$TipoPermiso->setLapso($_POST[POST_LAPSO]) or
+                    !$TipoPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->createRow()) {
@@ -76,7 +78,8 @@ if (isset($_GET['action'])) {
                     !$TipoPermiso->setId($_POST[POST_ID]) or
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPermiso->setLapso($_POST[POST_LAPSO])
+                    !$TipoPermiso->setLapso($_POST[POST_LAPSO]) or
+                    !$TipoPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->updateRow()) {

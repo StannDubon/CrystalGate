@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView } from 'react-native';
+import React from 'react';
+import PermissionRequest from '../components/permissionRequest';
 
-export default function createpermission() {
+export default function CreatePermissionScreen() {
   return (
-    <View>
-      <Text>create-permission</Text>
-    </View>
+    <ScrollView>
+      <PermissionRequest></PermissionRequest>
+    </ScrollView>
   )
 }

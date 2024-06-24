@@ -26,7 +26,7 @@ const Profile = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderSingle/>
+            <HeaderSingle title={"Profile"}/>
             <View style={styles.body}>
                 <View style={styles.topContrast}>
                     <View style={styles.circle}>
@@ -75,6 +75,7 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
     container: {
+        fontFamily: "Poppins-Regular",
         flex: 1,
         display: "flex",
         flexDirection: "column",
