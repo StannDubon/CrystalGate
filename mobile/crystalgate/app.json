@@ -12,13 +12,25 @@
       "backgroundColor": "#F1F5FF"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.crystalgate.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Esta aplicación necesita acceso a la cámara para tomar fotos.",
+        "NSPhotoLibraryUsageDescription": "Esta aplicación necesita acceso a tus fotos para seleccionar imágenes.",
+        "NSDocumentPickerUsageDescription": "Esta aplicación necesita acceso a tus documentos para seleccionar archivos."
+      }
     },
     "android": {
+      "package": "com.crystalgate.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/img/icon/logo.svg",
         "backgroundColor": "#F1F5FF"
-      }
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/img/icon/logo.svg"
@@ -28,7 +40,8 @@
         "expo-font",
         {
           "fonts": ["./assets/fonts"]
-        }
+        },
+        "expo-document-picker"
       ]
     ]
   }
