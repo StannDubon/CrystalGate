@@ -11,9 +11,11 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import ChangePassButton from "../components/button/button-change-pass";
 import HeaderSingle from "../components/header/headerSigle";
+import { useNavigation } from '@react-navigation/native';
 
 const Profile = () => {
     const email = "cm.climber@glassmouantainbbo.com";
+    const navigation = useNavigation();
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
@@ -22,6 +24,11 @@ const Profile = () => {
     const fetchCopiedText = async () => {
         const text = await Clipboard.getString();
         setCopiedText(text);
+    };
+
+    const handleRecovery = () => {
+        // Función para manejar el envío
+        navigation.navigate('PasswordRecovery');
     };
 
     return (
@@ -65,7 +72,7 @@ const Profile = () => {
                     <Text style={styles.charge}>Developer Manager</Text>
 
                     <View style={styles.ContentButton}>
-                        <ChangePassButton/>
+                        <ChangePassButton onPress={handleRecovery}/>
                     </View>
                 </View>
             </View>
