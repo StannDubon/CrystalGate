@@ -34,11 +34,10 @@ const Dashboard = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderSingle title={"Your Journey"} subtitle={"History"}/>
+            <HeaderSingle title={"Hey Climber!"} subtitle={"Dashboard"}/>
             <View style={styles.filterContainer}>
-                <FilterButton onPress={toggleWidget}></FilterButton>
+                
             </View>
-            <FilterModal visible={visible} setVisible={setVisible} />
         </View>
     );
 };

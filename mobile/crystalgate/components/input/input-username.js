@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         width: 337,
     },
     input: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontWeight: "Regular",
         color: "#4292F6",
