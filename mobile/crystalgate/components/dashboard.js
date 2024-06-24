@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList
+    FlatList,
+    ScrollView
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
@@ -83,14 +84,17 @@ const Dashboard = () => {
                     </Svg>
                     <Text style={styles.textSection}>PENDING</Text>
                 </View>
-                <View style={styles.permissionContainer}>
-                    <FlatList
-                      data={permissions}
-                      renderItem={renderPermission}
-                      keyExtractor={item => item.id}
-                      contentContainerStyle={styles.flatListContainerPermission}
+                <ScrollView contentContainerStyle={styles.permissionContainer}>
+                {permissions.map((item) => (
+                    <PermissionCard
+                        key={item.id}
+                        title={item.title}
+                        type={item.type}
+                        dateBegin={item.dateBegin}
+                        dateEnd={item.dateEnd}
                     />
-                </View>
+                ))}
+            </ScrollView>
             </View>
         </View>
     );
