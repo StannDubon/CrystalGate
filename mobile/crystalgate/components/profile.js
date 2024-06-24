@@ -11,9 +11,12 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import ChangePassButton from "../components/button/button-change-pass";
 import HeaderSingle from "../components/header/headerSigle";
+import { useNavigation } from '@react-navigation/native';
+import LogOutButton from "./button/logOutButton";
 
 const Profile = () => {
     const email = "cm.climber@glassmouantainbbo.com";
+    const navigation = useNavigation();
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
@@ -22,6 +25,15 @@ const Profile = () => {
     const fetchCopiedText = async () => {
         const text = await Clipboard.getString();
         setCopiedText(text);
+    };
+
+    const handleRecovery = () => {
+        // Función para manejar el envío
+        navigation.navigate('PasswordRecovery');
+    };
+    const handleLogin = () => {
+        // Función para manejar el envío
+        navigation.navigate('Login');
     };
 
     return (
@@ -65,7 +77,8 @@ const Profile = () => {
                     <Text style={styles.charge}>Developer Manager</Text>
 
                     <View style={styles.ContentButton}>
-                        <ChangePassButton/>
+                        <ChangePassButton onPress={handleRecovery}/>
+                        <LogOutButton onPress={handleLogin}></LogOutButton>
                     </View>
                 </View>
             </View>
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
         width: 390,
         height: 110,
         justifyContent: "center",
-        marginTop: 190,
+        marginTop: 240,
     },
     name: {
         fontSize: 24,

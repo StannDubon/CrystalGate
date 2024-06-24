@@ -36,7 +36,7 @@ const FilePicker = ({ onSelectFile }) => {
                 fill="#595959"
             />
         </Svg>
-        <Text style={styles.buttonText}>Updload</Text>
+        <Text style={styles.buttonText}>Upload</Text>
       </TouchableOpacity>
     </View>
   );
