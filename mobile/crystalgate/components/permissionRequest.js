@@ -16,8 +16,9 @@ import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
 import SwitchButton from "./button/switchButton";
-import DatePicker from "./datepicker/datePicker";
-import TimePicker from "./datepicker/timePicker";
+import DatePicker from "./pickers/datePicker";
+import TimePicker from "./pickers/timePicker";
+import FilePicker from "./pickers/filePicker";
 
 const PermissionRequest = () => {
 
@@ -30,6 +31,11 @@ const PermissionRequest = () => {
     const handleSend = () => {
         // Función para manejar el envío
         navigation.navigate('Dashboard');
+    };
+
+    const handleFileSelect = (file) => {
+      console.log("Selected File:", file);
+      // Aquí puedes manejar el archivo seleccionado, por ejemplo, guardarlo o procesarlo
     };
 
     return (
@@ -55,6 +61,7 @@ const PermissionRequest = () => {
                         <TimePicker label={"To: "}></TimePicker>
                     </>
                 }
+                <FilePicker onSelectFile={handleFileSelect}></FilePicker>
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
         </View>
