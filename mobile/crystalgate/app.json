@@ -4,10 +4,10 @@
     "slug": "crystalgate",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/img/icon/logo.svg",
+    "icon": "./assets/img/icon/icon-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/img/icon/logo.svg",
+      "image": "./assets/img/background/splash-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#F1F5FF"
     },
@@ -23,7 +23,7 @@
     "android": {
       "package": "com.crystalgate.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/img/icon/logo.svg",
+        "foregroundImage": "./assets/img/icon/adaptive-icon-logo.png",
         "backgroundColor": "#F1F5FF"
       },
       "permissions": [
