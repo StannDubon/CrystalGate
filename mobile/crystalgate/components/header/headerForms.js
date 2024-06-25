@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         marginTop: 0,
         paddingHorizontal: 20,
         width: 390,
-        height: 97,
+        height: 100,
+        paddingTop: 20,
     },
     titleContainer:{
         display: "flex",

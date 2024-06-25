@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, StyleSheet, Animated, TouchableOpacity, Dimensions, Text } from 'react-native';
 import { Color } from "../../assets/const/color";
 import ComboBox from '../combobox/ComboBox';
@@ -38,13 +38,31 @@ const BottomSheet = ({ visible, onClose }) => {
                     </View>
                     <View style={styles.body}>
                         <ComboBox label={"PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
-                        <ComboBox label={"PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
-                        <DatePicker label={"From: "}></DatePicker>
-                        <DatePicker label={"To: "}></DatePicker>
+                        <ComboBox label={"SUB-PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
+                        <DatePicker label={"From: "} style={styles.date}></DatePicker>
+                        <DatePicker label={"To: "} style={styles.date}></DatePicker>
                         <View style={styles.btnContainer}>
-                            <StateButton icon={iconCanceled}></StateButton>
-                            <StateButton icon={iconAccepted}></StateButton>
-                            <StateButton icon={iconPending}></StateButton>
+                        <StateButton 
+                                icon={iconCanceled} 
+                                defaultSvgColor={'#4292F6'} 
+                                selectedSvgColor={Color.colorBtnIcon3} 
+                                defaultBgColor={'transparent'} 
+                                selectedBgColor={Color.colorRejected}
+                            />
+                            <StateButton 
+                                icon={iconAccepted} 
+                                defaultSvgColor={'#4292F6'} 
+                                selectedSvgColor={Color.colorBtnIcon3} 
+                                defaultBgColor={'transparent'} 
+                                selectedBgColor={Color.colorAccepted}
+                            />
+                            <StateButton 
+                                icon={iconPending} 
+                                defaultSvgColor={'#4292F6'} 
+                                selectedSvgColor={Color.colorBtnIcon3} 
+                                defaultBgColor={'transparent'} 
+                                selectedBgColor={Color.colorPending}
+                            />
                         </View>
                     </View>
                 </View>
