@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    Clipboard,
-    Alert,
+    Modal,
     Button,
+    Animated,
 } from "react-native";
 import { Color } from "../assets/const/color";
 import HeaderForms from "./header/headerForms";
@@ -15,6 +15,7 @@ import InputText from "./input/InputText";
 import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
+import WelcomeModal from "./modal/welcomeModal";
 
 const DocumentationRequest = () => {
 
@@ -22,9 +23,18 @@ const DocumentationRequest = () => {
     const send_by = ['Virtual','Presencial'];
     const languages = ['English','Spanish'];
     const navigation = useNavigation();
+    const [isModalVisible, setModalVisible] = useState(true);
+    const modalContent = "Use this form to request personal documentation from HR. HR will provide the documents the next Wednesday or Friday after you placed the request.";
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
+    useEffect(() => {
+        setModalVisible(true);
+    }, []);
 
     const handleSend = () => {
-        // Función para manejar el envío
         navigation.navigate('Dashboard');
     };
 
@@ -41,6 +51,7 @@ const DocumentationRequest = () => {
                 <TextArea label={"ADDRESS"}></TextArea>
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
+            <WelcomeModal visible={isModalVisible} onClose={handleCloseModal} title={"Documentation Request"} content={modalContent}/>
         </View>
     );
 };
