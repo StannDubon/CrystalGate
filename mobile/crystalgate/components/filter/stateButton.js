@@ -1,24 +1,31 @@
-import React from "react";
-import { StyleSheet, TextInput, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { Color } from "../../assets/const/color";
 
-const StateButton = ({ onPress, icon }) => {
+const StateButton = ({ icon, defaultSvgColor, selectedSvgColor, defaultBgColor, selectedBgColor }) => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    const handlePress = () => {
+        setIsSelected(!isSelected);
+    };
+
     return (
         <View style={styles.contenedor}>
-            <View style={styles.div} onPress={onPress}>
-                <Svg
-                  width="37"
-                  height="37"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={styles.btnIcon}
-                >
-                  <Path
-                      d={icon}
-                      fill="#4292F6"
-                  />
-                </Svg>
-            </View>
+        <TouchableOpacity onPress={handlePress} style={[styles.div, { backgroundColor: isSelected ? selectedBgColor : defaultBgColor, borderColor: isSelected ? Color.colorBtnIcon3 : Color.colorBtnAction }]}>
+            <Svg
+              width="37"
+              height="37"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={styles.btnIcon}
+            >
+              <Path
+                  d={icon}
+                  fill={isSelected ? selectedSvgColor : defaultSvgColor}
+              />
+            </Svg>
+        </TouchableOpacity>
         </View>
     );
 };
@@ -31,11 +38,9 @@ const styles = StyleSheet.create({
         fontWeight: "Medium",
         height: 100,
         with: "auto",
-        color: "#98ADE3",
-    },  
+    }, 
     div: {
         marginTop: 10,
-        borderColor: "#4292F6",
         borderWidth: 1.5,
         textAlign: "center",
         alignItems: "center",

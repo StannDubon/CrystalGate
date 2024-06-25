@@ -22,7 +22,7 @@ const screenOptions = {
         right: 0,
         left: 0,
         elevation: 0,
-        height: 84,
+        height: 70,
         backgroundColor: "#D9E4FF",
         borderTopColor: "#4292F6",
         borderTopWidth: 1,
@@ -101,9 +101,9 @@ const Navigation = () => {
                         return (
                             <View
                                 style={{
-                                    top: Platform.OS == "ios" ? -10 : -40,
-                                    width: Platform.OS == "ios" ? 50 : 84,
-                                    height: Platform.OS == "ios" ? 50 : 84,
+                                    top: Platform.OS == "ios" ? -10 : -32,
+                                    width: Platform.OS == "ios" ? 50 : 74,
+                                    height: Platform.OS == "ios" ? 50 : 74,
                                     borderRadius:
                                         Platform.OS == "ios" ? 25 : 60,
                                     alignItems: "center",
