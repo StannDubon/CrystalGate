@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    Clipboard,
-    Alert,
+    Modal,
     Button,
+    Animated,
 } from "react-native";
 import { Color } from "../assets/const/color";
 import HeaderForms from "./header/headerForms";
@@ -15,6 +15,8 @@ import InputText from "./input/InputText";
 import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
+import WelcomeModal from "./modal/welcomeModal";
+import SuccessModal from "./modal/succesModal";
 
 const DocumentationRequest = () => {
 
@@ -22,10 +24,24 @@ const DocumentationRequest = () => {
     const send_by = ['Virtual','Presencial'];
     const languages = ['English','Spanish'];
     const navigation = useNavigation();
+    const [isModalVisible, setModalVisible] = useState(true);
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+    const modalContent = "Use this form to request personal documentation from HR. HR will provide the documents the next Wednesday or Friday after you placed the request.";
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
+    useEffect(() => {
+        setModalVisible(true);
+    }, []);
 
     const handleSend = () => {
-        // Función para manejar el envío
-        navigation.navigate('Dashboard');
+        setSuccessModalVisible(true);
+        setTimeout(() => {
+            setSuccessModalVisible(false);
+            navigation.navigate('Dashboard');
+        }, 4000); 
     };
 
     return (
@@ -41,6 +57,8 @@ const DocumentationRequest = () => {
                 <TextArea label={"ADDRESS"}></TextArea>
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
+            <WelcomeModal visible={isModalVisible} onClose={handleCloseModal} title={"Documentation Request"} content={modalContent}/>
+            <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Request sent successfully"} />
         </View>
     );
 };

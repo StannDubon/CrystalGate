@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -14,16 +14,21 @@ import PasswordInputForm from "./input/input-password";
 import ResetButton from "./button/button-reset";
 import BackLogInButton from "./button/button-backLG";
 import { useNavigation } from '@react-navigation/native';
+import SuccessModal from "./modal/succesModal";
 
 const fondo = require("../assets/img/background/background.png");
 
 const NewPassword = () => {
     const [text, onChangeText] = React.useState("");
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
     const navigation = useNavigation();
 
     const handleSendRes = () => {
-        // Función para manejar el envío
-        navigation.navigate('Login');
+        setSuccessModalVisible(true);
+        setTimeout(() => {
+            setSuccessModalVisible(false);
+            navigation.navigate('Login');
+        }, 4000);
     };
     const handleSendLog = () => {
         // Función para manejar el envío
@@ -57,6 +62,7 @@ const NewPassword = () => {
                     </View>
                 </View>
             </BackgroundImage>
+            <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Password updated successfully"} />
         </View>
     );
 };
