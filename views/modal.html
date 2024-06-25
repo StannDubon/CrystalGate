@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../resources/css/modal-template.css">
+</head>
+
+<body>
+    <h1> Prueba de modal</h1>
+
+        <!-- Botón para abrir el modal de ejemplo-->
+    <button id="btnOpenModal" class="btn" onclick="openModal()"> Abrir Modal</button>
+
+    <!-- Botón con icono y texto (el icono debe estar en formato svg y el texto con una etiqueta 'p') -->
+    <button class="btn"><svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M28.5 12.6308C28.5 11.437 27.5322 10.4692 26.3385 10.4692H18.4286C17.6001 10.4692 16.9286 9.79766 16.9286 8.96923V2.92857C16.9286 1.58731 15.8413 0.5 14.5 0.5C13.1587 0.5 12.0714 1.58731 12.0714 2.92857V8.96923C12.0714 9.79766 11.3999 10.4692 10.5714 10.4692H2.66154C1.46775 10.4692 0.5 11.437 0.5 12.6308C0.5 13.8246 1.46775 14.7923 2.66154 14.7923H10.5714C11.3999 14.7923 12.0714 15.4639 12.0714 16.2923V22.333C12.0714 23.6742 13.1587 24.7615 14.5 24.7615C15.8413 24.7615 16.9286 23.6742 16.9286 22.333V16.2923C16.9286 15.4639 17.6001 14.7923 18.4286 14.7923H26.3385C27.5322 14.7923 28.5 13.8246 28.5 12.6308Z"
+                fill="white" stroke="white" />
+        </svg><p>Authorization</p>
+    </button>
+
+
+    <!-- Contenedor del modal -->
+    <div id="modal" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <form action=""></form>
+        <!-- Contenido del modal -->
+        <div class="modal-content">
+            <!-- Titulo del modal a usarse -->
+            <h1 id="modal-title" class="modal-title">Modal Title</h1>
+            <!-- Campo de entrada (input) -->
+            <input type="text" placeholder="First Name" id="" required>
+            <input type="email" placeholder="Email"  required>
+
+            <!-- Campo select con una opción desabilitada que sirve como 'placeholder' -->
+            <select name="" id="" required>
+                <option value="" disabled selected>Clasification</option>
+            </select>
+        </div>
+        <!-- Pie del modal -->
+        <div class="modal-footer">
+        <!-- Botones del modal -->
+             <!-- Botón para cerrar el modal-->
+            <button id="btnCloseModal" class="btn-modal close" type="reset" onclick="closeModal()">Cancel</button>
+
+            <!-- Botón para enviar los datos del modal-->
+            <button class="btn-modal send" type="submit">Save</button>
+        </div>
+        </form>
+    </div>
+
+    <script src="../resources/js/modal.js"></script>
+</body>
+
+</html>

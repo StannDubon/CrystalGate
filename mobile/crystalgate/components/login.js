@@ -11,17 +11,22 @@ import PasswordInputForm from './input/input-password';
 import LoginButton from './button/button-login';
 import ForgotButton from './button/button-forgot';
 import { useNavigation } from '@react-navigation/native';
+import SuccessModal from './modal/succesModal';
 
 const fondo = require('../assets/img/background/background.png');
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
   const navigation = useNavigation();
 
   const handleSendNav = () => {
-    // Función para manejar el envío
-    navigation.navigate('Navigation');
+    setSuccessModalVisible(true);
+    setTimeout(() => {
+        setSuccessModalVisible(false);
+        navigation.navigate('Navigation');
+    }, 3000); 
   };
   const handleSendPas = () => {
     // Función para manejar el envío
@@ -57,6 +62,7 @@ const Login = () => {
           </View>
         </View>
       </BackgroundImage>
+      <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Log In successfully"} />
     </View>
   );
 };
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Bold",
     fontSize: 32,
     fontWeight: "bold",
     color: "#4292F6",
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   subTitle: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Regular",
     fontSize: 20,
     fontWeight: "Medium",
     color: "#66A0E9",

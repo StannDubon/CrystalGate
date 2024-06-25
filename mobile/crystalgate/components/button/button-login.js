@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     buttonText: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 20,
         fontWeight: "SemiBold",
         color: "#ffffff",
