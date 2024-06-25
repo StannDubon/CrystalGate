@@ -7,13 +7,13 @@ const SEARCH_FORM = document.getElementById('search-form'),
 // Constantes para obtener el id de las cajas donde se mostrarán los datos de las tablas  
 const AUTHORIZATION = document.getElementById('box-main-content');
 // Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL_AUTHORIZATION = document.getElementById('modal-authorization'),
-    SAVE_MODAL_SUB_AUTHORIZATION = document.getElementById('modal-sub-authorization'),
+const SAVE_MODAL_AUTHORIZATION = document.getElementById('authorization-custom-modal'),
+    SAVE_MODAL_SUB_AUTHORIZATION = document.getElementById('sub-authorization-custom-modal'),
     MODAL_TITLE_AUTHORIZATION = document.getElementById('modal-title-authorization'),
     MODAL_TITLE_SUB_AUTHORIZATION = document.getElementById('modal-title-sub-authorization');
 // Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM_AUTHORIZATION = document.getElementById('save-form-authorization'),
-    SAVE_FORM_SUB_AUTHORIZATION = document.getElementById('save-form-sub-authorization'),
+const SAVE_FORM_AUTHORIZATION = document.getElementById('authorization-custom-form'),
+    SAVE_FORM_SUB_AUTHORIZATION = document.getElementById('sub-authorization-custom-form'),
     // ID's
     ID_AUTHORIZATION = document.getElementById('idClasificacionPermiso'),
     ID_SUB_AUTHORIZATION = document.getElementById('idTipoPermiso'),
@@ -31,10 +31,14 @@ const SAVE_FORM_AUTHORIZATION = document.getElementById('save-form-authorization
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // Peticiones para solicitar los datos de la base.
+    loadTemplate();
+    setupModalDiscardButtons();
+    loadStatusSelectorJs('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
+    loadStatusSelectorJs('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
+    
     await fillAuthorizations();
     await fillSubAuthorization();
-
+    
 });
 
 let SEARCH_VALUE = '';
@@ -48,6 +52,29 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 
     search(SEARCH_VALUE);
    
+});
+
+// Método del evento para cuando se envía el formulario de guardar en Request Type.
+SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Se verifica la acción a realizar.
+    (ID_AUTHORIZATION.value) ? action = 'updateRow' : action = 'createRow';
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SAVE_FORM_AUTHORIZATION);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(AUTHORIZATION_API, action, FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se cierra la caja de diálogo.
+        SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        // Se muestra un mensaje de éxito.
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la lista para visualizar los cambios.
+        await fillAuthorizations();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
 });
 
 
@@ -127,28 +154,7 @@ const fillAuthorizations = async (form = null) => {
     }
 }
 
-// Método del evento para cuando se envía el formulario de guardar en Request Type.
-SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se verifica la acción a realizar.
-    (ID_AUTHORIZATION.value) ? action = 'updateRow' : action = 'createRow';
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SAVE_FORM_AUTHORIZATION);
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(AUTHORIZATION_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se cierra la caja de diálogo.
-        SAVE_MODAL_AUTHORIZATION.classList.remove('show');
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la lista para visualizar los cambios.
-        await fillAuthorizations();
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
-});
+
 
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
@@ -158,7 +164,7 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
 const openCreateAuthorization = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_AUTHORIZATION.classList.add('show');
-    MODAL_TITLE_AUTHORIZATION.textContent = 'Add a authorization';
+    MODAL_TITLE_AUTHORIZATION.textContent = 'Add An Authorization';
     // Se prepara el formulario.
     SAVE_FORM_AUTHORIZATION.reset();
 }
@@ -337,9 +343,12 @@ SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
 */
 const openCreateSubAuthorization = () => {
     // Se muestra la caja de diálogo con su título.
+    updateSelectColor();
+    loadFormatSelectorJs();
     SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
     MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Add a sub authorization';
     // Se prepara el formulario.
+    
     SAVE_FORM_SUB_AUTHORIZATION.reset();
     fillSelect(AUTHORIZATION_API, 'readAll', 'selectIdClasificacionPermiso');
 }

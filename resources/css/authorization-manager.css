@@ -14,6 +14,12 @@
     font-weight: var(--medium-text-weight);
 }
 
+.authorization-box span {
+    font-size: calc(var(--large-text-size));
+    color: var(--color-texto-2);
+    font-weight: var(--bold-text-weight);
+}
+
 .authorization-box ul {
     margin-top: 10px;
 }
@@ -22,6 +28,7 @@
     list-style: none;
     display: flex;
     margin-bottom: 5px;
+    align-items: center;
 }
 
 .authorization-box li span {
@@ -45,6 +52,14 @@
     background-color: var(--color-extra-8);
     border-radius: 0px 8px 8px 0px;
 
+}
+
+.authorization-status-button{
+    width: 20px;
+    height: 10px;
+    margin-left: 10px;
+    
+    border-radius: 8px;
 }
 
 .authorization-delete-button:hover {

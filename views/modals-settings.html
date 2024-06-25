@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SweetAlert2 Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../resources/css/swal-custom.css">
+</head>
+
+<body>
+    <button id="myButton">Mostrar Alerta</button>
+
+    <script>
+
+        const loadFormatSelectorJs = () => {
+            const formatSelectors = {
+                1: { element: document.getElementById("swal-custom-days"), value: 1 },
+                2: { element: document.getElementById("swal-custom-hours"), value: 2 },
+                3: { element: document.getElementById("swal-custom-days-hours"), value: 3 }
+            };
+
+            function selectFormat(format) {
+                CHOOSED_FORMAT = formatSelectors[format].value;
+                for (let key in formatSelectors) {
+                    const selector = formatSelectors[key];
+                    if (selector.value === format) {
+                        selector.element.classList.add("swal-custom-format-selected-option");
+                    } else {
+                        selector.element.classList.remove("swal-custom-format-selected-option");
+                    }
+                }
+            }
+
+            for (let key in formatSelectors) {
+                formatSelectors[key].element.addEventListener("click", function () {
+                    selectFormat(formatSelectors[key].value);
+                });
+            }
+        }
+
+        const loadStatusSelectorJs = () => {
+            const statusChooser = document.getElementById('swal-custom-status-chooser');
+            const activeToggle = document.querySelector('.swal-custom-toggle-active');
+            const inactiveToggle = document.querySelector('.swal-custom-toggle-inactive');
+
+            function toggleStatus() {
+                statusChooser.classList.toggle('swal-custom-status-chooser-active');
+            }
+
+            activeToggle.addEventListener('click', toggleStatus);
+            inactiveToggle.addEventListener('click', toggleStatus);
+        }
+
+        function updateSelectColor() {
+            const selectElement = document.querySelector('.swal-custom-select');
+            if (selectElement.value === "") {
+                selectElement.classList.add('swal-custom-select-non-selected');
+            } else {
+                selectElement.classList.remove('swal-custom-select-non-selected');
+            }
+            selectElement.addEventListener('change', updateSelectColor);
+        }
+
+        document.getElementById('myButton').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Add An Authorization',
+                showCancelButton: true,
+                confirmButtonColor: '#8DDA8C',
+                cancelButtonColor: '#818181',
+                confirmButtonText: 'Save',
+                cancelButtonText: 'Discard',
+                focusConfirm: false,
+                allowOutsideClick: false,
+                width: (window.innerWidth * 50 / 100) + "px",
+                didOpen: () => {
+                    const confirmButton = Swal.getConfirmButton();
+                    const cancelButton = Swal.getCancelButton();
+                    confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
+
+                    loadFormatSelectorJs();
+                    loadStatusSelectorJs();
+                    updateSelectColor();
+                },
+                html: `
+                <div class="swal-custom-container">
+                    <input placeholder="Authorization" required>
+                    <select class="swal-custom-select">
+                            <option value="">Elija una opción</option>
+                            <option value="opcion1">Opción 1</option>
+                    </select>
+
+                        <div class="swal-custom-format-day-container">
+                            <span id="swal-custom-days">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.995 10C4.995 12.761 7.241 15.007 10.002 15.007C12.763 15.007 15.009 12.761 15.009 10C15.009 7.239 12.763 4.993 10.002 4.993C7.241 4.993 4.995 7.239 4.995 10ZM9 17.5C9 17.2239 9.22386 17 9.5 17H10.5C10.7761 17 11 17.2239 11 17.5V19.5C11 19.7761 10.7761 20 10.5 20H9.5C9.22386 20 9 19.7761 9 19.5V17.5ZM9 0.5C9 0.223858 9.22386 0 9.5 0H10.5C10.7761 0 11 0.223858 11 0.5V2.5C11 2.77614 10.7761 3 10.5 3H9.5C9.22386 3 9 2.77614 9 2.5V0.5ZM0 9.5C0 9.22386 0.223858 9 0.5 9H2.5C2.77614 9 3 9.22386 3 9.5V10.5C3 10.7761 2.77614 11 2.5 11H0.5C0.223858 11 0 10.7761 0 10.5V9.5ZM17 9.5C17 9.22386 17.2239 9 17.5 9H19.5C19.7761 9 20 9.22386 20 9.5V10.5C20 10.7761 19.7761 11 19.5 11H17.5C17.2239 11 17 10.7761 17 10.5V9.5ZM3.99055 17.4244C3.79529 17.6197 3.47871 17.6197 3.28345 17.4244L2.57655 16.7176C2.38129 16.5223 2.38129 16.2057 2.57655 16.0104L3.99045 14.5966C4.18571 14.4013 4.50229 14.4013 4.69755 14.5966L5.40445 15.3034C5.59971 15.4987 5.59971 15.8153 5.40445 16.0106L3.99055 17.4244ZM14.5956 4.69755C14.4003 4.50229 14.4003 4.18571 14.5956 3.99045L16.0104 2.57555C16.2057 2.38029 16.5223 2.38029 16.7176 2.57555L17.4244 3.28245C17.6197 3.47771 17.6197 3.79429 17.4244 3.98955L16.0096 5.40445C15.8143 5.59971 15.4977 5.59971 15.3024 5.40445L14.5956 4.69755ZM4.69764 5.40536C4.50234 5.60066 4.1857 5.60062 3.99045 5.40528L2.57651 3.99068C2.38128 3.79535 2.38137 3.47874 2.57672 3.28353L3.28428 2.57647C3.47963 2.38126 3.79624 2.38139 3.99143 2.57676L5.40478 3.99145C5.59989 4.18674 5.59981 4.50319 5.40461 4.69839L4.69764 5.40536ZM17.4244 16.0104C17.6197 16.2057 17.6197 16.5223 17.4244 16.7176L16.7176 17.4244C16.5223 17.6197 16.2057 17.6197 16.0104 17.4244L14.5956 16.0096C14.4003 15.8143 14.4003 15.4977 14.5956 15.3024L15.3024 14.5956C15.4977 14.4003 15.8143 14.4003 16.0096 14.5956L17.4244 16.0104Z"
+                                        fill="#7E7E7E" />
+                                </svg>
+                                <p>Day</p>
+                            </span>
+                            <span id="swal-custom-hours">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM13.293 14.707L9 10.414V4H11V9.586L14.707 13.293L13.293 14.707Z"
+                                        fill="#7E7E7E" />
+                                </svg>
+                                <p>Hours</p>
+                            </span>
+                            <span id="swal-custom-days-hours" class="swal-custom-format-selected-option">
+                                <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2 14.7308C2 14.4546 2.22386 14.2308 2.5 14.2308H10.9778C11.1592 14.2308 11.2469 14.0088 11.1146 13.8848L9.1637 12.0572C8.95282 11.8596 8.95282 11.525 9.1637 11.3274L10.2248 10.3333C10.4228 10.1479 10.7325 10.1541 10.9228 10.3473L15.6542 15.1491C15.846 15.3437 15.846 15.6563 15.6542 15.8509L10.9228 20.6527C10.7325 20.8459 10.4228 20.8521 10.2248 20.6667L9.1637 19.6726C8.95282 19.475 8.95282 19.1404 9.1637 18.9428L11.1146 17.1152C11.2469 16.9912 11.1592 16.7692 10.9778 16.7692H2.5C2.22386 16.7692 2 16.5454 2 16.2692V14.7308Z"
+                                        fill="#D9D9D9" />
+                                    <path
+                                        d="M12 4.34615C12 4.07001 11.7761 3.84615 11.5 3.84615L4.35601 3.84615C4.17752 3.84615 4.08843 3.63008 4.21505 3.50428L5.83657 1.89315C6.03335 1.69763 6.03335 1.37929 5.83657 1.18377L5.01196 0.364444C4.8114 0.165176 4.48566 0.17169 4.29323 0.378816L0.316165 4.65968C0.137915 4.85155 0.137915 5.14845 0.316165 5.34032L4.29323 9.62118C4.48566 9.82831 4.8114 9.83482 5.01196 9.63556L5.83657 8.81623C6.03335 8.62071 6.03335 8.30237 5.83657 8.10685L4.21505 6.49572C4.08843 6.36992 4.17752 6.15385 4.35601 6.15385H11.5C11.7761 6.15385 12 5.92999 12 5.65385V4.34615Z"
+                                        fill="#D9D9D9" />
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div id="swal-custom-status-chooser" class="swal-custom-status-chooser-active">
+                            <span class="swal-custom-toggle-inactive">Inactive</span>
+                            <span class="swal-custom-toggle-active">Active</span>
+                        </div>
+
+
+                </div>`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(result.value); // Aquí puedes manejar los valores ingresados
+                    Swal.fire(
+                        '¡Hecho!',
+                        'Tus datos han sido ingresados.',
+                        'success'
+                    );
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

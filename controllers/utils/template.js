@@ -27,6 +27,9 @@ const loadTemplate = async () => {
   const DATA = await fetchData(USER_API, "getUser");
   // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
   if (DATA.session) {
+    if (location.pathname.endsWith("index.html")) {
+      location.href = "dashboard  .html";
+    }
     // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
       // Se agrega el encabezado de la página web antes del contenido principal.

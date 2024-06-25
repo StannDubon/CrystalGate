@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$Idioma->setId($_POST[POST_ID]) or
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->updateRow()) {
@@ -95,6 +95,20 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Idioma eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el idioma';
+                }
+                break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$Idioma->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $Idioma->getDataError();
+                } elseif ($Idioma->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
                 }
                 break;
             default:

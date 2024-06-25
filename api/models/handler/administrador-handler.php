@@ -17,7 +17,7 @@ class AdministradorHandler
     protected $clave = null;
     protected $imagen = null;
 
-    const RUTA_IMAGEN = '../images/admin/';
+    const RUTA_IMAGEN = '../../images/admin/';
 
     /*
      *  Métodos para gestionar la cuenta del administrador.
@@ -93,22 +93,31 @@ class AdministradorHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, id_tipo_administrador, nombre, apellido, clave, correo, imagen
-                FROM tb_administradores
-                ORDER BY apellido';
+        $sql = 'SELECT a.id_administrador, a.id_tipo_administrador, tpa.tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_administradores AS a
+                JOIN tb_tipos_administradores AS tpa ON a.id_tipo_administrador = tpa.id_tipo_administrador;';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT b.cargo, a.id_administrador, a.id_tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
-                FROM tb_administradores a, tb_cargos b
-                WHERE a.id_administrador = ? AND a.id_cargo = b.id_cargo';
+        $sql = 'SELECT a.id_administrador, a.id_tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_administradores a, tb_tipos_administradores b
+                WHERE a.id_administrador = ? AND a.id_tipo_administrador = b.id_tipo_administrador';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateRow()
+    {
+        $sql = 'UPDATE tb_administradores
+                SET id_tipo_administrador = ?, nombre = ?, apellido = ?, correo = ?, imagen = ?
+                WHERE id_administrador = ?';
+        $params = array($this->id_tipo_administrador, $this->nombre, $this->apellido, $this->correo, $this->imagen, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function fullUpdateRow()
     {
         $sql = 'UPDATE tb_administradores
                 SET id_tipo_administrador = ?, nombre = ?, apellido = ?, correo = ?, imagen = ?

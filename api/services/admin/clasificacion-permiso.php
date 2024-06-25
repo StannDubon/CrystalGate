@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
-                    !$ClasificacionPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->createRow()) {

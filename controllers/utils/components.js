@@ -11,69 +11,74 @@ const SERVER_URL = 'http://localhost/CrystalGate/api/';
 *   Retorno: resultado de la promesa.
 */
 const confirmAction = (message) => {
-    return swal({
-        title: 'Advertencia',
+    return Swal.fire({
+        title: 'Warning',
         text: message,
         icon: 'warning',
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        buttons: {
-            cancel: {
-                text: 'No',
-                value: false,
-                visible: true
-            },
-            confirm: {
-                text: 'Sí',
-                value: true,
-                visible: true
-            }
-        }
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+    }).then((result) => {
+        return result.isConfirmed;
     });
 }
 
 /*
 *   Función asíncrona para manejar los mensajes de notificación al usuario.
-*   Requiere la librería sweetalert para funcionar.
+*   Requiere la librería sweetalert2 para funcionar.
 *   Parámetros: type (tipo de mensaje), text (texto a mostrar), timer (uso de temporizador) y url (valor opcional con la ubicación de destino).
 *   Retorno: ninguno.
 */
 const sweetAlert = async (type, text, timer, url = null) => {
+    let title, icon;
     // Se compara el tipo de mensaje a mostrar.
     switch (type) {
         case 1:
-            title = 'Éxito';
+            title = 'Success!';
             icon = 'success';
             break;
         case 2:
-            title = 'Error';
+            title = 'Error!';
             icon = 'error';
             break;
         case 3:
-            title = 'Advertencia';
+            title = 'Warning';
             icon = 'warning';
             break;
         case 4:
-            title = 'Aviso';
+            title = 'Information';
+            icon = 'info';
+            break;
+        default:
+            title = 'Information';
             icon = 'info';
     }
+
     // Se define un objeto con las opciones principales para el mensaje.
     let options = {
         title: title,
         text: text,
         icon: icon,
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        button: {
-            text: 'Aceptar'
-        }
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Aceptar'
     };
+
     // Se verifica el uso del temporizador.
-    (timer) ? options.timer = 3000 : options.timer = null;
+    if (timer) {
+        options.timer = 3000;
+        options.timerProgressBar = true;
+    }
+
     // Se muestra el mensaje.
-    await swal(options);
+    await Swal.fire(options);
+
     // Se direcciona a una página web si se indica.
-    (url) ? location.href = url : undefined;
+    if (url) {
+        location.href = url;
+    }
 }
 
 /*
