@@ -26,25 +26,37 @@ const loadFormatSelectorJs = () => {
 }
 
 // STATUS SELECTOR
-const loadStatusSelectorJs = (id_status_chooser, id_input) => {
+const loadStatusSelectorJs = (id_status_chooser, id_input, updateRealValue) => {
     const statusChooser = document.getElementById(id_status_chooser);
     const loadStatusSelectorValueComponent = document.getElementById(id_input);
-    var loadStatusSelectorValue = 1;
 
-    loadStatusSelectorValueComponent.value = loadStatusSelectorValue;
-
-    statusChooser.addEventListener('click', () => {
-        if (loadStatusSelectorValue === 1) {
+    const toggleStatus = () => {
+        if (loadStatusSelectorValueComponent.value == "1") {
+            loadStatusSelectorValueComponent.value = "0";
             statusChooser.classList.remove('active');
-            loadStatusSelectorValue = 0;
-            loadStatusSelectorValueComponent.value = loadStatusSelectorValue;
         } else {
+            loadStatusSelectorValueComponent.value = "1";
             statusChooser.classList.add('active');
-            
-            loadStatusSelectorValue = 1;
-            loadStatusSelectorValueComponent.value = loadStatusSelectorValue;
         }
-    });
+    };
+
+    // Set initial state
+    if (loadStatusSelectorValueComponent.value == "1") {
+        statusChooser.classList.add('active');
+    } else {
+        statusChooser.classList.remove('active');
+    }
+
+    // Remove any existing click event listeners
+    statusChooser.removeEventListener('click', toggleStatus);
+    statusChooser.addEventListener('click', toggleStatus);
+
+    if(updateRealValue !== ""){
+        if(updateRealValue=="1"){
+            statusChooser.classList.add('active');
+        } else{
+            statusChooser.classList.remove('active');}
+    }
 };
 
 function setupModalDiscardButtons() {
