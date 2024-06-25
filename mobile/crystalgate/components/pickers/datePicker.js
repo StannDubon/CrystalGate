@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Button, Platform, StyleSheet, Text } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Svg, { Path } from "react-native-svg";
+import { Color } from "../../assets/const/color";
 
 const DatePicker = ({ label }) => {
   const [date, setDate] = useState(new Date());
@@ -84,11 +85,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
     alignSelf: "center",
+    color: Color.colorfont5,
   },
   dateText: {
     fontFamily: "Poppins-Regular",
     margin: 10,
     fontSize: 16,
+    color: Color.colorfont1,
   },
   btnDate:{
     alignSelf: "center",
