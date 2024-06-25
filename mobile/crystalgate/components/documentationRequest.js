@@ -16,6 +16,7 @@ import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
 import WelcomeModal from "./modal/welcomeModal";
+import SuccessModal from "./modal/succesModal";
 
 const DocumentationRequest = () => {
 
@@ -24,6 +25,7 @@ const DocumentationRequest = () => {
     const languages = ['English','Spanish'];
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(true);
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
     const modalContent = "Use this form to request personal documentation from HR. HR will provide the documents the next Wednesday or Friday after you placed the request.";
 
     const handleCloseModal = () => {
@@ -35,7 +37,11 @@ const DocumentationRequest = () => {
     }, []);
 
     const handleSend = () => {
-        navigation.navigate('Dashboard');
+        setSuccessModalVisible(true);
+        setTimeout(() => {
+            setSuccessModalVisible(false);
+            navigation.navigate('Dashboard');
+        }, 4000); 
     };
 
     return (
@@ -52,6 +58,7 @@ const DocumentationRequest = () => {
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
             <WelcomeModal visible={isModalVisible} onClose={handleCloseModal} title={"Documentation Request"} content={modalContent}/>
+            <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Request sent successfully"} />
         </View>
     );
 };
