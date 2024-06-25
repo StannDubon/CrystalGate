@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalText: {
+        fontFamily: "Poppins-Regular",
         marginBottom: 20,
         fontSize: 18,
         textAlign: "center",
