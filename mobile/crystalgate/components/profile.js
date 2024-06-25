@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import LogOutButton from "./button/logOutButton";
 
 const Profile = () => {
-    const email = "cm.climber@glassmouantainbbo.com";
+    const email = "cm.climber@glassbbo.com";
     const navigation = useNavigation();
 
     const copyToClipboard = (text) => {
