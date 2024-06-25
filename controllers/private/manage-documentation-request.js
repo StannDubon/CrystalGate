@@ -35,7 +35,12 @@ const SAVE_FORM_REQUEST_TYPE = document.getElementById('save-form-request-type')
 
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    
+
+    loadTemplate();
+    setupModalDiscardButtons();
+    loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoPeticion");
+    loadStatusSelectorJs('swal-custom-status-chooser-doc-lang', "estadoIdioma");
+    loadStatusSelectorJs('swal-custom-status-chooser-location', "estadoCentroEntrega");
     // Petición para solicitar los tipos de peticiones (request types).
     fillRequestType();
     
@@ -100,6 +105,7 @@ const fillRequestType = async (form = null) => {
             // Se crean y concatenan las filas con los datos de cada tipo de request.
             REQUEST_TYPE.innerHTML += `
                 <li>
+                    <span>${row.estado}</span>
                     <div class="authorization-action-button">
                         <div class="authorization-delete-button" onclick="openDeleteRequestType(${row.id_tipo_peticion})"><svg width="14" height="16"
                                 viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -233,6 +239,7 @@ const fillLanguages = async (form = null) => {
             // Se crean y concatenan las filas con los datos de la base.
             LANGUAGES.innerHTML += `
                 <li>
+                <span>${row.estado}</span>
                     <div class="authorization-action-button">
                         <div class="authorization-delete-button" onclick="openDeleteLanguage(${row.id_idioma})"><svg width="14" height="16"
                                 viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -367,6 +374,7 @@ const fillLocations = async (form = null) => {
             // Se crean y concatenan las tarjetas con los datos de cada producto.
             LOCATIONS.innerHTML += `
                 <li>
+                <span>${row.estado}</span>
                     <div class="authorization-action-button">
                         <div class="authorization-delete-button" onclick="openDeleteLocation(${row.id_centro_entrega})"><svg width="14" height="16"
                                 viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">

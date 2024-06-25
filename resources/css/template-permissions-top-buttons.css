@@ -1,0 +1,11 @@
+.main-utilities button{
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-extra-9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    font-weight: 500;
+}

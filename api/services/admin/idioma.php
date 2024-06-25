@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$Idioma->setId($_POST[POST_ID]) or
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->updateRow()) {

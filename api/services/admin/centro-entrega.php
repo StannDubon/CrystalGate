@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$CentroEntrega->setId($_POST[POST_ID]) or
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->updateRow()) {
