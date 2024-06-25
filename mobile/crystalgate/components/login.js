@@ -55,10 +55,7 @@ const Login = () => {
             </View>
           </View>
           <View style={styles.ContentButton}>
-
-              <LoginButton onPress={handleSendNav}/>
-
-            
+              <LoginButton onPress={handleSendNav}/>            
           </View>
         </View>
       </BackgroundImage>
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontFamily: "Poppins-Regular",
     fontSize: 20,
-    fontWeight: "Medium",
+    fontWeight: "medium",  // Cambiado a "medium" en lugar de "Medium"
     color: "#66A0E9",
     textAlign: "right",
     marginRight: 20,
@@ -103,13 +100,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20, // Añadido para dar un espacio horizontal a los bordes del formulario
   },
-  ContentButton:{
-    display: "flex",
+  ContentButton: {
+    marginVertical: 20, // Ajustado para asegurar espacio entre los botones y el contenido
     alignItems: "center",
-    marginBottom: 70
   },
 });
+
 
 export default Login;
 

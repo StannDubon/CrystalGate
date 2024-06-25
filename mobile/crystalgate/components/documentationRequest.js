@@ -21,7 +21,7 @@ import SuccessModal from "./modal/succesModal";
 const DocumentationRequest = () => {
 
     const resquests_type = ['Document1','Document2','Document3','Document4'];
-    const send_by = ['Virtual','Presencial'];
+    const send_by = ['Scanned','Printed'];
     const languages = ['English','Spanish'];
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(true);

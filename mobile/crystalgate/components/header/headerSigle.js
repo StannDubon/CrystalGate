@@ -8,7 +8,9 @@ const HeaderSingle = ({title, subtitle}) => {
         <View style={styles.header}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.subtitle}>{subtitle}</Text>
+                    {subtitle ? (
+                        <Text style={styles.subtitle}>{subtitle}</Text>
+                    ) : null}
                 </View>
                 <Svg
                     width="85"
@@ -54,7 +56,8 @@ const styles = StyleSheet.create({
         marginTop: 0,
         paddingHorizontal: 20,
         width: 390,
-        height: 140,
+        height: 100,
+        paddingTop: 20,
     },
     titleContainer:{
         display: "flex",

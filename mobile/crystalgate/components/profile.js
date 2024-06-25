@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import LogOutButton from "./button/logOutButton";
 
 const Profile = () => {
-    const email = "cm.climber@glassmouantainbbo.com";
+    const email = "cm.climber@glassbbo.com";
     const navigation = useNavigation();
 
     const copyToClipboard = (text) => {
@@ -77,8 +77,8 @@ const Profile = () => {
                     <Text style={styles.charge}>Developer Manager</Text>
 
                     <View style={styles.ContentButton}>
-                        <ChangePassButton onPress={handleRecovery}/>
-                        <LogOutButton onPress={handleLogin}></LogOutButton>
+                    <LogOutButton onPress={handleLogin}></LogOutButton>
+                    <ChangePassButton onPress={handleRecovery}/>
                     </View>
                 </View>
             </View>
@@ -173,7 +173,10 @@ const styles = StyleSheet.create({
     },
     ContentButton:{
         display: "flex",
-        alignItems: "center"
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        paddingHorizontal: 30,
     },
 });
 
