@@ -24,7 +24,6 @@ const PasswordInputForm = ({ onChangeText, value, placeholder }) => {
                 value={value}
                 placeholder={placeholder}
                 placeholderTextColor="#4292F6"
-                keyboardType="numeric"
                 secureTextEntry // Esto hace que el campo sea seguro
             />
         </View>

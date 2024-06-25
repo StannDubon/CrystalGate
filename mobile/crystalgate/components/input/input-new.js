@@ -25,7 +25,6 @@ const NewInputForm = ({ onChangeText, value, placeholder }) => {
                 value={value}
                 placeholder={placeholder}
                 placeholderTextColor={"#4292F6"}
-                keyboardType="numeric"
             />
         </View>
     );
