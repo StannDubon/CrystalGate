@@ -19,6 +19,7 @@ import SwitchButton from "./button/switchButton";
 import DatePicker from "./pickers/datePicker";
 import TimePicker from "./pickers/timePicker";
 import FilePicker from "./pickers/filePicker";
+import SuccessModal from "./modal/succesModal";
 
 const PermissionRequest = () => {
 
@@ -26,16 +27,20 @@ const PermissionRequest = () => {
     const send_by = ['Paternity/Maternity','ISSS'];
     const navigation = useNavigation();
     const [selectedOption, setSelectedOption] = useState('Days');
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
 
     const handleSend = () => {
-        // Función para manejar el envío
-        navigation.navigate('Dashboard');
+        setSuccessModalVisible(true);
+        setTimeout(() => {
+            setSuccessModalVisible(false);
+            navigation.navigate('Dashboard');
+        }, 4000); 
     };
 
     const handleFileSelect = (file) => {
       console.log("Selected File:", file);
-      // Aquí puedes manejar el archivo seleccionado, por ejemplo, guardarlo o procesarlo
+
     };
 
     return (
@@ -64,6 +69,7 @@ const PermissionRequest = () => {
                 <FilePicker onSelectFile={handleFileSelect}></FilePicker>
                 <SendButtonForm onPress={handleSend}></SendButtonForm>
             </View>
+            <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Permission sent successfully"} />
         </View>
     );
 };

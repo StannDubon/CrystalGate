@@ -29,7 +29,7 @@ const Profile = () => {
 
     const handleRecovery = () => {
         // Función para manejar el envío
-        navigation.navigate('PasswordRecovery');
+        navigation.navigate('Verification');
     };
     const handleLogin = () => {
         // Función para manejar el envío
