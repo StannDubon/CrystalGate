@@ -24,7 +24,7 @@ class AdministradorHandler
      */
     public function checkUser($email, $password)
     {
-        $sql = 'SELECT id_administrador, correo, clave FROM tb_Administradores WHERE correo = ?';
+        $sql = 'SELECT id_administrador, correo, clave FROM tb_administradores WHERE correo = ?';
         $params = array($email);
         if (!($data = Database::getRow($sql, $params))) {
             return false;
@@ -39,7 +39,7 @@ class AdministradorHandler
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT * FROM tb_Administradores WHERE id_administrador = ?';
+        $sql = 'SELECT * FROM tb_administradores WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
@@ -52,7 +52,7 @@ class AdministradorHandler
 
     public function changePassword()
     {
-        $sql = 'UPDATE tb_Administradores SET clave = ? WHERE id_administrador = ?';
+        $sql = 'UPDATE tb_administradores SET clave = ? WHERE id_administrador = ?';
         $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
