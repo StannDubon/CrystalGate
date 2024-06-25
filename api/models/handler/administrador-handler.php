@@ -117,6 +117,15 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function fullUpdateRow()
+    {
+        $sql = 'UPDATE tb_administradores
+                SET id_tipo_administrador = ?, nombre = ?, apellido = ?, correo = ?, imagen = ?
+                WHERE id_administrador = ?';
+        $params = array($this->id_tipo_administrador, $this->nombre, $this->apellido, $this->correo, $this->imagen, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_administradores

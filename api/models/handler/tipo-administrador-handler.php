@@ -34,8 +34,7 @@ class TipoAdministradorHandler
     public function readAll()
     {
         $sql = 'SELECT *
-                FROM tb_tipos_administradores
-                ORDER BY tipo_administrador';
+                FROM tb_tipos_administradores';
         return Database::getRows($sql);
     }
 

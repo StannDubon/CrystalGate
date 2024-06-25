@@ -128,7 +128,7 @@ const fillTable = async (form = null) => {
     }
 }
 
-const openCreateAuthorization = () => {
+const openCreate = () => {
     SAVE_MODAL_ADMINISTRATOR.classList.add('show');
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';
     SAVE_FORM_ADMINISTRATOR.reset();
@@ -145,10 +145,11 @@ const openUpdate = async (id) => {
         SAVE_FORM_ADMINISTRATOR.reset();
 
         const ROW = DATA.dataset;
-        ID_ADMINISTRATOR = ROW.id_administrador;
-        NOMBRE_ADMINISTRATOR = ROW.nombre;
-        APELLIDO_ADMINISTRATOR = ROW.apellido;
-        CORREO_ADMINISTRATOR = ROW.correo;
+        ID_ADMINISTRATOR.value = ROW.id_administrador;
+        NOMBRE_ADMINISTRATOR.value = ROW.nombre;
+        APELLIDO_ADMINISTRATOR.value = ROW.apellido;
+        CORREO_ADMINISTRATOR.value = ROW.correo;
+        fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador', ROW.id_tipo_administrador);
     } else {
         sweetAlert(2, DATA.error, false);
     }
