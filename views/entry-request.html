@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-        
+
     <!-- FUENTE -->
     <link rel="stylesheet" href="../resources/css/poppins.css">
 
@@ -21,7 +21,8 @@
     <!-- DASHBOARD -->
     <link rel="stylesheet" href="../resources/css/entry-request.css">
 
-
+     <!-- CSS MODAL -->
+     <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
 </head>
 
 <body id="local-inbox">
@@ -42,20 +43,25 @@
                     <!-- INFORMACIÓN DE USUARIO -->
                     <div class="employee-info">
                         <div class="row-1">
-                            <p class="id">ID: 00001</p>
-                            <p class="name">Marcela Gozo</p>
+                            <p class="id" hidden>ID: 00001</p>
+                            <p class="name" id="employee-name">Marcela Gozo</p>
                         </div>
                         <div class="row-2">
-                            <p class="email">almamarcelagozo@ricaldone.edu.sv</p>
+                            <p class="email" id="employee-email">almamarcelagozo@ricaldone.edu.sv</p>
                             <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z" fill="#888888"/>
-                                    <path d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z" fill="#888888"/>
-                                </svg>                                
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                        fill="#888888" />
+                                    <path
+                                        d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                        fill="#888888" />
+                                </svg>
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- CALENDARIO -->
                     <div class="calendar-container">
                         <div class="wrapper">
@@ -63,10 +69,20 @@
                                 <p class="current-date"></p>
                                 <div class="icons">
                                     <span id="prev">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                            <path
+                                                d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z">
+                                            </path>
+                                        </svg>
                                     </span>
                                     <span id="next">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                            <path
+                                                d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z">
+                                            </path>
+                                        </svg>
                                     </span>
                                 </div>
                             </header>
@@ -84,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                 </div>
                 <div class="main-content-col2">
 
@@ -92,17 +108,22 @@
                         <p class="title">Attached Files</p>
 
                         <div class="attached-files-content">
-                            <div class="pdf-view">
-                                <div class="icon">
-                                    <svg width="44" height="55" viewBox="0 0 44 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M11.7344 34.87C11.2284 34.87 10.8874 34.9195 10.7114 34.969V38.2085C10.9204 38.258 11.1817 38.2717 11.5419 38.2717C12.8592 38.2717 13.6704 37.6062 13.6704 36.4815C13.6704 35.475 12.9719 34.87 11.7344 34.87ZM21.3237 34.903C20.7737 34.903 20.4162 34.9525 20.2044 35.002V42.1795C20.4162 42.229 20.7572 42.229 21.0652 42.229C23.3119 42.2455 24.7749 41.008 24.7749 38.39C24.7914 36.1075 23.4577 34.903 21.3237 34.903Z" fill="white"/>
-                                        <path d="M27.5 0H5.5C4.04131 0 2.64236 0.579462 1.61091 1.61091C0.579462 2.64236 0 4.04131 0 5.5V49.5C0 50.9587 0.579462 52.3576 1.61091 53.3891C2.64236 54.4205 4.04131 55 5.5 55H38.5C39.9587 55 41.3576 54.4205 42.3891 53.3891C43.4205 52.3576 44 50.9587 44 49.5V16.5L27.5 0ZM15.1195 39.0225C14.2698 39.82 13.0157 40.1775 11.5555 40.1775C11.2724 40.1806 10.9894 40.164 10.7085 40.128V44.0495H8.25V33.2255C9.3595 33.06 10.4806 32.9846 11.6022 33C13.134 33 14.223 33.2915 14.9573 33.8773C15.6558 34.4328 16.1287 35.343 16.1287 36.4155C16.126 37.4935 15.7685 38.4038 15.1195 39.0225ZM25.5888 42.7487C24.4338 43.7085 22.6765 44.165 20.5288 44.165C19.2418 44.165 18.3315 44.0825 17.7127 44V33.2282C18.8227 33.0663 19.9434 32.9899 21.065 33C23.1467 33 24.4998 33.374 25.5557 34.1715C26.697 35.0185 27.412 36.3688 27.412 38.3075C27.412 40.4058 26.6448 41.855 25.5888 42.7487ZM35.75 35.1175H31.537V37.6227H35.475V39.6413H31.537V44.0522H29.0455V33.0825H35.75V35.1175ZM27.5 19.25H24.75V5.5L38.5 19.25H27.5Z" fill="white"/>
-                                    </svg>                                    
+                            <div class="" id="box-document">
+                                <!-- <div class="icon">
+                                    <svg width="44" height="55" viewBox="0 0 44 55" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M11.7344 34.87C11.2284 34.87 10.8874 34.9195 10.7114 34.969V38.2085C10.9204 38.258 11.1817 38.2717 11.5419 38.2717C12.8592 38.2717 13.6704 37.6062 13.6704 36.4815C13.6704 35.475 12.9719 34.87 11.7344 34.87ZM21.3237 34.903C20.7737 34.903 20.4162 34.9525 20.2044 35.002V42.1795C20.4162 42.229 20.7572 42.229 21.0652 42.229C23.3119 42.2455 24.7749 41.008 24.7749 38.39C24.7914 36.1075 23.4577 34.903 21.3237 34.903Z"
+                                            fill="white" />
+                                        <path
+                                            d="M27.5 0H5.5C4.04131 0 2.64236 0.579462 1.61091 1.61091C0.579462 2.64236 0 4.04131 0 5.5V49.5C0 50.9587 0.579462 52.3576 1.61091 53.3891C2.64236 54.4205 4.04131 55 5.5 55H38.5C39.9587 55 41.3576 54.4205 42.3891 53.3891C43.4205 52.3576 44 50.9587 44 49.5V16.5L27.5 0ZM15.1195 39.0225C14.2698 39.82 13.0157 40.1775 11.5555 40.1775C11.2724 40.1806 10.9894 40.164 10.7085 40.128V44.0495H8.25V33.2255C9.3595 33.06 10.4806 32.9846 11.6022 33C13.134 33 14.223 33.2915 14.9573 33.8773C15.6558 34.4328 16.1287 35.343 16.1287 36.4155C16.126 37.4935 15.7685 38.4038 15.1195 39.0225ZM25.5888 42.7487C24.4338 43.7085 22.6765 44.165 20.5288 44.165C19.2418 44.165 18.3315 44.0825 17.7127 44V33.2282C18.8227 33.0663 19.9434 32.9899 21.065 33C23.1467 33 24.4998 33.374 25.5557 34.1715C26.697 35.0185 27.412 36.3688 27.412 38.3075C27.412 40.4058 26.6448 41.855 25.5888 42.7487ZM35.75 35.1175H31.537V37.6227H35.475V39.6413H31.537V44.0522H29.0455V33.0825H35.75V35.1175ZM27.5 19.25H24.75V5.5L38.5 19.25H27.5Z"
+                                            fill="white" />
+                                    </svg>
                                 </div>
-                                <p class="file-name">Justification Letter</p>
+                                <p class="file-name">Justification Letter</p> -->
                             </div>
-    
-                            <div class="doc-view">
+
+                            <!-- <div class="doc-view">
                                 <div class="icon">
                                     <svg width="44" height="55" viewBox="0 0 44 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.5115 34.518C20.8147 34.518 19.8247 36.1323 19.8247 38.2938C19.8247 40.469 20.845 42.0063 22.528 42.0063C24.2247 42.0063 25.1982 40.3893 25.1982 38.2278C25.1982 36.2313 24.2412 34.518 22.5115 34.518Z" fill="white"/>
@@ -111,6 +132,12 @@
                                     </svg>                                    
                                 </div>
                                 <p class="file-name">Justification Letter</p>
+                            </div> -->
+
+                            <div class="description-content">
+                                <button class="btn-description" onclick="openDesc()">
+                                    View Description
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -119,29 +146,58 @@
 
                         <!-- INICIO DE FECHA -->
                         <div class="permission-info-wraper">
-                            <p class="permission-begin-date">12-31-2024</p>
-                            <p class="permission-begin-time">12:00pm</p>
+                            <p class="permission-begin-date" id="start-date">12-31-2024</p>
+                            <p class="permission-begin-time" id="start-time">12:00pm</p>
                         </div>
 
                         <!-- ICONO -->
                         <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="var(--color-extra-1)" d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z" fill="#737373"/>
+                            <path fill="var(--color-extra-1)"
+                                d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                                fill="#737373" />
                         </svg>
-                        
+
                         <!-- FINAL DE FECHA -->
                         <div class="permission-info-wraper">
-                            <p class="permission-begin-date">12-31-2024</p>
-                            <p class="permission-begin-time">12:00pm</p>
+                            <p class="permission-begin-date" id="final-date">12-31-2024</p>
+                            <p class="permission-begin-time" id="final-time">12:00pm</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="main-content-row-2">
-                <button class="pending-approve">Approve</button>
-                <button class="pending-reject">Reject</button>
+                <button class="pending-approve" type="submit" id="btn-approve">Approve</button>
+                <button class="pending-reject" type="submit" id="btn-reject">Reject</button>
             </div>
         </div>
     </main>
+
+
+
+    <!-- Contenedor del modal -->
+    <div id="modal-description" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <!-- Contenido del modal -->
+        <div class="modal-content">
+            <!-- Titulo del modal a usarse -->
+            <h1 id="modal-title-description" class="modal-title"></h1>
+
+            <!-- Parrafo del modal -->
+            <p class="description" id="description-text"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat</p>
+            <!-- Pie del modal -->
+            <div class="modal-footer">
+                <!-- Botones del modal -->
+                <!-- Botón para cerrar el modal-->
+                <button id="btnCloseModal" class="btn-modal close" type="reset"
+                    onclick="closeModal()">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+
 
     <!-- SWEET ALERTS -->
     <script src="../resources/js/sweetalert.min.js"></script>
@@ -151,8 +207,12 @@
     <script src="../controllers/utils/template.js"></script>
 
     <!-- CONTROLADORES ESPECIFICOS -->
-    <script src="../controllers/private/dashboard.js"></script> <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
-    <script src="../resources/js/calendar.js" defer></script>
+         <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+    <script src="../controllers/private/dashboard.js"></script>
+    <!-- CODIGO PARA MOSTRAR EL CALENDARIO -->
+    <script src="../resources/js/calendar.js" defer></script> 
+
+    <script src="../controllers/private/entry-request.js"></script>
 
 
 </body>

@@ -53,48 +53,26 @@
                                 fill="#888888" />
                         </svg>
                     </div>
-<<<<<<< HEAD
-                </div>
-                </form>
-
-
-                <!-- Botón para abrir el modal de ejemplo-->
-                <!-- Botón para abrir el modal de autorización -->
-                <button id="btnOpenModalAuthorization" class="btn" onclick="openModalAuthorization()">
-=======
 
                 </div>
                 </form>
 
                 <button onclick="openCreateAuthorization()" class="" title="Add a authorization">
->>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                     <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M28.5 12.6308C28.5 11.437 27.5322 10.4692 26.3385 10.4692H18.4286C17.6001 10.4692 16.9286 9.79766 16.9286 8.96923V2.92857C16.9286 1.58731 15.8413 0.5 14.5 0.5C13.1587 0.5 12.0714 1.58731 12.0714 2.92857V8.96923C12.0714 9.79766 11.3999 10.4692 10.5714 10.4692H2.66154C1.46775 10.4692 0.5 11.437 0.5 12.6308C0.5 13.8246 1.46775 14.7923 2.66154 14.7923H10.5714C11.3999 14.7923 12.0714 15.4639 12.0714 16.2923V22.333C12.0714 23.6742 13.1587 24.7615 14.5 24.7615C15.8413 24.7615 16.9286 23.6742 16.9286 22.333V16.2923C16.9286 15.4639 17.6001 14.7923 18.4286 14.7923H26.3385C27.5322 14.7923 28.5 13.8246 28.5 12.6308Z"
                             fill="white" stroke="white" />
                     </svg>
-<<<<<<< HEAD
-                    <p>Authorization</p>
-                </button>
-
-
-                <button id="btnOpenModalSubAuthorization" class="btn" onclick="openModalSubAuthorization()">
-=======
                     Authorization
                 </button>
 
                 <button onclick="openCreateSubAuthorization()" class="" title="Add a sub authorization">
->>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                     <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M28.5 12.6308C28.5 11.437 27.5322 10.4692 26.3385 10.4692H18.4286C17.6001 10.4692 16.9286 9.79766 16.9286 8.96923V2.92857C16.9286 1.58731 15.8413 0.5 14.5 0.5C13.1587 0.5 12.0714 1.58731 12.0714 2.92857V8.96923C12.0714 9.79766 11.3999 10.4692 10.5714 10.4692H2.66154C1.46775 10.4692 0.5 11.437 0.5 12.6308C0.5 13.8246 1.46775 14.7923 2.66154 14.7923H10.5714C11.3999 14.7923 12.0714 15.4639 12.0714 16.2923V22.333C12.0714 23.6742 13.1587 24.7615 14.5 24.7615C15.8413 24.7615 16.9286 23.6742 16.9286 22.333V16.2923C16.9286 15.4639 17.6001 14.7923 18.4286 14.7923H26.3385C27.5322 14.7923 28.5 13.8246 28.5 12.6308Z"
                             fill="white" stroke="white" />
                     </svg>
-<<<<<<< HEAD
-                    <p>Sub-Authorization</p>
-=======
                     Sub Authorization
->>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
                 </button>
             </div>
         </div>
@@ -102,219 +80,10 @@
         <!-- caja donde se mostrarán los datos de las tablas  -->
         <div class="main-content">
             <div class="authorization-box">
-<<<<<<< HEAD
-                <span>Permissions</span>
-                <ul id="box-permissions">
-
-                </ul>
-            </div>
-
-            <div class="authorization-box">
-                <span>Vacation</span>
-                <ul id="box-Vacation">
-
-                </ul>
-            </div>
-
-
-        </div>
-
-    </main>
-
-    <!-- Contenedor del modal ADD-AUTHORIZATION-->
-    <div id="modal-authorization" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1">
-        <form id="saveForm-authorization">
-            <!-- Contenido del modal -->
-            <div class="modal-content">
-                <!-- Titulo del modal a usarse -->
-                <h1 id="modal-title-authorization" class="modal-title">Add Authorization</h1>
-                <!-- Campo de entrada oculto para el id -->
-                <input type="text" id="idClasificacionPermiso" name="idClasificacionPermiso" hidden>
-                <!-- Campo de entrada (input) -->
-                <input type="text" placeholder="Authorization" id="clasificacionPermiso" name="clasificacionPermiso">
-                <!-- Pie del modal -->
-                <div class="modal-footer">
-                    <!-- Botones del modal -->
-                    <!-- Botón para cerrar el modal-->
-                    <button class="btn-modal close" type="reset" onclick="closeModalAuthorization()">Cancel</button>
-                    <!-- Botón para enviar los datos del modal-->
-                    <button class="btn-modal send" type="submit">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Contenedor del modal SUB-AUTHORIZATION-->
-    <div id="modal-subAuthorization" class="modal-container" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1">
-        <form id="saveForm-sub-authorization">
-            <!-- Contenido del modal -->
-            <div class="modal-content">
-                <!-- Titulo del modal a usarse -->
-                <h1 id="modal-title-sub-authorization" class="modal-title">Sub-Authorization</h1>
-                <!-- Campo select con una opción desabilitada que sirve como 'placeholder' -->
-                <select name="idClasificacionPermiso" id="idClasificacionPermiso" required>
-                    <option value="" disabled selected>Type</option>
-                </select>
-                <!-- Campo de entrada oculto para el id -->
-                <input type="text" id="idTipoPermiso" name="idTipoPermiso" hidden>
-                <!-- Campo de entrada (input) -->
-                <input type="text" placeholder="Clasification" id="tipoPermiso" name="tipoPermiso">
-                <!-- Campo default de lapso permiso -->
-                <select name="lapsoPermiso" id="lapsoPermiso" required>
-                    <option value="1" selected>Day</option>
-                    <option value="2">Hour</option>
-                    <option value="3">Day and hour</option>
-                </select>
-                <!-- Pie del modal -->
-                <div class="modal-footer">
-                    <!-- Botones del modal -->
-                    <!-- Botón para cerrar el modal-->
-                    <button class="btn-modal close" type="reset" onclick="closeModalSubAuthorization()">Cancel</button>
-                    <!-- Botón para enviar los datos del modal-->
-                    <button class="btn-modal send" type="submit">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-
-
-
-
-
-    <!-- <div class="main-content"> 
-
-        <div class="authorization-box">
-                <span>Permissions</span>
-                <ul>
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="authorization-box">
-                <span>Permissions</span>
-                <ul>
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-
-                    <li>
-                        <div class="authorization-action-button">
-                            <div class="authorization-delete-button" onclick=""><svg width="14" height="16"
-                                    viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                        fill="white" />
-                                </svg></div>
-                            <div class="authorization-edit-button" onclick=""><svg width="13" height="16"
-                                    viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                        fill="white" />
-                                </svg></div>
-                        </div>
-                        <span>marriage Leave</span>
-                    </li>
-                </ul>
-            </div>
-
-        </div>  -->
-
-
-    <!-- JAVASCRIPT MODAL -->
-    <script src="../resources/js/modal.js"></script>
-=======
                 <ul id="box-main-content"></ul>
             </div>
         </div>
     </main>
->>>>>>> 16eca8c986e57fb64261d0284866d8d78077bca7
 
 
 
