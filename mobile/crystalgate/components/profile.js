@@ -7,11 +7,15 @@ import {
     Clipboard,
     Alert,
 } from "react-native";
+// Importación de Svg y Path desde react-native-svg, para usar archivos svg
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
+// Botón para cambiar la contraseña en el perfil del usuario
 import ChangePassButton from "../components/button/button-change-pass";
+// Encabezado único para la pantalla de perfil
 import HeaderSingle from "../components/header/headerSigle";
 import { useNavigation } from '@react-navigation/native';
+// Botón para cerrar sesión en la aplicación
 import LogOutButton from "./button/logOutButton";
 
 const Profile = () => {
@@ -36,6 +40,7 @@ const Profile = () => {
         navigation.navigate('Login');
     };
 
+    // Renderizado del componente
     return (
         <View style={styles.container}>
             <HeaderSingle title={"Profile"}/>
@@ -86,98 +91,100 @@ const Profile = () => {
     );
 };
 
+// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
         fontFamily: "Poppins-Regular",
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: Color.colorBackground,
+        flex: 1, // Flex 1 para ocupar todo el espacio disponible
+        display: "flex", // Mostrar como contenedor flexible
+        flexDirection: "column", // Dirección de los elementos en columna
+        backgroundColor: Color.colorBackground, // Color de fondo definido en la constante Color
     },
 
 
     topContrast: {
-        display: "flex",
-        backgroundColor: Color.colorContrast,
-        width: 390,
-        height: 110,
-        justifyContent: "center",
-        alignItems: "center",
+        display: "flex", // Mostrar como contenedor flexible
+        backgroundColor: Color.colorContrast, // Color de contraste definido en la constante Color
+        width: 390, // Ancho del contenedor
+        height: 110, // Altura del contenedor
+        justifyContent: "center", // Centrar verticalmente los elementos hijos
+        alignItems: "center", // Centrar horizontalmente los elementos hijos
     },
     circle: {
-        width: 150,
-        height: 150,
-        borderRadius: 100,
-        backgroundColor: "#dcdcdc",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 110,
+        width: 150, // Ancho del círculo
+        height: 150, // Altura del círculo
+        borderRadius: 100, // Radio de borde para hacerlo circular
+        backgroundColor: "#dcdcdc", // Color de fondo del círculo
+        justifyContent: "center", // Centrar verticalmente los elementos hijos
+        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        marginTop: 110, // Margen superior para ajustar la posición
     },
     initials: {
-        color: "#4285F4",
-        fontSize: 48,
-        fontWeight: "bold",
+        color: "#4285F4", // Color del texto de las iniciales
+        fontSize: 48, // Tamaño de fuente de las iniciales
+        fontWeight: "bold", // Peso de la fuente para las iniciales
     },
     content: {
-        display: "flex",
-        flexDirection: "column",
-        width: 390,
-        height: 110,
-        justifyContent: "center",
-        marginTop: 240,
+        display: "flex", // Mostrar como contenedor flexible
+        flexDirection: "column", // Dirección de los elementos en columna
+        width: 390, // Ancho del contenedor
+        height: 110, // Altura del contenedor
+        justifyContent: "center", // Centrar verticalmente los elementos hijos
+        marginTop: 240, // Margen superior para ajustar la posición
     },
     name: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#4285F4",
-        textAlign: "center",
+        fontSize: 24, // Tamaño de fuente para el nombre
+        fontWeight: "bold", // Peso de la fuente para el nombre
+        color: "#4285F4", // Color del texto del nombre
+        textAlign: "center", // Alineación del texto al centro
     },
     id: {
-        fontSize: 16,
-        color: "#777777",
-        textAlign: "center",
-        marginBottom: 20,
+        fontSize: 16, // Tamaño de fuente para el ID
+        color: "#777777", // Color del texto del ID
+        textAlign: "center", // Alineación del texto al centro
+        marginBottom: 20, // Margen inferior para ajustar la posición
     },
     label: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#777777",
-        marginTop: 20,
-        textAlign: "left",
-        marginHorizontal: 40,
+        fontSize: 16, // Tamaño de fuente para las etiquetas
+        fontWeight: "bold", // Peso de la fuente para las etiquetas
+        color: "#777777", // Color del texto de las etiquetas
+        marginTop: 20, // Margen superior para ajustar la posición
+        textAlign: "left", // Alineación del texto a la izquierda
+        marginHorizontal: 40, // Margen horizontal para ajustar la posición
     },
     row: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginTop: 10,
-        marginHorizontal: 40,
-        flexDirection: "row",
+        display: "flex", // Mostrar como contenedor flexible
+        justifyContent: "space-between", // Espacio entre elementos distribuidos uniformemente
+        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        marginTop: 10, // Margen superior para ajustar la posición
+        marginHorizontal: 40, // Margen horizontal para ajustar la posición
+        flexDirection: "row", // Dirección de los elementos en fila
     },
     email: {
-        fontSize: 16,
-        color: "#4285F4",
-        textAlign: "left",
-        flexDirection: "row",
-        width: 280,
+        fontSize: 16, // Tamaño de fuente para el correo electrónico
+        color: "#4285F4", // Color del texto del correo electrónico
+        textAlign: "left", // Alineación del texto a la izquierda
+        flexDirection: "row", // Dirección de los elementos en fila
+        width: 280, // Ancho del correo electrónico
     },
     svg: {
-        marginRight: 10,
+        marginRight: 10, // Margen derecho para ajustar la posición del icono SVG
     },
     charge: {
-        fontSize: 16,
-        color: "#4285F4",
-        marginTop: 10,
-        textAlign: "left",
-        marginLeft: 40,
+        fontSize: 16, // Tamaño de fuente para el cargo
+        color: "#4285F4", // Color del texto del cargo
+        marginTop: 10, // Margen superior para ajustar la posición
+        textAlign: "left", // Alineación del texto a la izquierda
+        marginLeft: 40, // Margen izquierdo para ajustar la posición
     },
     ContentButton:{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        paddingHorizontal: 30,
+        display: "flex", // Mostrar como contenedor flexible
+        flexDirection: "row", // Dirección de los elementos en fila
+        justifyContent: "space-around", // Espacio entre elementos distribuidos uniformemente
+        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        paddingHorizontal: 30, // Relleno horizontal para ajustar la posición
     },
 });
 
+// Exporta el componente Profile como el predeterminado
 export default Profile;

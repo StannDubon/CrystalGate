@@ -42,6 +42,7 @@ export default function App() {
     );
 }
 
+// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
         flex: 1,
