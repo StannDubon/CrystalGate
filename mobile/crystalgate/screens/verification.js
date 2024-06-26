@@ -4,7 +4,7 @@ import Verification from '../components/verification';
 
 export default function verification() {
   return (
-    <View>
+    <View style={styles.container}>
       <Verification/>
     </View>
   )

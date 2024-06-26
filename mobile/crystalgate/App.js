@@ -7,11 +7,11 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 //import PasswordRecovery from "../crystalgate/components/password-recovery";
 //import Verification from "../crystalgate/components/verification";
-import Loading from "../crystalgate/components/loading";
-import Login from "./components/login";
-import NewPassword from "./components/new-password";
-import PasswordRecovery from "./components/password-recovery";
-import Verification from "./components/verification";
+import Loading from "./screens/loading";
+import Login from "./screens/login";
+import NewPassword from "./screens/new-password";
+import PasswordRecovery from "./screens/password-recovery";
+import Verification from "./screens/verification";
 //EL DE PROFILE SE DEBE INGRESAR A PROFILE EL NAVIGATION YA ESTA CONFIGURADO
 //import Profile from "../crystalgate/components/profile";
 

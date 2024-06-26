@@ -4,7 +4,7 @@ import PasswordRecovery from "../components/password-recovery";
 
 export default function passwordrecovery() {
   return (
-    <View>
+    <View style={styles.container}>
       <PasswordRecovery/>
     </View>
   )

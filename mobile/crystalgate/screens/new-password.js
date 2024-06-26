@@ -4,7 +4,7 @@ import NewPassword from "../components/new-password";
 
 export default function newpassword() {
   return (
-    <View>
+    <View style={styles.container}>
       <NewPassword/>
     </View>
   )
