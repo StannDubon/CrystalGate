@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$TipoPeticion->setId($_POST[POST_ID]) or
                     !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->updateRow()) {
@@ -95,6 +95,20 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Tipo de peticion eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el tipo de peticion';
+                }
+                break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$TipoPeticion->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $TipoPeticion->getDataError();
+                } elseif ($TipoPeticion->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
                 }
                 break;
             default:

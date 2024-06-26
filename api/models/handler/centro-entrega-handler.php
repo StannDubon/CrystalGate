@@ -35,7 +35,7 @@ class CentroEntregaHandler
     {
         $sql = 'SELECT *
                 FROM tb_centros_entregas
-                ORDER BY centro_entrega';
+                ORDER BY estado DESC';
         return Database::getRows($sql);
     }
 

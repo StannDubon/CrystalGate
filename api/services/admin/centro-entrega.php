@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$CentroEntrega->setId($_POST[POST_ID]) or
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->updateRow()) {
@@ -95,6 +95,20 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Centro de entrega eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el centro de entrega';
+                }
+                break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$CentroEntrega->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $CentroEntrega->getDataError();
+                } elseif ($CentroEntrega->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
                 }
                 break;
             default:

@@ -45,7 +45,7 @@ if (isset($_GET['action'])) {
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
                     !$TipoPermiso->setLapso($_POST[POST_LAPSO]) or
-                    !$TipoPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$TipoPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->createRow()) {
@@ -79,7 +79,7 @@ if (isset($_GET['action'])) {
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
                     !$TipoPermiso->setLapso($_POST[POST_LAPSO]) or
-                    !$TipoPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$TipoPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->updateRow()) {
@@ -99,6 +99,20 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Tipo de permiso eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el tipo de permiso';
+                }
+                break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$TipoPermiso->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($TipoPermiso->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
                 }
                 break;
             default:

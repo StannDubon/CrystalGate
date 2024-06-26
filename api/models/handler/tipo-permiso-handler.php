@@ -66,4 +66,13 @@ class TipoPermisoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function changeStatus()
+    {
+        $sql = 'UPDATE tb_tipos_permisos
+                SET estado = not estado
+                WHERE id_tipo_permiso = ?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
 }
