@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+// Import para usar archivos SVG
 import Svg, { Path } from "react-native-svg";
 
+// Definición del componente funcional ForgotButton
 const ForgotButton = ({ onPress }) => {
     return (
+        // TouchableOpacity es un contenedor que puede detectar toques
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Forgot Password?</Text>
             <Svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,6 +16,7 @@ const ForgotButton = ({ onPress }) => {
     );
 };
 
+// Definición de estilos utilizando StyleSheet.create
 const styles = StyleSheet.create({
     button: {
         flexDirection: "row",  // Alinear elementos en una fila
@@ -21,12 +25,11 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: "Poppins-Regular",
         fontSize: 16,
-        fontWeight: "600",  // Cambiado a 600 en lugar de "SemiBold" para mejor compatibilidad con fontWeight
+        fontWeight: "SemiBold",
         color: "#4292F6",  // Color azul original
         marginRight: 8,  // Espacio entre el texto y el ícono
     },
 });
 
+// Exportar el componente ForgotButton para su uso en otras partes de la aplicación
 export default ForgotButton;
-
-
