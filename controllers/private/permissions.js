@@ -3,6 +3,7 @@ const SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php',
 
 const SEARCH_FORM = document.getElementById("searchForm");
 const SEARCH_INPUT = document.getElementById("searchInput");
+const FILTER_SELECT = document.getElementById("selectFilterIdClasificacionSubPermiso")
 
 const PERMISSION_MAIN_CONTAINER = document.getElementById("permissions-main-content")
 
@@ -23,6 +24,13 @@ SEARCH_INPUT.addEventListener("input", (event) => {
     event.preventDefault();
     const FORM = new FormData();
     FORM.append("search", SEARCH_INPUT.value);
+    fillTable();
+});
+
+FILTER_SELECT.addEventListener("change", (event) => {
+    event.preventDefault();
+    const FORM = new FormData();
+    FORM.append("idTipoPermiso", FILTER_SELECT.value);
     fillTable();
 });
 
