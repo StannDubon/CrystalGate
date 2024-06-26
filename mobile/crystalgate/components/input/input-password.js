@@ -24,7 +24,6 @@ const PasswordInputForm = ({ onChangeText, value, placeholder }) => {
                 value={value}
                 placeholder={placeholder}
                 placeholderTextColor="#4292F6"
-                keyboardType="numeric"
                 secureTextEntry // Esto hace que el campo sea seguro
             />
         </View>
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     div: {
         display: "flex",
         flexDirection: "row",
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 20,
         fontWeight: "Medium",
         marginTop: 40,
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         width: 337,
     },
     input: {
-        fontFamily: "Poppins",
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontWeight: "Regular",
         color: "#4292F6",

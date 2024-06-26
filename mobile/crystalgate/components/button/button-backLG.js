@@ -10,17 +10,17 @@ const BackLogInButton = ({ onPress }) => {
 };
 
 const styles = StyleSheet.create({
-    loginButton: {
-        marginBotton: 20,
+    button: {
+        flexDirection: "row",  // Alinear elementos en una fila
+        alignItems: "center",  // Alinear verticalmente al centro
+        marginTop: 20,  // Ajusta este valor para posicionar más abajo el botón
     },
-    loginButtonText: {
-        fontFamily: "Poppins",
+    buttonText: {
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
-        fontWeight: "Medium",
-        color: "#66A0E9",
-        textAlign: "center",
+        fontWeight: "600",  // Cambiado a 600 en lugar de "SemiBold" para mejor compatibilidad con fontWeight
+        color: "#4292F6",  // Color azul original
     },
-
 });
 
 export default BackLogInButton;

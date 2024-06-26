@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView} from 'react-native'
 import React from 'react'
+import DocumentationRequest from '../components/documentationRequest'
 
-export default function documentationrequest() {
+export default function DocumentationRequestScreen() {
   return (
-    <View>
-      <Text>documentation-request</Text>
-    </View>
+    <ScrollView>
+      <DocumentationRequest/>
+    </ScrollView>
   )
 }

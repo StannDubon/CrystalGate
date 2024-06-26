@@ -11,17 +11,22 @@ import PasswordInputForm from './input/input-password';
 import LoginButton from './button/button-login';
 import ForgotButton from './button/button-forgot';
 import { useNavigation } from '@react-navigation/native';
+import SuccessModal from './modal/succesModal';
 
 const fondo = require('../assets/img/background/background.png');
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
   const navigation = useNavigation();
 
   const handleSendNav = () => {
-    // Función para manejar el envío
-    navigation.navigate('Navigation');
+    setSuccessModalVisible(true);
+    setTimeout(() => {
+        setSuccessModalVisible(false);
+        navigation.navigate('Navigation');
+    }, 3000); 
   };
   const handleSendPas = () => {
     // Función para manejar el envío
@@ -50,13 +55,11 @@ const Login = () => {
             </View>
           </View>
           <View style={styles.ContentButton}>
-
-              <LoginButton onPress={handleSendNav}/>
-
-            
+              <LoginButton onPress={handleSendNav}/>            
           </View>
         </View>
       </BackgroundImage>
+      <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Log In successfully"} />
     </View>
   );
 };
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Bold",
     fontSize: 32,
     fontWeight: "bold",
     color: "#4292F6",
@@ -84,9 +87,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   subTitle: {
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Regular",
     fontSize: 20,
-    fontWeight: "Medium",
+    fontWeight: "medium",  // Cambiado a "medium" en lugar de "Medium"
     color: "#66A0E9",
     textAlign: "right",
     marginRight: 20,
@@ -97,13 +100,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20, // Añadido para dar un espacio horizontal a los bordes del formulario
   },
-  ContentButton:{
-    display: "flex",
+  ContentButton: {
+    marginVertical: 20, // Ajustado para asegurar espacio entre los botones y el contenido
     alignItems: "center",
-    marginBottom: 70
   },
 });
+
 
 export default Login;
 
