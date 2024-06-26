@@ -25,39 +25,52 @@ const loadFormatSelectorJs = () => {
     }
 }
 
+const setFormatSelectorFromApi = (value) => {
+    function reset(){
+        document.getElementById("swal-custom-days").classList.remove("swal-custom-format-selected-option")
+        document.getElementById("swal-custom-hours").classList.remove("swal-custom-format-selected-option")
+        document.getElementById("swal-custom-days-hours").classList.remove("swal-custom-format-selected-option")
+    }
+
+    if(value==1){
+        reset();
+        document.getElementById("swal-custom-days").classList.add("swal-custom-format-selected-option")
+    } else if(value==2){
+        reset();
+        document.getElementById("swal-custom-hours").classList.add("swal-custom-format-selected-option")
+    } else if(value==3){
+        reset();
+        document.getElementById("swal-custom-days-hours").classList.add("swal-custom-format-selected-option")
+    }
+};
+
 // STATUS SELECTOR
-const loadStatusSelectorJs = (id_status_chooser, id_input, updateRealValue) => {
+const loadStatusSelectorJs = (id_status_chooser, id_input) => {
     const statusChooser = document.getElementById(id_status_chooser);
     const loadStatusSelectorValueComponent = document.getElementById(id_input);
 
-    const toggleStatus = () => {
-        if (loadStatusSelectorValueComponent.value == "1") {
-            loadStatusSelectorValueComponent.value = "0";
-            statusChooser.classList.remove('active');
-        } else {
-            loadStatusSelectorValueComponent.value = "1";
-            statusChooser.classList.add('active');
-        }
-    };
+    // Set initial status from API
+    setStatusSelectorFromApi(id_status_chooser, id_input);
 
-    // Set initial state
-    if (loadStatusSelectorValueComponent.value == "1") {
-        statusChooser.classList.add('active');
-    } else {
-        statusChooser.classList.remove('active');
-    }
-
-    // Remove any existing click event listeners
-    statusChooser.removeEventListener('click', toggleStatus);
-    statusChooser.addEventListener('click', toggleStatus);
-
-    if(updateRealValue !== ""){
-        if(updateRealValue=="1"){
-            statusChooser.classList.add('active');
-        } else{
-            statusChooser.classList.remove('active');}
-    }
+    // Toggle status on click
+    statusChooser.addEventListener('click', () => {
+        const isActive = statusChooser.classList.contains('active');
+        loadStatusSelectorValueComponent.value = isActive ? '0' : '1';
+        statusChooser.classList.toggle('active', !isActive);
+        statusChooser.classList.toggle('inactive', isActive);
+    });
 };
+
+const setStatusSelectorFromApi = (id_status_chooser, id_input) => {
+    const statusChooser = document.getElementById(id_status_chooser);
+    const loadStatusSelectorValueComponent = document.getElementById(id_input);
+
+    const isActive = loadStatusSelectorValueComponent.value === '1';
+    statusChooser.classList.toggle('active', isActive);
+    statusChooser.classList.toggle('inactive', !isActive);
+};
+
+
 
 function setupModalDiscardButtons() {
     // Obtener todos los botones de descarte

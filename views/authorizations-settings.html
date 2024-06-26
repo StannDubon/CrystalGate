@@ -76,8 +76,7 @@
         </div>
 
         <div class="main-content">
-            <div class="authorization-box">
-                <ul id="box-main-content"></ul>
+            <div class="authorization-box" id="box-main-content">
             </div>
         </div>
     </main>
@@ -94,10 +93,8 @@
                         <input type="text" id="idClasificacionPermiso" name="idClasificacionPermiso" hidden>
                         <input placeholder="Authorization" name="clasificacionPermiso" id="clasificacionPermiso" required>
                     
+                        <input id="estadoClasificacionPermiso" name="estadoClasificacionPermiso" type="hidden" value="1"></input>
                         <div id="swal-custom-status-chooser-auth" class="swal-custom-status-chooser active">
-
-                            <input id="estadoClasificacionPermiso" name="estadoClasificacionPermiso" type="hidden" value="1"></input>
-
                             <span class="swal-custom-toggle-inactive">Inactive</span>
                             <span class="swal-custom-toggle-active">Active</span>
                         </div>
@@ -123,7 +120,7 @@
                         <input placeholder="Sub Authorization" name="tipoPermiso" id="tipoPermiso" required>
                         <select class="swal-custom-select" id="selectIdClasificacionPermiso" name="idClasificacionPermiso"></select>
 
-                        <div class="swal-custom-format-day-container">
+                        <div class="swal-custom-format-day-container" id="swal-custom-format-selector">
                             <input id="lapsoPermiso" name="lapsoPermiso"type="hidden" value="3"></input>
                             <span id="swal-custom-days">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -153,9 +150,8 @@
                             </span>
                         </div>
     
+                        <input id="estadoTipoPermiso" name="estadoTipoPermiso"type="hidden" value="1"></input>
                         <div id="swal-custom-status-chooser-sub-auth" class="swal-custom-status-chooser active">
-                            <input id="estadoTipoPermiso" name="estadoTipoPermiso"type="hidden" value="1"></input>
-
                             <span class="swal-custom-toggle-inactive">Inactive</span>
                             <span class="swal-custom-toggle-active">Active</span>
                         </div>
