@@ -30,8 +30,9 @@ class PermisoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario FROM tb_permisos a, tb_usuarios b 
-                WHERE (fecha_envio LIKE ? OR estado LIKE ?) AND a.id_usuario = b.id_usuario';
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_permiso
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c 
+                WHERE (b.nombre LIKE ? OR b.apellido LIKE ?) AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
@@ -48,17 +49,17 @@ class PermisoHandler
 
     public function readAll()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario
-                FROM tb_permisos a, tb_usuarios b WHERE a.id_usuario = b.id_usuario
-                ORDER BY clasificacion_permiso';
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_permiso, c.lapso
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario
-                FROM tb_permisos a, tb_usuarios b
-                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario';
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
+                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
