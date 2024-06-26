@@ -28,7 +28,7 @@ const fillPermissions = async (form = null) => {
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas con los datos de cada tipo de request.
-            let url = `entry-request.html?id=${row.id_permiso}&lapso=${row.lapso}`;
+            let url = `entry-request.html?id=${row.id_permiso}`;
             BOX_PERMISOS.innerHTML += `
                
             <!-- INICIO TARJETA -->

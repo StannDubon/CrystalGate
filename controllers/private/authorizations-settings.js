@@ -150,6 +150,7 @@ const fillAuthorizations = async (form = null) => {
             `;
         });
         await fillSubAuthorization();
+        await loadTemplate();
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         AUTHORIZATION.textContent = DATA_AUTHORIZATION.error;
