@@ -1,6 +1,5 @@
 // Constantes para completar la ruta de la API.
-const AUTHORIZATION_API = 'services/admin/clasificacion-permiso.php',
-    SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php';
+const SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php';
 // Constante para establecer el form e input de buscar.
 const SEARCH_FORM = document.getElementById('search-form'),
     SEARCH_INPUT = document.getElementById('search-input');
