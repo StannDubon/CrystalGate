@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+// Import para usar archivos SVG
 import Svg, { Path } from "react-native-svg";
 
+// Definición del componente funcional SendButtonForm
 const SendButtonForm = ({ onPress }) => {
     return (
+        // TouchableOpacity es un contenedor que puede detectar toques
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Send</Text>
             <Svg
@@ -22,29 +25,31 @@ const SendButtonForm = ({ onPress }) => {
     );
 };
 
+// Definición de estilos utilizando StyleSheet.create
 const styles = StyleSheet.create({
     button: {
-        height: 50,
-        width: 150,
-        backgroundColor: "#4292F6",
-        marginTop: 50,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 10,
-        display: "flex",
-        flexDirection: "row",
-        alignContent: "space-evenly",
-        textAlign: "justify",
-        alignSelf: "flex-end",
-        marginRight: 25,
+        height: 50, // Altura del botón
+        width: 150, // Ancho del botón
+        backgroundColor: "#4292F6", // Color de fondo del botón, azul original
+        marginTop: 50, // Espacio superior de 50 puntos
+        justifyContent: "center", // Alinear contenido al centro horizontalmente
+        alignItems: "center", // Alinear contenido al centro verticalmente
+        borderRadius: 10, // Borde redondeado del botón
+        display: "flex", // Display flexible para alinear elementos internos
+        flexDirection: "row", // Alinear elementos en una fila
+        alignContent: "space-evenly", // Espacio uniforme entre los elementos
+        textAlign: "justify", // Alinear texto justificado
+        alignSelf: "flex-end", // Alinear el botón hacia el extremo derecho del contenedor
+        marginRight: 25, // Margen derecho de 25 puntos
     },
     buttonText: {
-        fontFamily: "Poppins-Regular",
-        fontSize: 20,
+        fontFamily: "Poppins-Regular", // Fuente del texto
+        fontSize: 20, // Tamaño de fuente
         fontWeight: "SemiBold",
-        color: "#ffffff",
-        marginRight: 30,
+        color: "#ffffff", // Color del texto, blanco
+        marginRight: 30, // Espacio entre el texto y el ícono
     },
 });
 
+// Exportar el componente SendButtonForm para su uso en otras partes de la aplicación
 export default SendButtonForm;
