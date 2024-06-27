@@ -100,7 +100,7 @@ const fillSubTable = async () => {
             `;
         });
     } else {
-        PERMISSION_MAIN_CONTAINER.innerHTML += `<span>ERROR!</span>`
+        PERMISSION_MAIN_CONTAINER.innerHTML += DATA.error;
     }
 };
   
@@ -176,7 +176,7 @@ const fillTable = async (form = null) => {
         });
       }
     } else {
-        PERMISSION_MAIN_CONTAINER.innerHTML += `<span>ERROR!</span>`
+        PERMISSION_MAIN_CONTAINER.innerHTML += DATA.error;
     }
 };
   
