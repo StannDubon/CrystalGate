@@ -153,3 +153,10 @@ INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, c
 VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',
 'test@root.com', 'test.png');
 /* CONTRASEÑA: 123456789 */
+
+
+/* CONSULTAUWUUWUWU */
+
+SELECT DISTINCT cp.id_clasificacion_permiso, cp.clasificacion_permiso
+FROM tb_clasificaciones_permisos cp
+JOIN tb_tipos_permisos tp ON cp.id_clasificacion_permiso = tp.id_clasificacion_permiso;
