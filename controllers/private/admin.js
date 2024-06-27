@@ -145,6 +145,7 @@ const openUpdate = async (id) => {
         SAVE_FORM_ADMINISTRATOR.reset();
 
         const ROW = DATA.dataset;
+        console.log(ROW);
         ID_ADMINISTRATOR.value = ROW.id_administrador;
         NOMBRE_ADMINISTRATOR.value = ROW.nombre;
         APELLIDO_ADMINISTRATOR.value = ROW.apellido;

@@ -1,10 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+// Importa View de react-native-animatable
 import { View } from "react-native-animatable";
+// Import Svg de react-native-svg
 import Svg, { Path } from "react-native-svg";
 
+// Componente funcional FilterButton que recibe una función onPress como prop
 const FilterButton = ({ onPress }) => {
     return (
+        // TouchableOpacity es un contenedor que puede detectar toques
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <View style={styles.containerButton}>
                 <Svg width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,28 +20,36 @@ const FilterButton = ({ onPress }) => {
     );
 };
 
+// Estilos del componente FilterButton
 const styles = StyleSheet.create({
     containerButton:{
         margin: 10,
-        flexDirection: "row",
-        justifyContent: "flex-start",
+        flexDirection: "row", // Alinea elementos en una fila
+        justifyContent: "flex-start", // Alinea contenido al inicio horizontalmente
+        alignItems: "flex-start", // Alinea contenido al centro verticalmente
     },
     button: {
-        marginLeft: 15,
-        width: 150,
-        backgroundColor: "#D9E4FF",
-        borderRadius: 10,
-        marginTop: 30,
+        marginLeft: 10, // Margen izquierdo de 10 puntos
+        flexDirection: "row", // Alinea elementos en una fila
+        alignContent: "flex-start", // Alinea contenido al inicio horizontalmente
+        height: 54, // Altura del botón
+        width: 150, // Ancho del botón
+        backgroundColor: "#D9E4FF", // Color de fondo del botón
+        borderRadius: 8, // Borde redondeado
+        marginTop: 40, // Margen superior de 40 puntos
+        justifyContent: "flex-start", // Alinea contenido al inicio horizontalmente
+        alignItems: "center", // Alinea contenido al centro verticalmente
     },
     buttonText: {
-        fontFamily: "Poppins-Regular",
-        fontSize: 16,
-        fontWeight: "normal",
-        color: "#4292F6",
-        marginRight: 20,
-        marginLeft: 10,
-        marginVertical: 3,
+        fontFamily: "Poppins-Regular", // Fuente del texto
+        fontSize: 16, // Tamaño de la fuente
+        fontWeight: "normal", // Peso de la fuente
+        color: "#4292F6", // Color del texto
+        marginRight: 20, // Margen derecho de 20 puntos
+        marginLeft: 10, // Margen izquierdo de 10 puntos
+        marginVertical: 3, // Margen vertical de 3 puntos
     },
 });
 
+// Exporta el componente FilterButton para ser utilizado en otras partes de la aplicación
 export default FilterButton;

@@ -375,7 +375,6 @@ main{
 #bridge-inbox .left-icon,
 #bridge-inbox .right-icon {
     position: relative;
-    top: 2px;
     display: inline-block;
     width: 13px;
     height: 4px;

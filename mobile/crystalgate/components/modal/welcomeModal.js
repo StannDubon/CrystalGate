@@ -1,14 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, Button, Touchable, TouchableOpacity } from 'react-native';
+// Importación de Svg y Path de react-native-svg
 import Svg, { Path } from "react-native-svg";
 
+// Definición del componente funcional WelcomeModal
 const WelcomeModal = ({ visible, onClose, title, content}) => {
+    // Renderizado del componente
     return (
+        // Modal que se muestra sobre la pantalla principal
         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={visible}
-            onRequestClose={onClose}
+            animationType="slide"             // Tipo de animación al abrir/cerrar el modal
+            transparent={true}               // Hace el fondo del modal transparente
+            visible={visible}                // Propiedad para mostrar/ocultar el modal
+            onRequestClose={onClose}         // Función a ejecutar al intentar cerrar el modal
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
@@ -37,52 +41,54 @@ const WelcomeModal = ({ visible, onClose, title, content}) => {
     );
 };
 
+// Estilos utilizando StyleSheet.create
 const styles = StyleSheet.create({
     header:{
         display: "flex",
-        flexDirection: "row"
+        flexDirection: "row",               // Dirección del contenedor en fila
     },
     title:{
-        fontFamily: "Poppins-Bold",
-        fontSize: 16,
-        color: "#64759D",
-        alignSelf: "center",
-        marginLeft: 5,
+        fontFamily: "Poppins-Bold",         // Fuente del título
+        fontSize: 16,                       // Tamaño de la fuente
+        color: "#64759D",                   // Color del texto del título
+        alignSelf: "center",                // Alineación automática centrada
+        marginLeft: 5,                      // Margen izquierdo
     },
     btnClose:{
-        width: 300,
-        height: 50,
-        backgroundColor: "#64759D",
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10,
-        alignItems: "center",
+        width: 300,                         // Ancho del botón
+        height: 50,                         // Altura del botón
+        backgroundColor: "#64759D",         // Color de fondo del botón
+        borderBottomRightRadius: 10,        // Radio de borde inferior derecho
+        borderBottomLeftRadius: 10,         // Radio de borde inferior izquierdo
+        alignItems: "center",               // Alineación de elementos al centro
     },
     btnText: {
-        fontFamily: "Poppins-Bold",
-        color: "white",
-        marginTop: 15,
+        fontFamily: "Poppins-Bold",         // Fuente del texto del botón
+        color: "white",                     // Color del texto del botón
+        marginTop: 15,                      // Margen superior
     },
     modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.5)",
+        flex: 1,                            // Ocupa todo el espacio disponible
+        justifyContent: "center",           // Centra verticalmente
+        alignItems: "center",               // Centra horizontalmente
+        backgroundColor: "rgba(0,0,0,0.5)", // Fondo semi-transparente negro
     },
     modalContent: {
-        width: 300,
-        paddingTop: 20,
-        paddingHorizontal: 20,
-        backgroundColor: "#D9E4FF",
-        borderRadius: 10,
-        alignItems: "center",
+        width: 300,                         // Ancho del contenido del modal
+        paddingTop: 20,                     // Relleno superior
+        paddingHorizontal: 20,              // Relleno horizontal
+        backgroundColor: "#D9E4FF",         // Fondo del contenido del modal
+        borderRadius: 10,                   // Bordes redondeados
+        alignItems: "center",               // Alineación de contenido al centro
     },
     modalText: {
-        marginTop: 20,
-        marginBottom: 20,
-        fontSize: 18,
-        textAlign: "center",
-        fontFamily: "Poppins-Regular"
+        marginTop: 20,                      // Margen superior
+        marginBottom: 20,                   // Margen inferior
+        fontSize: 18,                       // Tamaño de la fuente
+        textAlign: "center",                // Alineación del texto al centro
+        fontFamily: "Poppins-Regular",      // Fuente del texto
     },
 });
 
+// Exporta el componente WelcomeModal por defecto
 export default WelcomeModal;

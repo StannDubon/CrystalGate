@@ -1,9 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+// Import Svg de react-native-svg, para agregar archivos svg
 import Svg, { Path } from "react-native-svg";
+// Import Color de const, para usar las constantes de colores
 import { Color } from "../../assets/const/color";
 
+// Definición del componente funcional HeaderSingle
 const HeaderSingle = ({title, subtitle}) => {
+    // Renderizado del componente
     return (
         <View style={styles.header}>
                 <View style={styles.titleContainer}>
@@ -40,6 +44,7 @@ const HeaderSingle = ({title, subtitle}) => {
     );
 };
 
+// Definición de los estilos usando StyleSheet.create
 const styles = StyleSheet.create({
     headerContainer:{
         display: "flex",
@@ -50,9 +55,9 @@ const styles = StyleSheet.create({
     header: {
         display: "flex",
         flexDirection: "row",
-        backgroundColor: Color.colorHeader,
-        justifyContent: "space-between",
-        alignItems: "center",
+        backgroundColor: Color.colorHeader, // Color de fondo del encabezado obtenido de Color.colorHeader
+        justifyContent: "space-between", // Espacio distribuido uniformemente entre los elementos hijos
+        alignItems: "center", // Alinea los elementos al centro verticalmente
         marginTop: 0,
         paddingHorizontal: 20,
         width: 390,
@@ -61,26 +66,27 @@ const styles = StyleSheet.create({
     },
     titleContainer:{
         display: "flex",
-        flexDirection: "column",
-        backgroundColor: Color.colorHeader,
-        justifyContent: "space-between",
-        alignItems: "left",
+        flexDirection: "column", // Los elementos se colocan en una columna
+        backgroundColor: Color.colorHeader, // Color de fondo del contenedor del título
+        justifyContent: "space-between", // Espacio distribuido uniformemente entre los elementos hijos
+        alignItems: "left", // Alinea los elementos a la izquierda
         marginTop: 0,
         paddingHorizontal: 20,
     },
     title: {
-        fontFamily: "Poppins-Bold",
-        fontWeight: "bold",
-        fontSize: 24,
-        color: Color.colorfont1,
+        fontFamily: "Poppins-Bold", // Fuente en negrita
+        fontWeight: "bold", // Peso de la fuente en negrita
+        fontSize: 24, // Tamaño de la fuente
+        color: Color.colorfont1, // Color del texto obtenido de Color.colorfont1
     },
     subtitle: {
-        fontFamily: "Poppins-Regular",
-        fontSize: 24,
-        fontWeight: "normal",
-        color: "#4292F6",
-        textAlign: "begin",
+        fontFamily: "Poppins-Regular", // Fuente regular
+        fontSize: 24, // Tamaño de la fuente
+        fontWeight: "normal", // Peso de la fuente normal
+        color: "#4292F6", // Color del subtítulo
+        textAlign: "begin", // Alineación del texto al inicio
     }
 });
 
+// Exportar el componente HeaderSingle como el componente predeterminado
 export default HeaderSingle;

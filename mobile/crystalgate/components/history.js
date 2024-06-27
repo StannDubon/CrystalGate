@@ -6,14 +6,18 @@ import {
     ScrollView,
 } from "react-native";
 import { Color } from "../assets/const/color";
+// Importa el componente HeaderSingle para el encabezado
 import HeaderSingle from "../components/header/headerSigle";
+// Importa el botón FilterButton
 import FilterButton from "../components/button/filterButton";
+// Importa el componente PermissionCard para las tarjetas de permisos
 import PermissionCard from "./cards/permissionCard";
 import NotificationCard from "./cards/notificationCard";
 import BottomSheet from "./filter/bottomSheet";
 import SegmentedControl from "./button/historyButton";
 
 const History = () => {
+    // Estado para controlar la visibilidad de la hoja inferior
     const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -33,10 +37,12 @@ const History = () => {
         { id: '5', title: 'Document 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
     ];
 
+    // Función para alternar la visibilidad de la hoja inferior
     const toggleWidget = () => {
         setVisible(!visible);
     };
 
+    // Renderizado del componente
     return (
         <View style={styles.container}>
             <HeaderSingle title={"Your Journey"} subtitle={"History"}/>
@@ -75,25 +81,26 @@ const History = () => {
     );
 };
 
+// Estilos del componente
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1, // Ocupa todo el espacio disponible
         display: "flex",
         flexDirection: "column",
-        backgroundColor: Color.colorBackground,
-        marginBottom: 100,
+        backgroundColor: Color.colorBackground, // Color de fondo usando una constante de color
+        marginBottom: 100, // Margen inferior adicional
     },
     filterButton:{
-        backgroundColor: "#D9E4FF",
-        borderCurve: 3,
+        backgroundColor: "#D9E4FF", // Color de fondo del botón (no parece estar en uso)
+        borderCurve: 3, // Estilo del borde del botón (no es una propiedad válida)
     },
     filterContainer:{
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "flex-start", // Alineación de los elementos hacia la izquierda
     },
     filterText:{
-        fontSize: 13,
-        color: "#4292F6",
+        fontSize: 13, // Tamaño de fuente del texto del filtro
+        color: "#4292F6", // Color del texto del filtro
     },
     permissionContainer:{
         flex: 1,
@@ -107,8 +114,9 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 20, 
+        paddingVertical: 20, // Espaciado vertical dentro del contenedor de la FlatList
     },
 });
 
+// Exporta el componente History
 export default History;

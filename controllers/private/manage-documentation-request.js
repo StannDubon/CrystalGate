@@ -140,17 +140,22 @@ const fillRequestType = async (form = null) => {
 }
 
 const changeRequestStatus = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idTipoPeticion', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(REQUEST_TYPE_API, 'changeStatus', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        sweetAlert(1, DATA.message, true);
-        fillRequestType();
-    } else {
-        sweetAlert(2, DATA.error, false);
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this request?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idTipoPeticion', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(REQUEST_TYPE_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillRequestType();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
@@ -297,17 +302,22 @@ const fillLanguages = async (form = null) => {
 }
 
 const changeLanguageStatus = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idIdioma', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(LANGUAGES_API, 'changeStatus', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        sweetAlert(1, DATA.message, true);
-        fillLanguages();
-    } else {
-        sweetAlert(2, DATA.error, false);
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this language?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idIdioma', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(LANGUAGES_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillLanguages();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
@@ -455,17 +465,22 @@ const fillLocations = async (form = null) => {
 }
 
 const changeLocationStatus = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idCentroEntrega', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(LOCATIONS_API, 'changeStatus', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        sweetAlert(1, DATA.message, true);
-        fillLocations();
-    } else {
-        sweetAlert(2, DATA.error, false);
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this location?');
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idCentroEntrega', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(LOCATIONS_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillLocations();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
