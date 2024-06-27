@@ -34,7 +34,6 @@ const Login = () => {
     FORM.append("claveUsuario", password);
     try{
       const result = await fetchData(service,action,FORM);
-      console.log(result);
       if(result.status == 1){
         setSuccessModalVisible(true);
         setTimeout(() => {

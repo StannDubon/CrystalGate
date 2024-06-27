@@ -14,8 +14,6 @@ const fetchData = async (service, action, data = null) => {
         options.body = data;
     }
 
-    console.log(options.body);
-
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
