@@ -35,7 +35,7 @@ class IdiomaHandler
     {
         $sql = 'SELECT *
                 FROM tb_idiomas
-                ORDER BY idioma';
+                ORDER BY estado DESC';
         return Database::getRows($sql);
     }
 

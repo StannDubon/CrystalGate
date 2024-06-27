@@ -1,19 +1,18 @@
 // Constantes para completar la ruta de la API.
-const AUTHORIZATION_API = 'services/admin/clasificacion-permiso.php',
-    SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php';
+const SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php';
 // Constante para establecer el form e input de buscar.
 const SEARCH_FORM = document.getElementById('search-form'),
     SEARCH_INPUT = document.getElementById('search-input');
 // Constantes para obtener el id de las cajas donde se mostrarán los datos de las tablas  
 const AUTHORIZATION = document.getElementById('box-main-content');
 // Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL_AUTHORIZATION = document.getElementById('modal-authorization'),
-    SAVE_MODAL_SUB_AUTHORIZATION = document.getElementById('modal-sub-authorization'),
+const SAVE_MODAL_AUTHORIZATION = document.getElementById('authorization-custom-modal'),
+    SAVE_MODAL_SUB_AUTHORIZATION = document.getElementById('sub-authorization-custom-modal'),
     MODAL_TITLE_AUTHORIZATION = document.getElementById('modal-title-authorization'),
     MODAL_TITLE_SUB_AUTHORIZATION = document.getElementById('modal-title-sub-authorization');
 // Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM_AUTHORIZATION = document.getElementById('save-form-authorization'),
-    SAVE_FORM_SUB_AUTHORIZATION = document.getElementById('save-form-sub-authorization'),
+const SAVE_FORM_AUTHORIZATION = document.getElementById('authorization-custom-form'),
+    SAVE_FORM_SUB_AUTHORIZATION = document.getElementById('sub-authorization-custom-form'),
     // ID's
     ID_AUTHORIZATION = document.getElementById('idClasificacionPermiso'),
     ID_SUB_AUTHORIZATION = document.getElementById('idTipoPermiso'),
@@ -31,10 +30,13 @@ const SAVE_FORM_AUTHORIZATION = document.getElementById('save-form-authorization
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // Peticiones para solicitar los datos de la base.
+    loadTemplate();
+    setupModalDiscardButtons();
+    loadFormatSelectorJs();
+    loadStatusSelectorJs('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
+    loadStatusSelectorJs('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
     await fillAuthorizations();
-    await fillSubAuthorization();
-
+    
 });
 
 let SEARCH_VALUE = '';
@@ -48,6 +50,29 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 
     search(SEARCH_VALUE);
    
+});
+
+// Método del evento para cuando se envía el formulario de guardar en Request Type.
+SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Se verifica la acción a realizar.
+    (ID_AUTHORIZATION.value) ? action = 'updateRow' : action = 'createRow';
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SAVE_FORM_AUTHORIZATION);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(AUTHORIZATION_API, action, FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se cierra la caja de diálogo.
+        SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        // Se muestra un mensaje de éxito.
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la lista para visualizar los cambios.
+        await fillAuthorizations();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
 });
 
 
@@ -96,59 +121,42 @@ const fillAuthorizations = async (form = null) => {
         AUTHORIZATION.innerHTML = '';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA_AUTHORIZATION.dataset.forEach(row => {
+
+            let reqLocStatusColor = null
+            if(row.estado == 1){
+                reqLocStatusColor = "#8DDA8C"
+            } else{
+                reqLocStatusColor = "#F54C60"
+            }
             // Se crean y concatenan las filas con los datos de cada tipo de request.
             AUTHORIZATION.innerHTML += `
-                <li>
-                    <div class="authorization-action-button">
-                        <div class="authorization-delete-button" onclick="openDeleteAuthorization(${row.id_clasificacion_permiso})"><svg width="14" height="16"
-                                viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
-                                    fill="white" />
-                            </svg></div>
-                        <div class="authorization-edit-button" onclick="openUpdateAuthorization(${row.id_clasificacion_permiso})"><svg width="13" height="16"
-                                viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
-                                    fill="white" />
-                            </svg></div>
+            <div class="wrapper">
+            <div class="authorization">
+                <div class="actions">
+                    <svg width="13" height="5" viewBox="0 0 13 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.50008 0.916656C5.62925 0.916656 4.91675 1.62916 4.91675 2.49999C4.91675 3.37082 5.62925 4.08332 6.50008 4.08332C7.37091 4.08332 8.08342 3.37082 8.08342 2.49999C8.08342 1.62916 7.37091 0.916656 6.50008 0.916656ZM11.2501 0.916656C10.3792 0.916656 9.66675 1.62916 9.66675 2.49999C9.66675 3.37082 10.3792 4.08332 11.2501 4.08332C12.1209 4.08332 12.8334 3.37082 12.8334 2.49999C12.8334 1.62916 12.1209 0.916656 11.2501 0.916656ZM1.75008 0.916656C0.879248 0.916656 0.166748 1.62916 0.166748 2.49999C0.166748 3.37082 0.879248 4.08332 1.75008 4.08332C2.62091 4.08332 3.33341 3.37082 3.33341 2.49999C3.33341 1.62916 2.62091 0.916656 1.75008 0.916656Z" fill="var(--color-texto-2)"/>
+                    </svg>
+                    <div class="options">
+                        <span class="option delete" onclick="openDeleteAuthorization(${row.id_clasificacion_permiso})">Delete</span>
+                        <span class="option edit" onclick="openUpdateAuthorization(${row.id_clasificacion_permiso})">Edit</span>
                     </div>
-                    <span class="authorization">${row.clasificacion_permiso}</span>
-                        
-                </li>
+                </div>
+                <span class="title">${row.clasificacion_permiso}</span>
+                <div class="authorization-status-button" style="background-color: ${reqLocStatusColor};" onclick="changeAuthorizationStatus(${row.id_clasificacion_permiso})"></div>
+            </div>
 
-                <ul class="box-main-content" style="margin-left: 20px;" 
-                id="box-${row.id_clasificacion_permiso}"></ul>
+            <ul class="box-main-content" style="margin-left: 30px;" id="box-${row.id_clasificacion_permiso}"></ul>
+            </div>
             `;
         });
+        await fillSubAuthorization();
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         AUTHORIZATION.textContent = DATA_AUTHORIZATION.error;
     }
 }
 
-// Método del evento para cuando se envía el formulario de guardar en Request Type.
-SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se verifica la acción a realizar.
-    (ID_AUTHORIZATION.value) ? action = 'updateRow' : action = 'createRow';
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SAVE_FORM_AUTHORIZATION);
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(AUTHORIZATION_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se cierra la caja de diálogo.
-        SAVE_MODAL_AUTHORIZATION.classList.remove('show');
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la lista para visualizar los cambios.
-        await fillAuthorizations();
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
-});
+
 
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
@@ -157,8 +165,9 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
 */
 const openCreateAuthorization = () => {
     // Se muestra la caja de diálogo con su título.
+    setStatusSelectorFromApi('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
     SAVE_MODAL_AUTHORIZATION.classList.add('show');
-    MODAL_TITLE_AUTHORIZATION.textContent = 'Add a authorization';
+    MODAL_TITLE_AUTHORIZATION.textContent = 'Add An Authorization';
     // Se prepara el formulario.
     SAVE_FORM_AUTHORIZATION.reset();
 }
@@ -185,7 +194,8 @@ const openUpdateAuthorization = async (id) => {
         const ROW = DATA.dataset;
         ID_AUTHORIZATION.value = ROW.id_clasificacion_permiso;
         CLASIFICACION_PERMISO.value = ROW.clasificacion_permiso;
-        ESTADO_CLASIFICACION_PERMISO.checked = ROW.estado;
+        ESTADO_CLASIFICACION_PERMISO.value = ROW.estado;
+        setStatusSelectorFromApi('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -212,6 +222,26 @@ const openDeleteAuthorization = async (id) => {
             await sweetAlert(1, DATA.message, true);
             // Se carga nuevamente la fila para visualizar los cambios.
             await fillAuthorizations();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+const changeAuthorizationStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this authorization?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idClasificacionPermiso', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(AUTHORIZATION_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillAuthorizations();
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -245,21 +275,31 @@ const fillSubAuthorization = async (form = null) => {
             if (boxElement) {
                 boxElement.innerHTML = '';
                 BOX_SUB_AUTHORIZATION[boxId].forEach(row => {
+                    let reqLocStatusColor = null
+            
+                    if(row.estado == 1){
+                        reqLocStatusColor = "#8DDA8C"
+                    } else{
+                        reqLocStatusColor = "#F54C60"
+                    }
                     boxElement.innerHTML += `
                         <li>
                             <div class="authorization-action-button">
-                                <div class="authorization-delete-button" onclick="openDeleteSubAuthorization(${row.id_tipo_permiso})">
-                                    <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z" fill="white"/>
-                                    </svg>
-                                </div>
-                                <div class="authorization-edit-button" onclick="openUpdateSubAuthorization(${row.id_tipo_permiso})">
-                                    <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z" fill="white"/>
-                                    </svg>
-                                </div>
+                                <div class="authorization-delete-button" onclick="openDeleteSubAuthorization(${row.id_tipo_permiso})"><svg width="14" height="16"
+                                        viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
+                                            fill="white" />
+                                    </svg></div>
+                                <div class="authorization-edit-button" onclick="openUpdateSubAuthorization(${row.id_tipo_permiso})"><svg width="13" height="16"
+                                        viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
+                                            fill="white" />
+                                    </svg></div>
                             </div>
-                            <span class="sub-authorization">${row.tipo_permiso}</span>
+                            <span>${row.tipo_permiso}</span>
+                            <div class="authorization-status-button" style="background-color: ${reqLocStatusColor};" onclick="changeSubAuthorizationStatus(${row.id_tipo_permiso})"></div>
                         </li>
                     `;
                 });
@@ -337,9 +377,13 @@ SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
 */
 const openCreateSubAuthorization = () => {
     // Se muestra la caja de diálogo con su título.
+    updateSelectColor();
+    loadFormatSelectorJs();
+    setStatusSelectorFromApi('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
     SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
     MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Add a sub authorization';
     // Se prepara el formulario.
+    
     SAVE_FORM_SUB_AUTHORIZATION.reset();
     fillSelect(AUTHORIZATION_API, 'readAll', 'selectIdClasificacionPermiso');
 }
@@ -368,7 +412,9 @@ const openUpdateSubAuthorization = async (id) => {
         TIPO_PERMISO.value = ROW.tipo_permiso;
         fillSelect(AUTHORIZATION_API, 'readAll', 'selectIdClasificacionPermiso', ROW.id_clasificacion_permiso);
         LAPSO_PERMISO.value = ROW.lapso;
-        ESTADO_TIPO_PERMISO.checked = ROW.estado;
+        ESTADO_TIPO_PERMISO.value = ROW.estado;
+        setStatusSelectorFromApi('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
+        setFormatSelectorFromApi(ROW.lapso);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -395,6 +441,26 @@ const openDeleteSubAuthorization = async (id) => {
             await sweetAlert(1, DATA.message, true);
             // Se carga nuevamente la fila para visualizar los cambios.
             fillSubAuthorization();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+const changeSubAuthorizationStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this sub-authorization?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idTipoPermiso', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(SUB_AUTHORIZATION_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillAuthorizations();
         } else {
             sweetAlert(2, DATA.error, false);
         }
