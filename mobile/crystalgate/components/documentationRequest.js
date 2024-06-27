@@ -16,7 +16,7 @@ import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
 import WelcomeModal from "./modal/welcomeModal";
-import SuccessModal from "./modal/succesModal";
+import SuccessModal from "./modal/alertModal";
 
 const DocumentationRequest = () => {
 

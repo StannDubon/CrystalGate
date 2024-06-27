@@ -11,7 +11,7 @@ const FilePicker = ({ onSelectFile }) => {
         type: 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       });
 
-      if (!res.cancelled) {
+      if (!res.canceled) {
         onSelectFile(res);
       } else {
         console.log('Canceled');

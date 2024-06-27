@@ -19,7 +19,7 @@ import SwitchButton from "./button/switchButton";
 import DatePicker from "./pickers/datePicker";
 import TimePicker from "./pickers/timePicker";
 import FilePicker from "./pickers/filePicker";
-import SuccessModal from "./modal/succesModal";
+import SuccessModal from "./modal/alertModal";
 
 const PermissionRequest = () => {
 

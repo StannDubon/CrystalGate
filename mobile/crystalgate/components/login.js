@@ -11,7 +11,8 @@ import PasswordInputForm from './input/input-password';
 import LoginButton from './button/button-login';
 import ForgotButton from './button/button-forgot';
 import { useNavigation } from '@react-navigation/native';
-import SuccessModal from './modal/succesModal';
+import AlertModal from './modal/alertModal';
+import fetchData from './utils/database';
 
 const fondo = require('../assets/img/background/background.png');
 
@@ -19,14 +20,34 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+  const [isErrorModalVisible, setErrorModalVisible] = useState(false);
   const navigation = useNavigation();
+  const service = "cliente";
 
-  const handleSendNav = () => {
-    setSuccessModalVisible(true);
-    setTimeout(() => {
-        setSuccessModalVisible(false);
-        navigation.navigate('Navigation');
-    }, 3000); 
+  const handleSendNav = async () => {
+    let action = "logIn";
+
+    const FORM = new FormData();
+    FORM.append("correoUsuario", username);
+    FORM.append("claveUsuario", password);
+    try{
+      const result = await fetchData(service,action,FORM);
+      console.log(result);
+      if(result.status == 1){
+        setSuccessModalVisible(true);
+        setTimeout(() => {
+          setSuccessModalVisible(false);
+          navigation.navigate('Navigation');
+        }, 3000); 
+      }
+      else{
+        setErrorModalVisible(true);
+      }
+    }
+    catch (error){
+      console.log(result);
+      console.error("Error: ",error);
+    }
   };
   const handleSendPas = () => {
     // Función para manejar el envío
@@ -59,7 +80,8 @@ const Login = () => {
           </View>
         </View>
       </BackgroundImage>
-      <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Log In successfully"} />
+      <AlertModal visible={isSuccessModalVisible} onClose={() => setSuccesModalVisible(false)} content={"Log In successfully"} />
+      <AlertModal visible={isErrorModalVisible} type={3} onClose={() => setErrorModalVisible(false)} content={"Incorrect Credentials"} />
     </View>
   );
 };

@@ -52,13 +52,11 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 20,
     width: 300,
-    height: 90,
     borderRadius: 10,
     marginHorizontal: 10, 
     backgroundColor: "#EEEEEE"
   },
   cardHeader:{
-    width: "auto",
     height: 30,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -67,8 +65,6 @@ const styles = StyleSheet.create({
   },
   cardBody:{
     margin: 10,
-    display: "flex",
-    flexDirection: "column",
     fontFamily: "Poppins-Regular",
   },
   cardTitle:{

@@ -14,7 +14,7 @@ import PasswordInputForm from "./input/input-password";
 import ResetButton from "./button/button-reset";
 import BackLogInButton from "./button/button-backLG";
 import { useNavigation } from '@react-navigation/native';
-import SuccessModal from "./modal/succesModal";
+import SuccessModal from "./modal/alertModal";
 
 const fondo = require("../assets/img/background/background.png");
 

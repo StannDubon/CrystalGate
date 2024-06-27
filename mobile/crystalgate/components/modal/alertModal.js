@@ -2,7 +2,26 @@ import React from 'react';
 import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-const SuccessModal = ({ visible, onClose, content }) => {
+const SuccessModal = ({ visible, onClose, content, type = 1 }) => {
+    let animation = require('../../assets/animations/success-animation.json'); // Por defecto, usaré success-animation.json
+
+    switch (type) {
+        case 1:
+            animation = require('../../assets/animations/success-animation.json');
+            break;
+        case 2:
+            animation = require('../../assets/animations/error-animation.json');
+            break;
+        case 3:
+            animation = require('../../assets/animations/warning-animation.json');
+            break;
+        case 4:
+            animation = require('../../assets/animations/notice-animation.json');
+            break;
+        default:
+            break;
+    }
+
     return (
         <Modal
             animationType="slide"
@@ -13,12 +32,15 @@ const SuccessModal = ({ visible, onClose, content }) => {
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                     <LottieView
-                        source={require('../../assets/animations/success-animation.json')} // Ruta de tu animación Lottie
+                        source={animation}
                         autoPlay
                         loop={false}
                         style={styles.lottie}
                     />
                     <Text style={styles.modalText}>{content}</Text>
+                    {type !== 1 && ( // Mostrar el botón solo si type no es igual a 1
+                        <Button title="Close" onPress={onClose} />
+                    )}
                 </View>
             </View>
         </Modal>
@@ -53,3 +75,4 @@ const styles = StyleSheet.create({
 });
 
 export default SuccessModal;
+    

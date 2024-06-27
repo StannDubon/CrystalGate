@@ -21,19 +21,13 @@ const styles = StyleSheet.create({
         margin: 10,
         flexDirection: "row",
         justifyContent: "flex-start",
-        alignItems: "flex-start"
     },
     button: {
-        marginLeft: 10,
-        flexDirection: "row",
-        alignContent: "flex-start",
-        height: 54,
+        marginLeft: 15,
         width: 150,
         backgroundColor: "#D9E4FF",
-        borderRadius: 8,
-        marginTop: 40,
-        justifyContent: "flex-start",
-        alignItems: "center",
+        borderRadius: 10,
+        marginTop: 30,
     },
     buttonText: {
         fontFamily: "Poppins-Regular",
