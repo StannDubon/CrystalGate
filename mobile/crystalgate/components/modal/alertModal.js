@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, Button } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 const SuccessModal = ({ visible, onClose, content, type = 1 }) => {
@@ -39,7 +39,9 @@ const SuccessModal = ({ visible, onClose, content, type = 1 }) => {
                     />
                     <Text style={styles.modalText}>{content}</Text>
                     {type !== 1 && ( // Mostrar el botón solo si type no es igual a 1
-                        <Button title="Close" onPress={onClose} />
+                        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                            <Text style={styles.closeButtonText}>Close</Text>
+                        </TouchableOpacity>
                     )}
                 </View>
             </View>
@@ -72,7 +74,19 @@ const styles = StyleSheet.create({
         height: 150,
         marginBottom: 20,
     },
+    closeButton: {
+        backgroundColor: '#4292F6',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginTop: 10,
+    },
+    closeButtonText: {
+        color: 'white',
+        fontFamily: 'Poppins-Regular',
+        fontSize: 16,
+        textAlign: 'center',
+    },
 });
 
 export default SuccessModal;
-    
