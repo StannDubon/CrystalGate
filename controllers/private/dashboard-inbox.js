@@ -7,18 +7,20 @@ const BOX_PERMISOS = document.getElementById('inbox-content'),
 document.addEventListener('DOMContentLoaded', async () => {
     
     // Peticiones para solicitar los datos de la base.
-    await fillPermissions();
+
+    FORM = new FormData();
+    FORM.append('idEstadoPermiso',1);
+    await fillPermissions(FORM);
 
 });
 
 //Metodo para obtener los permisos desde la base
 const fillPermissions = async (form = null) => {
 
-    (form) ? action = 'searchRows' : action = 'readAll';
 
     BOX_PERMISOS.innerHTML = '';
     // Petición para solicitar los tipos de peticiones (request types).
-    const DATA = await fetchData(PERMISOS_API ,action,form); 
+    const DATA = await fetchData(PERMISOS_API ,'readAllPendings',form); 
     console.log(DATA);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {

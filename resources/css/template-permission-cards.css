@@ -569,3 +569,13 @@
     display: flex;
     gap: 30px;
 }
+
+
+
+
+
+/* CODIGO PARA CORREGIR LINEA EN CODIGOS APROVADOS Y RECHAZADOS */
+
+.content-card-general-col3 a{
+    text-decoration: none;
+}

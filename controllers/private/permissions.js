@@ -61,43 +61,120 @@ const fillSubTable = async () => {
                 fecha_final = `<p class="content-card-general-date">${DecomposeFormat(row.fecha_final, 1)}</p>
                                 <p class="content-card-general-time">${DecomposeFormat(row.fecha_final, 3)}</p>`            }
 
-            PERMISSION_MAIN_CONTAINER.innerHTML += `
-            <!-- INICIO TARJETA -->
-            <div class="content-card-general temp-info">
-                <div class="content-card-general-col1">
-                    <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
-                    <p class="content-card-general-reason">${row.tipo_permiso}</p>
-                </div>
-                <div class="content-card-general-col2">
-
-                    <!-- Fecha de inicio -->
-                    <div class="marked-zone">
-                        ${fecha_inicio}
-                    </div>
-
-                    <!-- Icono -->
-                    <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="var(--color-extra-1)"
-                            d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
-                            fill="#737373" />
-                    </svg>
-
-                    <!-- Fecha final -->
-                    <div class="marked-zone">
-                        ${fecha_final}
-                    </div>
-                </div>
-                <div class="content-card-general-col3">
-                    <!-- Icono -->
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path var(--color-extra-1)
-                            d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
-                            fill="#9B9B9B" />
-                    </svg>
-                </div>
-            </div>
-            <!-- FINAL TARJETA -->
-            `;
+                                const ESTADO = row.estado;
+                                if(ESTADO ==1){
+                    
+                                    console.log('Pendientes: ' + ESTADO)
+                                    PERMISSION_MAIN_CONTAINER.innerHTML += `
+                                <!-- INICIO TARJETA -->
+                                <div class="content-card-general temp-info">
+                                    <div class="content-card-general-col1">
+                                        <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
+                                        <p class="content-card-general-reason">${row.tipo_permiso}</p>
+                                    </div>
+                                    <div class="content-card-general-col2">
+                    
+                                        <!-- Fecha de inicio -->
+                                        <div class="marked-zone">
+                                            ${fecha_inicio}
+                                        </div>
+                    
+                                        <!-- Icono -->
+                                        <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="var(--color-extra-1)"
+                                                d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                                                fill="#737373" />
+                                        </svg>
+                    
+                                        <!-- Fecha final -->
+                                        <div class="marked-zone">
+                                            ${fecha_final}
+                                        </div>
+                                    </div>
+                                    <div class="content-card-general-col3">
+                                        <a href="entry-request.html?id=${row.id_permiso}">
+                                        <!-- Icono -->
+                                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path var(--color-extra-1)
+                                                d="M20 0C8.972 0 0 8.972 0 20C0 31.028 8.972 40 20 40C31.028 40 40 31.028 40 20C40 8.972 31.028 0 20 0ZM22 30H18V18H22V30ZM22 14H18V10H22V14Z"
+                                                fill="#9B9B9B" />
+                                        </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- FINAL TARJETA -->
+                                `;
+                                } else if(ESTADO ==2){
+                                    PERMISSION_MAIN_CONTAINER.innerHTML += `
+                                    <!-- INICIO TARJETA -->
+                                <div class="content-card-general approved-permission temp-info">
+                                    <div class="content-card-general-col1">
+                                        <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
+                                        <p class="content-card-general-reason">${row.tipo_permiso}</p>
+                                    </div>
+                                    <div class="content-card-general-col2">
+                    
+                                        <!-- Fecha de inicio -->
+                                        <div class="marked-zone">
+                                            <p class="content-card-general-date">${fecha_inicio}</p>
+                                        </div>
+                    
+                                        <!-- Icono -->
+                                        <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="var(--color-extra-1)"
+                                                d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                                                fill="#737373" />
+                                        </svg>
+                    
+                                        <!-- Fecha final -->
+                                        <div class="marked-zone">
+                                            <p class="content-card-general-date">${fecha_final}</p>
+                                        </div>
+                                    </div>
+                                    <div class="content-card-general-col3">
+                                     <a href="entry-request.html?id=${row.id_permiso}">
+                                       <p>APPROVED</p>
+                                       </a>
+                                    </div>
+                                </div>
+                                <!-- FINAL TARJETA -->
+                                    `;
+                                }else if(ESTADO == 3){
+                                    PERMISSION_MAIN_CONTAINER.innerHTML += `
+                                    <!-- INICIO TARJETA -->
+                                <div class="content-card-general rejected-permission temp-info">
+                                    <div class="content-card-general-col1">
+                                        <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
+                                        <p class="content-card-general-reason">${row.tipo_permiso}</p>
+                                    </div>
+                                    <div class="content-card-general-col2">
+                    
+                                        <!-- Fecha de inicio -->
+                                        <div class="marked-zone">
+                                            <p class="content-card-general-date">${fecha_inicio}</p>
+                                        </div>
+                    
+                                        <!-- Icono -->
+                                        <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="var(--color-extra-1)"
+                                                d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                                                fill="#737373" />
+                                        </svg>
+                    
+                                        <!-- Fecha final -->
+                                        <div class="marked-zone">
+                                            <p class="content-card-general-date">${fecha_final}</p>
+                                        </div>
+                                    </div>
+                                    <div class="content-card-general-col3">
+                                     <a href="entry-request.html?id=${row.id_permiso}">
+                                       <p>REJECTED</p>
+                                       </a>
+                                    </div>
+                                </div>
+                                <!-- FINAL TARJETA -->
+                                    `;
+                                }
         });
     } else {
         PERMISSION_MAIN_CONTAINER.innerHTML += DATA.error;
@@ -133,8 +210,12 @@ const fillTable = async (form = null) => {
                                 <p class="content-card-general-time">${DecomposeFormat(row.fecha_inicio, 3)}</p>`
                 fecha_final = `<p class="content-card-general-date">${DecomposeFormat(row.fecha_final, 1)}</p>
                                 <p class="content-card-general-time">${DecomposeFormat(row.fecha_final, 3)}</p>`            }
+            
+            const ESTADO = row.estado;
+            if(ESTADO ==1){
 
-            PERMISSION_MAIN_CONTAINER.innerHTML += `
+                console.log('Pendientes: ' + ESTADO)
+                PERMISSION_MAIN_CONTAINER.innerHTML += `
             <!-- INICIO TARJETA -->
             <div class="content-card-general temp-info">
                 <div class="content-card-general-col1">
@@ -173,6 +254,78 @@ const fillTable = async (form = null) => {
             </div>
             <!-- FINAL TARJETA -->
             `;
+            } else if(ESTADO ==2){
+                PERMISSION_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+            <div class="content-card-general approved-permission temp-info">
+                <div class="content-card-general-col1">
+                    <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
+                    <p class="content-card-general-reason">${row.tipo_permiso}</p>
+                </div>
+                <div class="content-card-general-col2">
+
+                    <!-- Fecha de inicio -->
+                    <div class="marked-zone">
+                        <p class="content-card-general-date">${fecha_inicio}</p>
+                    </div>
+
+                    <!-- Icono -->
+                    <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="var(--color-extra-1)"
+                            d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                            fill="#737373" />
+                    </svg>
+
+                    <!-- Fecha final -->
+                    <div class="marked-zone">
+                        <p class="content-card-general-date">${fecha_final}</p>
+                    </div>
+                </div>
+                <div class="content-card-general-col3">
+                 <a href="entry-request.html?id=${row.id_permiso}">
+                   <p>APPROVED</p>
+                   </a>
+                </div>
+            </div>
+            <!-- FINAL TARJETA -->
+                `;
+            }else if(ESTADO == 3){
+                PERMISSION_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+            <div class="content-card-general rejected-permission temp-info">
+                <div class="content-card-general-col1">
+                    <p class="content-card-general-name">${row.nombre +" "+ row.apellido}</p>
+                    <p class="content-card-general-reason">${row.tipo_permiso}</p>
+                </div>
+                <div class="content-card-general-col2">
+
+                    <!-- Fecha de inicio -->
+                    <div class="marked-zone">
+                        <p class="content-card-general-date">${fecha_inicio}</p>
+                    </div>
+
+                    <!-- Icono -->
+                    <svg width="18" height="27" viewBox="0 0 18 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="var(--color-extra-1)"
+                            d="M2.76337 25.638C3.54021 26.3956 4.7795 26.3956 5.55629 25.6379L16.5322 14.9317C17.3369 14.1468 17.3369 12.8532 16.5322 12.0683L5.55629 1.3621C4.7795 0.604398 3.54021 0.604352 2.76337 1.362L1.46822 2.62513C0.663382 3.41009 0.663448 4.70399 1.46837 5.48886L8.21565 12.0681C9.02062 12.853 9.02062 14.147 8.21565 14.9319L1.46837 21.5111C0.663447 22.296 0.663382 23.5899 1.46822 24.3749L2.76337 25.638Z"
+                            fill="#737373" />
+                    </svg>
+
+                    <!-- Fecha final -->
+                    <div class="marked-zone">
+                        <p class="content-card-general-date">${fecha_final}</p>
+                    </div>
+                </div>
+                <div class="content-card-general-col3">
+                 <a href="entry-request.html?id=${row.id_permiso}">
+                   <p>REJECTED</p>
+                   </a>
+                </div>
+            </div>
+            <!-- FINAL TARJETA -->
+                `;
+            }
+            
         });
       }
     } else {

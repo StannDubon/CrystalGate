@@ -73,6 +73,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen permisos registrados';
                 }
                 break;
+                case 'readAllPendings':
+                    if (!$permiso->setIdEstadoPermiso($_POST[POST_ESTADO])) {
+                        $result['error'] = 'permiso incorrecto';
+                    } elseif ($result['dataset'] = $permiso->readAllPendings()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'permiso inexistente';
+                    }
+                    break;
             case 'readOne':
                 if (!$permiso->setId($_POST[POST_ID])) {
                     $result['error'] = 'permiso incorrecto';
