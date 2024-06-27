@@ -218,7 +218,7 @@ const openUpdateRequestType = async (id) => {
         ID_REQUEST_TYPE.value = ROW.id_tipo_peticion;
         TIPO_PETICION.value = ROW.tipo_peticion;
         ESTADO_REQUEST_TYPE.value = ROW.estado;
-        loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoPeticion", ROW.estado);
+        setFormatSelectorFromApi('swal-custom-status-chooser-req-type', "estadoTipoPeticion", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -379,8 +379,8 @@ const openUpdateLanguage = async (id) => {
         const ROW = DATA.dataset;
         ID_LANGUAGES.value = ROW.id_idioma;
         IDIOMA.value = ROW.idioma;
-        ESTADO_IDIOMA.checked = ROW.estado;
-        loadStatusSelectorJs('swal-custom-status-chooser-doc-lang', "estadoIdioma", ROW.estado);
+        ESTADO_IDIOMA.value = ROW.estado;
+        setFormatSelectorFromApi('swal-custom-status-chooser-doc-lang', "estadoIdioma", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -542,8 +542,8 @@ const openUpdateLocation = async (id) => {
         const ROW = DATA.dataset;
         ID_LOCATIONS.value = ROW.id_centro_entrega;
         CENTRO_ENTREGA.value = ROW.centro_entrega;
-        ESTADO_CENTRO_ENTREGA.checked = ROW.estado;
-        loadStatusSelectorJs('swal-custom-status-chooser-location', "estadoCentroEntrega", ROW.estado);
+        ESTADO_CENTRO_ENTREGA.value = ROW.estado;
+        setFormatSelectorFromApi('swal-custom-status-chooser-location', "estadoCentroEntrega", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }

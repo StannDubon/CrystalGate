@@ -158,7 +158,7 @@ const loadTemplate = async () => {
           <b>Admin</b>
             </div>
 
-          <div id="bridge-requests-settings" class="nav-content-element">
+          <div id="bridge-documentation" class="nav-content-element">
 
               <!-- LOGO -->
               <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -168,10 +168,10 @@ const loadTemplate = async () => {
               </svg>                      
 
 
-              <b>Requests</b>
+              <b>Documentation</b>
           </div>
 
-          <div id="bridge-authorizations-settings" class="nav-content-element">
+          <div id="bridge-authorization-settings" class="nav-content-element">
 
               <!-- LOGO -->
               <svg width="31" height="24" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -429,8 +429,8 @@ const loadNavBarJs = () => {
     "/reports",
     "/history",
     "/admin",
-    "/requests-settings",
-    "/authorizations-settings",
+    "/documentation",
+    "/authorization-settings",
   ];
   const ids = [
     "dashboard",
@@ -438,8 +438,8 @@ const loadNavBarJs = () => {
     "reports",
     "history",
     "admin",
-    "requests-settings",
-    "authorizations-settings",
+    "documentation",
+    "authorization-settings",
   ];
 
   // Agregar event listener a cada div

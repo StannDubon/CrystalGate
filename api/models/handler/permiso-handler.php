@@ -20,7 +20,6 @@ class PermisoHandler
     protected $fechaEnvio = null;
     protected $documento = null;
     protected $descripcion = null;
-
     const RUTA_DOCUMENTO = '../documents/permiso/';
 
     /*
@@ -30,7 +29,7 @@ class PermisoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_permiso
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_permiso, a.estado
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c 
                 WHERE (b.nombre LIKE ? OR b.apellido LIKE ?) AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
         $params = array($value, $value);
@@ -39,7 +38,7 @@ class PermisoHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_permisos(id_usuario, id_tipo_permiso, id_estado_permiso, fecha_inicio, fecha_final, 
+        $sql = 'INSERT INTO tb_permisos(id_usuario, id_tipo_permiso, estado, fecha_inicio, fecha_final, 
                 fecha_envio, documento_permiso, descripcion_permiso) 
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
         $params = array($this->idUsuario, $this->idTipoPermiso, $this->idEstadoPermiso, $this->fechaInicio, 
@@ -50,15 +49,25 @@ class PermisoHandler
     public function readAll()
     {
 
-        $sql = 'SELECT a.id_permiso ,b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso
-                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp, tb_estados_permisos ep
-                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND a.id_estado_permiso = ep.id_estado_permiso';
+        $sql = 'SELECT a.id_permiso ,b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso
+                ORDER BY a.estado';
         return Database::getRows($sql);
+    }
+    public function readAllPendings()
+    {
+
+        $sql = 'SELECT a.id_permiso ,b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.estado = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso';
+        $params = array($this->idEstadoPermiso);
+        return Database::getRows($sql, $params);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso, a.estado
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
                 WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
         $params = array($this->id);
@@ -68,7 +77,7 @@ class PermisoHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_permisos
-                SET id_usuario = ?, id_tipo_permiso = ?, id_estado_permiso = ?, fecha_inicio = ?, fecha_final = ?, 
+                SET id_usuario = ?, id_tipo_permiso = ?, estado = ?, fecha_inicio = ?, fecha_final = ?, 
                 fecha_envio = ?, documento_permiso = ?, descripcion_permiso = ?
                 WHERE id_permiso = ?';
         $params = array($this->idUsuario, $this->idTipoPermiso, $this->idEstadoPermiso, $this->fechaInicio, 
@@ -91,5 +100,14 @@ class PermisoHandler
                 WHERE id_permiso = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    public function selectedFilter()
+    {
+        $sql = 'SELECT a.id_permiso ,b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND tp.id_tipo_permiso = ?';
+        $params = array($this->idTipoPermiso);
+        return Database::getRows($sql, $params);
     }
 }

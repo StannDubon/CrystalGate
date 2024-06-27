@@ -5,7 +5,7 @@ require_once('../../models/data/permiso-data.php');
 const POST_ID = "idPermiso";
 const POST_ID_USUARIO = "idUsuario";
 const POST_ID_TIPO_PERMISO = "idTipoPermiso";
-const POST_ID_ESTADO_PERMISO = "idEstadoPermiso";
+const POST_ESTADO = "idEstadoPermiso";
 const POST_FECHA_INICIO = "fechaInicio";
 const POST_FECHA_FINAL = "fechaFinal";
 const POST_FECHA_ENVIO = "fechaEnvio";
@@ -47,10 +47,9 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$permiso->setNombre($_POST[POST_NOMBRE]) or
                     !$permiso->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO]) or
-                    !$permiso->setIdEstadoPermiso($_POST[POST_ID_ESTADO_PERMISO]) or
+                    !$permiso->setIdEstadoPermiso($_POST[POST_ESTADO]) or
                     !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or
                     !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or
                     !$permiso->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or 
@@ -74,6 +73,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen permisos registrados';
                 }
                 break;
+                case 'readAllPendings':
+                    if (!$permiso->setIdEstadoPermiso($_POST[POST_ESTADO])) {
+                        $result['error'] = 'permiso incorrecto';
+                    } elseif ($result['dataset'] = $permiso->readAllPendings()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'permiso inexistente';
+                    }
+                    break;
             case 'readOne':
                 if (!$permiso->setId($_POST[POST_ID])) {
                     $result['error'] = 'permiso incorrecto';
@@ -87,10 +95,9 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$permiso->setId($_POST[POST_ID]) or
-                    !$permiso->setNombre($_POST[POST_NOMBRE]) or
                     !$permiso->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO]) or
-                    !$permiso->setIdEstadoPermiso($_POST[POST_ID_ESTADO_PERMISO]) or
+                    !$permiso->setIdEstadoPermiso($_POST[POST_ESTADO]) or
                     !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or
                     !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or
                     !$permiso->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or 
@@ -101,7 +108,7 @@ if (isset($_GET['action'])) {
                 } elseif ($permiso->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'permiso modificado correctamente';
-                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $permiso::RUTA_IMAGEN);
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_DOCUMENTO], $permiso::RUTA_DOCUMENTO);
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el permiso';
                 }
@@ -114,6 +121,15 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'permiso eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el permiso';
+                }
+                break;
+            case 'selectFilter':
+                if (!$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO])) {
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->selectedFilter()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'permisos inexistentes';
                 }
                 break;
             default:

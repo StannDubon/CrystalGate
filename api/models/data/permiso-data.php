@@ -123,6 +123,16 @@ class PermisoData extends PermisoHandler
         }
     }
 
+    public function setDescripcion($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->descripcion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
