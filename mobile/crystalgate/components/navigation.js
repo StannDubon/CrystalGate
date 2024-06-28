@@ -1,11 +1,7 @@
-// Importa el componente StatusBar de expo-status-bar
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Platform } from "react-native";
-// Importa el contenedor de navegación de @react-navigation/native
 import { NavigationContainer } from "@react-navigation/native";
-// Importa el creador de navegadores de pestañas inferiores
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// Importa las pantallas desde la carpeta ../screens
 import {
     CreatePermission,
     DocumentationRequest,
@@ -14,37 +10,29 @@ import {
     Profile,
 } from "../screens";
 import React from "react";
-// Importación de Svg y Path desde react-native-svg, para usar archivos svg
 import Svg, { Path } from "react-native-svg";
 
-// Crea una instancia del navegador de pestañas inferiores
 const Tab = createBottomTabNavigator();
-
-// Define las opciones de estilo para las pestañas
 const screenOptions = {
-    tabBarShowLabel: false, // Oculta las etiquetas de las pestañas
-    headerShown: false, // Oculta el encabezado de la navegación
+    tabBarShowLabel: false,
+    headerShown: false,
     tabBarStyle: {
-        position: "absolute", // Establece la posición absoluta de la barra de pestañas
-        bottom: 0, // Coloca la barra de pestañas en la parte inferior
+        position: "absolute",
+        bottom: 0,
         right: 0,
         left: 0,
         elevation: 0,
-        height: 70, // Altura de la barra de pestañas
-        backgroundColor: "#D9E4FF", // Color de fondo de la barra de pestañas
-        borderTopColor: "#4292F6", // Color del borde superior de la barra de pestañas
-        borderTopWidth: 1, // Ancho del borde superior
+        height: 70,
+        backgroundColor: "#D9E4FF",
+        borderTopColor: "#4292F6",
+        borderTopWidth: 1,
     },
 };
 
-// Componente principal de navegación
 const Navigation = () => {
-    // Renderizado del componente
     return (
-        <Tab.Navigator
-            screenOptions={screenOptions}
-            initialRouteName="Dashboard"
-        >
+
+        <Tab.Navigator screenOptions={screenOptions} initialRouteName="Dashboard">
             <Tab.Screen
                 name="CreatePermission"
                 component={CreatePermission}
@@ -205,18 +193,17 @@ const Navigation = () => {
                 }}
             />
         </Tab.Navigator>
+
     );
 };
 
-// Define los estilos del contenedor
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F1F5FF", // Color de fondo del contenedor
-        alignItems: "center", // Alinea los elementos en el centro horizontalmente
-        justifyContent: "center", // Justifica los elementos en el centro verticalmente
+        backgroundColor: "#F1F5FF",
+        alignItems: "center",
+        justifyContent: "center",
     },
 });
 
-// Exporta el componente Navigation como el predeterminado
 export default Navigation;

@@ -149,7 +149,8 @@ const fillAuthorizations = async (form = null) => {
             </div>
             `;
         });
-        await fillSubAuthorization();
+        fillSubAuthorization();
+        loadTemplate();
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         AUTHORIZATION.textContent = DATA_AUTHORIZATION.error;
@@ -364,7 +365,8 @@ SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
-         fillSubAuthorization();
+        fillSubAuthorization();
+        loadTemplate();
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -441,6 +443,7 @@ const openDeleteSubAuthorization = async (id) => {
             await sweetAlert(1, DATA.message, true);
             // Se carga nuevamente la fila para visualizar los cambios.
             fillSubAuthorization();
+            loadTemplate();
         } else {
             sweetAlert(2, DATA.error, false);
         }

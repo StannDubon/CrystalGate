@@ -97,6 +97,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el idioma';
                 }
                 break;
+            case 'readUsableData':
+                if ($result['dataset'] = $ClasificacionPermiso->readUsableData()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen idiomas registrados';
+                }
+                break;
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
                 if (

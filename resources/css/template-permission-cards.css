@@ -255,7 +255,7 @@
 
 .content-card-employee-info{
     height: 130px;
-    border-radius: 15px;
+    border-radius: 8px;
     background-color: var(--color-extra-2);
     display: flex;
     flex-direction: column;
@@ -284,7 +284,7 @@
     width: 20%;
     height: 100%;
     background-color: var(--color-fondo-6);
-    border-radius: 0px 20px 0px 20px;
+    border-radius: 0px 8px 0px 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -413,7 +413,7 @@
 
 .card-fixer-history{
     margin-bottom: 20px;
-    border-radius: 0px 15px 15px 15px;
+    border-radius: 0px 8px 8px 8px;
 }
 
 @media (width < 1400px) {
@@ -568,4 +568,14 @@
 #admin-main-cards-container{
     display: flex;
     gap: 30px;
+}
+
+
+
+
+
+/* CODIGO PARA CORREGIR LINEA EN CODIGOS APROVADOS Y RECHAZADOS */
+
+.content-card-general-col3 a{
+    text-decoration: none;
 }

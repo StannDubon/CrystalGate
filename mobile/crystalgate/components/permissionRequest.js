@@ -30,8 +30,7 @@ import DatePicker from "./pickers/datePicker";
 import TimePicker from "./pickers/timePicker";
 // Selector de archivo para formularios
 import FilePicker from "./pickers/filePicker";
-// Modal de éxito para mostrar confirmaciones
-import SuccessModal from "./modal/succesModal";
+import SuccessModal from "./modal/alertModal";
 
 const PermissionRequest = () => {
 

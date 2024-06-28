@@ -178,6 +178,56 @@ main{
 }
 
 
+.main-row-1 {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding-left: 60px;
+}
+
+.main-row-1 .approved {
+    background-color: var(--color-extra-5);
+}
+
+.main-row-1 .rejected {
+    background-color: var(--color-rejected);
+}
+
+.main-row-1 .info {
+    background-color: var(--color-extra-2);
+}
+
+
+.main-row-1 .col1 {
+
+    margin-right: 10px;
+    width: 8%;
+    display: flex;
+    justify-content: center;
+
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.col1 svg {
+    margin: 10px;
+}
+
+.main-row-1 .col2 {
+    width: 70%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--color-fondo-1);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
 /* DATE ESPECIFIED */
 
 .permission-date{

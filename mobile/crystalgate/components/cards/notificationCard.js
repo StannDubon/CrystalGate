@@ -58,41 +58,42 @@ const NotificationCard = ({
 
 // Definición de los estilos usando StyleSheet.create
 const styles = StyleSheet.create({
-    card: {
-        width: 250, // Ancho de la tarjeta
-        height: 120, // Alto de la tarjeta
-        borderRadius: 10, // Borde redondeado
-        shadowColor: "#000", // Color de la sombra
-        shadowOffset: { width: 0, height: 2 }, // Offset de la sombra
-        shadowOpacity: 0.25, // Opacidad de la sombra
-        shadowRadius: 3.84, // Radio de la sombra
-        elevation: 5, // Elevación en dispositivos Android
-        marginHorizontal: 10, // Margen horizontal
-    },
-    cardBody: {
-        margin: 10, // Margen interno del cuerpo de la tarjeta
-        display: "flex", // Mostrar como flexbox
-        flexDirection: "column", // Dirección de los elementos (columna)
-        fontFamily: "Poppins-Regular", // Familia de fuente del texto (si aplica)
-    },
-    cardText: {
-        alignSelf: "flex-start", // Alineación del texto a la izquierda
-        fontSize: 16, // Tamaño de fuente
-        fontFamily: "Poppins-Bold", // Familia de fuente del texto (negrita)
-        color: "white", // Color del texto
-    },
-    dateContainer: {
-        display: "flex", // Mostrar como flexbox
-        flexDirection: "row", // Dirección de los elementos (fila)
-        justifyContent: "space-evenly", // Justificación de elementos con espacio uniforme
-    },
-    dateItem: {
-        display: "flex", // Mostrar como flexbox
-        flexDirection: "column", // Dirección de los elementos (columna)
-    },
-    cardIcon: {
-        alignSelf: "center", // Alineación del ícono al centro verticalmente
-    },
+  card: {
+    width: 250,
+    height: 120,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginTop: 20,
+    marginHorizontal: 10, 
+  },
+  cardBody:{
+    margin: 10,
+    display: "flex",
+    flexDirection: "column",
+    fontFamily: "Poppins-Regular",
+  },
+  cardText:{
+    alignSelf: "flex-start",
+    fontSize: 16,
+    fontFamily: "Poppins-Bold",
+    color: 'white',
+  },
+  dateContainer:{
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly"
+  },
+  dateItem:{
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardIcon:{
+    alignSelf: "center",
+  },
 });
 
 // Exportar el componente NotificationCard como componente predeterminado
