@@ -1,14 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
+// Definición del componente funcional BackLogInButton
 const BackLogInButton = ({ onPress }) => {
     return (
+        // TouchableOpacity es un contenedor que puede detectar toques
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Back to Log In</Text>
         </TouchableOpacity>
     );
 };
 
+// Definición de estilos utilizando StyleSheet.create
 const styles = StyleSheet.create({
     button: {
         flexDirection: "row",  // Alinear elementos en una fila
@@ -18,9 +21,10 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: "Poppins-Regular",
         fontSize: 16,
-        fontWeight: "600",  // Cambiado a 600 en lugar de "SemiBold" para mejor compatibilidad con fontWeight
+        fontWeight: "SemiBold",
         color: "#4292F6",  // Color azul original
     },
 });
 
+// Exportar el componente BackLogInButton para su uso en otras partes de la aplicación
 export default BackLogInButton;

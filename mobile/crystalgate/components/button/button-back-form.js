@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+// Import para usar archivos SVG
 import Svg, { Path } from "react-native-svg";
 
+// Definición del componente funcional BackButtonForm
 const BackButtonForm = ({ onPress, color = "#4292F6"}) => {
     return (
+        // TouchableOpacity es un contenedor que puede detectar toques
         <TouchableOpacity onPress={onPress}>
             <Svg
                 width="29"
@@ -21,6 +24,5 @@ const BackButtonForm = ({ onPress, color = "#4292F6"}) => {
     );
 };
 
-const styles = StyleSheet.create({});
-
+// Exportar el componente BackButtonForm para su uso en otras partes de la aplicación
 export default BackButtonForm;

@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+// Import Svg de react-native-svg, para agregar archivos svg
 import Svg, { Path } from "react-native-svg";
 
+// Componente funcional LogOutButton que recibe una función onPress
 const LogOutButton = ({ onPress }) => {
     return (
+        // TouchableOpacity envuelve el contenido para hacerlo interactivo al toque
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Svg
                 width="23"
@@ -25,19 +28,21 @@ const LogOutButton = ({ onPress }) => {
     );
 };
 
+// Estilos definidos usando StyleSheet.create
 const styles = StyleSheet.create({
     button: {
-        flexDirection: "row",
-        alignContent: "space-between",
-        height: 54,
-        width: 54,
-        backgroundColor: "#CECECE",
-        borderRadius: 8,
-        marginTop: 40,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingRight: 7,
+        flexDirection: "row", // Alinea elementos en una fila
+        alignContent: "space-between", // Espacio entre contenidos
+        height: 54, // Altura del botón
+        width: 54, // Ancho del botón
+        backgroundColor: "#CECECE", // Color de fondo del botón
+        borderRadius: 8, // Borde redondeado
+        marginTop: 40, // Margen superior de 40 puntos
+        justifyContent: "center", // Alinear contenido al centro horizontalmente
+        alignItems: "center", // Alinear contenido al centro verticalmente
+        paddingRight: 7, // Ajuste del margen derecho
     },
 });
 
+// Exporta el componente LogOutButton para ser utilizado en otras partes de la aplicación
 export default LogOutButton;
