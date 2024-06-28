@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
-                    !$ClasificacionPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->createRow()) {
@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$ClasificacionPermiso->setId($_POST[POST_ID]) or
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
-                    !$ClasificacionPermiso->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->updateRow()) {
@@ -95,6 +95,28 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Idioma eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el idioma';
+                }
+                break;
+            case 'readUsableData':
+                if ($result['dataset'] = $ClasificacionPermiso->readUsableData()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen idiomas registrados';
+                }
+                break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$ClasificacionPermiso->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $ClasificacionPermiso->getDataError();
+                } elseif ($ClasificacionPermiso->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
                 }
                 break;
             default:

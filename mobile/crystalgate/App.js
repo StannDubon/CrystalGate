@@ -1,49 +1,52 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useEffect, useCallback } from "react";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Navigation from "../crystalgate/components/navigation";
+import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
-//import PasswordRecovery from "../crystalgate/components/password-recovery";
-//import Verification from "../crystalgate/components/verification";
-import Loading from "../crystalgate/components/loading";
+import Navigation from "../crystalgate/components/navigation";
 import Login from "./components/login";
-import NewPassword from "./components/new-password";
 import PasswordRecovery from "./components/password-recovery";
 import Verification from "./components/verification";
-//EL DE PROFILE SE DEBE INGRESAR A PROFILE EL NAVIGATION YA ESTA CONFIGURADO
-//import Profile from "../crystalgate/components/profile";
-
+import NewPassword from "./components/new-password";
 
 const Stack = createNativeStackNavigator();
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('./assets/fonts/Regular.ttf'),
+    'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+  });
 
-    let [fontsLoaded] = useFonts({
-      'Poppins-Regular': require('./assets/fonts/Regular.ttf'),
-      'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'), // Agrega otras variantes si es necesario
-    });
-
-    if (!fontsLoaded) {
-      return <AppLoading />;
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
     }
+  }, [fontsLoaded]);
 
-    return (
-        <NavigationContainer>
-        <Stack.Navigator >
-          <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-          <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} options={{headerShown:false}}/>
-          <Stack.Screen name="Verification" component={Verification} options={{headerShown:false}}/>
-          <Stack.Screen name="NewPassword" component={NewPassword} options={{headerShown:false}}/>
-          <Stack.Screen name="Navigation" component={Navigation} options={{headerShown:false}}/>
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} options={{ headerShown: false }} />
+          <Stack.Screen name="Verification" component={Verification} options={{ headerShown: false }} />
+          <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="Navigation" component={Navigation} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
-    );
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+  container: {
+    flex: 1,
+  },
 });

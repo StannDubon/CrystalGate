@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+// Import Svg de react-native-svg, para agregar archivos svg
 import Svg, { Path } from "react-native-svg";
 
+// Definición del componente funcional SwitchButton
 const SwitchButton = ({ selectedOption, onSelectOption }) => {
   return (
     <View style={styles.container}>
@@ -65,52 +67,54 @@ const SwitchButton = ({ selectedOption, onSelectOption }) => {
   );
 };
 
+// Estilos definidos usando StyleSheet.create
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingLeft: 30,
-    alignSelf: "flex-start",
+    flexDirection: 'row', // Alinear elementos en una fila
+    alignItems: 'center', // Alinear verticalmente al centro
+    justifyContent: 'center', // Alinear horizontalmente al centro
+    paddingVertical: 10, // Espacio vertical dentro del contenedor
+    paddingLeft: 30, // Espacio izquierdo del contenedor
+    alignSelf: "flex-start", // Alinear el contenedor al inicio del padre
   },
   button1: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: '#4292F6',
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-    backgroundColor: '#fff',
     display: "flex",
-    flexDirection: "row",
+    paddingVertical: 10, // Espacio vertical dentro del botón
+    paddingHorizontal: 20, // Espacio horizontal dentro del botón
+    borderWidth: 1, // Ancho del borde
+    borderColor: '#4292F6', // Color del borde
+    borderTopLeftRadius: 8, // Radio de borde superior izquierdo
+    borderBottomLeftRadius: 8, // Radio de borde inferior izquierdo
+    backgroundColor: '#fff', // Color de fondo del botón
+    flexDirection: "row", // Alinear elementos en una fila
   },
   button2: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: '#4292F6',
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    backgroundColor: '#fff',
     display: "flex",
-    flexDirection: "row",
+    paddingVertical: 10, // Espacio vertical dentro del botón
+    paddingHorizontal: 20, // Espacio horizontal dentro del botón
+    borderWidth: 1, // Ancho del borde
+    borderColor: '#4292F6', // Color del borde
+    borderTopRightRadius: 8, // Radio de borde superior derecho
+    borderBottomRightRadius: 8, // Radio de borde inferior derecho
+    backgroundColor: '#fff', // Color de fondo del botón
+    flexDirection: "row", // Alinear elementos en una fila
   },
   selectedButton: {
-    backgroundColor: '#4292F6',
+    backgroundColor: '#4292F6', // Color de fondo seleccionado
   },
   iconButton: {
-    marginLeft: 10, 
-    color: '#4292F6',
+    marginLeft: 10, // Margen izquierdo del icono
+    color: '#4292F6', // Color del icono
   },
   buttonText: {
-    fontSize: 16,
-    color: '#4292F6',
+    fontSize: 16, // Tamaño de la fuente del texto
+    color: '#4292F6', // Color del texto
   },
   selectedButtonText: {
-    color: '#fff',
+    color: '#fff', // Color del texto seleccionado
   },
 });
 
+// Exporta el componente SwitchButton para ser utilizado en otras partes de la aplicación
 export default SwitchButton;

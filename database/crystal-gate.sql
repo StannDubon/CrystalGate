@@ -44,13 +44,6 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    tb_estados_permisos (
-        id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        estado_permiso VARCHAR(50) UNIQUE,
-        estado BOOLEAN DEFAULT TRUE
-    );
-
-CREATE TABLE
     tb_cargos (
         id_cargo INT PRIMARY KEY AUTO_INCREMENT,
         cargo VARCHAR(50) UNIQUE,
@@ -106,17 +99,15 @@ CREATE TABLE
         id_permiso INT PRIMARY KEY AUTO_INCREMENT,
         id_usuario INT,
         id_tipo_permiso INT,
-        id_estado_permiso INT,
         /* NOT ID'S */
         fecha_inicio DATETIME NOT NULL,
         fecha_final DATETIME NOT NULL,
         fecha_envio DATETIME NOT NULL,
         documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
-
+        estado ENUM ('1', '2', '3'), /* */
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
-        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso),
-        CONSTRAINT fk_estado_permiso FOREIGN KEY (id_estado_permiso) REFERENCES tb_estados_permisos(id_estado_permiso)
+        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso)
     );
 
 CREATE TABLE
@@ -156,7 +147,7 @@ CREATE TABLE
         CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
-INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES("High"), ("Mid"), ("Low");
 
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
 VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',

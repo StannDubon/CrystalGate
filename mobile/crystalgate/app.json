@@ -43,7 +43,10 @@
         }
       ],
       [
-        "expo-document-picker"
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
       ]
     ]
   }

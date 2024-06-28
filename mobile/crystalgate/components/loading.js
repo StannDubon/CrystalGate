@@ -1,21 +1,24 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+// Importación de Svg y Path desde react-native-svg, para usar archivos svg
 import Svg, { Path } from "react-native-svg";
 import * as Animatable from "react-native-animatable";
 
+// Definimos el componente funcional Loading
 const Loading = () => {
+    // Renderizado del componente
     return (
         <View style={styles.container}>
             <Animatable.View
                 animation={{
-                    from: { translateY: 175, opacity: 0.5 },
-                    to: { translateY: -50, opacity: 1 },
-                    duration: 2000,
-                    easing: "ease-out",
+                    from: { translateY: 175, opacity: 0.5 }, // Estado inicial de la animación
+                    to: { translateY: -50, opacity: 1 },     // Estado final de la animación
+                    duration: 2000,                          // Duración de la animación en milisegundos
+                    easing: "ease-out",                      // Tipo de suavizado de la animación
                 }}
-                iterationCount="infinite"
-                direction="alternate"
-                style={{ position: "absolute" }}
+                iterationCount="infinite"                    // La animación se repite infinitamente
+                direction="alternate"                        // La dirección de la animación alterna en cada iteración
+                style={{ position: "absolute" }}             // Estilo de posición absoluta
             >
                 <Svg
                     width="167"
@@ -47,24 +50,27 @@ const Loading = () => {
     );
 };
 
+// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#F1F5FF",
+        flex: 1,                           // Ocupa todo el espacio disponible
+        justifyContent: "center",          // Centra el contenido verticalmente
+        alignItems: "center",              // Centra el contenido horizontalmente
+        backgroundColor: "#F1F5FF",        // Color de fondo del contenedor
     },
     wall: {
-        width: 200,
-        height: 200,
-        backgroundColor: "#F1F5FF",
-        zIndex: 1,
-        marginTop: 275,
+        width: 200,                        // Ancho de la vista
+        height: 200,                       // Alto de la vista
+        backgroundColor: "#F1F5FF",        // Color de fondo de la vista
+        zIndex: 1,                         // Z-Index para la superposición
+        marginTop: 275,                    // Margen superior
     },
 });
 
+// Exporta el componente Loading
 export default Loading;
 
+// Código comentado que muestra una alternativa de animación
 // const Loading = () => {
 // return (
 // <View style={styles.container}>

@@ -13,7 +13,8 @@ MODAL_DESC = document.getElementById('description-text');
 // Constante para establecer la modal del permiso.
 const DESCRIPTION_MODAL = document.getElementById('modal-description');
 // Constante para establecer la caja donde se mostrará la información del documento adjunto
-const BOX_DOCUMENTO = document.getElementById('box-document');
+const BOX_DOCUMENTO = document.getElementById('box-document'),
+    BOX_ESTADO = document.getElementById('estado-utilities');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
 // Método del evento para cuando el documento ha cargado.
@@ -29,7 +30,7 @@ fillRequest = async(FORM) => {
 
  
     const DATA = await fetchData(PERMISO_API, 'readOne',FORM);
-
+   
     console.log(DATA);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
@@ -56,8 +57,8 @@ fillRequest = async(FORM) => {
         HORA_FINAL.textContent = ROW.fecha_final.split(' ')[1];
         }
 
-        
-
+        const ESTADO  = ROW.estado; 
+       console.log('Estado = '+ ESTADO)
         const DOCUMENTO_NOMBRE = ROW.documento_permiso.split('.')[0];
         const DOCUMENTO_EXTENSION = ROW.documento_permiso.split('.')[1];
         console.log(DOCUMENTO_NOMBRE +' '+ DOCUMENTO_EXTENSION);
@@ -79,7 +80,7 @@ fillRequest = async(FORM) => {
                                 <p class="file-name">${DOCUMENTO_NOMBRE}</p>
             `
         }else if(DOCUMENTO_EXTENSION === 'docx'){
-            BOX_DOCUMENTO.classList.add('view-doc')
+            BOX_DOCUMENTO.classList.add('view-doc');
             BOX_DOCUMENTO.innerHTML = `
                 <div class="icon">
                                     <svg width="44" height="55" viewBox="0 0 44 55" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,6 +90,46 @@ fillRequest = async(FORM) => {
                                     </svg>                                    
                                 </div>
                                 <p class="file-name">${DOCUMENTO_NOMBRE}</p>
+            `
+        }
+
+        if(ESTADO == 1){
+            BOX_ESTADO.classList.add('main-content-row-2');
+            BOX_ESTADO.innerHTML += `
+                <button class="pending-approve" type="submit" id="btn-approve">Approve</button>
+                <button class="pending-reject" type="submit" id="btn-reject">Reject</button>
+            `
+        } else if(ESTADO == 2){
+            BOX_ESTADO.classList.add('main-row-1');
+            BOX_ESTADO.innerHTML += `
+                <div class="col1 approved">
+                <svg width="57" height="42" viewBox="0 0 67 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M23.2853 36.5234C22.6999 37.107 21.7526 37.107 21.1672 36.5234L9.14155 24.5338C8.16585 23.561 6.58702 23.561 5.61132 24.5338L2.06756 28.0669C1.08772 29.0438 1.08772 30.6308 2.06756 31.6078L20.4611 49.9462C21.4368 50.919 23.0156 50.919 23.9914 49.9462L64.9324 9.12776C65.9123 8.15084 65.9123 6.56384 64.9324 5.58692L61.3887 2.05378C60.413 1.081 58.8341 1.081 57.8584 2.05378L23.2853 36.5234Z"
+                        fill="white" stroke="white" />
+                </svg>
+
+                </div>
+                <div class="col2 approved">
+                    <p>APPROVED</p>
+                </div>
+            `
+        } else if(ESTADO == 3){
+            BOX_ESTADO.classList.add('main-row-1');
+            BOX_ESTADO.innerHTML += `
+                <div class="col1 info">
+                <svg id="info" width="57" height="57" viewBox="0 0 57 57" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
+                        fill="#9B9B9B" />
+                </svg>
+
+
+                </div>
+                <div class="col2 rejected">
+                    <p>REJECTED</p>
+                </div>
             `
         }
         renderCalendar(startDate, endDate);
