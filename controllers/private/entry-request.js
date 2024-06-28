@@ -132,6 +132,7 @@ fillRequest = async(FORM) => {
                 </div>
             `
         }
+        setVariables(startDate);
         renderCalendar(startDate, endDate);
     } else {
         sweetAlert(2, DATA.error, null);
