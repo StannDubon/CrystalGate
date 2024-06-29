@@ -58,7 +58,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA]) 
                 ) {
                     $result['error'] = $peticion->getDataError();
                 }else if ($peticion->createRow()) {
@@ -97,7 +99,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {
