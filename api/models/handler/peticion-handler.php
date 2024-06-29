@@ -61,6 +61,18 @@ class PeticionHandler
         return Database::getRows($sql);
     }
 
+    public function readAllByCostumer()
+    {
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega
+                FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
+                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega 
+                AND b.id_usuario = ?
+                ORDER BY a.fecha_envio';
+        $params = array($this->idUsuario);
+        return Database::getRows($sql,$params);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega

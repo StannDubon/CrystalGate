@@ -12,6 +12,8 @@ const POST_DIRECCION = "direccionPeticion";
 const POST_ESTADO = "EstadoPeticion";
 const POST_MODO_ENTREGA = "modoEntrega";
 const POST_TELEFONO = "telefonoContacto";
+const POST_NOMBRE_ENTREGA = "nombreEntrega";
+const POST_EMAIL_ENTREGA = "emailEntrega";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -39,7 +41,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$peticion->setIdUsuario($_SESSION["idUsuario"]) or
+                    !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
                     !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA]) or
@@ -47,7 +49,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA]) 
                 ) {
                     $result['error'] = $peticion->getDataError();
                 }else if ($peticion->createRow()) {
@@ -57,8 +61,11 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el peticion';
                 }
                 break;
-            case 'readAllByClient':
-                if ($result['dataset'] = $peticion->readAllByClient()) {
+            case 'readAllByCostumer':
+                if (!$peticion->setIdUsuario($_POST[POST_ID_USUARIO])) {
+                    $result['error'] = 'user not found';
+                }
+                else if ($result['dataset'] = $peticion->readAllByCostumer()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -78,7 +85,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$peticion->setId($_POST[POST_ID]) or
-                    !$peticion->setIdUsuario($_SESSION['idUsuario']) or
+                    !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
                     !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA]) or
@@ -86,7 +93,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {
