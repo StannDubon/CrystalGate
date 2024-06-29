@@ -1,130 +1,167 @@
-<?php
-// Se incluye la clase del modelo.
-require_once('../../models/data/peticion-data.php');
+DROP DATABASE IF EXISTS CrystalGate;
+CREATE database CrystalGate;
+USE CrystalGate;
 
-const POST_ID = "idPeticion";
-const POST_ID_USUARIO = "idUsuario";
-const POST_ID_TIPO_PETICION = "idTipoPeticion";
-const POST_ID_IDIOMA = "idIdioma";
-const POST_ID_CENTRO_ENTREGA = "idCentroEntrega";
-const POST_FECHA_ENVIO = "fechaEnvio";
-const POST_DIRECCION = "direccionPeticion";
-const POST_ESTADO = "EstadoPeticion";
-const POST_MODO_ENTREGA = "modoEntrega";
-const POST_TELEFONO = "telefonoContacto";
+DROP USER IF EXISTS 'crystal-gate-admin'@'localhost';
+CREATE USER 'crystal-gate-admin'@'localhost' IDENTIFIED BY '#CrY5t4lG4t3-2024';
+GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
+FLUSH PRIVILEGES;
 
-// Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
-if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => '',
-        'secure' => true,
-        'httponly' => true,
-        'samesite' => 'None'
-    ]);
-    // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
-    session_start();
-    // Se instancia la clase correspondiente.
-    $peticion = new PeticionData;
-    // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
-    // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idAdministrador'])) {
-        $result['session'] = 1;
-        // Se compara la acción a realizar.
-        switch ($_GET['action']) {
-            case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
-                    $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $peticion->searchRows()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
-                } else {
-                    $result['error'] = 'No hay coincidencias';
-                }
-                break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
-                    !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
-                    !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
-                    !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA]) or
-                    !$peticion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
-                    !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
-                    !$peticion->setEstado($_POST[POST_ESTADO]) or
-                    !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
-                ) {
-                    $result['error'] = $peticion->getDataError();
-                }else if ($peticion->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'peticion creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el peticion';
-                }
-                break;
-            case 'readAll':
-                if ($result['dataset'] = $peticion->readAll()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                } else {
-                    $result['error'] = 'No existen peticions registrados';
-                }
-                break;
-            case 'readOne':
-                if (!$peticion->setId($_POST[POST_ID])) {
-                    $result['error'] = 'peticion incorrecto';
-                } elseif ($result['dataset'] = $peticion->readOne()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'peticion inexistente';
-                }
-                break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$peticion->setId($_POST[POST_ID]) or
-                    !$peticion->setIdUsuario($_POST[POST_ID_USUARIO]) or
-                    !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
-                    !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
-                    !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA]) or
-                    !$peticion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
-                    !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
-                    !$peticion->setEstado($_POST[POST_ESTADO]) or
-                    !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
-                ) {
-                    $result['error'] = $peticion->getDataError();
-                } elseif ($peticion->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'peticion modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el peticion';
-                }
-                break;
-            case 'deleteRow':
-                if (!$peticion->setId($_POST[POST_ID])) {
-                    $result['error'] = $peticion->getDataError();
-                } elseif ($peticion->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'peticion eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el peticion';
-                }
-                break;
-            default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
-        }
-    } 
-    // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
-    $result['exception'] = Database::getException();
-    // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
-    header('Content-type: application/json; charset=utf-8');
-    // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print(json_encode($result));
-} else {
-    print(json_encode('Recurso no disponible'));
-}
+/* TABLAS INDEPENDIENTES */
+CREATE TABLE
+    tb_tipos_administradores (
+        id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
+        tipo_administrador VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_tipos_peticiones (
+        id_tipo_peticion INT PRIMARY KEY AUTO_INCREMENT,
+        tipo_peticion VARCHAR(32) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_idiomas (
+        id_idioma INT PRIMARY KEY AUTO_INCREMENT,
+        idioma VARCHAR(32) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_centros_entregas (
+        id_centro_entrega INT PRIMARY KEY AUTO_INCREMENT,
+        centro_entrega VARCHAR(64) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_clasificaciones_permisos (
+        id_clasificacion_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        clasificacion_permiso VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_estados_permisos (
+        id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        estado_permiso VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
+    tb_cargos (
+        id_cargo INT PRIMARY KEY AUTO_INCREMENT,
+        cargo VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+/* TABLAS DEPENDIENTES */
+CREATE TABLE
+    tb_usuarios (
+        id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+        id_cargo INT NOT NULL,
+        /* NOT ID'S */
+        nombre VARCHAR(50) NOT NULL,
+        apellido VARCHAR(50) NOT NULL,
+        clave VARCHAR(275) NOT NULL,
+        correo VARCHAR(75) NOT NULL UNIQUE,
+        imagen VARCHAR(75) DEFAULT 'default.png',
+
+        CONSTRAINT fk_usuario_cargo FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id_cargo)
+    );
+
+CREATE TABLE
+    tb_peticiones (
+        id_peticion INT PRIMARY KEY AUTO_INCREMENT,
+        id_usuario INT NOT NULL,
+        id_tipo_peticion INT NOT NULL,
+        id_idioma INT NOT NULL,
+        id_centro_entrega INT NOT NULL,
+        /* NOT ID'S */
+        direccion VARCHAR(256),
+        modo_entrega BOOL NOT NULL,
+        nombre_entrega VARCHAR(64),
+        email_entrega VARCHAR(128),
+        telefono_contacto VARCHAR(16),
+        estado ENUM('1','2','3'),
+        fecha_envio DATETIME,
+        CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
+        CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
+        CONSTRAINT fk_peticion_centro_entrega FOREIGN KEY (id_centro_entrega) references tb_centros_entregas (id_centro_entrega),
+        CONSTRAINT fk_peticion_usuario FOREIGN KEY (id_usuario) references tb_usuarios (id_usuario)
+    );
+
+CREATE TABLE
+    tb_tipos_permisos (
+        id_tipo_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        id_clasificacion_permiso INT,
+        /* NOT ID'S */
+        tipo_permiso VARCHAR(50) UNIQUE,
+        lapso ENUM ('1', '2', '3'),
+        estado BOOLEAN DEFAULT TRUE,
+        
+        CONSTRAINT fk_tipo_clasificacion_permiso FOREIGN KEY (id_clasificacion_permiso) REFERENCES tb_clasificaciones_permisos(id_clasificacion_permiso)
+    );
+
+CREATE TABLE
+    tb_permisos (
+        id_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        id_usuario INT,
+        id_tipo_permiso INT,
+        id_estado_permiso INT,
+        /* NOT ID'S */
+        fecha_inicio DATETIME NOT NULL,
+        fecha_final DATETIME NOT NULL,
+        fecha_envio DATETIME NOT NULL,
+        documento_permiso varchar(32) NOT NULL,
+        descripcion_permiso VARCHAR(300),
+
+        CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
+        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso),
+        CONSTRAINT fk_estado_permiso FOREIGN KEY (id_estado_permiso) REFERENCES tb_estados_permisos(id_estado_permiso)
+    );
+
+CREATE TABLE
+    tb_permisos_automaticos (
+        id_permiso_automatico INT PRIMARY KEY AUTO_INCREMENT,
+        id_permiso INT,
+        /* NOT ID'S */
+        hora_envio time NOT NULL,
+        estado boolean,
+        CONSTRAINT fk_permiso_automatico FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
+    );
+
+CREATE TABLE
+    tb_administradores (
+        id_administrador INT PRIMARY KEY AUTO_INCREMENT,
+        id_tipo_administrador INT NOT NULL,
+        /* NOT ID'S */
+        nombre VARCHAR(50) NOT NULL,
+        apellido VARCHAR(50) NOT NULL,
+        clave VARCHAR(275) NOT NULL,
+        correo VARCHAR(75) NOT NULL UNIQUE,
+        imagen VARCHAR(75) DEFAULT 'default.png',
+
+        CONSTRAINT fk_administrador_tipo FOREIGN KEY (id_tipo_administrador) REFERENCES tb_tipos_administradores(id_tipo_administrador)
+    );
+    
+    CREATE TABLE
+    tb_notificaciones (
+        id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
+        id_administrador INT,
+        id_permiso INT,
+        /* NOT ID'S */
+        fecha_envio DATETIME NOT NULL,
+        descripcion VARCHAR(300),
+
+        CONSTRAINT fk_notificacion_administrador FOREIGN KEY (id_administrador) REFERENCES tb_administradores(id_administrador),
+        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
+    );
+
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
+
+INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
+VALUES(1,'test','test','$2a$12$OVaf31HupcCBGMU1z6hYUuZ29h/KHXNx37yR584oYw3MjsW5jKBeK',
+'test@root.com', 'test.png');
