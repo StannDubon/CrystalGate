@@ -99,20 +99,12 @@ class PeticionData extends PeticionHandler
 
     public function setEstado($value)
     {
-        // Validar el valor booleano usando validateBoolean
-        if (Validator::validateBoolean($value)) {
-            // Convertir cadenas 'true' y 'false' a booleanos
-            if (is_string($value)) {
-                $value = ($value === 'true' || $value === '1');
-            } elseif (is_numeric($value)) {
-                $value = (int) $value === 1;
-            }
-
-            // Asignar el valor validado a $this->status
-            $this->estado = (bool) $value;
+        if(Validator::validateString($value)){
+            $this->estado = $value;
             return true;
-        } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+        }
+        else{
+            $this->data_error = 'The value has to be 1, 2 or 3';
             return false;
         }
     }
@@ -144,6 +136,26 @@ class PeticionData extends PeticionHandler
             return true;
         } else {
             $this->data_error = 'El número de contacto es invalido';
+            return false;
+        }
+    }
+
+    public function setNombre($value){
+        if(Validator::validateAlphabetic($value)){
+            $this->nombre = $value;
+        }
+        else{
+            $this->data_error = 'The name is invalid';
+            return false;
+        }
+    }
+
+    public function setEmail($value){
+        if(Validator::validateEmail($value)){
+            $this->email = $value;
+        }
+        else{
+            $this->data_error = 'The email is invalid';
             return false;
         }
     }
