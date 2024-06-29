@@ -86,6 +86,7 @@ CREATE TABLE
         email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
         estado ENUM('1','2','3'),
+        fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
         CONSTRAINT fk_peticion_centro_entrega FOREIGN KEY (id_centro_entrega) references tb_centros_entregas (id_centro_entrega),
