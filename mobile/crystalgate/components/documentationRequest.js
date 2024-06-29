@@ -21,7 +21,10 @@ import fetchData from './utils/database';
 
 const DocumentationRequest = () => {
     const [requestsType, setRequestsType] = useState([]);
-    const [sendBy, setSendBy] = useState(['Presencial', 'Scanned']);
+    const [sendBy, setSendBy] = useState([
+        { identifier: 'presencial', value: 'Presencial' },
+        { identifier: 'scanned', value: 'Scanned' }
+    ]);
     const [languages, setLanguages] = useState([]);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -40,11 +43,19 @@ const DocumentationRequest = () => {
     };
 
     const handleSend = () => {
-        setSuccessModalVisible(true);
-        setTimeout(() => {
-            setSuccessModalVisible(false);
-            navigation.navigate('Dashboard');
-        }, 4000);
+
+        // Crear un nuevo FormData
+        const formData = new FormData();
+
+        // Agregar los campos necesarios al FormData
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        formData.append('address', address);
+        formData.append('requestType', selectedRequestType);
+        formData.append('sendBy', selectedSendBy);
+        formData.append('language', selectedLanguage);
+
     };
 
     useEffect(() => {
@@ -52,20 +63,18 @@ const DocumentationRequest = () => {
             try {
                 const requestTypeResult = await fetchData('tipo-peticion', 'readAll');
                 if (requestTypeResult.status) {
-                    setRequestsType([]);
                     let narray = [];
                     requestTypeResult.dataset.map((item) => {
-                        narray.push(item.tipo_peticion);
+                        narray.push({ identifier: item.id_tipo_peticion, value: item.tipo_peticion });
                     });
                     setRequestsType(narray);
                 }
 
                 const languagesResult = await fetchData('idioma', 'readAll');
                 if (languagesResult.status) {
-                    setLanguages([]);
                     let langArray = [];
                     languagesResult.dataset.map((item) => {
-                        langArray.push(item.idioma);
+                        langArray.push({ identifier: item.id_idioma, value: item.idioma });
                     });
                     setLanguages(langArray);
                 }
@@ -107,6 +116,7 @@ const DocumentationRequest = () => {
                     placeholder={"Select an option"}
                     selectedValue={selectedRequestType}
                     onValueChange={setSelectedRequestType}
+                    isDisabled={false}
                 />
                 <ComboBox
                     label={"SEND BY"}
@@ -114,6 +124,7 @@ const DocumentationRequest = () => {
                     placeholder={"Select an option"}
                     selectedValue={selectedSendBy}
                     onValueChange={setSelectedSendBy}
+                    isDisabled={false}
                 />
                 <ComboBox
                     label={"DOCUMENT LANGUAGE"}
@@ -121,6 +132,7 @@ const DocumentationRequest = () => {
                     placeholder={"Select an option"}
                     selectedValue={selectedLanguage}
                     onValueChange={setSelectedLanguage}
+                    isDisabled={false}
                 />
                 <InputText label={"YOUR NAME"} value={name} onChangeText={setName} />
                 <InputText label={"EMAIL"} value={email} onChangeText={setEmail} />

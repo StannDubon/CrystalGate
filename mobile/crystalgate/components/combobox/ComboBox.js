@@ -25,8 +25,8 @@ const ComboBox = ({ options, placeholder, onValueChange, label, selectedValue, i
                     {options.map((option, index) => (
                         <Picker.Item
                             key={index}
-                            label={option}
-                            value={option}
+                            label={option.value}
+                            value={option.identifier}
                         />
                     ))}
                 </Picker>
