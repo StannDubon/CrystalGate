@@ -17,15 +17,6 @@ const POST_EMAIL_ENTREGA = "emailEntrega";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => '',
-        'secure' => true,
-        'httponly' => true,
-        'samesite' => 'None'
-    ]);
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
@@ -33,7 +24,7 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idAdministrador'])) {
+    if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar.
         switch ($_GET['action']) {
@@ -70,8 +61,11 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el peticion';
                 }
                 break;
-            case 'readAll':
-                if ($result['dataset'] = $peticion->readAll()) {
+            case 'readAllByCostumer':
+                if (!$peticion->setIdUsuario($_POST[POST_ID_USUARIO])) {
+                    $result['error'] = 'user not found';
+                }
+                else if ($result['dataset'] = $peticion->readAllByCostumer()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {

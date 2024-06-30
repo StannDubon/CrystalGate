@@ -44,6 +44,13 @@ CREATE TABLE
     );
 
 CREATE TABLE
+    tb_estados_permisos (
+        id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
+        estado_permiso VARCHAR(50) UNIQUE,
+        estado BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE
     tb_cargos (
         id_cargo INT PRIMARY KEY AUTO_INCREMENT,
         cargo VARCHAR(50) UNIQUE,
@@ -75,7 +82,11 @@ CREATE TABLE
         /* NOT ID'S */
         direccion VARCHAR(256),
         modo_entrega BOOL NOT NULL,
+        nombre_entrega VARCHAR(64),
+        email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
+        estado ENUM('1','2','3'),
+        fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
         CONSTRAINT fk_peticion_centro_entrega FOREIGN KEY (id_centro_entrega) references tb_centros_entregas (id_centro_entrega),
@@ -99,15 +110,17 @@ CREATE TABLE
         id_permiso INT PRIMARY KEY AUTO_INCREMENT,
         id_usuario INT,
         id_tipo_permiso INT,
+        id_estado_permiso INT,
         /* NOT ID'S */
         fecha_inicio DATETIME NOT NULL,
         fecha_final DATETIME NOT NULL,
         fecha_envio DATETIME NOT NULL,
         documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
-        estado ENUM ('1', '2', '3'), /* */
+
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
-        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso)
+        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso),
+        CONSTRAINT fk_estado_permiso FOREIGN KEY (id_estado_permiso) REFERENCES tb_estados_permisos(id_estado_permiso)
     );
 
 CREATE TABLE
@@ -147,9 +160,8 @@ CREATE TABLE
         CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
-INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES("High"), ("Mid"), ("Low");
+INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
 
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
-VALUES(1,'test','test','$2y$10$p.7X3wAn6IBX12DUJ3hAOexe/4LJdlrAf0Ij/3c0jdyurunzQaldm',
+VALUES(1,'test','test','$2a$12$OVaf31HupcCBGMU1z6hYUuZ29h/KHXNx37yR584oYw3MjsW5jKBeK',
 'test@root.com', 'test.png');
-/* CONTRASEÑA: 123456789 */

@@ -21,6 +21,8 @@ class PeticionHandler
     protected $direccion = null;
     protected $modoEntrega = null;
     protected $telefono = null;
+    protected $nombre = null;
+    protected $email = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -41,11 +43,11 @@ class PeticionHandler
     public function createRow()
     {
         $sql = 'INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, 
-                fecha_envio, direccion, estado, modo_entrega, telefono_contacto) 
+                direccion, modo_entrega, nombre_entrega, email_entrega, telefono_contacto, estado, fecha_envio) 
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $params = array($this->idUsuario, $this->idTipoPeticion, $this->idIdioma, $this->idCentroEntrega, 
-                        $this->fechaEnvio, $this->direccion, $this->estado, $this->modoEntrega, 
-                        $this->telefono);
+                        $this->direccion, $this->modoEntrega, $this->nombre, $this->email, $this->telefono,
+                        $this->estado, $this->fechaEnvio);
         return Database::executeRow($sql, $params);
     }
 
@@ -57,6 +59,18 @@ class PeticionHandler
                 AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega
                 ORDER BY a.fecha_envio';
         return Database::getRows($sql);
+    }
+
+    public function readAllByCostumer()
+    {
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega
+                FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
+                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega 
+                AND b.id_usuario = ?
+                ORDER BY a.fecha_envio';
+        $params = array($this->idUsuario);
+        return Database::getRows($sql,$params);
     }
 
     public function readOne()
@@ -73,11 +87,12 @@ class PeticionHandler
     {
         $sql = 'UPDATE tb_peticiones
                 SET id_usuario = ?, id_tipo_peticion = ?, id_idioma = ?, id_centro_entrega = ?, 
-                fecha_envio = ?, direccion = ?, estado = ?, modo_entrega = ?, telefono_contacto = ?
+                direccion = ?, modo_entrega = ?, nombre_entrega = ?, email_entrega = ?, telefono_contacto = ?,
+                estado = ?, fecha_envio = ?
                 WHERE id_peticion = ?';
         $params = array($this->idUsuario, $this->idTipoPeticion, $this->idIdioma, $this->idCentroEntrega, 
-                        $this->fechaEnvio, $this->direccion, $this->estado, $this->modoEntrega, 
-                        $this->telefono, $this->id);
+                        $this->direccion, $this->modoEntrega, $this->nombre, $this->email, $this->telefono,
+                        $this->estado, $this->fechaEnvio, $this->id);
         return Database::executeRow($sql, $params);
     }
 
