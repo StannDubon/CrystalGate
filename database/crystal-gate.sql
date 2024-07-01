@@ -110,17 +110,15 @@ CREATE TABLE
         id_permiso INT PRIMARY KEY AUTO_INCREMENT,
         id_usuario INT,
         id_tipo_permiso INT,
-        id_estado_permiso INT,
         /* NOT ID'S */
         fecha_inicio DATETIME NOT NULL,
         fecha_final DATETIME NOT NULL,
         fecha_envio DATETIME NOT NULL,
         documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
-
+        estado ENUM ('1', '2', '3'), /*1= Pending, 2= Accepted, 3= Rejected */
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
-        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso),
-        CONSTRAINT fk_estado_permiso FOREIGN KEY (id_estado_permiso) REFERENCES tb_estados_permisos(id_estado_permiso)
+        CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso)
     );
 
 CREATE TABLE
