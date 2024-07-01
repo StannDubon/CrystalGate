@@ -51,10 +51,10 @@ class PermisoData extends PermisoHandler
         }
     }
 
-    public function setIdEstadoPermiso($value)
+    public function setestado($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->idEstadoPermiso = $value;
+            $this->estado = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del estado permiso es incorrecto';

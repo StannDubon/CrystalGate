@@ -1,5 +1,6 @@
 //Constante para establecer la ruta de la API
-const PERMISO_API = 'services/admin/permiso.php';
+const PERMISO_API = 'services/admin/permiso.php',
+    NOTIFICACION_API = 'services/admin/notificacion.php';
 //Constantes para establecer los elementos donde se mostrará la información del empleado
 const NOMBRE_EMPLEADO = document.getElementById('employee-name'),
     CORREO_EMPLEADO = document.getElementById('employee-email'),
@@ -7,11 +8,15 @@ const NOMBRE_EMPLEADO = document.getElementById('employee-name'),
     HORA_INICIO = document.getElementById('start-time'),
     FECHA_FINAL = document.getElementById('final-date'),
     HORA_FINAL = document.getElementById('final-time');
-// Constantes para establecer los elementos del modal de la descripción del permiso
+// Constantes para establecer los elementos de los modals
 const MODAL_TITLE_DESC = document.getElementById('modal-title-description'),
-MODAL_DESC = document.getElementById('description-text');
+MODAL_DESC = document.getElementById('description-text'),
+MODAL_REASON = document.getElementById('descripcion-modal');
 // Constante para establecer la modal del permiso.
-const DESCRIPTION_MODAL = document.getElementById('modal-description');
+const DESCRIPTION_MODAL = document.getElementById('modal-description'),
+    REJECT_MODAL = document.getElementById('modal-reject');
+// Constantes para establecer los elementos del formulario de guardar.
+const SAVE_FORM_REJECT = document.getElementById('reject-form');
 // Constante para establecer la caja donde se mostrará la información del documento adjunto
 const BOX_DOCUMENTO = document.getElementById('box-document'),
     BOX_ESTADO = document.getElementById('estado-utilities');
@@ -40,11 +45,11 @@ fillRequest = async(FORM) => {
 
         startDate = new Date(ROW.fecha_inicio.split(' ')[0] + 'T00:00:00');
         endDate = new Date(ROW.fecha_final.split(' ')[0] + 'T00:00:00');
-        MODAL_DESC.textContent = ROW.descripcion_permiso;
+
         NOMBRE_EMPLEADO.textContent = ROW.nombre + ' ' + ROW.apellido;
         CORREO_EMPLEADO.textContent = ROW.correo;
 
-        const ONLY_DAY = PARAMS.get('lapso');
+        const ONLY_DAY = ROW.lapso;
         if (ONLY_DAY === '1'){
             FECHA_INICIO.textContent = ROW.fecha_inicio.split(' ')[0];
         HORA_INICIO.textContent = '';
@@ -93,11 +98,18 @@ fillRequest = async(FORM) => {
             `
         }
 
+
+        const DATA2 = await fetchData(NOTIFICACION_API, 'readPermission', FORM);
+        DATA2.status
+        // Se inicializan los campos del formulario con los datos del usuario que ha iniciado sesión.
+        const ROW2 = DATA2.dataset;
+        ADMIN = ROW2.nombre + ' '+ ROW2.apellido;
+        
         if(ESTADO == 1){
             BOX_ESTADO.classList.add('main-content-row-2');
             BOX_ESTADO.innerHTML += `
-                <button class="pending-approve" type="submit" id="btn-approve">Approve</button>
-                <button class="pending-reject" type="submit" id="btn-reject">Reject</button>
+                <button class="pending-approve" type="submit" id="btn-approve" onclick="openAccept()">Approve</button>
+                <button class="pending-reject" type="submit" id="btn-reject" onclick="openReject()" >Reject</button>
             `
         } else if(ESTADO == 2){
             BOX_ESTADO.classList.add('main-row-1');
@@ -113,12 +125,13 @@ fillRequest = async(FORM) => {
                 <div class="col2 approved">
                     <p>APPROVED</p>
                 </div>
+                <p>Modified by ${ADMIN}</p>
             `
         } else if(ESTADO == 3){
             BOX_ESTADO.classList.add('main-row-1');
             BOX_ESTADO.innerHTML += `
-                <div class="col1 info">
-                <svg id="info" width="57" height="57" viewBox="0 0 57 57" fill="none"
+                <div class="col1 info" >
+                <svg onclick="openRejectDesc()" id="info" width="57" height="57" viewBox="0 0 57 57" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M28.5 0C12.7851 0 0 12.7851 0 28.5C0 44.2149 12.7851 57 28.5 57C44.2149 57 57 44.2149 57 28.5C57 12.7851 44.2149 0 28.5 0ZM31.35 42.75H25.65V25.65H31.35V42.75ZM31.35 19.95H25.65V14.25H31.35V19.95Z"
@@ -130,6 +143,7 @@ fillRequest = async(FORM) => {
                 <div class="col2 rejected">
                     <p>REJECTED</p>
                 </div>
+                <p>Modified by ${ADMIN}</p>
             `
         }
         setVariables(startDate);
@@ -138,19 +152,161 @@ fillRequest = async(FORM) => {
         sweetAlert(2, DATA.error, null);
     }
 }
+//Funcion para aceptar un permiso
+const acceptPermission = async () => {
+    const FORM = new FormData();
+        FORM.append('estado','2');
+        FORM.append('idPermiso', PARAMS.get('id'));
+
+        const DATA = await fetchData(PERMISO_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            
+            fillRequest();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+}
+//Funcion para rechazar un permiso
+const rejectPermission = async () => {
+    const FORM = new FormData();
+        FORM.append('estado','3');
+        FORM.append('idPermiso', PARAMS.get('id'));
+
+        const DATA = await fetchData(PERMISO_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            
+            fillRequest();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+}
+
+const openAccept = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to approve the permission?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        const now = new Date();
+        
+        // Obtener la fecha y hora en formato ISO
+        const isoString = now.toISOString();
+
+        // Extraer la parte de la fecha y la hora
+        const datePart = isoString.slice(0, 10); // "YYYY-MM-DD"
+        const timePart = isoString.slice(11, 19); // "HH:MM:SS"
+
+        // Combinar la fecha y la hora en el formato deseado
+        const formattedDateTime = `${datePart} ${timePart}`;
+        
+        
+        FORM.append('idPermiso', PARAMS.get('id'));
+        FORM.append('descripcion','Permission accepted');
+        FORM.append('fechaEnvio', formattedDateTime);
+
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
+        
+        
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+            // Se acepta el permiso
+            acceptPermission();
+            //Se recarga la página
+            location.reload();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
 
 closeModal = () =>{
     if(DESCRIPTION_MODAL.classList.contains('show') ){
         DESCRIPTION_MODAL.classList.remove('show');
+    }else if( REJECT_MODAL.classList.contains('show') ){
+        REJECT_MODAL.classList.remove('show');
     }
 }
 
-/*
-*   Función para preparar el formulario al momento de editar el perfil.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
 const openDesc = async() => {
     DESCRIPTION_MODAL.classList.add('show');
-    MODAL_TITLE_DESC.textContent = ('Permission description')
+    MODAL_TITLE_DESC.textContent = ('Permission description');
+    const FORM = new FormData();
+    FORM.append('idPermiso', PARAMS.get('id'));
+    const DATA = await fetchData(PERMISO_API, 'readOne',FORM);
+    if(DATA.status){
+        const ROW = DATA.dataset;
+
+        MODAL_DESC.textContent = ROW.descripcion_permiso;
+    }
+}
+const openReject = () => {
+    REJECT_MODAL.classList.add('show');
+    // Se prepara el formulario.
+    SAVE_FORM_REJECT.reset();
+}
+// Método del evento para cuando se envía el formulario de guardar 
+SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+        const now = new Date();
+        
+        // Obtener la fecha y hora en formato ISO
+        const isoString = now.toISOString();
+
+        // Extraer la parte de la fecha y la hora
+        const datePart = isoString.slice(0, 10); // "YYYY-MM-DD"
+        const timePart = isoString.slice(11, 19); // "HH:MM:SS"
+
+        // Combinar la fecha y la hora en el formato deseado
+        const formattedDateTime = `${datePart} ${timePart}`;
+        
+        
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SAVE_FORM_REJECT);
+    FORM.append('idPermiso', PARAMS.get('id'));
+    FORM.append('fechaEnvio', formattedDateTime);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se cierra la caja de diálogo.
+        REJECT_MODAL.classList.remove('show');
+        // Se muestra un mensaje de éxito.
+        sweetAlert(1, DATA.message, true);
+        // Se acepta el permiso
+        rejectPermission();
+        //Se recarga la página
+        // Recarga la página después de 3 segundos (3000 milisegundos)
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+        
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
+
+const openRejectDesc = async() => {
+    DESCRIPTION_MODAL.classList.add('show');
+    MODAL_TITLE_DESC.textContent = ('REJECT REASON');
+
+    const FORM = new FormData();
+    FORM.append('idPermiso', PARAMS.get('id'));
+    const DATA = await fetchData(NOTIFICACION_API, 'readPermission', FORM);
+    MODAL_DESC.textContent = '';
+    if(DATA.status){
+        const ROW = DATA.dataset;
+
+        MODAL_DESC.textContent += ROW.descripcion;
+    }
 }
