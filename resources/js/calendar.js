@@ -2,9 +2,8 @@ const daysTag = document.querySelector(".days"),
     currentDate = document.querySelector(".current-date"),
     prevNextIcon = document.querySelectorAll(".icons span");
 
-let date = new Date(),
-    currYear = date.getFullYear(),
-    currMonth = date.getMonth();
+let date = new Date();
+    
 
 const months = ["January", "February", "March", "April", "May", "June", "July",
                 "August", "September", "October", "November", "December"];
@@ -12,6 +11,12 @@ const months = ["January", "February", "March", "April", "May", "June", "July",
 // Variables to store start and end dates
 let startDate = null;
 let endDate = null;
+
+
+const setVariables = (start) => {
+    currYear = start.getFullYear(),
+    currMonth = start.getMonth();
+} 
 
 const renderCalendar = (start, end) => {
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), 
