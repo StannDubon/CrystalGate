@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Types</title>
 
     <!-- FUENTE -->
     <link rel="stylesheet" href="../resources/css/poppins.css">
@@ -35,7 +35,7 @@
     <main>
         <div class="main-header">
             <div class="main-title">
-                <p>Manage Charges</p>
+                <p>Manage Admin Type</p>
             </div>
 
             <div class="main-utilities">
@@ -68,7 +68,7 @@
         <div class="main-content">
 
             <div class="authorization-box">
-                <ul id="box-charges">
+                <ul id="box-types">
 
                 </ul>
             </div>
@@ -76,19 +76,19 @@
         </div>
     </main>
 
-    <div id="modal-charges" class="custom-modal-container">
+    <div id="modal-types" class="custom-modal-container">
         <div class="custom-modal-container-fixer">
             <div class="box-content">
                 <div class="tittle-modal-content" id="modal-title"></div>
-                <form id="save-form-charges">
+                <form id="save-form-types">
                     <div class="main-modal-content">
 
-                        <input type="text" id="idCargo" name="idCargo" hidden>
-                        <input placeholder="Charge" name="cargo" id="cargo" required>
+                        <input type="text" id="idTipoAdministrador" name="idTipoAdministrador" hidden>
+                        <input type="text" placeholder="Admin type" name="tipoAdministrador" id="tipoAdministrador" required>
                     
                         <div id="swal-custom-status-chooser-req-type" class="swal-custom-status-chooser active">
 
-                            <input id="estadoCargo" name="estadoCargo" type="hidden" value="1"></input>
+                            <input id="estadoTipoAdministrador" name="estadoTipoAdministrador" type="hidden" value="1"></input>
 
                             <span class="swal-custom-toggle-inactive">Inactive</span>
                             <span class="swal-custom-toggle-active">Active</span>
@@ -114,7 +114,7 @@
 
     <!-- CONTROLADORES ESPECIFICOS -->
     <script src="../controllers/private/dashboard.js"></script>
-    <script src="../controllers/private/charges.js"></script>
+    <script src="../controllers/private/admin-types.js"></script>
 </body>
 
 </html>

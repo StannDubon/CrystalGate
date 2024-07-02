@@ -85,6 +85,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el tipo de administrador';
                 }
                 break;
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$TipoAdministrador->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $TipoAdministrador->getDataError();
+                } elseif ($TipoAdministrador->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el tipo de administrador';
+                }
+                break;
             case 'deleteRow':
                 if (
                     !$TipoAdministrador->setId($_POST[POST_ID])
