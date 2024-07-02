@@ -56,6 +56,16 @@ public function searchRows()
          $params = array($this->id);
          return Database::getRow($sql, $params);
      }
+     public function readPermission()
+     {
+         $sql = 'SELECT a.id_notificacion, b.id_administrador, b.nombre, b.apellido, a.id_permiso, a.fecha_envio, a.descripcion
+                FROM tb_notificaciones a
+                JOIN tb_administradores b ON a.id_administrador = b.id_administrador
+                JOIN tb_permisos c ON a.id_permiso = c.id_permiso
+                WHERE a.id_permiso = ?';
+         $params = array($this->idPermiso);
+         return Database::getRow($sql, $params);
+     }
  
      public function updateRow()
      {

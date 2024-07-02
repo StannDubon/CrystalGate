@@ -69,7 +69,13 @@ const sweetAlert = async (type, text, timer, url = null) => {
         icon: icon,
         allowOutsideClick: false,
         allowEscapeKey: false,
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3085d6',
+        didOpen: () => {
+            const confirmButton = Swal.getConfirmButton();
+            const cancelButton = Swal.getCancelButton();
+            confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
+        }
     };
 
     // Se verifica el uso del temporizador.

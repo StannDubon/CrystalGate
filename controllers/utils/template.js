@@ -38,7 +38,7 @@ const loadTemplate = async () => {
       if (DATA_USER.status) {
       const DATASET_USER = DATA_USER.dataset;
       const FORM = (typeof (filter) === 'object')
-      const PERMISSION_DATA = await fetchData(AUTHORIZATION_API, "readAll", FORM);
+      const PERMISSION_DATA = await fetchData(AUTHORIZATION_API, "readUsableData", FORM);
       var permission_types = '';
       if (PERMISSION_DATA.status) {
         permission_types += '<a href="inbox.html">Inbox</a>';

@@ -5,8 +5,7 @@ require_once('../../models/data/permiso-data.php');
 const POST_ID = "idPermiso";
 const POST_ID_USUARIO = "idUsuario";
 const POST_ID_TIPO_PERMISO = "idTipoPermiso";
-const POST_ID_CLASIFICACION = "idClasificacionPermiso";
-const POST_ESTADO = "idEstadoPermiso";
+const POST_ESTADO = "estado";
 const POST_FECHA_INICIO = "fechaInicio";
 const POST_FECHA_FINAL = "fechaFinal";
 const POST_FECHA_ENVIO = "fechaEnvio";
@@ -75,7 +74,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$permiso->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO]) or
-                    !$permiso->setIdEstadoPermiso($_POST[POST_ESTADO]) or
+                    !$permiso->setestado($_POST[POST_ESTADO]) or
                     !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or
                     !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or
                     !$permiso->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or 
@@ -100,7 +99,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
                 case 'readAllPendings':
-                    if (!$permiso->setIdEstadoPermiso($_POST[POST_ESTADO])) {
+                    if (!$permiso->setestado($_POST[POST_ESTADO])) {
                         $result['error'] = 'permiso incorrecto';
                     } elseif ($result['dataset'] = $permiso->readAllPendings()) {
                         $result['status'] = 1;
@@ -132,7 +131,7 @@ if (isset($_GET['action'])) {
                     !$permiso->setId($_POST[POST_ID]) or
                     !$permiso->setIdUsuario($_POST[POST_ID_USUARIO]) or
                     !$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO]) or
-                    !$permiso->setIdEstadoPermiso($_POST[POST_ESTADO]) or
+                    !$permiso->setestado($_POST[POST_ESTADO]) or
                     !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or
                     !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or
                     !$permiso->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or 
@@ -144,6 +143,20 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'permiso modificado correctamente';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_DOCUMENTO], $permiso::RUTA_DOCUMENTO);
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el permiso';
+                }
+                break;
+            case 'updateState':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$permiso->setId($_POST[POST_ID]) or
+                    !$permiso->setestado($_POST[POST_ESTADO])
+                ) {
+                    $result['error'] = $permiso->getDataError();
+                } elseif ($permiso->updateState()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'permiso modificado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el permiso';
                 }

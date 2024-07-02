@@ -79,7 +79,8 @@ class UsuarioHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT a.*, b.cargo FROM tb_usuarios a, tb_cargos b 
+        $sql = 'SELECT a.*, b.cargo 
+                FROM tb_usuarios a, tb_cargos b 
                 WHERE a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?';
         $params = array($value, $value, $value, $value);
         return Database::getRows($sql, $params);
@@ -103,8 +104,8 @@ class UsuarioHandler
     public function readOne()
     {
         $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
-                FROM tb_usuarios a, tb_cargos b WHERE a.id_cargo = b.id_cargo
-                WHERE id_usuario = ?';
+                FROM tb_usuarios a, tb_cargos b 
+                WHERE a.id_cargo = b.id_cargo AND a.id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }

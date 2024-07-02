@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Peticiones para solicitar los datos de la base.
 
     FORM = new FormData();
-    FORM.append('idEstadoPermiso',1);
+    FORM.append('estado',1);
     await fillPermissions(FORM);
 
 });
