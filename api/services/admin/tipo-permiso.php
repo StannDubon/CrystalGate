@@ -63,6 +63,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen tipos de permiso registrados';
                 }
                 break;
+            case 'readNoEmtyReferences':
+                if (!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($result['dataset'] = $TipoPermiso->readNoEmtyReferences()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Tipo de permiso inexistente';
+                }
+                break;
+                break;
             case 'readOne':
                 if (!$TipoPermiso->setId($_POST[POST_ID])) {
                     $result['error'] = $TipoPermiso->getDataError();

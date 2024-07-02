@@ -142,4 +142,26 @@ class AdministradorHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+
+    public function readSessionFilename()
+    {
+        $sql = 'SELECT imagen
+                FROM tb_administradores
+                WHERE id_administrador = ?';
+        $params = array($_SESSION['idAdministrador']);
+        return Database::getRow($sql, $params);
+    }
+
+    public function countAll()
+    {
+        $sql = 'SELECT COUNT(*) AS num_rows FROM tb_administradores;';
+        return Database::getRow($sql);
+    }
+
+    public function firstUsage()
+    {
+        $sql = 'INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, correo, clave) VALUES(?, ?, ?, ?, ?)';
+        $params = array(1, $this->nombre, $this->apellido, $this->correo, $this->clave);
+        return Database::executeRow($sql, $params);
+    }
 }

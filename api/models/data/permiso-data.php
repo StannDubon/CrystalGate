@@ -51,7 +51,9 @@ class PermisoData extends PermisoHandler
         }
     }
 
+
     public function setestado($value)
+
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->estado = $value;

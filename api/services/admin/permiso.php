@@ -12,6 +12,7 @@ const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DOCUMENTO = "documentoPermiso";
 const POST_DESCRIPCION = "descripcionPermiso";
 
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se establecen los parametros para la sesion
@@ -38,6 +39,30 @@ if (isset($_GET['action'])) {
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $permiso->searchRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
+            case 'searchCategoryRows':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif(!$permiso->setIdClasificacionPermiso($_POST[POST_ID_CLASIFICACION])){
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->searchCategoryRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
+            case 'searchSubCategoryRows':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif(!$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO])){
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->searchSubCategoryRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -82,6 +107,15 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'permiso inexistente';
                     }
                     break;
+            case 'readCategory':
+                if (!$permiso->setIdClasificacionPermiso($_POST[POST_ID_CLASIFICACION])) {
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->readCategory()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'permiso inexistente';
+                }
+                break;
             case 'readOne':
                 if (!$permiso->setId($_POST[POST_ID])) {
                     $result['error'] = 'permiso incorrecto';
