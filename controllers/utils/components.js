@@ -11,69 +11,86 @@ const SERVER_URL = 'http://localhost/CrystalGate/api/';
 *   Retorno: resultado de la promesa.
 */
 const confirmAction = (message) => {
-    return swal({
-        title: 'Advertencia',
+    return Swal.fire({
+        title: 'Warning',
         text: message,
         icon: 'warning',
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        buttons: {
-            cancel: {
-                text: 'No',
-                value: false,
-                visible: true
-            },
-            confirm: {
-                text: 'Sí',
-                value: true,
-                visible: true
-            }
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor: '#3085d6',
+        didOpen: () => {
+            const confirmButton = Swal.getConfirmButton();
+            const cancelButton = Swal.getCancelButton();
+            confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
         }
+    }).then((result) => {
+        return result.isConfirmed;
     });
 }
 
 /*
 *   Función asíncrona para manejar los mensajes de notificación al usuario.
-*   Requiere la librería sweetalert para funcionar.
+*   Requiere la librería sweetalert2 para funcionar.
 *   Parámetros: type (tipo de mensaje), text (texto a mostrar), timer (uso de temporizador) y url (valor opcional con la ubicación de destino).
 *   Retorno: ninguno.
 */
 const sweetAlert = async (type, text, timer, url = null) => {
+    let title, icon;
     // Se compara el tipo de mensaje a mostrar.
     switch (type) {
         case 1:
-            title = 'Éxito';
+            title = 'Success!';
             icon = 'success';
             break;
         case 2:
-            title = 'Error';
+            title = 'Error!';
             icon = 'error';
             break;
         case 3:
-            title = 'Advertencia';
+            title = 'Warning';
             icon = 'warning';
             break;
         case 4:
-            title = 'Aviso';
+            title = 'Information';
+            icon = 'info';
+            break;
+        default:
+            title = 'Information';
             icon = 'info';
     }
+
     // Se define un objeto con las opciones principales para el mensaje.
     let options = {
         title: title,
         text: text,
         icon: icon,
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        button: {
-            text: 'Aceptar'
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3085d6',
+        didOpen: () => {
+            const confirmButton = Swal.getConfirmButton();
+            const cancelButton = Swal.getCancelButton();
+            confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
         }
     };
+
     // Se verifica el uso del temporizador.
-    (timer) ? options.timer = 3000 : options.timer = null;
+    if (timer) {
+        options.timer = 3000;
+        options.timerProgressBar = true;
+    }
+
     // Se muestra el mensaje.
-    await swal(options);
+    await Swal.fire(options);
+
     // Se direcciona a una página web si se indica.
-    (url) ? location.href = url : undefined;
+    if (url) {
+        location.href = url;
+    }
 }
 
 /*
@@ -83,7 +100,7 @@ const sweetAlert = async (type, text, timer, url = null) => {
 */
 const fillSelect = async (filename, action, select, filter = undefined) => {
     // Se verifica si el filtro contiene un objeto para enviar a la API.
-    const FORM = (typeof (filter) == 'object') ? filter : null;
+    const FORM = (typeof (filter) === 'object') ? filter : null;
     // Petición para obtener los datos.
     const DATA = await fetchData(filename, action, FORM);
     let content = '';
@@ -93,12 +110,12 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se obtiene el dato del primer campo de la sentencia SQL.
-            value = Object.values(row)[0];
+            const value = Object.values(row)[0];
             // Se obtiene el dato del segundo campo de la sentencia SQL.
-            text = Object.values(row)[1];
+            const text = Object.values(row)[1];
             // Se verifica el valor del filtro para enlistar las opciones.
-            const SELECTED = (typeof (filter) == 'number') ? filter : null;
-            if (value != SELECTED) {
+            const SELECTED = (filter != null && (value == filter));
+            if (!SELECTED) {
                 content += `<option value="${value}">${text}</option>`;
             } else {
                 content += `<option value="${value}" selected>${text}</option>`;
@@ -110,6 +127,7 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
     // Se agregan las opciones a la etiqueta select mediante el id.
     document.getElementById(select).innerHTML = content;
 }
+
 
 /*
 *   Función para generar un gráfico de barras verticales.

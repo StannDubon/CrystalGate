@@ -14,6 +14,12 @@
     font-weight: var(--medium-text-weight);
 }
 
+.authorization-box span {
+    font-size: calc(var(--large-text-size));
+    color: var(--color-texto-2);
+    font-weight: var(--bold-text-weight);
+}
+
 .authorization-box ul {
     margin-top: 10px;
 }
@@ -22,6 +28,7 @@
     list-style: none;
     display: flex;
     margin-bottom: 5px;
+    align-items: center;
 }
 
 .authorization-box li span {
@@ -47,6 +54,14 @@
 
 }
 
+.authorization-status-button{
+    width: 20px;
+    height: 10px;
+    margin-left: 10px;
+    
+    border-radius: 8px;
+}
+
 .authorization-delete-button:hover {
     background-color: var(--primary-hover-red);
 }
@@ -70,4 +85,80 @@
     align-items: center;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+#box-main-content{
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+}
+
+.authorization {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.authorization .title{
+    font-weight: 600;
+}
+
+.authorization .actions{
+    padding: 10px;
+    display: flex;
+}
+
+.options {
+    position: absolute;
+    bottom: 100%;
+    left: 0px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 100;
+    display: none;
+}
+
+.options span{
+    padding: 5px 10px 5px 10px;
+}
+
+.options .delete{
+    border-radius: 8px 8px 0px 0px;
+}
+
+.options .edit{
+    border-radius: 0px 0px 8px 8px;
+}
+
+.authorization .actions:hover .options{
+    display: block;
+}
+
+.authorization .actions:hover svg path{
+    fill: gray;
+}
+
+.option {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
 

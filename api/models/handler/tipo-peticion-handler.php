@@ -35,7 +35,7 @@ class TipoPeticionHandler
     {
         $sql = 'SELECT *
                 FROM tb_tipos_peticiones
-                ORDER BY tipo_peticion';
+                ORDER BY estado DESC';
         return Database::getRows($sql);
     }
 

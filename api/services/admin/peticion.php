@@ -12,6 +12,8 @@ const POST_DIRECCION = "direccionPeticion";
 const POST_ESTADO = "EstadoPeticion";
 const POST_MODO_ENTREGA = "modoEntrega";
 const POST_TELEFONO = "telefonoContacto";
+const POST_NOMBRE_ENTREGA = "nombreEntrega";
+const POST_EMAIL_ENTREGA = "emailEntrega";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -56,7 +58,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA]) 
                 ) {
                     $result['error'] = $peticion->getDataError();
                 }else if ($peticion->createRow()) {
@@ -95,7 +99,9 @@ if (isset($_GET['action'])) {
                     !$peticion->setDireccion($_POST[POST_DIRECCION]) or 
                     !$peticion->setEstado($_POST[POST_ESTADO]) or
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
-                    !$peticion->setTelefono($_POST[POST_TELEFONO])
+                    !$peticion->setTelefono($_POST[POST_TELEFONO]) or
+                    !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
+                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {

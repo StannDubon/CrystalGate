@@ -1,39 +1,42 @@
 // ComboBox.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
-const ComboBox = ({ options, placeholder, onSelect, label }) => {
-  const [selectedValue, setSelectedValue] = useState('');
+const ComboBox = ({ options, placeholder, onValueChange, label, selectedValue, isDisabled }) => {
 
-  const handleChange = (itemValue) => {
-    setSelectedValue(itemValue);
-    if (onSelect) {
-      onSelect(itemValue);
-    }
-  };
+    const handleChange = (itemValue) => {
+        if (onValueChange) {
+            onValueChange(itemValue);
+        }
+    };
 
-  return (
-    <View style={styles.contenedor}>
-        <Text style={styles.inputLabel}>{label}</Text>
-      <View style={styles.div}>
-        <Picker
-          selectedValue={selectedValue}
-          onValueChange={handleChange}
-          style={styles.picker}
-        >
-          <Picker.Item label={placeholder} value="" />
-          {options.map((option, index) => (
-            <Picker.Item key={index} label={option} value={option} />
-          ))}
-        </Picker>
-      </View>
-    </View>
-  );
+    return (
+        <View style={styles.contenedor}>
+            <Text style={styles.inputLabel}>{label}</Text>
+            <View style={styles.div}>
+                <Picker
+                    selectedValue={selectedValue}
+                    onValueChange={handleChange}
+                    style={styles.picker}
+                    enabled={!isDisabled}
+                >
+                    <Picker.Item label={placeholder} value="" />
+                    {options.map((option, index) => (
+                        <Picker.Item
+                            key={index}
+                            label={option.value}
+                            value={option.identifier}
+                        />
+                    ))}
+                </Picker>
+            </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-    contenedor:{
+    contenedor: {
         paddingTop: 20,
         textAlign: "left",
         alignItems: "left",
@@ -43,9 +46,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "Medium",
         height: 100,
-        with: "auto",
+        width: "auto",
         color: "#98ADE3",
-    },  
+    },
     div: {
         marginTop: 10,
         borderColor: "#4292F6",
@@ -56,7 +59,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         width: 337,
-
     },
     input: {
         fontFamily: "Poppins-Regular",
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     },
     picker: {
         color: "#4292F6",
-    }
+    },
 });
 
 export default ComboBox;

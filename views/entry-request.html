@@ -23,6 +23,8 @@
 
      <!-- CSS MODAL -->
      <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+
+     <link rel="stylesheet" href="../resources/css/custom-modals.css">
 </head>
 
 <body id="local-inbox">
@@ -146,8 +148,8 @@
 
                         <!-- INICIO DE FECHA -->
                         <div class="permission-info-wraper">
-                            <p class="permission-begin-date" id="start-date">12-31-2024</p>
-                            <p class="permission-begin-time" id="start-time">12:00pm</p>
+                            <p class="permission-begin-date" id="start-date"></p>
+                            <p class="permission-begin-time" id="start-time"></p>
                         </div>
 
                         <!-- ICONO -->
@@ -159,15 +161,14 @@
 
                         <!-- FINAL DE FECHA -->
                         <div class="permission-info-wraper">
-                            <p class="permission-begin-date" id="final-date">12-31-2024</p>
-                            <p class="permission-begin-time" id="final-time">12:00pm</p>
+                            <p class="permission-begin-date" id="final-date"></p>
+                            <p class="permission-begin-time" id="final-time"></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="main-content-row-2">
-                <button class="pending-approve" type="submit" id="btn-approve">Approve</button>
-                <button class="pending-reject" type="submit" id="btn-reject">Reject</button>
+            <div class="" id="estado-utilities">
+                
             </div>
         </div>
     </main>
@@ -183,9 +184,7 @@
             <h1 id="modal-title-description" class="modal-title"></h1>
 
             <!-- Parrafo del modal -->
-            <p class="description" id="description-text"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat</p>
+            <p class="description" id="description-text"> "</p>
             <!-- Pie del modal -->
             <div class="modal-footer">
                 <!-- Botones del modal -->
@@ -194,9 +193,26 @@
                     onclick="closeModal()">Close</button>
             </div>
         </div>
-
     </div>
 
+    <div id="modal-reject" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title">REJECT REASON</div>
+                <form id="reject-form">
+                    <div class="main-modal-content">
+
+                        <input type="text" placeholder="Reason" name="descripcion" id="descripcion-modal" required>
+                    
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button" onclick="closeModal()">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <!-- SWEET ALERTS -->

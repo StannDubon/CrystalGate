@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Notificacion->setIdAdministrador($_POST[POST_ADMINISTRADOR_ID]) or
+                    !$Notificacion->setIdAdministrador($_SESSION[POST_ADMINISTRADOR_ID]) or
                     !$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID]) or
                     !$Notificacion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
                     !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])
@@ -72,11 +72,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Notificación inexistente';
                 }
                 break;
+            case 'readPermission':
+                if (!$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID])) {
+                    $result['error'] = $Notificacion->getDataError();
+                } elseif ($result['dataset'] = $Notificacion->readPermission()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Notificación inexistente';
+                }
+                break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Notificacion->setId($_POST[POST_ID]) or
-                    !$Notificacion->setIdAdministrador($_POST[POST_ADMINISTRADOR_ID]) or
+                    !$Notificacion->setIdAdministrador($_SESSION[POST_ADMINISTRADOR_ID]) or
                     !$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID]) or
                     !$Notificacion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
                     !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])

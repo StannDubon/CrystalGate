@@ -73,4 +73,12 @@ class ClasificacionPermisoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readUsableData()
+    {
+        $sql = 'SELECT DISTINCT cp.id_clasificacion_permiso, cp.clasificacion_permiso
+                FROM tb_clasificaciones_permisos cp
+                JOIN tb_tipos_permisos tp ON cp.id_clasificacion_permiso = tp.id_clasificacion_permiso;';
+        return Database::getRows($sql);
+    }
 }

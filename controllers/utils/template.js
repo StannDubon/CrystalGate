@@ -5,6 +5,7 @@
 
 // Constante para completar la ruta de la API.
 const USER_API = "services/admin/administrador.php";
+const AUTHORIZATION_API = 'services/admin/clasificacion-permiso.php';
 // Constante para establecer el elemento del contenido principal.
 const SIDEBAR = document.getElementById("TEMPLATE");
 // Se establece el título de la página web.
@@ -27,12 +28,32 @@ const loadTemplate = async () => {
   const DATA = await fetchData(USER_API, "getUser");
   // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
   if (DATA.session) {
+    if (location.pathname.endsWith("index.html")) {
+      location.href = "dashboard  .html";
+    }
     // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
       // Se agrega el encabezado de la página web antes del contenido principal.
       const DATA_USER = await fetchData(USER_API, "readProfile");
       if (DATA_USER.status) {
       const DATASET_USER = DATA_USER.dataset;
+      const FORM = (typeof (filter) === 'object')
+      const PERMISSION_DATA = await fetchData(AUTHORIZATION_API, "readUsableData", FORM);
+      var permission_types = '';
+      if (PERMISSION_DATA.status) {
+        permission_types += '<a href="inbox.html">Inbox</a>';
+          PERMISSION_DATA.dataset.forEach(row => {
+              const value = Object.values(row)[0];
+              const text = Object.values(row)[1];
+              permission_types += `<a href="permissions.html?id=${value}">${text}</a>`;
+          });
+      } else {
+        permission_types += '<a href="inbox.html">Inbox</a>';
+      }
+
+
+
+
       SIDEBAR.innerHTML = `
       <div id="nav-side-bar-button">
       <svg width="152" height="114" viewBox="0 0 152 114" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,11 +101,9 @@ const loadTemplate = async () => {
                       <span class="contenttt-line"></span>
 
                       <div>
-                          <a href="inbox.html">Inbox</a>
-                          <a href="medical.html">Medical Leave</a>
-                          <a href="vacation.html">Vacation Request</a>
-                          <a href="permissions.html">Permissions</a>
+                        ${permission_types}
                       </div>
+                      
                   </div>
               </div>
           </div>
@@ -139,7 +158,7 @@ const loadTemplate = async () => {
           <b>Admin</b>
             </div>
 
-          <div id="bridge-requests-settings" class="nav-content-element">
+          <div id="bridge-documentation" class="nav-content-element">
 
               <!-- LOGO -->
               <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -149,10 +168,10 @@ const loadTemplate = async () => {
               </svg>                      
 
 
-              <b>Requests</b>
+              <b>Documentation</b>
           </div>
 
-          <div id="bridge-authorizations-settings" class="nav-content-element">
+          <div id="bridge-authorization-settings" class="nav-content-element">
 
               <!-- LOGO -->
               <svg width="31" height="24" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -410,8 +429,8 @@ const loadNavBarJs = () => {
     "/reports",
     "/history",
     "/admin",
-    "/requests-settings",
-    "/authorizations-settings",
+    "/documentation",
+    "/authorization-settings",
   ];
   const ids = [
     "dashboard",
@@ -419,8 +438,8 @@ const loadNavBarJs = () => {
     "reports",
     "history",
     "admin",
-    "requests-settings",
-    "authorizations-settings",
+    "documentation",
+    "authorization-settings",
   ];
 
   // Agregar event listener a cada div

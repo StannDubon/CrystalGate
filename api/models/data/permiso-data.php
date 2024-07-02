@@ -51,10 +51,10 @@ class PermisoData extends PermisoHandler
         }
     }
 
-    public function setIdEstadoPermiso($value)
+    public function setestado($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->idEstadoPermiso = $value;
+            $this->estado = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del estado permiso es incorrecto';
@@ -120,6 +120,16 @@ class PermisoData extends PermisoHandler
         } else {
             $this->documento = 'default.pdf';
             return true;
+        }
+    }
+
+    public function setDescripcion($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->descripcion = $value;
+            return true;
+        } else {
+            return false;
         }
     }
 
