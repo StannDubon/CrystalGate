@@ -14,6 +14,7 @@ class PermisoHandler
     protected $idUsuario = null;
     protected $idTipoPermiso = null;
     protected $idEstadoPermiso = null;
+    protected $idClasificacionPermiso = null;
     // NOT IDS
     protected $fechaInicio = null;
     protected $fechaFinal = null;
@@ -36,6 +37,36 @@ class PermisoHandler
         return Database::getRows($sql, $params);
     }
 
+    public function searchCategoryRows()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.id_clasificacion_permiso, tp.lapso, 
+                a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a
+                JOIN tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN tb_tipos_permisos tp ON a.id_tipo_permiso = tp.id_tipo_permiso
+                WHERE tp.id_clasificacion_permiso = ? AND 
+                    (b.nombre LIKE ? OR b.apellido LIKE ? OR tp.tipo_permiso LIKE ? OR tp.lapso LIKE ? OR a.descripcion_permiso LIKE ?)
+                ORDER BY a.estado;';
+        $params = array($this->idClasificacionPermiso, $value, $value, $value, $value, $value);
+        return Database::getRows($sql, $params);
+    }
+
+    public function searchSubCategoryRows()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.id_clasificacion_permiso, tp.lapso, 
+                a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a
+                JOIN tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN tb_tipos_permisos tp ON a.id_tipo_permiso = tp.id_tipo_permiso
+                WHERE a.id_tipo_permiso = ? AND 
+                    (b.nombre LIKE ? OR b.apellido LIKE ? OR tp.lapso LIKE ? OR a.descripcion_permiso LIKE ?)
+                ORDER BY a.estado;';
+        $params = array($this->idTipoPermiso, $value, $value, $value, $value);
+        return Database::getRows($sql, $params);
+    }
+
     public function createRow()
     {
         $sql = 'INSERT INTO tb_permisos(id_usuario, id_tipo_permiso, estado, fecha_inicio, fecha_final, 
@@ -55,6 +86,16 @@ class PermisoHandler
                 ORDER BY a.estado';
         return Database::getRows($sql);
     }
+
+    public function readOne()
+    {
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
+                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
     public function readAllPendings()
     {
 
@@ -65,13 +106,14 @@ class PermisoHandler
         return Database::getRows($sql, $params);
     }
 
-    public function readOne()
+    public function readCategory()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso, a.estado
-                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
-                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
-        $params = array($this->id);
-        return Database::getRow($sql, $params);
+        $sql = 'SELECT a.id_permiso ,b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.id_clasificacion_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND tp.id_clasificacion_permiso = ?
+                ORDER BY a.estado';
+        $params = array($this->idClasificacionPermiso);
+        return Database::getRows($sql, $params);
     }
 
     public function updateRow()

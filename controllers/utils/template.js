@@ -200,13 +200,13 @@ const loadTemplate = async () => {
               <b>Log Out</b>
           </div>
 
-          <div class="nav-profile-info">
+          <a class="nav-profile-info" href="profile.html">
               <img src="../api/images/admin/${DATASET_USER.imagen}" alt="">
               <div>
                   <p class="nav-nombre">${DATASET_USER.nombre +" "+ DATASET_USER.apellido}</p>
                   <p class="nav-rol">${DATASET_USER.tipo_administrador}</p>
               </div>
-          </div>
+          </a>
       </div>
   </div>
       `;} else{

@@ -143,6 +143,15 @@ class AdministradorHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readSessionFilename()
+    {
+        $sql = 'SELECT imagen
+                FROM tb_administradores
+                WHERE id_administrador = ?';
+        $params = array($_SESSION['idAdministrador']);
+        return Database::getRow($sql, $params);
+    }
+
     public function countAll()
     {
         $sql = 'SELECT COUNT(*) AS num_rows FROM tb_administradores;';

@@ -91,17 +91,18 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setId($_POST[POST_ID]) or
+                    !$administrador->setFilename() or
                     !$administrador->setNombre($_POST[POST_NOMBRE]) or
                     !$administrador->setApellido($_POST[POST_APELLIDO]) or
                     !$administrador->setCorreo($_POST[POST_CORREO]) or
                     !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or 
-                    !$administrador->setImagen($_FILES[POST_IMAGEN])
+                    !$administrador->setImagen($_FILES[POST_IMAGEN], $administrador->getFilename())
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador modificado correctamente';
-                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN, $administrador->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el administrador';
                 }
@@ -145,15 +146,16 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST[POST_NOMBRE]) or
+                    !$administrador->setSessionFilename() or
                     !$administrador->setApellido($_POST[POST_APELLIDO]) or
                     !$administrador->setCorreo($_POST[POST_CORREO]) or 
-                    !$administrador->setImagen($_FILES[POST_IMAGEN])
+                    !$administrador->setImagen($_FILES[POST_IMAGEN], $administrador->getFilename())
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->editProfile()) {
                     $result['status'] = 1;
                     $result['message'] = 'Perfil modificado correctamente';
-                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN, $administrador->getFilename());
                     $_SESSION['correoAdministrador'] = $_POST['correoAdministrador'];
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';

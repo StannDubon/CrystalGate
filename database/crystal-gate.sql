@@ -149,6 +149,29 @@ CREATE TABLE
 
 INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES("High"), ("Mid"), ("Low");
 
+INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
+("Medical Leave"),
+("Permissions"),
+("Vacation Request");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(1, "ISSS", "3"),
+(1, "Service of Public Health", "3"),
+(1, "Service of Private Health", "3");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(2, "Medical Appointment", "3"),
+(2, "Emergency Appointment", "3"),
+(2, "Family Emergency", "3"),
+(2, "Bereavement Leave", "3"),
+(2, "Marriage Leave", "3"),
+(2, "Paternity Leave", "3"),
+(2, "Personal Process", "3"),
+(2, "Court Date", "3"),
+(2, "Breastfeeding", "3"),
+(2, "Personal Day", "3"),
+(2, "Other", "3");
+
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
 VALUES(1,'test','test','$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG',
 'test@root.com', 'test.png');

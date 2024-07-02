@@ -24,7 +24,15 @@ SEARCH_INPUT.addEventListener("input", (event) => {
     event.preventDefault();
     const FORM = new FormData();
     FORM.append("search", SEARCH_INPUT.value);
-    fillTable();
+    
+
+    if(FILTER_SELECT.value){
+        FORM.append("idTipoPermiso", FILTER_SELECT.value);
+        fillSubTable(FORM);
+    } else{
+        FORM.append("idClasificacionPermiso", actualPermissionId);
+        fillTable(FORM);
+    }
 });
 
 FILTER_SELECT.addEventListener("change", (event) => {
@@ -36,13 +44,20 @@ FILTER_SELECT.addEventListener("change", (event) => {
     }
 });
 
-const fillSubTable = async () => {
-    const FORM = new FormData();
-    FORM.append("idTipoPermiso", FILTER_SELECT.value);
-    // Se inicializa el contenido de la tabla.
+const fillSubTable = async (form = null) => {
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
+
+    if(form == null){
+        form = new FormData();
+        form.append('idTipoPermiso', FILTER_SELECT.value);
+    }
+
     // Se verifica la acción a realizar.
-    const DATA = await fetchData(PERMISSION_API, "selectFilter", FORM);
+    const searchValue = form.get("search");
+    const action = searchValue ? 'searchSubCategoryRows' : 'selectFilter';
+
+    // Se verifica la acción a realizar.
+    const DATA = await fetchData(PERMISSION_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         DATA.dataset.forEach((row) => {
@@ -185,10 +200,14 @@ const fillSubTable = async () => {
 const fillTable = async (form = null) => {
     // Se inicializa el contenido de la tabla.
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
-    form = form ?? new FormData();
+    if(form == null){
+        form = new FormData();
+        form.append('idClasificacionPermiso', actualPermissionId);
+    }
+
     // Se verifica la acción a realizar.
-    const searchValue = form.get('search');
-    const action = searchValue ? 'searchRows' : 'readAll';
+    const searchValue = form.get("search");
+    const action = searchValue ? 'searchCategoryRows' : 'readCategory';
     const DATA = await fetchData(PERMISSION_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
@@ -341,27 +360,23 @@ const fillPermissionData = async (id) => {
     if (DATA.status) {
         const ROW = DATA.dataset;
         PERMISSION_HEADER_TITLE.textContent = ROW.clasificacion_permiso;
-        fillSelectSubPermissions(SUB_AUTHORIZATION_API, 'readAll', 'selectFilterIdClasificacionSubPermiso');
+        fillSelectSubPermissions(id, SUB_AUTHORIZATION_API, 'readNoEmtyReferences', 'selectFilterIdClasificacionSubPermiso');
     } else {
         sweetAlert(2, DATA.error, false);
     }
 }
 
-const fillSelectSubPermissions = async (filename, action, select, filter = undefined) => {
-    const FORM = (typeof (filter) === 'object') ? filter : null;
+const fillSelectSubPermissions = async (id, filename, action, select) => {
+    const FORM = new FormData();
+    FORM.append('idClasificacionPermiso', id);
     const DATA = await fetchData(filename, action, FORM);
     let content = '';
     if (DATA.status) {
         content += '<option value="" selected>No filter</option>';
         DATA.dataset.forEach(row => {
             const value = Object.values(row)[0];
-            const text = Object.values(row)[2];
-            const SELECTED = (filter != null && (value == filter));
-            if (!SELECTED) {
-                content += `<option value="${value}">${text}</option>`;
-            } else {
-                content += `<option value="${value}" selected>${text}</option>`;
-            }
+            const text = Object.values(row)[1];
+            content += `<option value="${value}">${text}</option>`;
         });
     } else {
         content += '<option>No Subpermissions</option>';
