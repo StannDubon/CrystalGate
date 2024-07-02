@@ -21,6 +21,7 @@ const PASSWORD_FORM = document.getElementById('save-form-password');
 document.addEventListener('DOMContentLoaded', async () => {
 // Petición para obtener los datos del usuario que ha iniciado sesión.
     fillDataProfile();
+    setupModalDiscardButtons();
 });
 
 fillDataProfile = async() => {

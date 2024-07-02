@@ -41,6 +41,18 @@ class TipoPermisoHandler
         return Database::getRows($sql);
     }
 
+    public function readNoEmtyReferences()
+    {
+        $sql = 'SELECT tp.id_tipo_permiso, tp.tipo_permiso, COUNT(p.id_permiso) AS cantidad_permisos
+                FROM tb_tipos_permisos tp
+                JOIN tb_permisos p ON tp.id_tipo_permiso = p.id_tipo_permiso
+                WHERE tp.id_clasificacion_permiso = ?
+                GROUP BY tp.id_tipo_permiso, tp.tipo_permiso
+                HAVING COUNT(p.id_permiso) > 0;';
+        $params = array($this->clasificacion);
+        return Database::getRows($sql, $params);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT *
