@@ -5,6 +5,7 @@ require_once('../../models/data/permiso-data.php');
 const POST_ID = "idPermiso";
 const POST_ID_USUARIO = "idUsuario";
 const POST_ID_TIPO_PERMISO = "idTipoPermiso";
+const POST_ID_CLASIFICACION = "idClasificacionPermiso";
 const POST_ESTADO = "estado";
 const POST_FECHA_INICIO = "fechaInicio";
 const POST_FECHA_FINAL = "fechaFinal";
