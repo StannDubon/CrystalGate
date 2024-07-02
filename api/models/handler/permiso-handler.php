@@ -14,6 +14,7 @@ class PermisoHandler
     protected $idUsuario = null;
     protected $idTipoPermiso = null;
     protected $estado = null;
+    protected $idClasificacionPermiso = null;
     // NOT IDS
     protected $fechaInicio = null;
     protected $fechaFinal = null;
