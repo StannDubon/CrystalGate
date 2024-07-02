@@ -197,7 +197,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Credenciales incorrectas';
                 }
                 break;
-            default:
+                case 'firstUsage':
+                    $_POST = Validator::validateForm($_POST);
+                    if ($administrador->countAll()['num_rows'] !== "0") {
+                        $result['error'] = 'Ya hay un usuario en la base';
+                    } elseif(
+                        !$administrador->setNombre($_POST[POST_NOMBRE."FU"]) or
+                        !$administrador->setApellido($_POST[POST_APELLIDO."FU"]) or
+                        !$administrador->setCorreo($_POST[POST_CORREO."FU"]) or 
+                        !$administrador->setClave($_POST[POST_CLAVE."FU"])
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } elseif ($_POST[POST_CLAVE."FU"] != $_POST[POST_CLAVE_CONFIRMAR."FU"]) {
+                        $result['error'] = 'Contraseñas diferentes';
+                    } elseif($administrador->firstUsage()){
+                        $result['status'] = 1;
+                        $result['message'] = 'Perfil añadido correctamente';
+                    }
+                    break;
+                            default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
     }

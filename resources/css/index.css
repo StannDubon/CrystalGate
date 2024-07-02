@@ -190,10 +190,10 @@ body{
 
 #LOGIN_VIEW,
 #SIGNUP_VIEW{
-    display: none;
+    display: flex;
 }
 
-#LOGIN_VIEW.show,
-#SIGNUP_VIEW.show{
-    display: flex;
+#LOGIN_VIEW.hide,
+#SIGNUP_VIEW.hide{
+    display: none;
 }
