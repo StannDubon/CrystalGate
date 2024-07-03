@@ -33,9 +33,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $Cargo->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -47,9 +47,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma creado correctamente';
+                    $result['message'] = 'Language created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el idioma';
+                    $result['error'] = 'An error ocurred while creating the language';
                 }
                 break;
             case 'readAll':
@@ -57,7 +57,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen idiomas registrados';
+                    $result['error'] = 'There aren´t languages registered';
                 }
                 break;
             case 'readOne':
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $Cargo->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Idioma inexistente';
+                    $result['error'] = 'Non-existed language';
                 }
                 break;
             case 'updateRow':
@@ -79,10 +79,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma modificado correctamente';
+                    $result['message'] = 'Language edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el idioma';
+                    $result['error'] = 'An error ocurred while editing the language';
                 }
                 break;
             case 'deleteRow':
@@ -92,9 +92,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma eliminado correctamente';
+                    $result['message'] = 'Language deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el idioma';
+                    $result['error'] = 'An error ocurred while deleting the language';
                 }
                 break;
             case 'changeStatus':
@@ -108,11 +108,11 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'The status was updated successfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el cargo';
+                    $result['error'] = 'An error ocurred while editing the charge';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -121,8 +121,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Source not available'));
 }

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     setupModalDiscardButtons();
     loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoAdministrador");
-    // Petición para solicitar los tipos de peticiones (request types).
+    // Petición para solicitar los datos de la base.
     fillTypes();
     
 });
@@ -56,7 +56,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 closeModal = () => {
     SAVE_MODAL.classList.remove('show');
 }
-
+// Funcion para cargar los datos de la base
 const fillTypes = async (form = null) => {
 
     (form) ? action = 'searchRows' : action = 'readAll';
@@ -106,7 +106,7 @@ const fillTypes = async (form = null) => {
         BOX_TYPES.textContent = DATA.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeChargeStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this charge?');

@@ -89,6 +89,7 @@ function setupModalDiscardButtons() {
 
             if (modal) {
                 // Eliminar la clase "show" del contenedor principal
+                document.body.classList.remove('body-no-scroll');
                 modal.classList.remove("show");
             }
         });
