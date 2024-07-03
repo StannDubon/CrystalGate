@@ -274,6 +274,7 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
     const FORM = new FormData(SAVE_FORM_REJECT);
     FORM.append('idPermiso', PARAMS.get('id'));
     FORM.append('fechaEnvio', formattedDateTime);
+
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -295,6 +296,19 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
     }
 });
 
+function validateForm(event) {
+    let valid = true;
+
+    // Validar la razón de rechazo
+    if (!Validator.validateString(MODAL_REASON.value) || !Validator.validateLength(MODAL_REASON.value, 2, 300)) {
+        sweetAlert(3, 'Malo', false);
+        valid = false;
+    }
+
+    if (!valid) {
+        event.preventDefault();
+    }
+}
 
 const openRejectDesc = async() => {
     DESCRIPTION_MODAL.classList.add('show');

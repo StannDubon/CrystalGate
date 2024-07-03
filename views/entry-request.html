@@ -21,10 +21,10 @@
     <!-- DASHBOARD -->
     <link rel="stylesheet" href="../resources/css/entry-request.css">
 
-     <!-- CSS MODAL -->
-     <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+    <!-- CSS MODAL -->
+    <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
 
-     <link rel="stylesheet" href="../resources/css/custom-modals.css">
+    <link rel="stylesheet" href="../resources/css/custom-modals.css">
 </head>
 
 <body id="local-inbox">
@@ -168,7 +168,7 @@
                 </div>
             </div>
             <div class="" id="estado-utilities">
-                
+
             </div>
         </div>
     </main>
@@ -189,8 +189,7 @@
             <div class="modal-footer">
                 <!-- Botones del modal -->
                 <!-- Botón para cerrar el modal-->
-                <button id="btnCloseModal" class="btn-modal close" type="reset"
-                    onclick="closeModal()">Close</button>
+                <button id="btnCloseModal" class="btn-modal close" type="reset" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
@@ -202,11 +201,15 @@
                 <form id="reject-form">
                     <div class="main-modal-content">
 
-                        <input type="text" placeholder="Reason" name="descripcion" id="descripcion-modal" required>
-                    
+                        <input type="text" placeholder="Reason" name="descripcion" id="descripcion-modal"
+                            maxlength="300" minlength="2" pattern="[A-Za-z0-9\s,\.]{2,300}"
+                            title="Only letters, numbers, spaces, commas and periods allowed, between 2 and 300 characters."
+                            inputmode="text" required>
+
                     </div>
                     <div class="footer-modal-content">
-                        <button class="custom-modal-button-discard" type="button" onclick="closeModal()">Discard</button>
+                        <button class="custom-modal-button-discard" type="button"
+                            onclick="closeModal()">Discard</button>
                         <button class="custom-modal-button-save" type="submit">Save</button>
                     </div>
                 </form>
@@ -221,12 +224,13 @@
     <!-- CONTROLADORES GENERALES -->
     <script src="../controllers/utils/components.js"></script>
     <script src="../controllers/utils/template.js"></script>
+    <script src="../controllers/utils/validator.js"></script>
 
     <!-- CONTROLADORES ESPECIFICOS -->
-         <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+    <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
     <script src="../controllers/private/dashboard.js"></script>
     <!-- CODIGO PARA MOSTRAR EL CALENDARIO -->
-    <script src="../resources/js/calendar.js" defer></script> 
+    <script src="../resources/js/calendar.js" defer></script>
 
     <script src="../controllers/private/entry-request.js"></script>
 

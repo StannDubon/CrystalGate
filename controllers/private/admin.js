@@ -128,6 +128,9 @@ const fillTable = async (form = null) => {
     }
 }
 
+const openTypes = () => {
+    location.href = 'admin-type.html';
+}
 const openCreate = () => {
     SAVE_MODAL_ADMINISTRATOR.classList.add('show');
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';
