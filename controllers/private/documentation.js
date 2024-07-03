@@ -99,6 +99,9 @@ const openInfo = async (id) => {
         PETICION_INFO_MODAL_CORREO.textContent = ROW.correo;
         PETICION_INFO_MODAL_MODO_ENTREGA.textContent = ROW.modo_entrega;
         PETICION_INFO_MODAL.classList.add('show');
+        document.body.classList.add('body-no-scroll');
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        PETICION_INFO_MODAL.style.marginTop = window.scrollY + 'px';
     } else {
         sweetAlert(2, DATA.error, false);
     }

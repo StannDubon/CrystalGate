@@ -181,6 +181,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'permisos inexistentes';
                 }
                 break;
+            case 'readAllByStatus':
+                if (!$permiso->setestado($_POST[POST_ESTADO])) {
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->readAllByStatus()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'permisos inexistentes';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
