@@ -78,7 +78,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 });
 
 
-// Funcion para cerrar el modal
+// Funcion para cerrar los modals
 closeModalRequestType = () => {
     SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
 }
@@ -88,7 +88,7 @@ closeModalLanguages = () => {
 closeModalLocations = () => {
     SAVE_MODAL_LOCATIONS.classList.remove('show');
 }
-
+// Funcion para cargar los datos desde la base
 const fillRequestType = async (form = null) => {
 
     (form) ? action = 'searchRows' : action = 'readAll';
@@ -138,7 +138,7 @@ const fillRequestType = async (form = null) => {
         REQUEST_TYPE.textContent = DATA_REQUEST_TYPE.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeRequestStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this request?');
@@ -300,7 +300,7 @@ const fillLanguages = async (form = null) => {
         LANGUAGES.textContent = DATA_LANGUAGES.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeLanguageStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this language?');
@@ -463,7 +463,7 @@ const fillLocations = async (form = null) => {
         LOCATIONS.textContent = DATA_LOCATIONS.error;
     }
 }
-
+// Funcion para cambiar el estado del  registro seleccionado
 const changeLocationStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this location?');

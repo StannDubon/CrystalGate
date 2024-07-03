@@ -1,11 +1,12 @@
+// Constante para establecer la ruta de la api
 const ADMIN_API = 'services/admin/administrador.php';
-
+// Contantes para obtener los formularios de registro e inicio de sesión
 const SIGNUP_FORM = document.getElementById('signupForm');
 const LOGIN_FORM = document.getElementById('loginForm');
 
 const SIGNUP_VIEW = document.getElementById('SIGNUP_VIEW');
 const LOGIN_VIEW = document.getElementById('LOGIN_VIEW');
-
+// Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA = await fetchData(USER_API, 'readUsers');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+// Evento para cuando se envía el formulario de guardar
 LOGIN_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -35,6 +37,7 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+// Evento para cuando se envía el formulario de guardar
 SIGNUP_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
