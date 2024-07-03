@@ -100,6 +100,11 @@ main{
     align-items: center;
 }
 
+.icon{
+    cursor: pointer;
+    padding-inline: 5px;
+}
+
 /* Información de calendario */
 .calendar-container{
     height: calc(75% - 10px);
@@ -153,6 +158,8 @@ main{
     flex-direction: column;
     padding-bottom: 10px;
     padding-top: 10px;
+
+    cursor: pointer;
 }
 
 .attached-files div p{
