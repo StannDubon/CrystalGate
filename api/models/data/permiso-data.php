@@ -51,7 +51,21 @@ class PermisoData extends PermisoHandler
         }
     }
 
+    
+    public function setIdClasificacionPermiso($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->idClasificacionPermiso = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del tipo permiso es incorrecto';
+            return false;
+        }
+    }
+
+
     public function setestado($value)
+
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->estado = $value;

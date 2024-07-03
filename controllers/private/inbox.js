@@ -48,8 +48,15 @@ search = async (SEARCH_VALUE) => {
 }
 const fillPermissions = async (form = null) => {
 
-    (form) ? action = 'searchRows' : action = 'readAll';
+    if(form == null){
+        form = new FormData();
+    }
 
+    form.append('estado', 1);
+
+    // Se verifica la acción a realizar.
+    const searchValue = form.get("search");
+    const action = searchValue ? 'searchRows' : 'readAllByStatus';
     BOX_PERMISOS.innerHTML = '';
     // Petición para solicitar los tipos de peticiones (request types).
     const DATA = await fetchData(PERMISOS_API ,action,form); 

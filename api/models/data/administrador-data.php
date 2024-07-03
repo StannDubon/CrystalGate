@@ -101,6 +101,17 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    public function setSessionFilename()
+    {
+        if ($data = $this->readSessionFilename()) {
+            $this->filename = $data['imagen'];
+            return true;
+        } else {
+            $this->data_error = 'Administrador inexistente';
+            return false;
+        }
+    }
+
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 100)) {
@@ -117,6 +128,7 @@ class AdministradorData extends AdministradorHandler
             return true;
         }
     }
+
 
     // Método para obtener el error de los datos.
     public function getDataError()

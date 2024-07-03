@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Types</title>
+
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="../resources/css/poppins.css">
+    <!-- FONT MANAGER -->
+    <link rel="stylesheet" href="../resources/css/font-manager.css">
+    <!-- COLOR MANAGER -->
+    <link rel="stylesheet" href="../resources/css/color-manager.css">
+
+    <!-- PAGE TEMPLATE -->
+    <link rel="stylesheet" href="../resources/css/template.css">
+    <!-- TEMPLATE PERMISSION DISPLAY -->
+    <link rel="stylesheet" href="../resources/css/template-permission-display.css">
+    <!-- CSS FOR AUTHORIZATION MANAGER -->
+    <link rel="stylesheet" href="../resources/css/authorization-manager.css">
+
+    <link rel="stylesheet" href="../resources/css/custom-modals.css">
+
+    <link rel="stylesheet" href="../resources/css/template-permissions-top-buttons.css">
+
+    <!-- CSS MODAL -->
+    <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+</head>
+
+<body id="local-documentation-settings">
+
+    <div id="TEMPLATE"></div>
+
+    <main>
+        <div class="main-header">
+            <div class="main-title">
+                <p>Manage Admin Type</p>
+            </div>
+
+            <div class="main-utilities">
+                <form id="search-form"></form>
+                <div class="main-utilities-search">
+
+                    <input id="search-input" type="text" placeholder="Search">
+
+                    <div class="icon">
+                        <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--color-fondo-1)"
+                                d="M9.40824 0C4.22077 0 0 4.41239 0 9.83536C0 15.2583 4.22077 19.6707 9.40824 19.6707C10.883 19.6704 12.3278 19.3057 13.6287 18.6175C14.5518 18.1292 15.7243 18.1778 16.4461 18.9323L19.4687 22.0922C19.942 22.5869 20.7322 22.5869 21.2054 22.0922V22.0922C21.6499 21.6276 21.6499 20.8956 21.2054 20.431L18.0013 17.0814C17.3255 16.3749 17.2804 15.2914 17.7234 14.4198C18.4369 13.0156 18.8161 11.4426 18.8165 9.83536C18.8165 4.41239 14.5957 0 9.40824 0Z"
+                                fill="#888888" />
+                        </svg>
+                    </div>
+
+                </div>
+                </form>
+
+                <button onclick="openCreate()" class="" title="Add a request type">
+                    <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z"
+                            fill="white" stroke="white" stroke-width="0.5" />
+                    </svg>
+                    Add
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+
+            <div class="authorization-box">
+                <ul id="box-types">
+
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="modal-types" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title"></div>
+                <form id="save-form-types">
+                    <div class="main-modal-content">
+
+                        <input type="text" id="idTipoAdministrador" name="idTipoAdministrador" hidden>
+                        <input type="text" placeholder="Admin type" name="tipoAdministrador" id="tipoAdministrador"
+                            maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+
+                        <div id="swal-custom-status-chooser-req-type" class="swal-custom-status-chooser active">
+
+                            <input id="estadoTipoAdministrador" name="estadoTipoAdministrador" type="hidden"
+                                value="1"></input>
+
+                            <span class="swal-custom-toggle-inactive">Inactive</span>
+                            <span class="swal-custom-toggle-active">Active</span>
+                        </div>
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SWEET ALERTS -->
+    <script src="../resources/js/sweetalert.min.js"></script>
+
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+    <script src="../resources/js/swal-custom.js"></script>
+
+    <!-- CONTROLADORES ESPECIFICOS -->
+    <script src="../controllers/private/dashboard.js"></script>
+    <script src="../controllers/private/admin-types.js"></script>
+</body>
+
+</html>
