@@ -38,11 +38,13 @@
 
     <main>
         <div class="main-header">
+            <!-- Titulo del document -->
             <div class="main-title">
                 <p>Authorization Manager</p>
             </div>
 
             <div class="main-utilities">
+                <!-- Buscador -->
                 <form id="search-form"></form>
                 <div class="main-utilities-search">
 
@@ -58,7 +60,7 @@
 
                 </div>
                 </form>
-
+                <!-- Botón para crear una autorizacion -->
                 <button onclick="openCreateAuthorization()" class="" title="Add a authorization">
                     <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z" fill="white" stroke="white" stroke-width="0.5"/>
@@ -66,7 +68,7 @@
                         
                     Authorization
                 </button>
-
+                <!-- Botón para crear una sub-autorizacion -->
                 <button onclick="openCreateSubAuthorization()" class="" title="Add a sub authorization">
                     <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z" fill="white" stroke="white" stroke-width="0.5"/>
@@ -77,7 +79,7 @@
             </div>
         </div>
 
-        <!-- caja donde se mostrarán los datos de las tablas  -->
+        <!-- Caja donde se mostrarán los datos de las tablas  -->
         <div class="main-content">
             <div class="authorization-box" id="box-main-content">
             </div>
@@ -87,13 +89,16 @@
     <!-- ----------------------------------------------------- MODALS ----------------------------------------------------- -->
 
     <div id="authorization-custom-modal" class="custom-modal-container">
+        <!-- Contenedor del modal -->
         <div class="custom-modal-container-fixer">
             <div class="box-content">
+                <!-- Titulo del modal -->
                 <div class="tittle-modal-content" id="modal-title-authorization">Add An Authorization</div>
                 <form id="authorization-custom-form">
                     <div class="main-modal-content">
-
+                        <!-- input oculto para el id -->
                         <input type="text" id="idClasificacionPermiso" name="idClasificacionPermiso" hidden>
+                        <!-- Inputs del formulario -->
                         <input placeholder="Authorization" name="clasificacionPermiso" id="clasificacionPermiso" maxlength="50"
                         minlength="2" pattern="[A-Za-z\s]{2,50}"
                         title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text" required>
@@ -104,6 +109,7 @@
                             <span class="swal-custom-toggle-active">Active</span>
                         </div>
                     </div>
+                    <!-- Botones del modal -->
                     <div class="footer-modal-content">
                         <button class="custom-modal-button-discard" type="button">Discard</button>
                         <button class="custom-modal-button-save" type="submit">Save</button>
@@ -114,11 +120,13 @@
     </div>
 
     <div id="sub-authorization-custom-modal" class="custom-modal-container">
+        <!-- Contenedor del modal -->
         <div class="custom-modal-container-fixer">
             <div class="box-content">
+                <!-- Titulo del modal -->
                 <div class="tittle-modal-content" id="modal-title-sub-authorization">Add An Authorization</div>
                 <form id="sub-authorization-custom-form">
-
+                    <!-- input oculto para el id -->
                     <input type="text" id="idTipoPermiso" name="idTipoPermiso" hidden>
                     <div class="main-modal-content">
 
@@ -164,6 +172,7 @@
                         </div>
 
                     </div>
+                    <!-- Botones del modal -->
                     <div class="footer-modal-content">
                         <button class="custom-modal-button-discard" type="button">Discard</button>
                         <button class="custom-modal-button-save" type="submit">Save</button>
