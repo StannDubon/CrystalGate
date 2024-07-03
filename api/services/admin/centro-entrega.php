@@ -35,7 +35,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -47,17 +47,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega creado correctamente';
+                    $result['message'] = 'Place of pick up added succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el centro de entrega';
+                    $result['error'] = 'An error ocurred while creating the pick up place';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $CentroEntrega->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen centros de entrega registrados';
+                    $result['error'] = 'There aren´t places of pick up';
                 }
                 break;
             case 'readOne':
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $CentroEntrega->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Centros de entrega inexistente';
+                    $result['error'] = 'Pick up place non-existed';
                 }
                 break;
             case 'updateRow':
@@ -79,10 +79,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega modificado correctamente';
+                    $result['message'] = 'Pick up place edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el centro de entrega';
+                    $result['error'] = 'An error ocurred while editing the pick up place';
                 }
                 break;
             case 'deleteRow':
@@ -92,9 +92,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega eliminado correctamente';
+                    $result['message'] = 'Pick up place deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el centro de entrega';
+                    $result['error'] = 'An error ocurred while deleting the pick up place';
                 }
                 break;
             case 'changeStatus':
@@ -108,11 +108,11 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'The status was updated successfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
+                    $result['error'] = 'An error ocurred while editing the type of petition';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -121,8 +121,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Source not available'));
 }
