@@ -79,7 +79,10 @@ class AdministradorHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT * FROM tb_administradores WHERE id_administrador LIKE ?, tipo_administrador LIKE ?, nombre LIKE ?, apellido LIKE ?';
+        $sql = 'SELECT a.id_administrador, a.id_tipo_administrador, tpa.tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
+                FROM tb_administradores AS a
+                JOIN tb_tipos_administradores AS tpa
+                WHERE (a.id_administrador LIKE ? OR tpa.tipo_administrador LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ?) AND a.id_tipo_administrador = tpa.id_tipo_administrador';
         $params = array($value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }

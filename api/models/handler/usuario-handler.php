@@ -81,7 +81,7 @@ class UsuarioHandler
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT a.*, b.cargo 
                 FROM tb_usuarios a, tb_cargos b 
-                WHERE a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?';
+                WHERE (a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?) and a.id_cargo = b.id_cargo';
         $params = array($value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }

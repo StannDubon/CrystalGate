@@ -1,7 +1,8 @@
 const ADMINISTRATOR_API = 'services/admin/administrador.php',
     ADMINISTRATOR_TYPE_API = 'services/admin/tipo-administrador.php';
 // Constante para establecer el form e input de buscar.
-const SEARCH_INPUT = document.getElementById('search-input');
+const SEARCH_FORM = document.getElementById('search-form'),
+    SEARCH_INPUT = document.getElementById('search-input');
 const ADMINISTRATOR = document.getElementById('admin-main-cards-container');
 
 // Constantes para establecer los elementos del componente Modal.
@@ -25,12 +26,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let SEARCH_VALUE = '';
 
+// Método del evento para cuando se envía el formulario de buscar.
 SEARCH_INPUT.addEventListener('input', (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    SEARCH_VALUE = event.target.value;
-    search(SEARCH_VALUE);
-});
 
+    SEARCH_VALUE = event.target.value;
+
+    search(SEARCH_VALUE);
+   
+});
+search = async (SEARCH_VALUE) => {
+    const FORM = new FormData(SEARCH_FORM);
+
+    // Añadir el valor del input al FormData
+    FORM.append('search',SEARCH_VALUE);
+
+    if (SEARCH_VALUE !== ''){
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+
+        // Añadir el valor del input al FormData
+        FORM.append('search',SEARCH_VALUE);
+
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+       await fillTable(FORM);
+    }else{
+       await fillTable();
+    }
+}
 SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -128,6 +152,9 @@ const fillTable = async (form = null) => {
     }
 }
 
+const openTypes = () => {
+    location.href = 'admin-type.html';
+}
 const openCreate = () => {
     SAVE_MODAL_ADMINISTRATOR.classList.add('show');
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';

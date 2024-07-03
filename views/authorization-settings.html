@@ -94,7 +94,9 @@
                     <div class="main-modal-content">
 
                         <input type="text" id="idClasificacionPermiso" name="idClasificacionPermiso" hidden>
-                        <input placeholder="Authorization" name="clasificacionPermiso" id="clasificacionPermiso" required>
+                        <input placeholder="Authorization" name="clasificacionPermiso" id="clasificacionPermiso" maxlength="50"
+                        minlength="2" pattern="[A-Za-z\s]{2,50}"
+                        title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text" required>
                     
                         <div id="swal-custom-status-chooser-auth" class="swal-custom-status-chooser active">
                             <input id="estadoClasificacionPermiso" name="estadoClasificacionPermiso" type="hidden" value="1"></input>
@@ -120,7 +122,9 @@
                     <input type="text" id="idTipoPermiso" name="idTipoPermiso" hidden>
                     <div class="main-modal-content">
 
-                        <input placeholder="Sub Authorization" name="tipoPermiso" id="tipoPermiso" required>
+                        <input placeholder="Sub Authorization" name="tipoPermiso" id="tipoPermiso" maxlength="50"
+                        minlength="2" pattern="[A-Za-z\s]{2,50}"
+                        title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"  required>
                         <select class="swal-custom-select" id="selectIdClasificacionPermiso" name="idClasificacionPermiso"></select>
 
                         <div class="swal-custom-format-day-container" id="swal-custom-format-selector">
