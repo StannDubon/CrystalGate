@@ -31,12 +31,15 @@ class PeticionHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega 
-                FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
-                WHERE (a.modo_entrega LIKE ? OR d.idioma LIKE ? OR e.centro_entrega LIKE ? OR c.tipo_peticion LIKE ? OR a.estado LIKE ?)
-                AND a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
-                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega';
-        $params = array($value, $value);
+        $sql = "SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega, b.correo
+        FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
+        WHERE a.id_usuario = b.id_usuario
+          AND a.id_tipo_peticion = c.id_tipo_peticion 
+          AND a.id_idioma = d.id_idioma 
+          AND a.id_centro_entrega = e.id_centro_entrega
+          AND (b.nombre LIKE ? OR b.apellido LIKE ? OR b.id_usuario LIKE ? OR c.tipo_peticion LIKE ? OR d.idioma LIKE ? OR e.centro_entrega LIKE ? OR b.correo LIKE ? OR CONCAT(b.nombre, ' ', b.apellido) LIKE ?)
+        ";
+        $params = array($value, $value, $value, $value, $value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }
 
@@ -53,11 +56,10 @@ class PeticionHandler
 
     public function readAll()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega, b.correo
                 FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
-                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega
-                ORDER BY a.fecha_envio';
+                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega';
         return Database::getRows($sql);
     }
 
@@ -75,10 +77,10 @@ class PeticionHandler
 
     public function readOne()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega
-                FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
-                WHERE a.id_peticion = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
-                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega';
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega, b.correo
+            FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
+            WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
+            AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega AND a.id_peticion = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }

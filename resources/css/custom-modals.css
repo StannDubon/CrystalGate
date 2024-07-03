@@ -25,7 +25,7 @@
 }
 
 .custom-modal-container.show {
-  display: block;
+  display: flex;
 }
 
 .custom-modal-container.show .box-content {
@@ -33,18 +33,18 @@
 }
 
 .custom-modal-container {
-  height: 100vh;
-  width: 100vw;
   background-color: rgba(0, 0, 0, 0.473);
   position: absolute;
   z-index: 998;
   display: none;
   animation: fadeIn 0.5s ease;
+  width: 100%;
+  height: 100%;
 }
 
 .custom-modal-container .custom-modal-container-fixer {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -260,4 +260,8 @@
 .swal-custom-status-chooser.active .swal-custom-toggle-inactive{
     background-color: #D9D9D9;
     color: #7E7E7E;
+}
+
+.body-no-scroll {
+  overflow: hidden;
 }
