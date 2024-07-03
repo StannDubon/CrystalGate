@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
-    
+
     <!-- FUENTE -->
     <link rel="stylesheet" href="../resources/css/poppins.css">
-    
+
     <!-- COLOR MANAGER -->
     <link rel="stylesheet" href="../resources/css/color-manager.css">
 
@@ -54,9 +54,11 @@
 
                 <button onclick="openCreate()" class="" title="Add an admin">
                     <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z" fill="white" stroke="white" stroke-width="0.5"/>
-                        </svg>
-                        
+                        <path
+                            d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z"
+                            fill="white" stroke="white" stroke-width="0.5" />
+                    </svg>
+
                     Add An Administrator
                 </button>
                 <button onclick="openTypes()" class="" title="Manage admin types">
@@ -91,12 +93,22 @@
                     <div class="main-modal-content">
 
                         <input type="file" id="imagenAdministrador" name="imagenAdministrador" accept="image/*">
-                        <input placeholder="Name" name="nombreAdministrador" id="nombreAdministrador" required>
-                        <input placeholder="Last Name" name="apellidoAdministrador" id="apellidoAdministrador" required>
-                        <select class="swal-custom-select" id="selectIdTipoAdministrador" name="idTipoAdministrador"></select>
-                        <input placeholder="Email" name="correoAdministrador" id="correoAdministrador" required>
-                        <input placeholder="Password" name="claveAdministrador" id="claveAdministrador" required>
-                        <input placeholder="Confirm Password" name="confirmarClave" id="confirmarClave" required>
+                        <input type="text" placeholder="Name" name="nombreAdministrador" id="nombreAdministrador" maxlength="50"
+                            minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <input type="text" placeholder="Last Name" name="apellidoAdministrador" id="apellidoAdministrador"
+                            maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <select class="swal-custom-select" id="selectIdTipoAdministrador"
+                            name="idTipoAdministrador"></select>
+                        <input type="email" placeholder="Email" name="correoAdministrador" id="correoAdministrador"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                        <input type="password" placeholder="Password" name="claveAdministrador" id="claveAdministrador" maxlength="100"
+                            minlength="8" required>
+                        <input type="password" placeholder="Confirm Password" name="confirmarClave" id="confirmarClave" maxlength="100"
+                            minlength="8" required>
 
                     </div>
                     <div class="footer-modal-content">
