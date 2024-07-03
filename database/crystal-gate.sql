@@ -43,12 +43,6 @@ CREATE TABLE
         estado BOOLEAN DEFAULT TRUE
     );
 
-CREATE TABLE
-    tb_estados_permisos (
-        id_estado_permiso INT PRIMARY KEY AUTO_INCREMENT,
-        estado_permiso VARCHAR(50) UNIQUE,
-        estado BOOLEAN DEFAULT TRUE
-    );
 
 CREATE TABLE
     tb_cargos (

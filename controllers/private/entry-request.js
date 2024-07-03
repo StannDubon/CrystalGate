@@ -71,7 +71,7 @@ fillRequest = async(FORM) => {
             BOX_DOCUMENTO.classList.add('view-pdf');
             console.log(BOX_DOCUMENTO.classList);
             BOX_DOCUMENTO.innerHTML = `
-                <div class="icon">
+                <div class="icon" onclick="openFile('${ROW.documento_permiso}')">
                                     <svg width="44" height="55" viewBox="0 0 44 55" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -87,7 +87,7 @@ fillRequest = async(FORM) => {
         }else if(DOCUMENTO_EXTENSION === 'docx'){
             BOX_DOCUMENTO.classList.add('view-doc');
             BOX_DOCUMENTO.innerHTML = `
-                <div class="icon">
+                <div class="icon" onclick="openFile(${ROW.documento_permiso}) >
                                     <svg width="44" height="55" viewBox="0 0 44 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.5115 34.518C20.8147 34.518 19.8247 36.1323 19.8247 38.2938C19.8247 40.469 20.845 42.0063 22.528 42.0063C24.2247 42.0063 25.1982 40.3893 25.1982 38.2278C25.1982 36.2313 24.2412 34.518 22.5115 34.518Z" fill="white"/>
                                         <path d="M27.5 0H5.5C4.04131 0 2.64236 0.579462 1.61091 1.61091C0.579462 2.64236 0 4.04131 0 5.5V49.5C0 50.9587 0.579462 52.3576 1.61091 53.3891C2.64236 54.4205 4.04131 55 5.5 55H38.5C39.9587 55 41.3576 54.4205 42.3891 53.3891C43.4205 52.3576 44 50.9587 44 49.5V16.5L27.5 0ZM14.1762 42.4985C13.0047 43.472 11.2255 43.9313 9.05025 43.9313C7.744 43.9313 6.82275 43.8488 6.19575 43.7663V32.846C7.32042 32.684 8.45577 32.6077 9.592 32.6178C11.704 32.6177 13.0735 32.9972 14.1432 33.8058C15.2982 34.6637 16.0243 36.0332 16.0243 37.9912C16.0243 40.1225 15.2487 41.591 14.1762 42.4985ZM22.3988 44C19.0988 44 17.171 41.5085 17.171 38.3405C17.171 35.0103 19.2968 32.5215 22.5803 32.5215C25.993 32.5215 27.8575 35.0763 27.8575 38.1453C27.8547 41.789 25.6438 44 22.3988 44ZM35.2 41.9045C35.9562 41.9045 36.7978 41.7368 37.2955 41.5415L37.675 43.5023C37.213 43.7332 36.1735 43.9808 34.8232 43.9808C30.9815 43.9808 29.0015 41.591 29.0015 38.423C29.0015 34.6307 31.7048 32.5215 35.0708 32.5215C36.3743 32.5215 37.3615 32.7855 37.807 33.0165L37.2955 35.013C36.626 34.7363 35.9079 34.5961 35.1835 34.6005C33.187 34.6005 31.636 35.805 31.636 38.28C31.636 40.5047 32.956 41.9045 35.2 41.9045ZM27.5 19.25H24.75V5.5L38.5 19.25H27.5Z" fill="white"/>
@@ -189,6 +189,8 @@ const rejectPermission = async () => {
         }
 }
 
+
+
 const openAccept = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to approve the permission?');
@@ -274,6 +276,7 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
     const FORM = new FormData(SAVE_FORM_REJECT);
     FORM.append('idPermiso', PARAMS.get('id'));
     FORM.append('fechaEnvio', formattedDateTime);
+
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -294,7 +297,70 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
+//Funcion para copiar el email del empleado
+copyEmail = () => {
 
+    // Se obtieneel textContent
+    var texto = CORREO_EMPLEADO.textContent;
+    
+    // Se crea un elemento temporal de tipo textarea
+    var tempTextarea = document.createElement('textarea');
+    tempTextarea.value = texto;
+    
+    // Se añade el textarea temporal al documento
+    document.body.appendChild(tempTextarea);
+    
+    // Selecciona el contenido del textarea
+    tempTextarea.select();
+    tempTextarea.setSelectionRange(0, 99999); // Para móviles
+    
+    // Copia el contenido al portapapeles
+    document.execCommand('copy');
+    
+    // Elimina el textarea temporal
+    document.body.removeChild(tempTextarea);
+    
+    // Muestra una alerta o un mensaje de éxito
+    sweetAlert(1, 'Email copied to the clipboard', null);
+}
+
+//Funcion para descargar los archivos 
+// Parametros: filename (nombre del archivo)
+openFile = async(filename) => {
+    const filePath = SERVER_URL + 'documents/permiso/' + filename; 
+
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename; 
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        sweetAlert(2, 'There was a problem finding the file', false);
+    }
+}
+
+function validateForm(event) {
+    let valid = true;
+
+    // Validar la razón de rechazo
+    if (!Validator.validateString(MODAL_REASON.value) || !Validator.validateLength(MODAL_REASON.value, 2, 300)) {
+        sweetAlert(3, 'Malo', false);
+        valid = false;
+    }
+
+    if (!valid) {
+        event.preventDefault();
+    }
+}
 
 const openRejectDesc = async() => {
     DESCRIPTION_MODAL.classList.add('show');
