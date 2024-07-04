@@ -34,9 +34,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $Notificacion->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -50,17 +50,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Notificacion->getDataError();
                 } elseif ($Notificacion->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Notificación creada correctamente';
+                    $result['message'] = 'Notification created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear la notificación';
+                    $result['error'] = 'An error ocurred while creating the notification';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $Notificacion->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen notificaciones registradas';
+                    $result['error'] = 'There aren´t notifications registered';
                 }
                 break;
             case 'readOne':
@@ -69,7 +69,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $Notificacion->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Notificación inexistente';
+                    $result['error'] = 'Non-existent notification';
                 }
                 break;
             case 'readPermission':
@@ -78,7 +78,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $Notificacion->readPermission()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Notificación inexistente';
+                    $result['error'] = 'Non-existent notification';
                 }
                 break;
             case 'updateRow':
@@ -93,9 +93,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Notificacion->getDataError();
                 } elseif ($Notificacion->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Notificación modificada correctamente';
+                    $result['message'] = 'Notification edited succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la notificación';
+                    $result['error'] = 'An error ocurred while editing the notification';
                 }
                 break;
             case 'deleteRow':
@@ -103,13 +103,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Notificacion->getDataError();
                 } elseif ($Notificacion->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Notificación eliminada correctamente';
+                    $result['message'] = 'Notification deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la notificación';
+                    $result['error'] = 'An error ocurred while deleting the notification';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -118,9 +118,9 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }
 ?>
