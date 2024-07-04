@@ -78,7 +78,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 });
 
 
-// Funcion para cerrar el modal
+// Funcion para cerrar los modals
 closeModalRequestType = () => {
     SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
 }
@@ -88,7 +88,7 @@ closeModalLanguages = () => {
 closeModalLocations = () => {
     SAVE_MODAL_LOCATIONS.classList.remove('show');
 }
-
+// Funcion para cargar los datos desde la base
 const fillRequestType = async (form = null) => {
 
     (form) ? action = 'searchRows' : action = 'readAll';
@@ -138,7 +138,7 @@ const fillRequestType = async (form = null) => {
         REQUEST_TYPE.textContent = DATA_REQUEST_TYPE.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeRequestStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this request?');
@@ -190,6 +190,9 @@ SAVE_FORM_REQUEST_TYPE.addEventListener('submit', async (event) => {
 const openCreateRequestType = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_REQUEST_TYPE.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_REQUEST_TYPE.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE.textContent = 'Add a request type';
     // Se prepara el formulario.
     SAVE_FORM_REQUEST_TYPE.reset();
@@ -210,6 +213,9 @@ const openUpdateRequestType = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_REQUEST_TYPE.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_REQUEST_TYPE.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE.textContent = 'Update request type';
         // Se prepara el formulario.
         SAVE_FORM_REQUEST_TYPE.reset();
@@ -300,7 +306,7 @@ const fillLanguages = async (form = null) => {
         LANGUAGES.textContent = DATA_LANGUAGES.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeLanguageStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this language?');
@@ -352,6 +358,9 @@ SAVE_FORM_LANGUAGES.addEventListener('submit', async (event) => {
 const openCreateLanguage = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_LANGUAGES.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LANGUAGES.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_LANGUAGES.textContent = 'Add a document language';
     // Se prepara el formulario.
     SAVE_FORM_LANGUAGES.reset();
@@ -372,6 +381,9 @@ const openUpdateLanguage = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_LANGUAGES.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LANGUAGES.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_LANGUAGES.textContent = 'Update document language';
         // Se prepara el formulario.
         SAVE_FORM_LANGUAGES.reset();
@@ -463,7 +475,7 @@ const fillLocations = async (form = null) => {
         LOCATIONS.textContent = DATA_LOCATIONS.error;
     }
 }
-
+// Funcion para cambiar el estado del  registro seleccionado
 const changeLocationStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this location?');
@@ -515,6 +527,9 @@ SAVE_FORM_LOCATIONS.addEventListener('submit', async (event) => {
 const openCreateLocation = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_LOCATIONS.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LOCATIONS.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_LOCATIONS.textContent = 'Add a location';
     // Se prepara el formulario.
     SAVE_FORM_LOCATIONS.reset();
@@ -535,6 +550,9 @@ const openUpdateLocation = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_LOCATIONS.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LOCATIONS.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_LOCATIONS.textContent = 'Update location';
         // Se prepara el formulario.
         SAVE_FORM_LOCATIONS.reset();

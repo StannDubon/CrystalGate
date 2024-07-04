@@ -158,6 +158,9 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE.textContent = 'Add a charge';
     // Se prepara el formulario.
     SAVE_FORM.reset();
@@ -178,6 +181,9 @@ const openUpdate = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE.textContent = 'Update charge';
         // Se prepara el formulario.
         SAVE_FORM.reset();

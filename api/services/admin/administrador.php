@@ -39,6 +39,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Método para buscar datos en la tabla
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -49,6 +50,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Método para insertar un registro en la tabla
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -70,6 +72,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while creating the administrator';
                 }
                 break;
+            // Metodo para mostrar todos los registros de la tabla
             case 'readAll':
                 if ($result['dataset'] = $administrador->readAll()) {
                     $result['status'] = 1;
@@ -78,6 +81,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t registered administrators';
                 }
                 break;
+            // Metodo para leer un registro
             case 'readOne':
                 if (!$administrador->setId($_POST[POST_ID])) {
                     $result['error'] = 'Invalid administrator';
@@ -87,6 +91,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent administrator';
                 }
                 break;
+            // Metodo para actualizar un registro
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -107,6 +112,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while editing the administrator';
                 }
                 break;
+            // Metodo para borrar un registro
             case 'deleteRow':
                 if ($_POST[POST_ID] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'You can´t delete yourself';
@@ -119,6 +125,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while deleting the administrator';
                 }
                 break;
+            // Metodo para obtener el usuario
             case 'getUser':
                 if (isset($_SESSION['correoAdministrador'])) {
                     $result['status'] = 1;
@@ -127,6 +134,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Admin user undefined';
                 }
                 break;
+            // Metodo para cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -135,6 +143,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while login out';
                 }
                 break;
+            // Metodo para leer la informacion de perfil
             case 'readProfile':
                 if ($result['dataset'] = $administrador->readProfile()) {
                     $result['status'] = 1;
@@ -142,6 +151,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while reading the profile';
                 }
                 break;
+            // Metodo para editar la informacion del perfil
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -161,6 +171,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while editing the profile';
                 }
                 break;
+            // Metodo para cambiar la contraseña
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$administrador->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
@@ -182,6 +193,7 @@ if (isset($_GET['action'])) {
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
+            // Metodo para leer todos los administradores
             case 'readUsers':
                 if ($administrador->readAll()) {
                     $result['status'] = 1;
@@ -190,6 +202,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'You need to create an administrator to start';
                 }
                 break;
+            // Metodo para iniciar sesión
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
@@ -199,25 +212,33 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Wrong credentials';
                 }
                 break;
-                case 'firstUsage':
-                    $_POST = Validator::validateForm($_POST);
-                    if ($administrador->countAll()['num_rows'] !== "0") {
-                        $result['error'] = 'There isn´t an user in the database';
-                    } elseif(
-                        !$administrador->setNombre($_POST[POST_NOMBRE."FU"]) or
-                        !$administrador->setApellido($_POST[POST_APELLIDO."FU"]) or
-                        !$administrador->setCorreo($_POST[POST_CORREO."FU"]) or 
-                        !$administrador->setClave($_POST[POST_CLAVE."FU"])
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($_POST[POST_CLAVE."FU"] != $_POST[POST_CLAVE_CONFIRMAR."FU"]) {
-                        $result['error'] = 'Differents Passwords';
-                    } elseif($administrador->firstUsage()){
-                        $result['status'] = 1;
-                        $result['message'] = 'Profile added succesfully';
-                    }
-                    break;
-                            default:
+            // Metodo para obtener el total de administradores registrados
+            case 'countAll':
+                if ($administrador->countAll()['num_rows'] > "0") {
+                    $result['status'] = 1;
+                    $result['error'] = 'There isn´t an user in the database';
+                }
+                break;
+            // Metodo para registrar un nuevo administrador (primer uso)
+            case 'firstUsage':
+                $_POST = Validator::validateForm($_POST);
+                if ($administrador->countAll()['num_rows'] = "0") {
+                    $result['error'] = 'There isn´t an user in the database';
+                } elseif(
+                    !$administrador->setNombre($_POST[POST_NOMBRE."FU"]) or
+                    !$administrador->setApellido($_POST[POST_APELLIDO."FU"]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO."FU"]) or 
+                    !$administrador->setClave($_POST[POST_CLAVE."FU"])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST[POST_CLAVE."FU"] != $_POST[POST_CLAVE_CONFIRMAR."FU"]) {
+                    $result['error'] = 'Differents Passwords';
+                } elseif($administrador->firstUsage()){
+                    $result['status'] = 1;
+                    $result['message'] = 'Profile added succesfully';
+                }
+                break;
+            default:
                 $result['error'] = 'Action not available out of the session';
         }
     }

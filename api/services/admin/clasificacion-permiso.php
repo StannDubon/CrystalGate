@@ -6,10 +6,9 @@ const POST_ID = "idClasificacionPermiso";
 const POST_CLASIFICACION = "clasificacionPermiso";
 const POST_ESTADO = "estadoClasificacionPermiso";
 
-
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -28,6 +27,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -38,6 +38,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -47,28 +48,31 @@ if (isset($_GET['action'])) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language created succesfully';
+                    $result['message'] = 'Permission classification created succesfully';
                 } else {
-                    $result['error'] = 'An error ocurred while creating the language';
+                    $result['error'] = 'An error ocurred while creating the Permission classification';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $ClasificacionPermiso->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'There aren´t languages registered';
+                    $result['error'] = 'There aren´t Permission classifications registered';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$ClasificacionPermiso->setId($_POST[POST_ID])) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($result['dataset'] = $ClasificacionPermiso->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Non-existent language';
+                    $result['error'] = 'Non-existent Permission classification';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -79,12 +83,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language edited succesfully';
+                    $result['message'] = 'Permission classification edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'An error ocurred while editing the language';
+                    $result['error'] = 'An error ocurred while editing the Permission classification';
                 }
                 break;
+            // Caso para eliminar un registro.
             case 'deleteRow':
                 if (
                     !$ClasificacionPermiso->setId($_POST[POST_ID])
@@ -92,19 +97,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($ClasificacionPermiso->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language deleted succesfully';
+                    $result['message'] = 'Permission classification deleted succesfully';
                 } else {
-                    $result['error'] = 'An error ocurred while deleting the language';
+                    $result['error'] = 'An error ocurred while deleting the Permission classification';
                 }
                 break;
+            // Caso para leer datos utilizables.
             case 'readUsableData':
                 if ($result['dataset'] = $ClasificacionPermiso->readUsableData()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'There aren´t languages registered';
+                    $result['error'] = 'There aren´t Permission classifications registered';
                 }
                 break;
+            // Caso para cambiar el estado de un registro.
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -114,11 +121,11 @@ if (isset($_GET['action'])) {
                 } elseif ($ClasificacionPermiso->changeStatus()) {
                     $result['status'] = 1;
                     $result['message'] = 'The status was updated successfully';
-                    // Se asigna el estado del archivo después de actualizar.
                 } else {
                     $result['error'] = 'An error ocurred while editing the type of petition';
                 }
                 break;
+            // Caso predeterminado.
             default:
                 $result['error'] = 'Action not available in the session';
         }
