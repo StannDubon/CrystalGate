@@ -160,12 +160,8 @@ const acceptPermission = async () => {
 
         const DATA = await fetchData(PERMISO_API, 'updateState', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if ( DATA.status) {
-            // Se muestra un mensaje de éxito.
-            await sweetAlert(1, DATA.message, true);
-            // Se define una constante tipo objeto con los datos del registro seleccionado.
-            
-            fillRequest();
+        if (DATA.status) {
+
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -180,7 +176,7 @@ const rejectPermission = async () => {
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if ( DATA.status) {
             // Se muestra un mensaje de éxito.
-            await sweetAlert(1, DATA.message, true);
+          //  await sweetAlert(1, DATA.message, true);
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             
             fillRequest();
@@ -222,8 +218,11 @@ const openAccept = async () => {
         if ( DATA.status) {
             // Se acepta el permiso
             acceptPermission();
-            //Se recarga la página
-            location.reload();
+            const RESPONSE = await confirmActionSuccess('Permission approved successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -284,14 +283,14 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
         // Se cierra la caja de diálogo.
         REJECT_MODAL.classList.remove('show');
         // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se acepta el permiso
         rejectPermission();
-        //Se recarga la página
-        // Recarga la página después de 1.5 segundos (1500 milisegundos)
-        setTimeout(() => {
+        const RESPONSE = await confirmActionSuccess('Permission rejected successfully');
+        if(RESPONSE){
+            //Se recarga la página
             location.reload();
-        }, 1500);
+            // Se acepta el permiso
+            
+        }
         
     } else {
         sweetAlert(2, DATA.error, false);

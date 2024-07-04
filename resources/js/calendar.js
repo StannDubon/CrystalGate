@@ -14,6 +14,9 @@ const months = ["January", "February", "March", "April", "May", "June", "July",
 let startDate = null;
 let endDate = null;
 
+let currYear = ''; 
+let currMonth = '';
+
 // Función para establecer las variables de año y mes
 const setVariables = (start) => {
     currYear = start.getFullYear(),

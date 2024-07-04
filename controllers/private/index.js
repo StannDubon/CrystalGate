@@ -44,7 +44,10 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
     const DATA = await fetchData(USER_API, 'countAll');
     // Se comprueba si hay ya un administrador registrado.
     if(DATA.status) {
-        sweetAlert(2, 'There is already a registered administrator', false);
+        const RESPONSE = await confirmActionError('There is already a registered administrator', false);
+        if(RESPONSE){
+            location.reload();
+        }
     } else {
         // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SIGNUP_FORM);
