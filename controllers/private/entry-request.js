@@ -239,6 +239,9 @@ closeModal = () =>{
 
 const openDesc = async() => {
     DESCRIPTION_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        DESCRIPTION_MODAL.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_DESC.textContent = ('Permission description');
     const FORM = new FormData();
     FORM.append('idPermiso', PARAMS.get('id'));
@@ -251,6 +254,9 @@ const openDesc = async() => {
 }
 const openReject = () => {
     REJECT_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        REJECT_MODAL.style.marginTop = window.scrollY + 'px';
     // Se prepara el formulario.
     SAVE_FORM_REJECT.reset();
 }
@@ -363,6 +369,9 @@ function validateForm(event) {
 
 const openRejectDesc = async() => {
     DESCRIPTION_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        DESCRIPTION_MODAL.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_DESC.textContent = ('REJECT REASON');
 
     const FORM = new FormData();

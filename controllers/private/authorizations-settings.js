@@ -168,6 +168,9 @@ const openCreateAuthorization = () => {
     // Se muestra la caja de diálogo con su título.
     setStatusSelectorFromApi('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
     SAVE_MODAL_AUTHORIZATION.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_AUTHORIZATION.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_AUTHORIZATION.textContent = 'Add An Authorization';
     // Se prepara el formulario.
     SAVE_FORM_AUTHORIZATION.reset();
@@ -188,6 +191,9 @@ const openUpdateAuthorization = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_AUTHORIZATION.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_AUTHORIZATION.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_AUTHORIZATION.textContent = 'Update authorization';
         // Se prepara el formulario.
         SAVE_FORM_AUTHORIZATION.reset();
@@ -383,6 +389,9 @@ const openCreateSubAuthorization = () => {
     loadFormatSelectorJs();
     setStatusSelectorFromApi('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
     SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_SUB_AUTHORIZATION.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Add a sub authorization';
     // Se prepara el formulario.
     
@@ -405,6 +414,9 @@ const openUpdateSubAuthorization = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_SUB_AUTHORIZATION.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Update sub authorization';
         // Se prepara el formulario.
         SAVE_FORM_SUB_AUTHORIZATION.reset();

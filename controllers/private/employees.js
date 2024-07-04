@@ -132,6 +132,9 @@ const openCharges = () => {
 // Función para abrir el formulario de creación de empleado
 const openCreate = () => {
     SAVE_MODAL_EMPLEADO.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_EMPLEADO.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_EMPLEADO.textContent = 'Add An Employee';
     SAVE_FORM_EMPLEADO.reset();
     fillSelect(CARGO_API, 'readAll', 'idCargo');
@@ -144,6 +147,9 @@ const openUpdate = async (id) => {
     const DATA = await fetchData(EMPLEADO_API, 'readOne', FORM);
     if (DATA.status) {
         SAVE_MODAL_EMPLEADO.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_EMPLEADO.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_EMPLEADO.textContent = 'Update Employee';
         SAVE_FORM_EMPLEADO.reset();
         const ROW = DATA.dataset;

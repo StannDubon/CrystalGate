@@ -122,6 +122,9 @@ const openProfile = async() => {
     const DATA = await fetchData(USER_API, 'readProfile');
 
     PROFILE_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        PROFILE_MODAL.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_PROFILE.textContent = 'Update profile info';
         // Se prepara el formulario.
         PROFILE_FORM.reset();
@@ -139,6 +142,9 @@ const openProfile = async() => {
 const openPassword = () => {
     // Se abre la caja de diálogo que contiene el formulario.
     PASSWORD_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        PASSWORD_MODAL.style.marginTop = window.scrollY + 'px';
     // Se restauran los elementos del formulario.
 
     MODAL_TITLE_PASSWORD.textContent = 'Change password';
