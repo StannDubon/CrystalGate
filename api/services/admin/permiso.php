@@ -105,7 +105,7 @@ if (isset($_GET['action'])) {
                     } elseif ($result['dataset'] = $permiso->readAllPendings()) {
                         $result['status'] = 1;
                     } else {
-                        $result['error'] = 'non-existent permission';
+                        $result['error'] = 'non-existent pendings permissions';
                     }
                     break;
             case 'readCategory':
