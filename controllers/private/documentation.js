@@ -82,6 +82,10 @@ const fillTable = async (form = null) => {
     }
 };
 
+openSettings = () => {
+    location.href = "documentation-settings.html"
+}
+
 // Función asincrónica para abrir la información de una solicitud
 const openInfo = async (id) => {
     const FORM = new FormData();

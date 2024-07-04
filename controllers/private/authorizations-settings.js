@@ -29,12 +29,14 @@ const SAVE_FORM_AUTHORIZATION = document.getElementById('authorization-custom-fo
 
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    loadTemplate(); // Carga la plantilla.
-    setupModalDiscardButtons(); // Configura los botones de descarte del modal.
-    loadFormatSelectorJs(); // Carga el selector de formato JS.
-    loadStatusSelectorJs('swal-custom-status-chooser-auth', "estadoClasificacionPermiso"); // Carga el selector de estado JS para autorizaciones.
-    loadStatusSelectorJs('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso"); // Carga el selector de estado JS para sub-autorizaciones.
-    await fillAuthorizations(); // Llena las autorizaciones.
+    
+    loadTemplate();
+    setupModalDiscardButtons();
+    loadFormatSelectorJs();
+    loadStatusSelectorJs('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
+    loadStatusSelectorJs('swal-custom-status-chooser-sub-auth', "estadoTipoPermiso");
+    await fillAuthorizations();
+    
 });
 
 let SEARCH_VALUE = '';
@@ -44,9 +46,10 @@ SEARCH_INPUT.addEventListener('input', (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    SEARCH_VALUE = event.target.value; // Actualiza el valor de búsqueda.
+    SEARCH_VALUE = event.target.value;
 
-    search(SEARCH_VALUE); // Realiza la búsqueda.
+    search(SEARCH_VALUE);
+   
 });
 
 // Método del evento para cuando se envía el formulario de guardar en Request Type.
@@ -72,33 +75,35 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
     }
 });
 
+
 search = async (SEARCH_VALUE) => {
     const FORM = new FormData(SEARCH_FORM);
 
     // Añadir el valor del input al FormData
-    FORM.append('search', SEARCH_VALUE);
+    FORM.append('search',SEARCH_VALUE);
 
-    if (SEARCH_VALUE !== '') {
+    if (SEARCH_VALUE !== ''){
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SEARCH_FORM);
 
         // Añadir el valor del input al FormData
-        FORM.append('search', SEARCH_VALUE);
+        FORM.append('search',SEARCH_VALUE);
 
         // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
-        await fillAuthorizations(FORM);
-        await fillSubAuthorization(FORM);
-    } else {
-        await fillAuthorizations();
-        await fillSubAuthorization();
+       await fillAuthorizations(FORM);
+       await fillSubAuthorization(FORM);
+    }else{
+       await fillAuthorizations();
+       await fillSubAuthorization();
     }
 }
 
 // Funcion para cerrar el modal
-closeModal = () => {
-    if (SAVE_MODAL_AUTHORIZATION.classList.contains('show')) {
+
+closeModal = () =>{
+    if(SAVE_MODAL_AUTHORIZATION.classList.contains('show') ){
         SAVE_MODAL_AUTHORIZATION.classList.remove('show');
-    } else if (SAVE_MODAL_SUB_AUTHORIZATION.classList.contains('show')) {
+    }else if(SAVE_MODAL_SUB_AUTHORIZATION.classList.contains('show')){
         SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
     }
 }
@@ -109,7 +114,7 @@ const fillAuthorizations = async (form = null) => {
 
     AUTHORIZATION.innerHTML = '';
     // Petición para solicitar los tipos de peticiones (request types).
-    const DATA_AUTHORIZATION = await fetchData(AUTHORIZATION_API, action, form);
+    const DATA_AUTHORIZATION = await fetchData(AUTHORIZATION_API,action,form); 
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA_AUTHORIZATION.status) {
         // Se inicializa el contenedor de productos.
@@ -118,9 +123,9 @@ const fillAuthorizations = async (form = null) => {
         DATA_AUTHORIZATION.dataset.forEach(row => {
 
             let reqLocStatusColor = null
-            if (row.estado == 1) {
+            if(row.estado == 1){
                 reqLocStatusColor = "#8DDA8C"
-            } else {
+            } else{
                 reqLocStatusColor = "#F54C60"
             }
             // Se crean y concatenan las filas con los datos de cada tipo de request.
@@ -144,230 +149,166 @@ const fillAuthorizations = async (form = null) => {
             </div>
             `;
         });
-        fillSubAuthorization(); // Llena las sub autorizaciones.
-        loadTemplate(); // Carga la plantilla.
+        fillSubAuthorization();
+        loadTemplate();
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         AUTHORIZATION.textContent = DATA_AUTHORIZATION.error;
     }
 }
 
+
+
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
 *   Retorno: ninguno.
 */
-function openCreateAuthorization() {
-    // Se asigna el título para la caja de diálogo (modal).
-    MODAL_TITLE_AUTHORIZATION.textContent = 'Agregar Tipo de Permiso';
-    // Se abre la caja de diálogo (modal) que contiene el formulario.
+const openCreateAuthorization = () => {
+    // Se muestra la caja de diálogo con su título.
+    setStatusSelectorFromApi('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
     SAVE_MODAL_AUTHORIZATION.classList.add('show');
-    // Se establece el campo de estado como visible
-    document.getElementById('state-form-group').style.display = "none";
-    // Se restablecen los elementos del formulario.
+    MODAL_TITLE_AUTHORIZATION.textContent = 'Add An Authorization';
+    // Se prepara el formulario.
     SAVE_FORM_AUTHORIZATION.reset();
-    // Se establece el campo oculto con el valor inicial.
-    ID_AUTHORIZATION.value = '';
 }
 
 /*
-*   Función para abrir la caja de diálogo con el formulario al momento de actualizar un registro.
-*   Parámetros: ninguno.
+*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-async function openUpdateAuthorization(id_clasificacion_permiso) {
-    // Se restablecen los elementos del formulario.
-    SAVE_FORM_AUTHORIZATION.reset();
-    // Se establece el campo oculto con el valor inicial.
-    ID_AUTHORIZATION.value = '';
-
-    // Se establece el título para la caja de diálogo (modal).
-    MODAL_TITLE_AUTHORIZATION.textContent = 'Actualizar Tipo de Permiso';
-    // Se abre la caja de diálogo (modal) que contiene el formulario.
-    SAVE_MODAL_AUTHORIZATION.classList.add('show');
-    // Se establece el campo de estado como visible
-    document.getElementById('state-form-group').style.display = "block";
-
-    // Constante tipo objeto con los datos del registro solicitado.
+const openUpdateAuthorization = async (id) => {
+    // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_clasificacion_permiso', id_clasificacion_permiso);
+    FORM.append('idClasificacionPermiso', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(AUTHORIZATION_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se inicializan los campos del formulario.
-        ID_AUTHORIZATION.value = DATA.dataset.id_clasificacion_permiso;
-        CLASIFICACION_PERMISO.value = DATA.dataset.clasificacion_permiso;
-        ESTADO_CLASIFICACION_PERMISO.value = DATA.dataset.estado;
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODAL_AUTHORIZATION.classList.add('show');
+        MODAL_TITLE_AUTHORIZATION.textContent = 'Update authorization';
+        // Se prepara el formulario.
+        SAVE_FORM_AUTHORIZATION.reset();
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        ID_AUTHORIZATION.value = ROW.id_clasificacion_permiso;
+        CLASIFICACION_PERMISO.value = ROW.clasificacion_permiso;
+        ESTADO_CLASIFICACION_PERMISO.value = ROW.estado;
+        setStatusSelectorFromApi('swal-custom-status-chooser-auth', "estadoClasificacionPermiso");
     } else {
-        sweetAlert(2, DATA.exception, false);
+        sweetAlert(2, DATA.error, false);
     }
 }
 
 /*
-*   Función para establecer el registro a eliminar en el formulario.
-*   Parámetros: ninguno.
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-function openDeleteAuthorization(id_clasificacion_permiso) {
-    // Se define un objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('id_clasificacion_permiso', id_clasificacion_permiso);
-
-    confirmDelete(FORM);
+const openDeleteAuthorization = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to delete the authorization permanently?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idClasificacionPermiso', id);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(AUTHORIZATION_API, 'deleteRow', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la fila para visualizar los cambios.
+            await fillAuthorizations();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
 }
 
-/*
-*   Función asíncrona para llenar la tabla con los datos de los registros.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
+const changeAuthorizationStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this authorization?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idClasificacionPermiso', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(AUTHORIZATION_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillAuthorizations();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+
+// Métodos para la tabla de DOCUMENT_LANGUAGES
 const fillSubAuthorization = async (form = null) => {
+    const action = form ? 'searchRows' : 'readAll';
 
-    (form) ? action = 'searchRows' : action = 'readAll';
 
-    // Petición para obtener los datos del registro solicitado.
     const DATA_SUB_AUTHORIZATION = await fetchData(SUB_AUTHORIZATION_API, action, form);
+
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA_SUB_AUTHORIZATION.status) {
+        let BOX_SUB_AUTHORIZATION = {};
+
+        // Construir una lista de IDs de las box de sub autorizaciones
         DATA_SUB_AUTHORIZATION.dataset.forEach(row => {
-            // Se obtiene el ul correspondiente al id_clasificacion_permiso
-            let authorization_ul = document.getElementById(`box-${row.id_clasificacion_permiso}`);
-            if (authorization_ul) {
-                authorization_ul.innerHTML += `
-                <li class="row main">
-                    <div class="column main">
-                        <span class="title">${row.tipo_permiso}</span>
-                    </div>
-                    <div class="column">
-                        <button onclick="openUpdateSubAuthorization(${row.id_tipo_permiso})">Edit</button>
-                        <button onclick="openDeleteSubAuthorization(${row.id_tipo_permiso})">Delete</button>
-                    </div>
-                </li>
-                `;
+            const boxId = 'box-' + row.id_clasificacion_permiso;
+            if (!BOX_SUB_AUTHORIZATION[boxId]) {
+                BOX_SUB_AUTHORIZATION[boxId] = [];
+            }
+            BOX_SUB_AUTHORIZATION[boxId].push(row);
+        });
+
+        // Limpiar el contenido de cada box antes de llenarla con nuevos datos
+        Object.keys(BOX_SUB_AUTHORIZATION).forEach(boxId => {
+            const boxElement = document.getElementById(boxId);
+            if (boxElement) {
+                boxElement.innerHTML = '';
+                BOX_SUB_AUTHORIZATION[boxId].forEach(row => {
+                    let reqLocStatusColor = null
+            
+                    if(row.estado == 1){
+                        reqLocStatusColor = "#8DDA8C"
+                    } else{
+                        reqLocStatusColor = "#F54C60"
+                    }
+                    boxElement.innerHTML += `
+                        <li>
+                            <div class="authorization-action-button">
+                                <div class="authorization-delete-button" onclick="openDeleteSubAuthorization(${row.id_tipo_permiso})"><svg width="14" height="16"
+                                        viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z"
+                                            fill="white" />
+                                    </svg></div>
+                                <div class="authorization-edit-button" onclick="openUpdateSubAuthorization(${row.id_tipo_permiso})"><svg width="13" height="16"
+                                        viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z"
+                                            fill="white" />
+                                    </svg></div>
+                            </div>
+                            <span>${row.tipo_permiso}</span>
+                            <div class="authorization-status-button" style="background-color: ${reqLocStatusColor};" onclick="changeSubAuthorizationStatus(${row.id_tipo_permiso})"></div>
+                        </li>
+                    `;
+                });
             }
         });
-        loadTemplate(); // Carga la plantilla.
     } else {
-        sweetAlert(2, DATA_SUB_AUTHORIZATION.exception, false);
-    }
-}
-
-/*
-*   Función para preparar el formulario al momento de insertar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-function openCreateSubAuthorization() {
-    // Se asigna el título para la caja de diálogo (modal).
-    MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Agregar Sub Autorización';
-    // Se abre la caja de diálogo (modal) que contiene el formulario.
-    SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
-    // Se establece el campo de estado como visible
-    document.getElementById('sub-state-form-group').style.display = "none";
-    // Se restablecen los elementos del formulario.
-    SAVE_FORM_SUB_AUTHORIZATION.reset();
-    // Se establece el campo oculto con el valor inicial.
-    ID_SUB_AUTHORIZATION.value = '';
-}
-
-/*
-*   Función para abrir la caja de diálogo con el formulario al momento de actualizar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-async function openUpdateSubAuthorization(id_tipo_permiso) {
-    // Se restablecen los elementos del formulario.
-    SAVE_FORM_SUB_AUTHORIZATION.reset();
-    // Se establece el campo oculto con el valor inicial.
-    ID_SUB_AUTHORIZATION.value = '';
-
-    // Se establece el título para la caja de diálogo (modal).
-    MODAL_TITLE_SUB_AUTHORIZATION.textContent = 'Actualizar Sub Autorización';
-    // Se abre la caja de diálogo (modal) que contiene el formulario.
-    SAVE_MODAL_SUB_AUTHORIZATION.classList.add('show');
-    // Se establece el campo de estado como visible
-    document.getElementById('sub-state-form-group').style.display = "block";
-
-    // Constante tipo objeto con los datos del registro solicitado.
-    const FORM = new FormData();
-    FORM.append('id_tipo_permiso', id_tipo_permiso);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(SUB_AUTHORIZATION_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se inicializan los campos del formulario.
-        ID_SUB_AUTHORIZATION.value = DATA.dataset.id_tipo_permiso;
-        TIPO_PERMISO.value = DATA.dataset.tipo_permiso;
-        LAPSO_PERMISO.value = DATA.dataset.lapso_permiso;
-        ESTADO_TIPO_PERMISO.value = DATA.dataset.estado;
-        SELECT_ID_AUTHORIZATION.value = DATA.dataset.id_clasificacion_permiso;
-    } else {
-        sweetAlert(2, DATA.exception, false);
-    }
-}
-
-/*
-*   Función para establecer el registro a eliminar en el formulario.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-function openDeleteSubAuthorization(id_tipo_permiso) {
-    // Se define un objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('id_tipo_permiso', id_tipo_permiso);
-
-    confirmDelete(FORM);
-}
-
-/*
-*   Función asíncrona para enviar los datos del formulario.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se verifica la acción a realizar.
-    (ID_SUB_AUTHORIZATION.value) ? action = 'updateRow' : action = 'createRow';
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SAVE_FORM_SUB_AUTHORIZATION);
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(SUB_AUTHORIZATION_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se cierra la caja de diálogo.
-        SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la lista para visualizar los cambios.
-        await fillSubAuthorization();
-    } else {
-        sweetAlert(2, DATA.exception, false);
-    }
-});
-
-/*
-*   Función asíncrona para cambiar el estado de una autorización.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-const changeAuthorizationStatus = async (id_clasificacion_permiso) => {
-    // Se define un objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('id_clasificacion_permiso', id_clasificacion_permiso);
-
-    // Petición para cambiar el estado del registro.
-    const DATA = await fetchData(AUTHORIZATION_API, 'changeStatus', FORM);
-
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la lista para visualizar los cambios.
-        await fillAuthorizations();
-    } else {
-        sweetAlert(2, DATA.exception, false);
+        // Se presenta un mensaje de error cuando no existen datos para mostrar.
+        console.error(DATA_SUB_AUTHORIZATION.error);
     }
 }
 

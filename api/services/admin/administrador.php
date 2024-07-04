@@ -199,6 +199,12 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Wrong credentials';
                 }
                 break;
+            case 'countAll':
+                if ($administrador->countAll()['num_rows'] > "0") {
+                    $result['status'] = 1;
+                    $result['error'] = 'There isn´t an user in the database';
+                }
+                break;
                 case 'firstUsage':
                     $_POST = Validator::validateForm($_POST);
                     if ($administrador->countAll()['num_rows'] = "0") {

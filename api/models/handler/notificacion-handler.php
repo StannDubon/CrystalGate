@@ -24,10 +24,11 @@ public function searchRows()
 {
     $value = '%' . Validator::getSearchValue() . '%';
     // Se prepara la consulta SQL para buscar notificaciones por fecha de envío.
-    $sql = "SELECT a.*, b.nombre, b.apellido  FROM tb_notificaciones a, tb_administradores b 
-    WHERE DATE(fecha_envio) = ? AND a.id_administrador = b.id_administrador";
+    $sql = "SELECT a.*, b.id_administrador, c.id_permiso, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, c.id_usuario, c.fecha_inicio, c.fecha_final, c.estado, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado
+            FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d
+            WHERE (b.nombre LIKE ? OR b.apellido LIKE ? OR d.nombre LIKE ? OR d.apellido LIKE ?) AND a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario";
     // Se ejecuta la consulta preparada con la fecha proporcionada.
-    $params = array( $value);
+    $params = array( $value,$value,$value,$value);
     return Database::getRows($sql, $params);
 }
 
@@ -42,9 +43,9 @@ public function searchRows()
  
      public function readAll()
      {
-         $sql = 'SELECT a.id_notificacion, b.id_administrador, b.nombre, b.apellido, a.id_permiso, 
-                 a.fecha_envio, a.descripcion
-                 FROM tb_notificaciones a, tb_administradores b WHERE a.id_administrador = b.id_administrador';
+         $sql = 'SELECT a.id_notificacion, b.id_administrador, c.id_permiso, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, a.id_permiso, a.fecha_envio, a.descripcion, c.id_usuario, c.fecha_inicio, c.fecha_final, c.estado, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado
+                 FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d
+                 WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario';
          return Database::getRows($sql);
      }
  

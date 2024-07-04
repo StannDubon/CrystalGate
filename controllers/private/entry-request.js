@@ -288,7 +288,7 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
         // Se acepta el permiso
         rejectPermission();
         //Se recarga la página
-        // Recarga la página después de 3 segundos (3000 milisegundos)
+        // Recarga la página después de 1.5 segundos (1500 milisegundos)
         setTimeout(() => {
             location.reload();
         }, 1500);

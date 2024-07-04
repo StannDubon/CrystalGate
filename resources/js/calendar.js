@@ -6,8 +6,9 @@ const daysTag = document.querySelector(".days"), // Contenedor de días
 let date = new Date(); // Fecha actual por defecto
 
 // Array de nombres de meses
-const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
-                "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+const months = ["January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"];
+
 
 // Variables para almacenar fechas de inicio y fin
 let startDate = null;
