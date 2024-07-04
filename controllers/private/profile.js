@@ -85,7 +85,32 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
+//Funcion para copiar el email del administrador
+copyEmail = () => {
 
+    // Se obtieneel textContent
+    var texto = CORREO_ADMIN.textContent;
+    
+    // Se crea un elemento temporal de tipo textarea
+    var tempTextarea = document.createElement('textarea');
+    tempTextarea.value = texto;
+    
+    // Se añade el textarea temporal al documento
+    document.body.appendChild(tempTextarea);
+    
+    // Selecciona el contenido del textarea
+    tempTextarea.select();
+    tempTextarea.setSelectionRange(0, 99999); // Para móviles
+    
+    // Copia el contenido al portapapeles
+    document.execCommand('copy');
+    
+    // Elimina el textarea temporal
+    document.body.removeChild(tempTextarea);
+    
+    // Muestra una alerta o un mensaje de éxito
+    sweetAlert(1, 'Email copied to the clipboard', null);
+}
 /*
 *   Función para preparar el formulario al momento de editar el perfil.
 *   Parámetros: ninguno.

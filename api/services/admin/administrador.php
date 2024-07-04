@@ -201,7 +201,7 @@ if (isset($_GET['action'])) {
                 break;
                 case 'firstUsage':
                     $_POST = Validator::validateForm($_POST);
-                    if ($administrador->countAll()['num_rows'] !== "0") {
+                    if ($administrador->countAll()['num_rows'] = "0") {
                         $result['error'] = 'There isn´t an user in the database';
                     } elseif(
                         !$administrador->setNombre($_POST[POST_NOMBRE."FU"]) or
