@@ -33,9 +33,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoPeticion->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -47,17 +47,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de peticion creado correctamente';
+                    $result['message'] = 'Petition type created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el tipo de peticion';
+                    $result['error'] = 'An error ocurred while creating the petition type';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $TipoPeticion->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen tipos de peticion registrados';
+                    $result['error'] = 'There aren´t petition types registered';
                 }
                 break;
             case 'readOne':
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $TipoPeticion->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Tipo de peticion inexistente';
+                    $result['error'] = 'Non-existent petition type';
                 }
                 break;
             case 'updateRow':
@@ -79,10 +79,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de peticion modificado correctamente';
+                    $result['message'] = 'Petition type edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
+                    $result['error'] = 'An error ocurred while editing the petition type';
                 }
                 break;
             case 'deleteRow':
@@ -92,9 +92,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPeticion->getDataError();
                 } elseif ($TipoPeticion->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de peticion eliminado correctamente';
+                    $result['message'] = 'Petition type deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de peticion';
+                    $result['error'] = 'An error ocurred while deleting the petition type';
                 }
                 break;
             case 'changeStatus':
@@ -108,11 +108,11 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'The status was updated successfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
+                    $result['error'] = 'An error ocurred while editing the petition type';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -121,8 +121,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }

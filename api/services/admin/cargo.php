@@ -47,9 +47,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language created succesfully';
+                    $result['message'] = 'Charge created succesfully';
                 } else {
-                    $result['error'] = 'An error ocurred while creating the language';
+                    $result['error'] = 'An error ocurred while creating the charge';
                 }
                 break;
             case 'readAll':
@@ -57,7 +57,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'There aren´t languages registered';
+                    $result['error'] = 'There aren´t charges registered';
                 }
                 break;
             case 'readOne':
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $Cargo->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Non-existent language';
+                    $result['error'] = 'Non-existent charge';
                 }
                 break;
             case 'updateRow':
@@ -79,10 +79,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language edited succesfully';
+                    $result['message'] = 'Charge edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'An error ocurred while editing the language';
+                    $result['error'] = 'An error ocurred while editing the charge';
                 }
                 break;
             case 'deleteRow':
@@ -92,9 +92,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Cargo->getDataError();
                 } elseif ($Cargo->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Language deleted succesfully';
+                    $result['message'] = 'Charge deleted succesfully';
                 } else {
-                    $result['error'] = 'An error ocurred while deleting the language';
+                    $result['error'] = 'An error ocurred while deleting the charge';
                 }
                 break;
             case 'changeStatus':
