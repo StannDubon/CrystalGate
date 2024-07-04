@@ -41,33 +41,33 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $permiso->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'searchCategoryRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif(!$permiso->setIdClasificacionPermiso($_POST[POST_ID_CLASIFICACION])){
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->searchCategoryRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'searchSubCategoryRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif(!$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO])){
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->searchSubCategoryRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -85,45 +85,45 @@ if (isset($_GET['action'])) {
                     $result['error'] = $permiso->getDataError();
                 }else if ($permiso->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'permiso creado correctamente';
+                    $result['message'] = 'permission created succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_DOCUMENTO], $permiso::RUTA_DOCUMENTO);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el permiso';
+                    $result['error'] = 'An error ocurred while creating the permission';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $permiso->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen permisos registrados';
+                    $result['error'] = 'There aren´t permissions registered';
                 }
                 break;
                 case 'readAllPendings':
                     if (!$permiso->setestado($_POST[POST_ESTADO])) {
-                        $result['error'] = 'permiso incorrecto';
+                        $result['error'] = 'incorrect permission';
                     } elseif ($result['dataset'] = $permiso->readAllPendings()) {
                         $result['status'] = 1;
                     } else {
-                        $result['error'] = 'permiso inexistente';
+                        $result['error'] = 'non-existent permission';
                     }
                     break;
             case 'readCategory':
                 if (!$permiso->setIdClasificacionPermiso($_POST[POST_ID_CLASIFICACION])) {
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->readCategory()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'permiso inexistente';
+                    $result['error'] = 'non-existent permission';
                 }
                 break;
             case 'readOne':
                 if (!$permiso->setId($_POST[POST_ID])) {
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'permiso inexistente';
+                    $result['error'] = 'non-existent permission';
                 }
                 break;
             case 'updateRow':
@@ -142,10 +142,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $permiso->getDataError();
                 } elseif ($permiso->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'permiso modificado correctamente';
+                    $result['message'] = 'permission edited succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_DOCUMENTO], $permiso::RUTA_DOCUMENTO);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el permiso';
+                    $result['error'] = 'An error ocurred while editing the permission';
                 }
                 break;
             case 'updateState':
@@ -157,9 +157,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $permiso->getDataError();
                 } elseif ($permiso->updateState()) {
                     $result['status'] = 1;
-                    $result['message'] = 'permiso modificado correctamente';
+                    $result['message'] = 'permission edited succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el permiso';
+                    $result['error'] = 'An error ocurred while editing the permission';
                 }
                 break;
             case 'deleteRow':
@@ -167,31 +167,31 @@ if (isset($_GET['action'])) {
                     $result['error'] = $permiso->getDataError();
                 } elseif ($permiso->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'permiso eliminado correctamente';
+                    $result['message'] = 'permission deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el permiso';
+                    $result['error'] = 'An error ocurred while deleting the permission';
                 }
                 break;
             case 'selectFilter':
                 if (!$permiso->setIdTipoPermiso($_POST[POST_ID_TIPO_PERMISO])) {
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->selectedFilter()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'permisos inexistentes';
+                    $result['error'] = 'non-existent permissions';
                 }
                 break;
             case 'readAllByStatus':
                 if (!$permiso->setestado($_POST[POST_ESTADO])) {
-                    $result['error'] = 'permiso incorrecto';
+                    $result['error'] = 'incorrect permission';
                 } elseif ($result['dataset'] = $permiso->readAllByStatus()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'permisos inexistentes';
+                    $result['error'] = 'non-existent permission';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
     } 
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
@@ -201,5 +201,5 @@ if (isset($_GET['action'])) {
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }

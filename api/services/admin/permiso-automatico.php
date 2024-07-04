@@ -33,9 +33,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $PermisoAutomatico->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -48,17 +48,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = $PermisoAutomatico->getDataError();
                 } elseif ($PermisoAutomatico->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Permiso automático creado correctamente';
+                    $result['message'] = 'Automatic permission created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el permiso automático';
+                    $result['error'] = 'An error ocurred while creating the automatic permission';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $PermisoAutomatico->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen permisos automáticos registrados';
+                    $result['error'] = 'There aren´t automatic permissions registered';
                 }
                 break;
             case 'readOne':
@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $PermisoAutomatico->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Permiso automático inexistente';
+                    $result['error'] = 'Non-existent automatic permissions';
                 }
                 break;
             case 'updateRow':
@@ -81,9 +81,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $PermisoAutomatico->getDataError();
                 } elseif ($PermisoAutomatico->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Permiso automático modificado correctamente';
+                    $result['message'] = 'Automatic permission edited successfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el permiso automático';
+                    $result['error'] = 'An error ocurred while editing the automatic permission';
                 }
                 break;
                 case 'deleteRow':
@@ -91,13 +91,13 @@ if (isset($_GET['action'])) {
                         $result['error'] = $PermisoAutomatico->getDataError();
                     } elseif ($PermisoAutomatico->deleteRow()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Permiso automático eliminado correctamente';
+                        $result['message'] = 'Automatic permission deleted succesfully';
                     } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar el permiso automático';
+                        $result['error'] = 'An error ocurred while deleting the automatic permission';
                     }
                     break;
                 default:
-                    $result['error'] = 'Acción no disponible dentro de la sesión';
+                    $result['error'] = 'Action not available in the session';
             }
             // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
             $result['exception'] = Database::getException();
@@ -106,10 +106,10 @@ if (isset($_GET['action'])) {
             // Se imprime el resultado en formato JSON y se retorna al controlador.
             print(json_encode($result));
         } else {
-            print(json_encode('Acceso denegado'));
+            print(json_encode('Access denied'));
         }
     } else {
-        print(json_encode('Recurso no disponible'));
+        print(json_encode('Resource not available'));
     }
     ?>
     
