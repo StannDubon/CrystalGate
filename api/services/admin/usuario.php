@@ -42,9 +42,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $usuario->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -59,30 +59,30 @@ if (isset($_GET['action'])) {
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
-                    $result['error'] = 'Contraseñas diferentes';
+                    $result['error'] = 'Different Passwords';
                 } elseif ($usuario->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario creado correctamente';
+                    $result['message'] = 'User created succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $usuario::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el usuario';
+                    $result['error'] = 'An error ocurred while creating the user';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $usuario->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen usuarios registrados';
+                    $result['error'] = 'There aren´t users registered';
                 }
                 break;
             case 'readOne':
                 if (!$usuario->setId($_POST[POST_ID])) {
-                    $result['error'] = 'Usuario incorrecto';
+                    $result['error'] = 'Incorrect User';
                 } elseif ($result['dataset'] = $usuario->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Usuario inexistente';
+                    $result['error'] = 'Non-existent user';
                 }
                 break;
             case 'updateRow':
@@ -98,10 +98,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario modificado correctamente';
+                    $result['message'] = 'User modified succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $usuario::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el usuario';
+                    $result['error'] = 'An error ocurred while editing the user';
                 }
                 break;
             case 'deleteRow':
@@ -109,28 +109,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Usuario eliminado correctamente';
+                    $result['message'] = 'User deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el usuario';
+                    $result['error'] = 'An error ocurred while deleting the user';
                 }
                 break;
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
-                    $result['error'] = 'Contraseña actual incorrecta';
+                    $result['error'] = 'Actual password incorrect';
                 } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
-                    $result['error'] = 'Confirmación de contraseña diferente';
+                    $result['error'] = 'Confirmation of different password';
                 } elseif (!$usuario->setClave($_POST[POST_CLAVE_NUEVA])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->changePassword()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contraseña cambiada correctamente';
+                    $result['message'] = 'Password changed succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    $result['error'] = 'An error ocurred while editing the password';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
     } 
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
@@ -140,5 +140,5 @@ if (isset($_GET['action'])) {
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }

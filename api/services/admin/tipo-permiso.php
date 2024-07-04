@@ -34,9 +34,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoPermiso->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
             case 'createRow':
@@ -50,9 +50,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de permiso creado correctamente';
+                    $result['message'] = 'Permission type created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el tipo de permiso';
+                    $result['error'] = 'An error ocurred while creating the permission type';
                 }
                 break;
             case 'readAll':
@@ -60,7 +60,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen tipos de permiso registrados';
+                    $result['error'] = 'There aren´t permission type registered';
                 }
                 break;
             case 'readNoEmtyReferences':
@@ -69,7 +69,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $TipoPermiso->readNoEmtyReferences()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Tipo de permiso inexistente';
+                    $result['error'] = 'Non-existent permission type';
                 }
                 break;
                 break;
@@ -79,7 +79,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $TipoPermiso->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Tipo de permiso inexistente';
+                    $result['error'] = 'Non-existent permission type';
                 }
                 break;
             case 'updateRow':
@@ -94,9 +94,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de permiso modificado correctamente';
+                    $result['message'] = 'Permission type edited succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de permiso';
+                    $result['error'] = 'An error ocurred while editing the petition type';
                 }
                 break;
             case 'deleteRow':
@@ -106,9 +106,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($TipoPermiso->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de permiso eliminado correctamente';
+                    $result['message'] = 'Permission type deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de permiso';
+                    $result['error'] = 'An error ocurred while deleting the petition type';
                 }
                 break;
             case 'changeStatus':
@@ -122,11 +122,11 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'The status was updated successfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de peticion';
+                    $result['error'] = 'An error ocurred while editing the petition type';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -135,9 +135,9 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }
 ?>

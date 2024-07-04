@@ -33,10 +33,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoAdministrador->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
-                }
+                    $result['error'] = 'There aren´t coincidences';
+                } 
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
@@ -47,17 +47,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($TipoAdministrador->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de administrador creado correctamente';
+                    $result['message'] = 'Administrator type created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el tipo de administrador';
+                    $result['error'] = 'An error ocurred while creating the administrator type';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $TipoAdministrador->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen tipos de administrador registrados';
+                    $result['error'] = 'There aren´t administrator types registered';
                 }
                 break;
             case 'readOne':
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $TipoAdministrador->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Tipo de administrador inexistente';
+                    $result['error'] = 'Non-existent administrator type';
                 }
                 break;
             case 'updateRow':
@@ -79,10 +79,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($TipoAdministrador->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de administrador modificado correctamente';
+                    $result['message'] = 'Administrtaor type edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de administrador';
+                    $result['error'] = 'An error ocurred while editing the administrator type';
                 }
                 break;
             case 'changeStatus':
@@ -96,7 +96,7 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'The status was updated successfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el tipo de administrador';
+                    $result['error'] = 'An error ocurred while editing the administrator type';
                 }
                 break;
             case 'deleteRow':
@@ -106,13 +106,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($TipoAdministrador->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Tipo de administrador eliminado correctamente';
+                    $result['message'] = 'Administrator type deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de administrador';
+                    $result['error'] = 'An error ocurred while deleting the administrator type';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -121,8 +121,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }
