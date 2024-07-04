@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Different Passwords';
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'The administrator was created succsfully';
+                    $result['message'] = 'The administrator was created succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'An error ocurred while creating the administrator';
@@ -228,5 +228,5 @@ if (isset($_GET['action'])) {
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
 } else {
-    print(json_encode('Source not available'));
+    print(json_encode('Resource not available'));
 }

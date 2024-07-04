@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $CentroEntrega->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Pick up place non-existed';
+                    $result['error'] = 'Pick up place non-existent';
                 }
                 break;
             case 'updateRow':
@@ -124,5 +124,5 @@ if (isset($_GET['action'])) {
         print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Source not available'));
+    print(json_encode('Resource not available'));
 }
