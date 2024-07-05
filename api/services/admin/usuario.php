@@ -1,15 +1,23 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/tipo-peticion-data.php');
+require_once('../../models/data/usuario-data.php');
 
-// Constantes para los nombres de los campos POST.
-const POST_ID = "idTipoPeticion";
-const POST_TIPO = "tipoPeticion";
-const POST_ESTADO = "estadoTipoPeticion";
+const POST_ID = "idUsuario";
+const POST_ID_CARGO = "idCargo";
+const POST_NOMBRE = "nombreUsuario";
+const POST_APELLIDO = "apellidoUsuario";
+const POST_CORREO = "correoUsuario";
+const POST_CLAVE = "claveUsuario";
+const POST_IMAGEN = "imagenUsuario";
+
+// Variables para acciones con contraseaña
+const POST_CLAVE_ACTUAL = "claveActual";
+const POST_CLAVE_NUEVA = "claveNueva";
+const POST_CLAVE_CONFIRMAR = "confirmarClave";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parámetros para la sesión.
+    // Se establecen los parametros para la sesion
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -21,121 +29,116 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $TipoPeticion = new TipoPeticionData;
+    $usuario = new UsuarioData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
+    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idAdministrador'])) {
-        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+        $result['session'] = 1;
+        // Se compara la acción a realizar cuando un usuario ha iniciado sesión.
         switch ($_GET['action']) {
-            // Caso para buscar registros.
             case 'searchRows':
-                // Validación del campo de búsqueda.
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $TipoPeticion->searchRows()) {
-                    // Si hay coincidencias, se establece el estado y el mensaje.
+                } elseif ($result['dataset'] = $usuario->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
-                    $result['error'] = 'There aren´t coincidences';
+                    $result['error'] = 'No hay coincidencias';
                 }
                 break;
-            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y asignación de valores para crear un nuevo tipo de petición.
                 if (
-                    !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
+                    !$usuario->setNombre($_POST[POST_NOMBRE]) or
+                    !$usuario->setIdCargo($_POST[POST_ID_CARGO]) or
+                    !$usuario->setApellido($_POST[POST_APELLIDO]) or
+                    !$usuario->setCorreo($_POST[POST_CORREO]) or
+                    !$usuario->setClave($_POST[POST_CLAVE]) or 
+                    !$usuario->setImagen($_FILES[POST_IMAGEN])
                 ) {
-                    $result['error'] = $TipoPeticion->getDataError();
-                } elseif ($TipoPeticion->createRow()) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($usuario->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Petition type created successfully';
+                    $result['message'] = 'Usuario creado correctamente';
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $usuario::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'An error occurred while creating the petition type';
+                    $result['error'] = 'Ocurrió un problema al crear el usuario';
                 }
                 break;
-            // Caso para leer todos los registros.
             case 'readAll':
-                if ($result['dataset'] = $TipoPeticion->readAll()) {
+                if ($result['dataset'] = $usuario->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'There aren´t petition types registered';
+                    $result['error'] = 'No existen usuarios registrados';
                 }
                 break;
-            // Caso para leer un registro en particular.
             case 'readOne':
-                if (!$TipoPeticion->setId($_POST[POST_ID])) {
-                    $result['error'] = $TipoPeticion->getDataError();
-                } elseif ($result['dataset'] = $TipoPeticion->readOne()) {
+                if (!$usuario->setId($_POST[POST_ID])) {
+                    $result['error'] = 'Usuario incorrecto';
+                } elseif ($result['dataset'] = $usuario->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Non-existent petition type';
+                    $result['error'] = 'Usuario inexistente';
                 }
                 break;
-            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y actualización de un tipo de petición.
                 if (
-                    !$TipoPeticion->setId($_POST[POST_ID]) or
-                    !$TipoPeticion->setTipo($_POST[POST_TIPO]) or
-                    !$TipoPeticion->setEstado($_POST[POST_ESTADO])
+                    !$usuario->setId($_POST[POST_ID]) or
+                    !$usuario->setNombre($_POST[POST_NOMBRE]) or
+                    !$usuario->setApellido($_POST[POST_APELLIDO]) or
+                    !$usuario->setCorreo($_POST[POST_CORREO]) or
+                    !$usuario->setIdCargo($_POST[POST_ID_CARGO]) or 
+                    !$usuario->setImagen($_FILES[POST_IMAGEN])
                 ) {
-                    $result['error'] = $TipoPeticion->getDataError();
-                } elseif ($TipoPeticion->updateRow()) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Petition type edited successfully';
+                    $result['message'] = 'Usuario modificado correctamente';
+                    $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $usuario::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'An error occurred while editing the petition type';
+                    $result['error'] = 'Ocurrió un problema al modificar el usuario';
                 }
                 break;
-            // Caso para eliminar un registro.
             case 'deleteRow':
-                if (
-                    !$TipoPeticion->setId($_POST[POST_ID])
-                ) {
-                    $result['error'] = $TipoPeticion->getDataError();
-                } elseif ($TipoPeticion->deleteRow()) {
+                if (!$usuario->setId($_POST[POST_ID])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Petition type deleted successfully';
+                    $result['message'] = 'Usuario eliminado correctamente';
                 } else {
-                    $result['error'] = 'An error occurred while deleting the petition type';
+                    $result['error'] = 'Ocurrió un problema al eliminar el usuario';
                 }
                 break;
-            // Caso para cambiar el estado de un registro.
-            case 'changeStatus':
+            case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y cambio de estado de un tipo de petición.
-                if (
-                    !$TipoPeticion->setId($_POST[POST_ID])
-                ) {
-                    $result['error'] = $TipoPeticion->getDataError();
-                } elseif ($TipoPeticion->changeStatus()) {
+                if (!$usuario->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
+                    $result['error'] = 'Contraseña actual incorrecta';
+                } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$usuario->setClave($_POST[POST_CLAVE_NUEVA])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->changePassword()) {
                     $result['status'] = 1;
-                    $result['message'] = 'The status was updated successfully';
+                    $result['message'] = 'Contraseña cambiada correctamente';
                 } else {
-                    $result['error'] = 'An error occurred while editing the petition type';
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
-            // Caso por defecto para manejar acciones no disponibles.
             default:
-                $result['error'] = 'Action not available in the session';
+                $result['error'] = 'Acción no disponible dentro de la sesión';
         }
-        // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
-        $result['exception'] = Database::getException();
-        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
-        header('Content-type: application/json; charset=utf-8');
-        // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
-    } else {
-        // Si no hay sesión de administrador iniciada, se muestra un mensaje de acceso denegado.
-        print(json_encode('Access denied'));
-    }
+    } 
+    // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
+    $result['exception'] = Database::getException();
+    // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
+    header('Content-type: application/json; charset=utf-8');
+    // Se imprime el resultado en formato JSON y se retorna al controlador.
+    print(json_encode($result));
 } else {
-    // Si no se especifica una acción, se muestra un mensaje de recurso no disponible.
-    print(json_encode('Resource not available'));
+    print(json_encode('Recurso no disponible'));
 }
