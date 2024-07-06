@@ -187,6 +187,16 @@ class Validator
         }
     }
 
+    public static function validateNumeric($value)
+{
+    // Se verifica que el valor contenga solo números.
+    if (ctype_digit($value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
     /*
     *   Método para validar la longitud de una cadena de texto.
     *   Parámetros: $value (dato a validar), $min (longitud mínima) y $max (longitud máxima).

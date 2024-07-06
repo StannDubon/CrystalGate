@@ -16,6 +16,8 @@ const POST_CLAVE_ACTUAL = "claveActual";
 const POST_CLAVE_NUEVA = "claveNueva";
 const POST_CLAVE_CONFIRMAR = "confirmarClave";
 
+const POST_CODIGO_SECRETO_CONTRASEÑA = "codigoSecretoContraseña";
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
 
