@@ -44,7 +44,7 @@ function sendVerificationEmail($to, $random) {
             <h1>Verificación de correo electrónico</h1>
             <p>Hola,</p>
             <p>Gracias por registrarte. Tu código de verificación es: <strong>' . $random . '</strong></p>
-            <p>Utiliza este código para completar tu registro.</p>
+            <p>Utiliza este código para cambiar tu contraseña.</p>
             <p>Atentamente,</p>
             <p>El equipo de verificación</p>
         </div>
@@ -84,3 +84,13 @@ function sendEmail($to, $subject, $body) {
     }
 }
 ?>
+
+<!--
+    
+CREDENCIALES:
+
+crystal.gate.sender@gmail.com
+#CrY5t4lG4t3-2024
+zgzh ufre emti fglo
+
+-->
