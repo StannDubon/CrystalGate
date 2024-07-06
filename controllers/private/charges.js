@@ -55,6 +55,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 // Funcion para cerrar el modal
 closeModal = () => {
     SAVE_MODAL.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 
 const fillCharges = async (form = null) => {
@@ -141,6 +142,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.

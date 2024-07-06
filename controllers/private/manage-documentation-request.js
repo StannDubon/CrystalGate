@@ -81,12 +81,15 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 // Funcion para cerrar los modals
 closeModalRequestType = () => {
     SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 closeModalLanguages = () => {
     SAVE_MODAL_LANGUAGES.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 closeModalLocations = () => {
     SAVE_MODAL_LOCATIONS.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 // Funcion para cargar los datos desde la base
 const fillRequestType = async (form = null) => {
@@ -173,6 +176,7 @@ SAVE_FORM_REQUEST_TYPE.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -341,6 +345,7 @@ SAVE_FORM_LANGUAGES.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_LANGUAGES.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -510,6 +515,7 @@ SAVE_FORM_LOCATIONS.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_LOCATIONS.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.

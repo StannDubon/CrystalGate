@@ -44,8 +44,10 @@ if (DATA.status) {
 closeModal = () =>{
     if(PROFILE_MODAL.classList.contains('show') ){
         PROFILE_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }else if(PASSWORD_MODAL.classList.contains('show')){
         PASSWORD_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }
 }
 

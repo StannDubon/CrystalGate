@@ -66,6 +66,7 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -103,8 +104,10 @@ search = async (SEARCH_VALUE) => {
 closeModal = () =>{
     if(SAVE_MODAL_AUTHORIZATION.classList.contains('show') ){
         SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }else if(SAVE_MODAL_SUB_AUTHORIZATION.classList.contains('show')){
         SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }
 }
 
@@ -368,6 +371,7 @@ SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.

@@ -115,6 +115,7 @@ SAVE_FORM_EMPLEADO.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo
         SAVE_MODAL_EMPLEADO.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios

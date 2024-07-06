@@ -232,8 +232,10 @@ const openAccept = async () => {
 closeModal = () =>{
     if(DESCRIPTION_MODAL.classList.contains('show') ){
         DESCRIPTION_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }else if( REJECT_MODAL.classList.contains('show') ){
         REJECT_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }
 }
 
@@ -288,6 +290,7 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         REJECT_MODAL.classList.remove('show');
+        REJECT_MODAL.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         rejectPermission();
         const RESPONSE = await confirmActionSuccess('Permission rejected successfully');
