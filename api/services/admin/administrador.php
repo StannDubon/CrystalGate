@@ -1,6 +1,7 @@
 <?php
 // Se incluye la clase del modelo.
 require_once('../../models/data/administrador-data.php');
+require_once('../../helpers/email.php');
 
 const POST_ID = "idAdministrador";
 const POST_ID_TIPO_ADMIN = "idTipoAdministrador";
@@ -195,10 +196,66 @@ if (isset($_GET['action'])) {
                 if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
-                } else {
-                    $result['error'] = 'Credenciales incorrectas';
+
+                    } else {
+                        $result['error'] = 'Credenciales incorrectas';
+                    }
+                    break;
+            case 'emailPasswordSender':
+                $_POST = Validator::validateForm($_POST);
+
+                if (!$administrador->setCorreo($_POST[POST_CORREO])) {
+                    $result['error'] = $administrador->getDataError();
+
+                } elseif($administrador->verifyExistingEmail()) {
+
+                    $secret_change_password_code = mt_rand(10000000, 99999999);
+                    $expiration_time = time() + 15;
+
+                    $_SESSION['secret_change_password_code'] = [
+                        'code' => $secret_change_password_code,
+                        'expiration_time' => $expiration_time
+                    ];
+        
+                    sendVerificationEmail($_POST[POST_CORREO], $secret_change_password_code);
+                    $result['status'] = 1;
+                    $result['message'] = 'Correo enviado';
+
+                 } else {
+                    $result['error'] = 'El correo indicado no existe';
                 }
                 break;
+            case 'printerr':
+                $_POST = Validator::validateForm($_POST);
+
+                if (!$administrador->setCorreo($_POST[POST_CORREO])) {
+                    $result['error'] = $administrador->getDataError();
+
+                } else {
+                    if (isset($_SESSION['secret_change_password_code'])) {
+                        $secret_code_data = $_SESSION['secret_change_password_code'];
+                        
+                        // Verificar si el código todavía es válido
+                        if ($secret_code_data['expiration_time'] > time()) {
+                            $secret_change_password_code = $secret_code_data['code'];
+                            
+                            // El código es válido, puedes usarlo aquí
+                            $result['message'] = "El código es válido: " . $secret_change_password_code;
+                        } else {
+                            // La variable de sesión ha expirado
+                            $result['message'] = "El código ha expirado.";
+                            
+                            // Opcional: puedes eliminar la variable de sesión si ha expirado
+                            unset($_SESSION['secret_change_password_code']);
+                        }
+                    } else {
+                        // La variable de sesión no está definida
+                        $result['message'] = "El código ha expirado.";
+                    }
+                }
+                break;
+            
+
                 case 'firstUsage':
                     $_POST = Validator::validateForm($_POST);
                     if ($administrador->countAll()['num_rows'] !== "0") {

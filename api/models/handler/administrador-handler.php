@@ -167,4 +167,19 @@ class AdministradorHandler
         $params = array(1, $this->nombre, $this->apellido, $this->correo, $this->clave);
         return Database::executeRow($sql, $params);
     }
+
+    public function verifyExistingEmail()
+    {
+        $sql = 'SELECT COUNT(*) as count
+                FROM tb_administradores a, tb_tipos_administradores b
+                WHERE a.correo = ? AND a.id_tipo_administrador = b.id_tipo_administrador';
+        $params = array($this->correo);
+        $result = Database::getRow($sql, $params);
+    
+        if ($result['count'] > 0) {
+            return true; // Hay resultados
+        } else {
+            return false; // No hay resultados
+        }
+    }
 }

@@ -7,6 +7,9 @@ CREATE USER 'crystal-gate-admin'@'localhost' IDENTIFIED BY '#CrY5t4lG4t3-2024';
 GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
 FLUSH PRIVILEGES;
 
+-- crystal.gate.sender@gmail.com
+-- zgzh ufre emti fglo
+
 /* TABLAS INDEPENDIENTES */
 CREATE TABLE
     tb_tipos_administradores (
