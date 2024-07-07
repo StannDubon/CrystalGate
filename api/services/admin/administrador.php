@@ -59,7 +59,7 @@ if (isset($_GET['action'])) {
                     !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or
                     !$administrador->setApellido($_POST[POST_APELLIDO]) or
                     !$administrador->setCorreo($_POST[POST_CORREO]) or
-                    !$administrador->setClave($_POST[POST_CLAVE]) or 
+                    !$administrador->setClave($_POST[POST_CLAVE]) or
                     !$administrador->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -98,7 +98,7 @@ if (isset($_GET['action'])) {
                     !$administrador->setNombre($_POST[POST_NOMBRE]) or
                     !$administrador->setApellido($_POST[POST_APELLIDO]) or
                     !$administrador->setCorreo($_POST[POST_CORREO]) or
-                    !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or 
+                    !$administrador->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or
                     !$administrador->setImagen($_FILES[POST_IMAGEN], $administrador->getFilename())
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -151,7 +151,7 @@ if (isset($_GET['action'])) {
                     !$administrador->setNombre($_POST[POST_NOMBRE]) or
                     !$administrador->setSessionFilename() or
                     !$administrador->setApellido($_POST[POST_APELLIDO]) or
-                    !$administrador->setCorreo($_POST[POST_CORREO]) or 
+                    !$administrador->setCorreo($_POST[POST_CORREO]) or
                     !$administrador->setImagen($_FILES[POST_IMAGEN], $administrador->getFilename())
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -198,85 +198,96 @@ if (isset($_GET['action'])) {
                 if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
-
-                    } else {
-                        $result['error'] = 'Credenciales incorrectas';
-                    }
-                    break;
+                } else {
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
             case 'emailPasswordSender':
                 $_POST = Validator::validateForm($_POST);
 
                 if (!$administrador->setCorreo($_POST[POST_CORREO])) {
                     $result['error'] = $administrador->getDataError();
-
-                } elseif($administrador->verifyExistingEmail()) {
+                } elseif ($administrador->verifyExistingEmail()) {
 
                     $secret_change_password_code = mt_rand(10000000, 99999999);
-                    $expiration_time = time() + 15;
-
                     $_SESSION['secret_change_password_code'] = [
                         'code' => $secret_change_password_code,
-                        'expiration_time' => $expiration_time
+                        'expiration_time' => time() + (60 * 15) # (x*y) y=minutos de validez 
                     ];
-        
+
                     sendVerificationEmail($_POST[POST_CORREO], $secret_change_password_code);
                     $result['status'] = 1;
                     $result['message'] = 'Correo enviado';
-
-                 } else {
+                } else {
                     $result['error'] = 'El correo indicado no existe';
                 }
                 break;
-            case 'printerr':
+            case 'emailPasswordValidator':
                 $_POST = Validator::validateForm($_POST);
-
-                if (!$administrador->setCorreo($_POST[POST_CORREO])) {
-                    $result['error'] = $administrador->getDataError();
-
+            
+                if (!isset($_POST[POST_CODIGO_SECRETO_CONTRASEÑA])) {
+                    $result['error'] = "El código no fue proporcionado";
+                } elseif (!(ctype_digit($_POST[POST_CODIGO_SECRETO_CONTRASEÑA]) && strlen($_POST[POST_CODIGO_SECRETO_CONTRASEÑA]) === 8)) {
+                    $result['error'] = "El código es inválido";
+                } elseif (!isset($_SESSION['secret_change_password_code'])) {
+                    $result['message'] = "El código ha expirado";
+                } elseif ($_SESSION['secret_change_password_code']['expiration_time'] <= time()) {
+                    $result['message'] = "El código ha expirado.";
+                    unset($_SESSION['secret_change_password_code']);
+                } elseif ($_SESSION['secret_change_password_code']['code'] == $_POST[POST_CODIGO_SECRETO_CONTRASEÑA]) {
+                    $secret_change_password_code_validated = Validator::generateRandomString(64);
+                    $_SESSION['secret_change_password_code_validated'] = [
+                        'token' => $secret_change_password_code_validated,
+                        'expiration_time' => time() + (60 * 10) # (x*y) y=minutos de validez 
+                    ];
+                    $result['status'] = 1;
+                    $result['message'] = "Verificación Correcta";
+                    $result['dataset'] = $secret_change_password_code_validated;
                 } else {
-                    if (isset($_SESSION['secret_change_password_code'])) {
-                        $secret_code_data = $_SESSION['secret_change_password_code'];
-                        
-                        // Verificar si el código todavía es válido
-                        if ($secret_code_data['expiration_time'] > time()) {
-                            $secret_change_password_code = $secret_code_data['code'];
-                            
-                            // El código es válido, puedes usarlo aquí
-                            $result['message'] = "El código es válido: " . $secret_change_password_code;
-                        } else {
-                            // La variable de sesión ha expirado
-                            $result['message'] = "El código ha expirado.";
-                            
-                            // Opcional: puedes eliminar la variable de sesión si ha expirado
-                            unset($_SESSION['secret_change_password_code']);
-                        }
-                    } else {
-                        // La variable de sesión no está definida
-                        $result['message'] = "El código ha expirado.";
-                    }
+                    $result['error'] = "El código es incorrecto";
                 }
                 break;
-            
-
-                case 'firstUsage':
-                    $_POST = Validator::validateForm($_POST);
-                    if ($administrador->countAll()['num_rows'] !== "0") {
-                        $result['error'] = 'Ya hay un usuario en la base';
-                    } elseif(
-                        !$administrador->setNombre($_POST[POST_NOMBRE."FU"]) or
-                        !$administrador->setApellido($_POST[POST_APELLIDO."FU"]) or
-                        !$administrador->setCorreo($_POST[POST_CORREO."FU"]) or 
-                        !$administrador->setClave($_POST[POST_CLAVE."FU"])
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($_POST[POST_CLAVE."FU"] != $_POST[POST_CLAVE_CONFIRMAR."FU"]) {
-                        $result['error'] = 'Contraseñas diferentes';
-                    } elseif($administrador->firstUsage()){
-                        $result['status'] = 1;
-                        $result['message'] = 'Perfil añadido correctamente';
-                    }
-                    break;
-                            default:
+            case 'changePasswordByEmail':
+                $_POST = Validator::validateForm($_POST);
+                if (!$administrador->setClave($_POST[POST_CLAVE_NUEVA]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif (!isset($_POST["token"])) {
+                    $result['error'] = 'El token no fue proporcionado';
+                } elseif ($_SESSION['secret_change_password_code_validated']['expiration_time'] <= time()) {
+                    $result['error'] = 'El tiempo para cambiar su contraseña ha expirado';
+                } elseif ($_SESSION['secret_change_password_code_validated']['token'] != $_POST["token"]) {
+                    $result['error'] = 'El token es invalido';
+                } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$administrador->setClave($_POST[POST_CLAVE_NUEVA])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->changePasswordFromEmail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                }
+                break;
+            case 'firstUsage':
+                $_POST = Validator::validateForm($_POST);
+                if ($administrador->countAll()['num_rows'] !== "0") {
+                    $result['error'] = 'Ya hay un usuario en la base';
+                } elseif (
+                    !$administrador->setNombre($_POST[POST_NOMBRE . "FU"]) or
+                    !$administrador->setApellido($_POST[POST_APELLIDO . "FU"]) or
+                    !$administrador->setCorreo($_POST[POST_CORREO . "FU"]) or
+                    !$administrador->setClave($_POST[POST_CLAVE . "FU"])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST[POST_CLAVE . "FU"] != $_POST[POST_CLAVE_CONFIRMAR . "FU"]) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($administrador->firstUsage()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil añadido correctamente';
+                }
+                break;
+            default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
     }

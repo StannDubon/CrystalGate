@@ -168,6 +168,13 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function changePasswordFromEmail()
+    {
+        $sql = 'UPDATE tb_administradores SET clave = ? WHERE correo = ?';
+        $params = array($this->clave, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
     public function verifyExistingEmail()
     {
         $sql = 'SELECT COUNT(*) as count
