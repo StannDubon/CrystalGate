@@ -17,6 +17,8 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
     /*
      *  Métodos para validar y establecer los datos.
      */
+
+    // Método para establecer el ID del permiso automático, validando que sea un número natural.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -28,6 +30,7 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         }
     }
 
+    // Método para establecer el ID del permiso, validando que sea un número natural.
     public function setIdPermiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -39,6 +42,7 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         }
     }
 
+    // Método para establecer la hora de envío, validando que sea un formato de hora válido.
     public function setHoraEnvio($value)
     {
         if (Validator::validateTime($value)) {
@@ -50,9 +54,11 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
         }
     }
 
+    // Método para establecer el estado, validando que sea un valor booleano.
     public function setEstado($value)
     {
         if (Validator::validateBoolean($value)) {
+            // Convertir cadenas 'true' y 'false' a booleanos
             if (is_string($value)) {
                 $value = ($value === 'true' || $value === '1');
             } elseif (is_numeric($value)) {
@@ -69,9 +75,12 @@ class PermisoAutomaticoData extends PermisoAutomaticoHandler
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
+
+    // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
 }
 
+?>

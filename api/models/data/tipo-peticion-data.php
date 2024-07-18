@@ -1,11 +1,11 @@
-
 <?php
 // Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
 require_once('../../models/handler/tipo-peticion-handler.php');
+
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla TIPOS_PETICIONES.
  */
 class TipoPeticionData extends TipoPeticionHandler
 {
@@ -17,34 +17,37 @@ class TipoPeticionData extends TipoPeticionHandler
     /*
      *  Métodos para validar y establecer los datos.
      */
+
+    // Método para establecer el ID del tipo de petición, validando que sea un número natural.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de peticion es incorrecto';
+            $this->data_error = 'El identificador del tipo de petición es incorrecto';
             return false;
         }
     }
 
+    // Método para establecer el tipo de petición, validando que sea alfanumérico y tenga una longitud válida.
     public function setTipo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El tipo de peticion debe ser un valor alfanumérico';
+            $this->data_error = 'El tipo de petición debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->tipo = $value;
             return true;
         } else {
-            $this->data_error = 'El tipo de peticion debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El tipo de petición debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
 
+    // Método para establecer el estado del tipo de petición, validando que sea un valor booleano.
     public function setEstado($value)
     {
-        // Validar el valor booleano usando validateBoolean
         if (Validator::validateBoolean($value)) {
             // Convertir cadenas 'true' y 'false' a booleanos
             if (is_string($value)) {
@@ -53,7 +56,7 @@ class TipoPeticionData extends TipoPeticionHandler
                 $value = (int) $value === 1;
             }
 
-            // Asignar el valor validado a $this->status
+            // Asignar el valor validado a $this->estado
             $this->estado = (bool) $value;
             return true;
         } else {
@@ -62,12 +65,15 @@ class TipoPeticionData extends TipoPeticionHandler
         }
     }
 
-
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
+
+    // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
 }
+
+?>

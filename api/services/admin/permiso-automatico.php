@@ -9,7 +9,7 @@ const POST_ESTADO = "estadoPermisoAutomatico";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -28,6 +28,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -38,6 +39,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -48,11 +50,12 @@ if (isset($_GET['action'])) {
                     $result['error'] = $PermisoAutomatico->getDataError();
                 } elseif ($PermisoAutomatico->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Automatic permission created succesfully';
+                    $result['message'] = 'Automatic permission created successfully';
                 } else {
-                    $result['error'] = 'An error ocurred while creating the automatic permission';
+                    $result['error'] = 'An error occurred while creating the automatic permission';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $PermisoAutomatico->readAll()) {
                     $result['status'] = 1;
@@ -61,6 +64,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t automatic permissions registered';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$PermisoAutomatico->setId($_POST[POST_ID])) {
                     $result['error'] = $PermisoAutomatico->getDataError();
@@ -70,6 +74,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent automatic permissions';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -83,33 +88,33 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Automatic permission edited successfully';
                 } else {
-                    $result['error'] = 'An error ocurred while editing the automatic permission';
+                    $result['error'] = 'An error occurred while editing the automatic permission';
                 }
                 break;
-                case 'deleteRow':
-                    if (!$PermisoAutomatico->setId($_POST[POST_ID])) {
-                        $result['error'] = $PermisoAutomatico->getDataError();
-                    } elseif ($PermisoAutomatico->deleteRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Automatic permission deleted succesfully';
-                    } else {
-                        $result['error'] = 'An error ocurred while deleting the automatic permission';
-                    }
-                    break;
-                default:
-                    $result['error'] = 'Action not available in the session';
-            }
-            // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
-            $result['exception'] = Database::getException();
-            // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
-            header('Content-type: application/json; charset=utf-8');
-            // Se imprime el resultado en formato JSON y se retorna al controlador.
-            print(json_encode($result));
-        } else {
-            print(json_encode('Access denied'));
+            // Caso para eliminar un registro.
+            case 'deleteRow':
+                if (!$PermisoAutomatico->setId($_POST[POST_ID])) {
+                    $result['error'] = $PermisoAutomatico->getDataError();
+                } elseif ($PermisoAutomatico->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Automatic permission deleted successfully';
+                } else {
+                    $result['error'] = 'An error occurred while deleting the automatic permission';
+                }
+                break;
+            // Caso predeterminado.
+            default:
+                $result['error'] = 'Action not available in the session';
         }
+        // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
+        $result['exception'] = Database::getException();
+        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
+        header('Content-type: application/json; charset=utf-8');
+        // Se imprime el resultado en formato JSON y se retorna al controlador.
+        print(json_encode($result));
     } else {
-        print(json_encode('Resource not available'));
+        print(json_encode('Access denied'));
     }
-    ?>
-    
+} else {
+    print(json_encode('Resource not available'));
+}

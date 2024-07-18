@@ -1,8 +1,9 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
 require_once('../../helpers/database.php');
+
 /*
- *  Clase para manejar el comportamiento de los datos de la tabla CATEGORIA.
+ *  Clase para manejar el comportamiento de los datos de la tabla tb_tipos_administradores.
  */
 class TipoAdministradorHandler
 {
@@ -16,6 +17,8 @@ class TipoAdministradorHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+    // Método para buscar tipos de administradores por un valor de búsqueda general.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -24,6 +27,7 @@ class TipoAdministradorHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para crear un nuevo tipo de administrador.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_tipos_administradores(tipo_administrador, estado) VALUES(?, ?)';
@@ -31,6 +35,7 @@ class TipoAdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer todos los tipos de administradores.
     public function readAll()
     {
         $sql = 'SELECT *
@@ -38,6 +43,7 @@ class TipoAdministradorHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer un tipo de administrador específico por su ID.
     public function readOne()
     {
         $sql = 'SELECT *
@@ -47,6 +53,7 @@ class TipoAdministradorHandler
         return Database::getRow($sql, $params);
     }
 
+    // Método para actualizar un tipo de administrador.
     public function updateRow()
     {
         $sql = 'UPDATE tb_tipos_administradores
@@ -56,6 +63,7 @@ class TipoAdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para cambiar el estado (activo/inactivo) de un tipo de administrador.
     public function changeStatus()
     {
         $sql = 'UPDATE tb_tipos_administradores
@@ -65,6 +73,7 @@ class TipoAdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar un tipo de administrador por su ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_tipos_administradores

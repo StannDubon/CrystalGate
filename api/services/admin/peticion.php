@@ -17,7 +17,7 @@ const POST_EMAIL_ENTREGA = "emailEntrega";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -37,6 +37,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -47,6 +48,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -60,16 +62,17 @@ if (isset($_GET['action'])) {
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
                     !$peticion->setTelefono($_POST[POST_TELEFONO]) or
                     !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
-                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA]) 
+                    !$peticion->setEmail($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
-                }else if ($peticion->createRow()) {
+                } elseif ($peticion->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'petition created succesfully';
+                    $result['message'] = 'Petition created successfully';
                 } else {
-                    $result['error'] = 'An error ocurred while creating the petition';
+                    $result['error'] = 'An error occurred while creating the petition';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $peticion->readAll()) {
                     $result['status'] = 1;
@@ -78,15 +81,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t registered petitions';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$peticion->setId($_POST[POST_ID])) {
-                    $result['error'] = 'incorrect petition';
+                    $result['error'] = 'Incorrect petition';
                 } elseif ($result['dataset'] = $peticion->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'non-existent petition';
+                    $result['error'] = 'Non-existent petition';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -101,26 +106,28 @@ if (isset($_GET['action'])) {
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
                     !$peticion->setTelefono($_POST[POST_TELEFONO]) or
                     !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
-                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
+                    !$peticion->setEmail($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'petition edited succesfully';
+                    $result['message'] = 'Petition edited successfully';
                 } else {
-                    $result['error'] = 'An error ocurred while editing the petition';
+                    $result['error'] = 'An error occurred while editing the petition';
                 }
                 break;
+            // Caso para eliminar un registro.
             case 'deleteRow':
                 if (!$peticion->setId($_POST[POST_ID])) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'petition deleted succesfully';
+                    $result['message'] = 'Petition deleted successfully';
                 } else {
-                    $result['error'] = 'An error ocurred while deleting the petition';
+                    $result['error'] = 'An error occurred while deleting the petition';
                 }
                 break;
+            // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';
         }

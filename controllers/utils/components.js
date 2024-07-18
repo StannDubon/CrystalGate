@@ -30,6 +30,46 @@ const confirmAction = (message) => {
         return result.isConfirmed;
     });
 }
+/*
+*   Función para mostrar un mensaje de error con confirmación.
+*   Requiere la librería sweetalert para funcionar.
+*   Parámetros: message (mensaje de confirmación).
+*   Retorno: resultado de la promesa.
+*/
+const confirmActionError = (message) => {
+    return Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonText: 'Ok',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor: '#3085d6',
+    }).then((result) => {
+        return result.isConfirmed;
+    });
+}
+/*
+*   Función para mostrar un mensaje de succes con confirmación.
+*   Requiere la librería sweetalert para funcionar.
+*   Parámetros: message (mensaje de confirmación).
+*   Retorno: resultado de la promesa.
+*/
+const confirmActionSuccess = (message) => {
+    return Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'Ok',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor: '#3085d6',
+    }).then((result) => {
+        return result.isConfirmed;
+    });
+}
 
 /*
 *   Función asíncrona para manejar los mensajes de notificación al usuario.

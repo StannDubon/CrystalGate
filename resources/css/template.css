@@ -142,6 +142,8 @@ main{
     padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
     background-color: var(--color-fondo-3);
+
+    cursor: pointer;
 }
 
 .nav-profile-element b{

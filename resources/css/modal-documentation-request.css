@@ -127,3 +127,7 @@ input::placeholder {
     padding: 2%;
     align-items: center;
 }
+
+.body-no-scroll {
+    overflow: hidden;
+  }

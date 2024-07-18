@@ -10,7 +10,7 @@ const POST_DESCRIPCION = "descripcion";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -29,6 +29,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -39,6 +40,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -55,6 +57,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while creating the notification';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $Notificacion->readAll()) {
                     $result['status'] = 1;
@@ -63,6 +66,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t notifications registered';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$Notificacion->setId($_POST[POST_ID])) {
                     $result['error'] = $Notificacion->getDataError();
@@ -72,6 +76,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent notification';
                 }
                 break;
+            // Caso para leer permisos asociados a la notificación.
             case 'readPermission':
                 if (!$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID])) {
                     $result['error'] = $Notificacion->getDataError();
@@ -81,6 +86,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent notification';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -98,6 +104,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while editing the notification';
                 }
                 break;
+            // Caso para eliminar un registro.
             case 'deleteRow':
                 if (!$Notificacion->setId($_POST[POST_ID])) {
                     $result['error'] = $Notificacion->getDataError();
@@ -108,6 +115,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while deleting the notification';
                 }
                 break;
+            // Caso predeterminado.
             default:
                 $result['error'] = 'Action not available in the session';
         }
@@ -123,4 +131,3 @@ if (isset($_GET['action'])) {
 } else {
     print(json_encode('Resource not available'));
 }
-?>

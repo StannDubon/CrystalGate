@@ -71,6 +71,7 @@ SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_ADMINISTRATOR.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -165,6 +166,9 @@ const openTypes = () => {
 */
 const openCreate = () => {
     SAVE_MODAL_ADMINISTRATOR.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_ADMINISTRATOR.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';
     SAVE_FORM_ADMINISTRATOR.reset();
     fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador');
@@ -180,6 +184,9 @@ const openUpdate = async (id) => {
     const DATA = await fetchData(ADMINISTRATOR_API, 'readOne', FORM);
     if (DATA.status) {
         SAVE_MODAL_ADMINISTRATOR.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_ADMINISTRATOR.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_ADMINISTRATOR.textContent = 'Update authorization';
         SAVE_FORM_ADMINISTRATOR.reset();
 
