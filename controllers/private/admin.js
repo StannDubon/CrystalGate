@@ -1,7 +1,8 @@
 const ADMINISTRATOR_API = 'services/admin/administrador.php',
     ADMINISTRATOR_TYPE_API = 'services/admin/tipo-administrador.php';
 // Constante para establecer el form e input de buscar.
-const SEARCH_INPUT = document.getElementById('search-input');
+const SEARCH_FORM = document.getElementById('search-form'),
+    SEARCH_INPUT = document.getElementById('search-input');
 const ADMINISTRATOR = document.getElementById('admin-main-cards-container');
 
 // Constantes para establecer los elementos del componente Modal.
@@ -17,20 +18,46 @@ const SAVE_FORM_ADMINISTRATOR = document.getElementById('administrator-form'),
     CLAVE_ADMINISTRATOR = document.getElementById('claveAdministrador'),
     CONFIRMAR_CLAVE_ADMINISTRATOR = document.getElementById('confirmarClave');
 
+// Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
     setupModalDiscardButtons();
-    fillTable();
+    fillTable(); //Funcion para cargar los datos de la base
 });
 
 let SEARCH_VALUE = '';
 
+// Método del evento para cuando se envía el formulario de buscar.
 SEARCH_INPUT.addEventListener('input', (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    SEARCH_VALUE = event.target.value;
-    search(SEARCH_VALUE);
-});
 
+    SEARCH_VALUE = event.target.value;
+
+    search(SEARCH_VALUE);
+   
+});
+// Funcion para buscar los datos en la base
+search = async (SEARCH_VALUE) => {
+    const FORM = new FormData(SEARCH_FORM);
+
+    // Añadir el valor del input al FormData
+    FORM.append('search',SEARCH_VALUE);
+
+    if (SEARCH_VALUE !== ''){
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+
+        // Añadir el valor del input al FormData
+        FORM.append('search',SEARCH_VALUE);
+
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+       await fillTable(FORM);
+    }else{
+       await fillTable();
+    }
+}
+// Método del evento para cuando se envía el formulario de guardar .
 SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -44,6 +71,7 @@ SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_ADMINISTRATOR.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -52,7 +80,7 @@ SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
-
+// Funcion para cargar los datos de la base
 const fillTable = async (form = null) => {
     ADMINISTRATOR.innerHTML = '';
     // Se verifica la acción a realizar.
@@ -127,20 +155,38 @@ const fillTable = async (form = null) => {
         sweetAlert(4, DATA.error, true);
     }
 }
-
+// Funcion para redirigir a la pagina de tipos de administradores
+const openTypes = () => {
+    location.href = 'admin-type.html';
+}
+/*
+*   Función para preparar el formulario al momento de insertar un registro.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
 const openCreate = () => {
     SAVE_MODAL_ADMINISTRATOR.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_ADMINISTRATOR.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';
     SAVE_FORM_ADMINISTRATOR.reset();
     fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador');
 }
-
+/*
+*   Función para preparar el formulario al momento de actualizar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
 const openUpdate = async (id) => {
     const FORM = new FormData();
     FORM.append('idAdministrador', id);
     const DATA = await fetchData(ADMINISTRATOR_API, 'readOne', FORM);
     if (DATA.status) {
         SAVE_MODAL_ADMINISTRATOR.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_ADMINISTRATOR.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_ADMINISTRATOR.textContent = 'Update authorization';
         SAVE_FORM_ADMINISTRATOR.reset();
 
@@ -155,7 +201,11 @@ const openUpdate = async (id) => {
         sweetAlert(2, DATA.error, false);
     }
 }
-
+/*
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
 const openDelete = async (id) => {
     const RESPONSE = await confirmAction('Do you want to delete the administrator permanently?');
     if (RESPONSE) {

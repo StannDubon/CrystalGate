@@ -1,16 +1,17 @@
+// Constantes para establecer las rutas de la api
 const SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php',
         PERMISSION_API = 'services/admin/permiso.php';
-
+// Constantes para el buscador
 const SEARCH_FORM = document.getElementById("searchForm");
 const SEARCH_INPUT = document.getElementById("searchInput");
 const FILTER_SELECT = document.getElementById("selectFilterIdClasificacionSubPermiso")
-
+// Constante para obtener el contenedor principal
 const PERMISSION_MAIN_CONTAINER = document.getElementById("permissions-main-content")
-
+// Titulo de la pagina
 const PERMISSION_HEADER_TITLE = document.getElementById("main-header-permission-main-title")
 
 var actualPermissionId = null;
-
+// Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     const urlParams = new URLSearchParams(window.location.search);
@@ -20,13 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
     fillTable();
 });
 
+// Método del evento para cuando se envía el formulario de buscar.
 SEARCH_INPUT.addEventListener("input", (event) => {
     event.preventDefault();
     const FORM = new FormData();
     FORM.append("search", SEARCH_INPUT.value);
-    fillTable();
-});
+    
 
+    if(FILTER_SELECT.value){
+        FORM.append("idTipoPermiso", FILTER_SELECT.value);
+        fillSubTable(FORM);
+    } else{
+        FORM.append("idClasificacionPermiso", actualPermissionId);
+        fillTable(FORM);
+    }
+});
+// Filtro del buscador
 FILTER_SELECT.addEventListener("change", (event) => {
     event.preventDefault();
     if(FILTER_SELECT.value){
@@ -35,14 +45,21 @@ FILTER_SELECT.addEventListener("change", (event) => {
         fillTable();
     }
 });
-
-const fillSubTable = async () => {
-    const FORM = new FormData();
-    FORM.append("idTipoPermiso", FILTER_SELECT.value);
-    // Se inicializa el contenido de la tabla.
+// Funcion para cargar los datos desde la base
+const fillSubTable = async (form = null) => {
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
+
+    if(form == null){
+        form = new FormData();
+        form.append('idTipoPermiso', FILTER_SELECT.value);
+    }
+
     // Se verifica la acción a realizar.
-    const DATA = await fetchData(PERMISSION_API, "selectFilter", FORM);
+    const searchValue = form.get("search");
+    const action = searchValue ? 'searchSubCategoryRows' : 'selectFilter';
+
+    // Se verifica la acción a realizar.
+    const DATA = await fetchData(PERMISSION_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         DATA.dataset.forEach((row) => {
@@ -181,14 +198,18 @@ const fillSubTable = async () => {
     }
 };
   
-
+// Funcion para cargar los datos desde la base de datos
 const fillTable = async (form = null) => {
     // Se inicializa el contenido de la tabla.
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
-    form = form ?? new FormData();
+    if(form == null){
+        form = new FormData();
+        form.append('idClasificacionPermiso', actualPermissionId);
+    }
+
     // Se verifica la acción a realizar.
-    const searchValue = form.get('search');
-    const action = searchValue ? 'searchRows' : 'readAll';
+    const searchValue = form.get("search");
+    const action = searchValue ? 'searchCategoryRows' : 'readCategory';
     const DATA = await fetchData(PERMISSION_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
@@ -333,7 +354,7 @@ const fillTable = async (form = null) => {
     }
 };
   
-
+// Funcion para cargar los datos desde la base de datos
 const fillPermissionData = async (id) => {
     const FORM = new FormData();
     FORM.append('idClasificacionPermiso', id);
@@ -341,34 +362,30 @@ const fillPermissionData = async (id) => {
     if (DATA.status) {
         const ROW = DATA.dataset;
         PERMISSION_HEADER_TITLE.textContent = ROW.clasificacion_permiso;
-        fillSelectSubPermissions(SUB_AUTHORIZATION_API, 'readAll', 'selectFilterIdClasificacionSubPermiso');
+        fillSelectSubPermissions(id, SUB_AUTHORIZATION_API, 'readNoEmtyReferences', 'selectFilterIdClasificacionSubPermiso');
     } else {
         sweetAlert(2, DATA.error, false);
     }
 }
-
-const fillSelectSubPermissions = async (filename, action, select, filter = undefined) => {
-    const FORM = (typeof (filter) === 'object') ? filter : null;
+// Funcion para establecer los select del buscador
+const fillSelectSubPermissions = async (id, filename, action, select) => {
+    const FORM = new FormData();
+    FORM.append('idClasificacionPermiso', id);
     const DATA = await fetchData(filename, action, FORM);
     let content = '';
     if (DATA.status) {
         content += '<option value="" selected>No filter</option>';
         DATA.dataset.forEach(row => {
             const value = Object.values(row)[0];
-            const text = Object.values(row)[2];
-            const SELECTED = (filter != null && (value == filter));
-            if (!SELECTED) {
-                content += `<option value="${value}">${text}</option>`;
-            } else {
-                content += `<option value="${value}" selected>${text}</option>`;
-            }
+            const text = Object.values(row)[1];
+            content += `<option value="${value}">${text}</option>`;
         });
     } else {
         content += '<option>No Subpermissions</option>';
     }
     document.getElementById(select).innerHTML = content;
 }
-
+// Funcion para estabelecer el tipo de fecha
 function DecomposeFormat(dateTime, type) {
     // Convert the string to a Date object
     let date = new Date(dateTime);

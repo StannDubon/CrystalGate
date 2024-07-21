@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
-    
+
     <!-- FUENTE -->
     <link rel="stylesheet" href="../resources/css/poppins.css">
-    
+
     <!-- COLOR MANAGER -->
     <link rel="stylesheet" href="../resources/css/color-manager.css">
 
@@ -35,12 +35,16 @@
 
     <main>
         <div class="main-header">
+            <!-- titulo de la pagina -->
             <div class="main-title">
-                <p>Employees</p>
+                <p>Administrators</p>
             </div>
 
             <div class="main-utilities">
+                <!-- Buscador -->
+                <form id="search-form"></form>
                 <div class="main-utilities-search">
+
                     <input id="search-input" type="text" placeholder="Search">
 
                     <div class="icon">
@@ -50,46 +54,72 @@
                                 fill="#888888" />
                         </svg>
                     </div>
-                </div>
 
-                <button onclick="openCreate()" class="" title="Add a authorization">
+                </div>
+                </form>
+                <!-- Botón para añadir un administrador  -->
+                <button onclick="openCreate()" class="" title="Add an admin">
                     <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z" fill="white" stroke="white" stroke-width="0.5"/>
-                        </svg>
-                        
+                        <path
+                            d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z"
+                            fill="white" stroke="white" stroke-width="0.5" />
+                    </svg>
+
                     Add An Administrator
+                </button>
+                <!-- Boton para abrir la pagina de tipos de administradores -->
+                <button onclick="openTypes()" class="" title="Manage admin types">
+                    <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0.191387 18.5794L3.05136 23.4234C3.24123 23.7447 3.55367 23.979 3.91997 24.0749C4.28628 24.1707 4.67646 24.1202 5.00472 23.9344L7.00098 22.806C7.83037 23.4458 8.74699 23.9708 9.71081 24.3628V26.6C9.71081 26.9713 9.86146 27.3274 10.1296 27.59C10.3978 27.8525 10.7615 28 11.1408 28H16.8607C17.24 28 17.6037 27.8525 17.8719 27.59C18.1401 27.3274 18.2907 26.9713 18.2907 26.6V24.3628C19.2621 23.9669 20.1737 23.4431 21.0005 22.806L22.9968 23.9344C23.6789 24.3194 24.5569 24.0884 24.9502 23.4234L27.8101 18.5794C27.9983 18.2577 28.0491 17.8762 27.9513 17.518C27.8536 17.1598 27.6152 16.8539 27.2882 16.667L25.3263 15.5568C25.4796 14.5243 25.4786 13.4754 25.3234 12.4432L27.2853 11.333C27.966 10.948 28.202 10.087 27.8073 9.4206L24.9473 4.5766C24.7574 4.2553 24.445 4.02097 24.0787 3.92514C23.7124 3.82932 23.3222 3.87984 22.9939 4.0656L20.9977 5.194C20.1719 4.55613 19.2606 4.0323 18.2893 3.6372V1.4C18.2893 1.0287 18.1386 0.672601 17.8705 0.41005C17.6023 0.1475 17.2386 0 16.8593 0H11.1394C10.7601 0 10.3964 0.1475 10.1282 0.41005C9.86003 0.672601 9.70938 1.0287 9.70938 1.4V3.6372C8.73802 4.03313 7.82635 4.55689 6.99955 5.194L5.00472 4.0656C4.84223 3.97344 4.66277 3.91354 4.47661 3.88934C4.29045 3.86515 4.10125 3.87712 3.91982 3.92458C3.73839 3.97204 3.5683 4.05406 3.41929 4.16594C3.27027 4.27782 3.14524 4.41737 3.05136 4.5766L0.191387 9.4206C0.00318389 9.74233 -0.0475642 10.1238 0.0501945 10.482C0.147953 10.8402 0.386301 11.1461 0.713332 11.333L2.67527 12.4432C2.52103 13.4756 2.52103 14.5244 2.67527 15.5568L0.713332 16.667C0.032659 17.052 -0.203289 17.913 0.191387 18.5794ZM13.9993 8.4C17.1539 8.4 19.7193 10.9116 19.7193 14C19.7193 17.0884 17.1539 19.6 13.9993 19.6C10.8448 19.6 8.27939 17.0884 8.27939 14C8.27939 10.9116 10.8448 8.4 13.9993 8.4Z"
+                            fill="white" />
+                    </svg>
+
+                    Admin Types
                 </button>
             </div>
         </div>
 
         <div class="main-content">
-
+            <!-- Contenedor donde se mostrarán los administradores -->
             <div class="fixer-fixer-employees" id="admin-main-cards-container">
-
-
+                
             </div>
 
         </div>
     </main>
 
+    <!-- Modal -->
     <div id="administrator-modal" class="custom-modal-container">
+        <!-- Contenedor del modal -->
         <div class="custom-modal-container-fixer">
             <div class="box-content">
                 <div class="tittle-modal-content" id="modal-title-administrator"></div>
                 <form id="administrator-form">
-
+                    <!-- Input oculto para el id -->
                     <input type="text" id="idAdministrador" name="idAdministrador" hidden>
                     <div class="main-modal-content">
-
+                        <!-- Inputs del formulario -->
                         <input type="file" id="imagenAdministrador" name="imagenAdministrador" accept="image/*">
-                        <input placeholder="Name" name="nombreAdministrador" id="nombreAdministrador" required>
-                        <input placeholder="Last Name" name="apellidoAdministrador" id="apellidoAdministrador" required>
-                        <select class="swal-custom-select" id="selectIdTipoAdministrador" name="idTipoAdministrador"></select>
-                        <input placeholder="Email" name="correoAdministrador" id="correoAdministrador" required>
-                        <input placeholder="Password" name="claveAdministrador" id="claveAdministrador" required>
-                        <input placeholder="Confirm Password" name="confirmarClave" id="confirmarClave" required>
+                        <input type="text" placeholder="Name" name="nombreAdministrador" id="nombreAdministrador" maxlength="50"
+                            minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <input type="text" placeholder="Last Name" name="apellidoAdministrador" id="apellidoAdministrador"
+                            maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <select class="swal-custom-select" id="selectIdTipoAdministrador"
+                            name="idTipoAdministrador"></select>
+                        <input type="email" placeholder="Email" name="correoAdministrador" id="correoAdministrador"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                        <input type="password" placeholder="Password" name="claveAdministrador" id="claveAdministrador" maxlength="100"
+                            minlength="8" required>
+                        <input type="password" placeholder="Confirm Password" name="confirmarClave" id="confirmarClave" maxlength="100"
+                            minlength="8" required>
 
                     </div>
+                    <!-- Botones del modal -->
                     <div class="footer-modal-content">
                         <button class="custom-modal-button-discard" type="button">Discard</button>
                         <button class="custom-modal-button-save" type="submit">Save</button>

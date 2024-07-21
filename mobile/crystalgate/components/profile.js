@@ -17,10 +17,13 @@ import HeaderSingle from "../components/header/headerSigle";
 import { useNavigation } from '@react-navigation/native';
 // Botón para cerrar sesión en la aplicación
 import LogOutButton from "./button/logOutButton";
+import AlertModal from './modal/alertModal';
+import fetchData from "./utils/database";
 
 const Profile = () => {
     const email = "cm.climber@glassbbo.com";
     const navigation = useNavigation();
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
@@ -35,10 +38,22 @@ const Profile = () => {
         // Función para manejar el envío
         navigation.navigate('Verification');
     };
-    const handleLogin = () => {
-        // Función para manejar el envío
-        navigation.navigate('Login');
-    };
+    const handleLogOut = async () => {
+        let action = "logOut";
+        try {
+          const result = await fetchData('cliente', action);
+          console.log(result);
+          if (result.status == 1) {
+            setSuccessModalVisible(true);
+            setTimeout(() => {
+              setSuccessModalVisible(false);
+              navigation.navigate('Login');
+            }, 3000);
+          } 
+        } catch (error) {
+          console.error("Error: ", error);
+        }
+      };
 
     // Renderizado del componente
     return (
@@ -82,11 +97,12 @@ const Profile = () => {
                     <Text style={styles.charge}>Developer Manager</Text>
 
                     <View style={styles.ContentButton}>
-                    <LogOutButton onPress={handleLogin}></LogOutButton>
+                    <LogOutButton onPress={handleLogOut}></LogOutButton>
                     <ChangePassButton onPress={handleRecovery}/>
                     </View>
                 </View>
             </View>
+            <AlertModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Log Out successfully"} />
         </View>
     );
 };

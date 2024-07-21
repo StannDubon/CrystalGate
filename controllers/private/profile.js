@@ -21,6 +21,7 @@ const PASSWORD_FORM = document.getElementById('save-form-password');
 document.addEventListener('DOMContentLoaded', async () => {
 // Petición para obtener los datos del usuario que ha iniciado sesión.
     fillDataProfile();
+    setupModalDiscardButtons();
 });
 
 fillDataProfile = async() => {
@@ -43,8 +44,10 @@ if (DATA.status) {
 closeModal = () =>{
     if(PROFILE_MODAL.classList.contains('show') ){
         PROFILE_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }else if(PASSWORD_MODAL.classList.contains('show')){
         PASSWORD_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
     }
 }
 
@@ -84,7 +87,32 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
+//Funcion para copiar el email del administrador
+copyEmail = () => {
 
+    // Se obtieneel textContent
+    var texto = CORREO_ADMIN.textContent;
+    
+    // Se crea un elemento temporal de tipo textarea
+    var tempTextarea = document.createElement('textarea');
+    tempTextarea.value = texto;
+    
+    // Se añade el textarea temporal al documento
+    document.body.appendChild(tempTextarea);
+    
+    // Selecciona el contenido del textarea
+    tempTextarea.select();
+    tempTextarea.setSelectionRange(0, 99999); // Para móviles
+    
+    // Copia el contenido al portapapeles
+    document.execCommand('copy');
+    
+    // Elimina el textarea temporal
+    document.body.removeChild(tempTextarea);
+    
+    // Muestra una alerta o un mensaje de éxito
+    sweetAlert(1, 'Email copied to the clipboard', null);
+}
 /*
 *   Función para preparar el formulario al momento de editar el perfil.
 *   Parámetros: ninguno.
@@ -96,6 +124,9 @@ const openProfile = async() => {
     const DATA = await fetchData(USER_API, 'readProfile');
 
     PROFILE_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        PROFILE_MODAL.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_PROFILE.textContent = 'Update profile info';
         // Se prepara el formulario.
         PROFILE_FORM.reset();
@@ -113,6 +144,9 @@ const openProfile = async() => {
 const openPassword = () => {
     // Se abre la caja de diálogo que contiene el formulario.
     PASSWORD_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        PASSWORD_MODAL.style.marginTop = window.scrollY + 'px';
     // Se restauran los elementos del formulario.
 
     MODAL_TITLE_PASSWORD.textContent = 'Change password';

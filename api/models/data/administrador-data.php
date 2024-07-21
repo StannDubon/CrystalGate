@@ -3,6 +3,7 @@
 require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
 require_once('../../models/handler/administrador-handler.php');
+
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
@@ -15,6 +16,8 @@ class AdministradorData extends AdministradorHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+
+    // Método para establecer el ID, validando que sea un número natural.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,6 +29,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para establecer el ID del tipo de administrador, validando que sea un número natural.
     public function setIdTipoAdmin($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -37,6 +41,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para establecer el nombre, validando que sea alfabético y tenga la longitud adecuada.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -51,6 +56,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para establecer el apellido, validando que sea alfabético y tenga la longitud adecuada.
     public function setApellido($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -65,6 +71,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para establecer el correo, validando su formato y longitud.
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -79,6 +86,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para establecer la clave, validando que cumpla con los requisitos y almacenándola hasheada.
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {
@@ -90,6 +98,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para obtener el nombre de archivo de imagen del administrador.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -101,6 +110,19 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para obtener el nombre de archivo de imagen del administrador desde la sesión.
+    public function setSessionFilename()
+    {
+        if ($data = $this->readSessionFilename()) {
+            $this->filename = $data['imagen'];
+            return true;
+        } else {
+            $this->data_error = 'Administrador inexistente';
+            return false;
+        }
+    }
+
+    // Método para establecer la imagen del administrador, validando el archivo de imagen.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 100)) {
@@ -118,12 +140,17 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    /*
+     *  Métodos para obtener información y manejar errores.
+     */
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
 
+    // Método para obtener el nombre de archivo de imagen del administrador.
     public function getFilename()
     {
         return $this->filename;

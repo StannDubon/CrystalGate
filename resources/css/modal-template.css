@@ -126,3 +126,7 @@ input::placeholder {
     align-items: center;
     text-align: center;
 }
+
+.body-no-scroll {
+    overflow: hidden;
+  }
