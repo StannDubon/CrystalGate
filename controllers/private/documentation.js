@@ -56,25 +56,99 @@ const fillTable = async (form = null) => {
         if (action === 'searchRows' && DATA.dataset.length === 0) {
             VoidResult(DATA.error); // Mostrar resultado vacío si no hay datos
         } else {
+
             DATA.dataset.forEach((row) => {
-                REQUEST_MAIN_CONTAINER.innerHTML += `
+
+                let SEND_TYPE = row.modo_entrega;
+
+                if(SEND_TYPE == 0){
+                    SEND_TYPE = 'Scanned';
+                } else if(SEND_TYPE == 1){
+                    SEND_TYPE = 'Printed';
+                }
+
+                let ESTADO = row.estado;
+
+                if(ESTADO == 1){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                    <!-- INICIO TARJETA -->
+                    <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                    <div class="content-card-general card-fixer-history temp-info">
+                        <div class="content-card-general-col1"  onclick="openInfo(${row.id_peticion})">
+                            <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                            <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                            <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                        </div>
+    
+                        <div class="content-card-general-col2"  onclick="openInfo(${row.id_peticion})">
+                            <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                            <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                            <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                        </div>
+                        <div class="documentation-action-button">
+                            <div class="documentation-accept-button" onclick="openAccept(${row.id_peticion})">
+                                <svg width="32" height="32" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.707 8.293L1.414 5L0 6.414L4.707 11.121L14.414 1.414L13 0L4.707 8.293Z" fill="white"/>
+                                </svg>
+
+                            </div>
+                            <div class="documentation-reject-button" onclick="openReject(${row.id_peticion})">
+                                <svg width="32" height="32" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.899 0L5.656 4.242L1.414 0L0 1.414L4.242 5.656L0 9.898L1.414 11.312L5.656 7.07L9.899 11.312L11.313 9.898L7.071 5.656L11.313 1.414L9.899 0Z" fill="white"/>
+                                </svg>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL TARJETA -->
+                    `;
+                } else if (ESTADO == 2){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
                 <!-- INICIO TARJETA -->
                 <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
-                <div class="content-card-general approved-permission card-fixer-history temp-info" onclick="openInfo(${row.id_usuario})">
+                <div class="content-card-general approved-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
                     <div class="content-card-general-col1">
-                        <p class="content-card-general-name">Nombre: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
-                        <p class="content-card-general-name">Correo: <b class="content-card-general-reason">${row.correo}</b></p>
-                        <p class="content-card-general-name">Número de Contacto: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
                     </div>
 
                     <div class="content-card-general-col2">
-                        <p class="content-card-general-name">Idioma del Documento: <b class="content-card-general-reason">${row.idioma}</b></p>
-                        <p class="content-card-general-name">Dirección a: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
-                        <p class="content-card-general-name">Tipo de Envío: <b class="content-card-general-reason">${row.tipo_peticion}</b></p>
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>APPROVED</p>
                     </div>
                 </div>
                 <!-- FINAL TARJETA -->
                 `;
+                } else if (ESTADO == 3){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+                <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                <div class="content-card-general rejected-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
+                    <div class="content-card-general-col1">
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                    </div>
+
+                    <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>REJECTED</p>
+                    </div>
+                </div>
+                <!-- FINAL TARJETA -->
+                `;
+                }
+
+                
             });
         }
     } else {
@@ -93,16 +167,26 @@ const openInfo = async (id) => {
     const DATA = await fetchData(REQUEST_API, 'readOne', FORM); // Obtener los datos de la solicitud
     if (DATA.status) {
         const ROW = DATA.dataset;
-        PETICION_INFO_MODAL_ID.textContent = ROW.id_peticion;
-        PETICION_INFO_MODAL_DIRECCION.textContent = ROW.direccion;
-        PETICION_INFO_MODAL_TELEFONO.textContent = ROW.telefono_contacto;
-        PETICION_INFO_MODAL_NOMBRE.textContent = ROW.nombre + " " + ROW.apellido;
-        PETICION_INFO_MODAL_ID_USUARIO.textContent = ROW.id_usuario;
-        PETICION_INFO_MODAL_TIPO_PETICION.textContent = ROW.tipo_peticion;
-        PETICION_INFO_MODAL_IDIOMA.textContent = ROW.idioma;
-        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = ROW.centro_entrega;
-        PETICION_INFO_MODAL_CORREO.textContent = ROW.correo;
-        PETICION_INFO_MODAL_MODO_ENTREGA.textContent = ROW.modo_entrega;
+
+        let SEND_TYPE = ROW.modo_entrega;
+
+        if(SEND_TYPE == 0){
+            SEND_TYPE = 'Scanned';
+        } else if(SEND_TYPE == 1){
+            SEND_TYPE = 'Printed';
+        }
+
+
+        PETICION_INFO_MODAL_ID.value = ROW.id_peticion;
+        PETICION_INFO_MODAL_DIRECCION.textContent = "Address: " + ROW.direccion;
+        PETICION_INFO_MODAL_TELEFONO.textContent = "Contact Number: " + ROW.telefono_contacto;
+        PETICION_INFO_MODAL_NOMBRE.textContent = "Employee name: " + ROW.nombre + " " + ROW.apellido;
+        PETICION_INFO_MODAL_ID_USUARIO.value = ROW.id_usuario;
+        PETICION_INFO_MODAL_TIPO_PETICION.textContent = "Request Type: " + ROW.tipo_peticion;
+        PETICION_INFO_MODAL_IDIOMA.textContent = "Document Language: " + ROW.idioma;
+        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = "Location: " + ROW.centro_entrega;
+        PETICION_INFO_MODAL_CORREO.textContent = "Employee email: " + ROW.correo;
+        PETICION_INFO_MODAL_MODO_ENTREGA.textContent = "Send type: " + SEND_TYPE;
         PETICION_INFO_MODAL.classList.add('show'); // Mostrar el modal
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
@@ -112,75 +196,50 @@ const openInfo = async (id) => {
     }
 };
 
-// Función asincrónica para llenar los datos de permiso
-const fillPermissionData = async (id) => {
-    const FORM = new FormData();
-    FORM.append('idClasificacionPermiso', id); // Añadir el ID de clasificación del permiso al FormData
-    const DATA = await fetchData(AUTHORIZATION_API, 'readOne', FORM); // Obtener los datos del permiso
-    if (DATA.status) {
-        const ROW = DATA.dataset;
-        REQUEST_HEADER_TITLE.textContent = ROW.clasificacion_permiso;
-        fillSelectSubPermissions(id, SUB_AUTHORIZATION_API, 'readNoEmtyReferences', 'selectFilterIdClasificacionSubPermiso'); // Llenar el select de subpermisos
-    } else {
-        sweetAlert(2, DATA.error, false); // Mostrar alerta si la solicitud falla
+const openAccept = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to accept the petition?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',2);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+
+            const RESPONSE = await confirmActionSuccess('Petition accepted successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
-};
+}
 
-// Función asincrónica para llenar el select de subpermisos
-const fillSelectSubPermissions = async (id, filename, action, select) => {
-    const FORM = new FormData();
-    FORM.append('idClasificacionPermiso', id); // Añadir el ID de clasificación del permiso al FormData
-    const DATA = await fetchData(filename, action, FORM); // Obtener los datos de subpermisos
-    let content = '';
-    if (DATA.status) {
-        content += '<option value="" selected>Sin filtro</option>';
-        DATA.dataset.forEach(row => {
-            const value = Object.values(row)[0];
-            const text = Object.values(row)[1];
-            content += `<option value="${value}">${text}</option>`;
-        });
-    } else {
-        content += '<option>Sin subpermisos</option>';
-    }
-    document.getElementById(select).innerHTML = content; // Llenar el select con los subpermisos
-};
+const openReject = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to reject the petition?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',3);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
 
-// Función para descomponer el formato de fecha y hora
-function DecomposeFormat(dateTime, type) {
-    // Convertir la cadena a un objeto Date
-    let date = new Date(dateTime);
-    
-    // Verificar si la fecha es válida
-    if (isNaN(date)) {
-        return "Fecha inválida";
-    }
-    
-    // Obtener los componentes de la fecha y hora
-    let day = date.getDate();
-    let month = date.getMonth() + 1; // Los meses van de 0 a 11
-    let year = date.getFullYear();
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-
-    // Formatear la fecha como cadenas
-    let formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-    let formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-
-    // Formatear la hora en AM/PM si el tipo es 3
-    let ampm = hours >= 12 ? 'PM' : 'AM';
-    let hour12 = hours % 12;
-    hour12 = hour12 ? hour12 : 12; // La hora '0' debe ser '12'
-    let formattedTime12 = `${hour12 < 10 ? '0' + hour12 : hour12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
-
-    // Devolver la fecha o la hora según el tipo solicitado
-    if (type === 1) {
-        return formattedDate;
-    } else if (type === 2) {
-        return formattedTime;
-    } else if (type === 3) {
-        return formattedTime12;
-    } else {
-        return "Tipo inválido";
+            const RESPONSE = await confirmActionSuccess('Petition rejected successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }

@@ -34,14 +34,14 @@ INSERT INTO tb_centros_entregas(centro_entrega) VALUES
 ('Center 2'),
 ('Center 3');
 
-INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto) VALUES
-(1, 1, 1, 1, '123 Main St', TRUE, '555-1234'),
-(2, 2, 2, 2, '456 Oak St', FALSE, '555-5678'),
-(3, 3, 3, 3, '789 Pine St', TRUE, '555-9101'),
-(4, 1, 1, 1, '101 Maple St', FALSE, '555-1122'),
-(1, 2, 2, 2, '202 Elm St', TRUE, '555-1234'),
-(2, 3, 3, 3, '303 Birch St', FALSE, '555-5678'),
-(3, 1, 1, 1, '404 Cedar St', TRUE, '555-9101'),
-(4, 2, 2, 2, '505 Spruce St', FALSE, '555-1122'),
-(1, 3, 3, 3, '606 Walnut St', TRUE, '555-1234'),
-(2, 1, 1, 1, '707 Hickory St', FALSE, '555-5678');
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado) VALUES
+(1, 1, 1, 1, '123 Main St', TRUE, '555-1234',1),
+(2, 2, 2, 2, '456 Oak St', FALSE, '555-5678',1),
+(3, 3, 3, 3, '789 Pine St', TRUE, '555-9101',1),
+(4, 1, 1, 1, '101 Maple St', FALSE, '555-1122',1),
+(1, 2, 2, 2, '202 Elm St', TRUE, '555-1234',1),
+(2, 3, 3, 3, '303 Birch St', FALSE, '555-5678',2),
+(3, 1, 1, 1, '404 Cedar St', TRUE, '555-9101',2),
+(4, 2, 2, 2, '505 Spruce St', FALSE, '555-1122',2),
+(1, 3, 3, 3, '606 Walnut St', TRUE, '555-1234',3),
+(2, 1, 1, 1, '707 Hickory St', FALSE, '555-5678',3);
