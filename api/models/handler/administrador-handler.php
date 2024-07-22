@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
@@ -111,6 +111,31 @@ class AdministradorHandler
         $sql = 'SELECT a.id_administrador, a.id_tipo_administrador, tpa.tipo_administrador, a.nombre, a.apellido, a.clave, a.correo, a.imagen
                 FROM tb_administradores AS a
                 JOIN tb_tipos_administradores AS tpa ON a.id_tipo_administrador = tpa.id_tipo_administrador;';
+        return Database::getRows($sql); // Obtiene y devuelve todos los registros de administradores.
+    }
+
+    // Método para leer todos los registros de administradores. (para los reportes)
+    public function readAllAdministrators()
+    {
+        $sql = "SELECT 
+                    CONCAT(a.nombre, ' ', a.apellido) AS 'administrator',
+                    a.correo AS 'email',
+                    ta.tipo_administrador AS 'type',
+                    SUM(CASE WHEN p.estado = '2' THEN 1 ELSE 0 END) AS 'approved',
+                    SUM(CASE WHEN p.estado = '3' THEN 1 ELSE 0 END) AS 'rejected'
+                FROM 
+                    tb_administradores a
+                LEFT JOIN 
+                    tb_notificaciones n ON a.id_administrador = n.id_administrador
+                LEFT JOIN 
+                    tb_permisos p ON n.id_permiso = p.id_permiso
+                LEFT JOIN 
+                    tb_tipos_administradores ta ON a.id_tipo_administrador = ta.id_tipo_administrador
+                GROUP BY 
+                    a.id_administrador, a.nombre, a.apellido, a.correo, ta.tipo_administrador
+                ORDER BY 
+                    administrator
+                ";
         return Database::getRows($sql); // Obtiene y devuelve todos los registros de administradores.
     }
 

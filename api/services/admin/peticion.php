@@ -116,6 +116,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error occurred while editing the petition';
                 }
                 break;
+            // Caso para actualizar el estado de un registro.
+            case 'updateState':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$peticion->setId($_POST[POST_ID]) or
+                    !$peticion->setestado($_POST[POST_ESTADO])
+                ) {
+                    $result['error'] = $peticion->getDataError();
+                } elseif ($peticion->updateState()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Petition edited successfully';
+                } else {
+                    $result['error'] = 'An error occurred while editing the petition';
+                }
+                break;
             // Caso para eliminar un registro.
             case 'deleteRow':
                 if (!$peticion->setId($_POST[POST_ID])) {

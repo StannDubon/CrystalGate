@@ -565,6 +565,39 @@
     background-color: var(--primary-hover-blue);
 }
 
+.documentation-action-button{
+    height: 100%;
+
+}
+
+.documentation-action-button div{
+    height: 38%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.documentation-action-button .documentation-reject-button{
+    background-color: var(--color-rejected);
+    border-radius: 0 0 10px 0;
+}
+
+.documentation-action-button .documentation-reject-button:hover{
+    background-color: var(--primary-hover-red);
+}
+
+.documentation-action-button .documentation-accept-button{
+    background-color: var(--color-approved);
+    border-radius: 0 10px 0 0;
+}
+
+.documentation-action-button .documentation-accept-button:hover{
+    background-color: var(--primary-hover-green);
+}
+
 #admin-main-cards-container{
     display: flex;
     gap: 30px;
