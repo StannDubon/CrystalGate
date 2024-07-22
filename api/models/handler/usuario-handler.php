@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_usuarios.
@@ -109,6 +109,29 @@ class UsuarioHandler
         $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
                 FROM tb_usuarios a, tb_cargos b WHERE a.id_cargo = b.id_cargo
                 ORDER BY a.apellido';
+        return Database::getRows($sql);
+    }
+
+    // Método para leer todos los usuarios. (para reportes)
+    public function readAllUsers()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'Employee',
+                    u.correo AS 'Email',
+                    c.cargo AS 'charge',
+                    SUM(CASE WHEN p.estado = '2' THEN 1 ELSE 0 END) AS 'approved',
+                    SUM(CASE WHEN p.estado = '3' THEN 1 ELSE 0 END) AS 'rejected',
+                    COUNT(p.id_permiso) AS 'total'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                LEFT JOIN 
+                    tb_cargos c ON u.id_cargo = c.id_cargo
+                GROUP BY 
+                    u.id_usuario, u.nombre, u.apellido, u.correo, c.cargo
+                ORDER BY
+                    Employee";
         return Database::getRows($sql);
     }
 
