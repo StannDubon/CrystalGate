@@ -79,7 +79,7 @@ CREATE TABLE
         nombre_entrega VARCHAR(64),
         email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
-        estado ENUM('1','2','3'),
+        estado ENUM('1','2','3'), /*1= Pending, 2= Accepted, 3= Rejected */
         fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
