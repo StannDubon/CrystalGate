@@ -17,6 +17,8 @@ class AdministradorHandler
     protected $clave = null;
     protected $imagen = null;
 
+    protected $permission = null;
+
     const RUTA_IMAGEN = '../../images/admin/';
 
     /*
@@ -189,4 +191,25 @@ class AdministradorHandler
             return false; // No hay resultados
         }
     }
+
+    public function validatePermissions()
+    {
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $this->permission . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+
+        if ($result['permission'] == '1') {
+            return false;
+        } else{
+            return true;
+        }
+    }    
+    
 }

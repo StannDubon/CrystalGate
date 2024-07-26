@@ -9,21 +9,34 @@ FLUSH PRIVILEGES;
 
 /* TABLAS INDEPENDIENTES */
 
-CREATE TABLE 
-	tb_tipos_permisos(
-		id_tipo_permiso INT PRIMARY KEY AUTO_INCREMENT,
-		permisos BOOLEAN DEFAULT FALSE,
-		empleados BOOLEAN DEFAULT FALSE,
-		administradores BOOLEAN DEFAULT FALSE,
-		peticiones BOOLEAN DEFAULT FALSE,
-		autorizaciones BOOLEAN DEFAULT FALSE
-);
-
 CREATE TABLE
     tb_tipos_administradores (
         id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
         tipo_administrador VARCHAR(50) UNIQUE,
-        estado BOOLEAN DEFAULT TRUE
+        estado BOOLEAN DEFAULT TRUE,
+
+        permisos BOOLEAN DEFAULT FALSE,
+		documentacion BOOLEAN DEFAULT FALSE,
+
+        empleados_view BOOLEAN DEFAULT FALSE,
+		empleados_update BOOLEAN DEFAULT FALSE,
+        empleados_delete BOOLEAN DEFAULT FALSE,
+        empleados_add BOOLEAN DEFAULT FALSE,
+
+		administradores_view BOOLEAN DEFAULT FALSE,
+		administradores_update BOOLEAN DEFAULT FALSE,
+		administradores_delete BOOLEAN DEFAULT FALSE,
+		administradores_add BOOLEAN DEFAULT FALSE,
+
+		autorizaciones_view BOOLEAN DEFAULT FALSE,
+		autorizaciones_update BOOLEAN DEFAULT FALSE,
+		autorizaciones_delete BOOLEAN DEFAULT FALSE,
+		autorizaciones_add BOOLEAN DEFAULT FALSE,
+
+        tipo_administrador_view BOOLEAN DEFAULT FALSE,
+        tipo_administrador_update BOOLEAN DEFAULT FALSE,
+        tipo_administrador_delete BOOLEAN DEFAULT FALSE,
+        tipo_administrador_add BOOLEAN DEFAULT FALSE
     );
 
 CREATE TABLE
@@ -63,6 +76,7 @@ CREATE TABLE
     );
 
 /* TABLAS DEPENDIENTES */
+
 CREATE TABLE
     tb_usuarios (
         id_usuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -121,6 +135,7 @@ CREATE TABLE
         fecha_envio DATETIME NOT NULL,
         documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
+
         estado ENUM ('1', '2', '3'), /*1= Pending, 2= Accepted, 3= Rejected */
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
         CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso)
@@ -187,6 +202,9 @@ INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VAL
 (2, "Breastfeeding", "3"),
 (2, "Personal Day", "3"),
 (2, "Other", "3");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(3, "Vacations", "3");
 
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
 

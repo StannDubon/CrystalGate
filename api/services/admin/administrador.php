@@ -111,10 +111,13 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'deleteRow':
-                if ($_POST[POST_ID] == $_SESSION['idAdministrador']) {
+                if ($_POST[POST_ID] == $_SESSION['idAdministrador'] ) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
-                } elseif (!$administrador->setId($_POST[POST_ID])) {
+                } elseif (!$administrador->setId($_POST[POST_ID]) or
+                          !$administrador->setPermission('d')) {
                     $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->validatePermissions()) {
+                    $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($administrador->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador eliminado correctamente';
