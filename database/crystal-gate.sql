@@ -8,6 +8,17 @@ GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
 FLUSH PRIVILEGES;
 
 /* TABLAS INDEPENDIENTES */
+
+CREATE TABLE 
+	tb_tipos_permisos(
+		id_tipo_permiso INT PRIMARY KEY AUTO_INCREMENT,
+		permisos BOOLEAN DEFAULT FALSE,
+		empleados BOOLEAN DEFAULT FALSE,
+		administradores BOOLEAN DEFAULT FALSE,
+		peticiones BOOLEAN DEFAULT FALSE,
+		autorizaciones BOOLEAN DEFAULT FALSE
+);
+
 CREATE TABLE
     tb_tipos_administradores (
         id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
@@ -79,7 +90,7 @@ CREATE TABLE
         nombre_entrega VARCHAR(64),
         email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
-        estado ENUM('1','2','3'),
+        estado ENUM('1','2','3'), /*1= Pending, 2= Accepted, 3= Rejected */
         fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
