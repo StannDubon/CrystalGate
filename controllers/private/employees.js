@@ -17,7 +17,18 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     CLAVE_EMPLEADO = document.getElementById('claveUsuario'),
     CONFIRMAR_CLAVE_EMPLEADO = document.getElementById('confirmarClave');
 
-
+    const pastelAndContrastColors = () => {
+        // Genera un color pastel
+        const hue = Math.random() * 360; // El matiz es el mismo para ambos colores
+        const pastelColor = `hsl(${hue}, 100%, 87.5%)`;
+    
+        // Calcula un color con el mismo matiz pero más oscuro
+        const contrastColor = `hsl(${hue}, 100%, 50%)`; // Puedes ajustar el valor de luminosidad para más contraste
+    
+        return [pastelColor, contrastColor];
+    };
+    
+    
 
     const fillEmployees = async (form = null) => {
         BOX_EMPLOYEES.innerHTML = '';
@@ -29,7 +40,14 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
         if (DATA.status) {
             // Se recorre el conjunto de registros fila por fila.
             DATA.dataset.forEach(row => {
-    
+                default_image_fixer = ""
+                if(row.imagen == "default.png"){
+                    xd = pastelAndContrastColors();
+                    image_value = ""
+                    default_image_fixer = `<div class="default-image-fixer" style="background-color: ${xd[0]};"> <b style="color: ${xd[1]};">${row.nombre[0] + row.apellido[0]}</b></div>`
+                } else{
+                    image_value = "../api/images/user/"+row.imagen
+                }
                 // Se crean y concatenan las filas de la tabla con los datos de cada registro.
                 BOX_EMPLOYEES.innerHTML += `
                 <!-- INICIO TARJETA -->
@@ -37,7 +55,8 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
                 <div class="content-card-admin-info">
                     
                         <div class="image-container">
-                            <img src="../api/images/user/${row.imagen}" alt="">
+                            ${default_image_fixer}
+                            <img src="${image_value}" alt="">
                             <div class="info-icon">
                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13 0C5.8318 0 0 5.8318 0 13C0 20.1682 5.8318 26 13 26C20.1682 26 26 20.1682 26 13C26 5.8318 20.1682 0 13 0ZM14.3 18.5C14.3 19.0523 13.8523 19.5 13.3 19.5H12.7C12.1477 19.5 11.7 19.0523 11.7 18.5V12.7C11.7 12.1477 12.1477 11.7 12.7 11.7H13.3C13.8523 11.7 14.3 12.1477 14.3 12.7V18.5ZM14.3 8.1C14.3 8.65228 13.8523 9.1 13.3 9.1H12.7C12.1477 9.1 11.7 8.65228 11.7 8.1V7.5C11.7 6.94772 12.1477 6.5 12.7 6.5H13.3C13.8523 6.5 14.3 6.94772 14.3 7.5V8.1Z" fill="white"/>
