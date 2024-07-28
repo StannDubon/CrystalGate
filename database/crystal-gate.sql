@@ -178,7 +178,34 @@ CREATE TABLE
         CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
-INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
+INSERT INTO tb_tipos_administradores VALUES(
+/* id */ 1,
+/* Nombre */ "root",
+/* Estado */ 1,
+
+/* PERMISOS */ 1,
+/* DOCUMENTACION */ 1,
+
+/* Empleados VER */ 1,
+/* Empleados ACTUALIZAR */ 1,
+/* Empleados ELIMINAR */ 1,
+/* Empleados AGREGAR */ 1,
+
+/* Administradores VER */ 1,
+/* Administradores ACTUALIZAR */ 1,
+/* Administradores ELIMINAR */ 1,
+/* Administradores AGREGAR */ 1,
+
+/* Autorizaciones VER */ 1,
+/* Autorizaciones ACTUALIZAR */ 1,
+/* Autorizaciones ELIMINAR */ 1,
+/* Autorizaciones AGREGAR */ 1,
+
+/* Tipos de administrador VER */ 1,
+/* Tipos de administrador ACTUALIZAR */ 1,
+/* Tipos de administrador ELIMINAR */ 1,
+/* Tipos de administrador AGREGAR */ 1
+);
 
 INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
 ("Medical Leave"),

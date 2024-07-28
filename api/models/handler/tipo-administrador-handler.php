@@ -72,4 +72,26 @@ class TipoAdministradorHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "tipo_administrador_view",
+            'u' => "tipo_administrador_update",
+            'd' => "tipo_administrador_delete",
+            'a' => "tipo_administrador_add"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
+    }
 }

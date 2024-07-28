@@ -43,7 +43,9 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($administrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $administrador->searchRows()) {
                     $result['status'] = 1;
@@ -63,6 +65,8 @@ if (isset($_GET['action'])) {
                     !$administrador->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->validatePermissions('a')) {
+                    $result['error'] = 'No tiene permisos para añadir un administrador';
                 } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
                     $result['error'] = 'Contraseñas diferentes';
                 } elseif ($administrador->createRow()) {
@@ -74,7 +78,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $administrador->readAll()) {
+                if ($administrador->validatePermissions('v')) {
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $administrador->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -82,7 +88,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$administrador->setId($_POST[POST_ID])) {
+                if ($administrador->validatePermissions('v')) {
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!$administrador->setId($_POST[POST_ID])) {
                     $result['error'] = 'Administrador incorrecto';
                 } elseif ($result['dataset'] = $administrador->readOne()) {
                     $result['status'] = 1;
@@ -102,6 +110,8 @@ if (isset($_GET['action'])) {
                     !$administrador->setImagen($_FILES[POST_IMAGEN], $administrador->getFilename())
                 ) {
                     $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->validatePermissions('u')) {
+                    $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador modificado correctamente';
@@ -113,10 +123,9 @@ if (isset($_GET['action'])) {
             case 'deleteRow':
                 if ($_POST[POST_ID] == $_SESSION['idAdministrador'] ) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
-                } elseif (!$administrador->setId($_POST[POST_ID]) or
-                          !$administrador->setPermission('d')) {
+                } elseif (!$administrador->setId($_POST[POST_ID])) {
                     $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->validatePermissions()) {
+                } elseif ($administrador->validatePermissions('d')) {
                     $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($administrador->deleteRow()) {
                     $result['status'] = 1;

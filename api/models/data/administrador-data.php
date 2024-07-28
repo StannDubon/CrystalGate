@@ -12,13 +12,6 @@ class AdministradorData extends AdministradorHandler
     private $data_error = null;
     private $filename = null;
 
-    private $pass_administrador = [
-        'v' => "administradores_view",
-        'u' => "administradores_update",
-        'd' => "administradores_delete",
-        'a' => "administradores_add"
-    ];
-
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
@@ -134,13 +127,6 @@ class AdministradorData extends AdministradorHandler
             $this->imagen = 'default.png';
             return true;
         }
-    }
-    
-    // Permission Authenticator per Session System (PASS)
-    public function setPermission($value)
-    {
-        $this->permission = $this->pass_administrador[$value];
-        return true;
     }
 
 

@@ -29,7 +29,9 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoAdministrador->searchRows()) {
                     $result['status'] = 1;
@@ -40,7 +42,9 @@ if (isset($_GET['action'])) {
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($TipoAdministrador->validatePermissions('a')){
+                    $result['error'] = 'No tiene permisos para agregar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
                     !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
                 ) {
@@ -53,7 +57,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $TipoAdministrador->readAll()) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif ($result['dataset'] = $TipoAdministrador->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -61,7 +67,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$TipoAdministrador->setId($_POST[POST_ID])) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif (!$TipoAdministrador->setId($_POST[POST_ID])) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($result['dataset'] = $TipoAdministrador->readOne()) {
                     $result['status'] = 1;
@@ -71,7 +79,9 @@ if (isset($_GET['action'])) {
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($TipoAdministrador->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para actualizar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID]) or
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
                     !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
@@ -87,7 +97,9 @@ if (isset($_GET['action'])) {
                 break;
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($TipoAdministrador->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para actualizar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();
@@ -100,7 +112,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'deleteRow':
-                if (
+                if($TipoAdministrador->validatePermissions('d')){
+                    $result['error'] = 'No tiene permisos para eliminar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();

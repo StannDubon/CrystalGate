@@ -17,7 +17,7 @@ class UsuarioHandler
     protected $clave = null;
     protected $imagen = null;
 
-    const RUTA_IMAGEN = '../images/user/';
+    const RUTA_IMAGEN = '../../images/user/';
 
     /*
      *  Métodos para gestionar la cuenta del usuario.
@@ -134,5 +134,27 @@ class UsuarioHandler
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "empleados_view",
+            'u' => "empleados_update",
+            'd' => "empleados_delete",
+            'a' => "empleados_add"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
     }
 }

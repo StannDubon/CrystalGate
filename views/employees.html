@@ -124,45 +124,44 @@
 
         </div>
 
+    </main>
 
+    <div id="employee-modal" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-employee"></div>
+                <form id="employee-form">
 
-        <div id="employee-modal" class="custom-modal-container">
-            <div class="custom-modal-container-fixer">
-                <div class="box-content">
-                    <div class="tittle-modal-content" id="modal-title-employee"></div>
-                    <form id="employee-form">
+                    <input type="text" id="idUsuario" name="idUsuario" hidden>
+                    <div class="main-modal-content">
 
-                        <input type="text" id="idUsuario" name="idUsuario" hidden>
-                        <div class="main-modal-content">
+                        <input type="file" id="imagenUsuario" name="imagenUsuario" accept="image/*">
+                        <input type="text" placeholder="Name" name="nombreUsuario" id="nombreUsuario" maxlength="50"
+                            minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <input type="text" placeholder="Last Name" name="apellidoUsuario" id="apellidoUsuario"
+                            maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <select class="swal-custom-select" id="idCargo" name="idCargo"></select>
+                        <input type="email" placeholder="Email" name="correoUsuario" id="correoUsuario"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                        <input type="password" placeholder="Password" name="claveUsuario" id="claveUsuario"
+                            maxlength="100" minlength="8" required>
+                        <input type="password" placeholder="Confirm Password" name="confirmarClave" maxlength="100"
+                            minlength="8" id="confirmarClave" required>
 
-                            <input type="file" id="imagenUsuario" name="imagenUsuario" accept="image/*">
-                            <input type="text" placeholder="Name" name="nombreUsuario" id="nombreUsuario" maxlength="50"
-                                minlength="2" pattern="[A-Za-z\s]{2,50}"
-                                title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
-                                required>
-                            <input type="text" placeholder="Last Name" name="apellidoUsuario" id="apellidoUsuario"
-                                maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
-                                title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
-                                required>
-                            <select class="swal-custom-select" id="idCargo" name="idCargo"></select>
-                            <input type="email" placeholder="Email" name="correoUsuario" id="correoUsuario"
-                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
-                            <input type="password" placeholder="Password" name="claveUsuario" id="claveUsuario"
-                                maxlength="100" minlength="8" required>
-                            <input type="password" placeholder="Confirm Password" name="confirmarClave" maxlength="100"
-                                minlength="8" id="confirmarClave" required>
-
-                        </div>
-                        <div class="footer-modal-content">
-                            <button class="custom-modal-button-discard" type="button">Discard</button>
-                            <button class="custom-modal-button-save" type="submit">Save</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-    </main>
+    </div>
+    
     <!-- SWEET ALERTS -->
     <script src="../resources/js/sweetalert.min.js"></script>
 

@@ -17,8 +17,6 @@ class AdministradorHandler
     protected $clave = null;
     protected $imagen = null;
 
-    protected $permission = null;
-
     const RUTA_IMAGEN = '../../images/admin/';
 
     /*
@@ -185,17 +183,21 @@ class AdministradorHandler
         $params = array($this->correo);
         $result = Database::getRow($sql, $params);
     
-        if ($result['count'] > 0) {
-            return true; // Hay resultados
-        } else {
-            return false; // No hay resultados
-        }
+        return $result['count'] > 0;
+
     }
 
-    public function validatePermissions()
+    public function validatePermissions($value)
     {
+        $pass_data = [
+            'v' => "administradores_view",
+            'u' => "administradores_update",
+            'd' => "administradores_delete",
+            'a' => "administradores_add"
+        ];
+
         // Ensure column_name is replaced correctly in the SQL query
-        $sql = 'SELECT ' . $this->permission . ' as permission
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
                 FROM tb_administradores a
                 INNER JOIN tb_tipos_administradores b
                 ON a.id_tipo_administrador = b.id_tipo_administrador
@@ -204,12 +206,7 @@ class AdministradorHandler
         // Prepare the parameters for the SQL query
         $params = array($_SESSION['idAdministrador']);
         $result = Database::getRow($sql, $params);
-
-        if ($result['permission'] == '1') {
-            return false;
-        } else{
-            return true;
-        }
-    }    
+        return $result['permission'] != '1';
+    }
     
 }
