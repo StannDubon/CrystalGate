@@ -29,7 +29,7 @@ const loadTemplate = async () => {
   // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
   if (DATA.session) {
     if (location.pathname.endsWith("index.html")) {
-      location.href = "dashboard  .html";
+      location.href = "dashboard.html";
     }
     // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
@@ -376,7 +376,7 @@ const loadTemplate = async () => {
     }
   } else {
     // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.
-    if (!location.pathname.endsWith("index.html")) {
+    if (!location.pathname.endsWith("change-password.html") && !location.pathname.endsWith("index.html")) {
       location.href = "index.html";
     }
   }

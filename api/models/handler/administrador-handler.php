@@ -171,7 +171,7 @@ class AdministradorHandler
     public function changePasswordFromEmail()
     {
         $sql = 'UPDATE tb_administradores SET clave = ? WHERE correo = ?';
-        $params = array($this->clave, $this->correo);
+        $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
         return Database::executeRow($sql, $params);
     }
 
