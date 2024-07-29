@@ -42,6 +42,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Método para buscar datos en la tabla
             case 'searchRows':
                 if($administrador->validatePermissions('v')){
                     $result['error'] = 'No tiene permisos para leer los administradores';
@@ -49,11 +50,12 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $administrador->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Método para insertar un registro en la tabla
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -68,26 +70,29 @@ if (isset($_GET['action'])) {
                 } elseif ($administrador->validatePermissions('a')) {
                     $result['error'] = 'No tiene permisos para añadir un administrador';
                 } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
-                    $result['error'] = 'Contraseñas diferentes';
+                    $result['error'] = 'Different Passwords';
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Administrador creado correctamente';
+                    $result['message'] = 'The administrator was created succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el administrador';
+                    $result['error'] = 'An error ocurred while creating the administrator';
                 }
                 break;
+            // Metodo para mostrar todos los registros de la tabla
             case 'readAll':
                 if ($administrador->validatePermissions('v')) {
                     $result['error'] = 'No tiene permisos para leer los administradores';
                 } elseif ($result['dataset'] = $administrador->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen administradores registrados';
+                    $result['error'] = 'There aren´t registered administrators';
                 }
                 break;
+            // Metodo para leer un registro
             case 'readOne':
+
                 if ($administrador->validatePermissions('v')) {
                     $result['error'] = 'No tiene permisos para leer los administradores';
                 } elseif (!$administrador->setId($_POST[POST_ID])) {
@@ -95,9 +100,10 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $administrador->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Administrador inexistente';
+                    $result['error'] = 'Non-existent administrator';
                 }
                 break;
+            // Metodo para actualizar un registro
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -114,12 +120,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Administrador modificado correctamente';
+                    $result['message'] = 'Administrator modificated succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN, $administrador->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el administrador';
+                    $result['error'] = 'An error ocurred while editing the administrator';
                 }
                 break;
+            // Metodo para borrar un registro
             case 'deleteRow':
                 if ($_POST[POST_ID] == $_SESSION['idAdministrador'] ) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
@@ -129,34 +136,38 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($administrador->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Administrador eliminado correctamente';
+                    $result['message'] = 'Administrator deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el administrador';
+                    $result['error'] = 'An error ocurred while deleting the administrator';
                 }
                 break;
+            // Metodo para obtener el usuario
             case 'getUser':
                 if (isset($_SESSION['correoAdministrador'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['correoAdministrador'];
                 } else {
-                    $result['error'] = 'Alias de administrador indefinido';
+                    $result['error'] = 'Admin user undefined';
                 }
                 break;
+            // Metodo para cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
+                    $result['message'] = 'Session deleted succesfully ';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
+                    $result['error'] = 'An error ocurred while login out';
                 }
                 break;
+            // Metodo para leer la informacion de perfil
             case 'readProfile':
                 if ($result['dataset'] = $administrador->readProfile()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Ocurrió un problema al leer el perfil';
+                    $result['error'] = 'An error ocurred while reading the profile';
                 }
                 break;
+            // Metodo para editar la informacion del perfil
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -169,49 +180,52 @@ if (isset($_GET['action'])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->editProfile()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Perfil modificado correctamente';
+                    $result['message'] = 'Profile edited succesfully';
                     $result['fileStatus'] = Validator::saveFile($_FILES[POST_IMAGEN], $administrador::RUTA_IMAGEN, $administrador->getFilename());
                     $_SESSION['correoAdministrador'] = $_POST['correoAdministrador'];
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                    $result['error'] = 'An error ocurred while editing the profile';
                 }
                 break;
+            // Metodo para cambiar la contraseña
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$administrador->checkPassword($_POST[POST_CLAVE_ACTUAL])) {
-                    $result['error'] = 'Contraseña actual incorrecta';
+                    $result['error'] = 'Current password invalid';
                 } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
-                    $result['error'] = 'Confirmación de contraseña diferente';
+                    $result['error'] = 'Confirmation of different passwords';
                 } elseif (!$administrador->setClave($_POST[POST_CLAVE_NUEVA])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->changePassword()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contraseña cambiada correctamente';
+                    $result['message'] = 'Password changed succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    $result['error'] = 'An error ocurred while changing the password';
                 }
                 break;
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
+            // Metodo para leer todos los administradores
             case 'readUsers':
                 if ($administrador->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Debe autenticarse para ingresar';
+                    $result['message'] = 'You need to authenticate yourself to log in ';
                 } else {
-                    $result['error'] = 'Debe crear un administrador para comenzar';
+                    $result['error'] = 'You need to create an administrator to start';
                 }
                 break;
+            // Metodo para iniciar sesión
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
                     $result['status'] = 1;
-                    $result['message'] = 'Autenticación correcta';
+                    $result['message'] = 'Correct authentication';
                 } else {
-                    $result['error'] = 'Credenciales incorrectas';
+                    $result['error'] = 'Wrong credentials';
                 }
                 break;
             case 'firstUsage':

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     setupModalDiscardButtons();
     loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoAdministrador");
-    // Petición para solicitar los tipos de peticiones (request types).
+    // Petición para solicitar los datos de la base.
     fillTypes();
     
 });
@@ -55,8 +55,9 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 // Funcion para cerrar el modal
 closeModal = () => {
     SAVE_MODAL.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
-
+// Funcion para cargar los datos de la base
 const fillTypes = async (form = null) => {
 
     (form) ? action = 'searchRows' : action = 'readAll';
@@ -106,7 +107,7 @@ const fillTypes = async (form = null) => {
         BOX_TYPES.textContent = DATA.error;
     }
 }
-
+// Funcion para cambiar el estado del registro seleccionado
 const changeChargeStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to change the status of this charge?');
@@ -141,6 +142,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -158,6 +160,9 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE.textContent = 'Add an admin type';
     // Se prepara el formulario.
     SAVE_FORM.reset();
@@ -178,6 +183,9 @@ const openUpdate = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE.textContent = 'Update admin type';
         // Se prepara el formulario.
         SAVE_FORM.reset();

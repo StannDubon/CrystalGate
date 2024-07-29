@@ -1,16 +1,17 @@
+// Constantes para establecer las rutas de la api
 const SUB_AUTHORIZATION_API = 'services/admin/tipo-permiso.php',
         PERMISSION_API = 'services/admin/permiso.php';
-
+// Constantes para el buscador
 const SEARCH_FORM = document.getElementById("searchForm");
 const SEARCH_INPUT = document.getElementById("searchInput");
 const FILTER_SELECT = document.getElementById("selectFilterIdClasificacionSubPermiso")
-
+// Constante para obtener el contenedor principal
 const PERMISSION_MAIN_CONTAINER = document.getElementById("permissions-main-content")
-
+// Titulo de la pagina
 const PERMISSION_HEADER_TITLE = document.getElementById("main-header-permission-main-title")
 
 var actualPermissionId = null;
-
+// Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     const urlParams = new URLSearchParams(window.location.search);
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fillTable();
 });
 
+// Método del evento para cuando se envía el formulario de buscar.
 SEARCH_INPUT.addEventListener("input", (event) => {
     event.preventDefault();
     const FORM = new FormData();
@@ -34,7 +36,7 @@ SEARCH_INPUT.addEventListener("input", (event) => {
         fillTable(FORM);
     }
 });
-
+// Filtro del buscador
 FILTER_SELECT.addEventListener("change", (event) => {
     event.preventDefault();
     if(FILTER_SELECT.value){
@@ -43,7 +45,7 @@ FILTER_SELECT.addEventListener("change", (event) => {
         fillTable();
     }
 });
-
+// Funcion para cargar los datos desde la base
 const fillSubTable = async (form = null) => {
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
 
@@ -196,7 +198,7 @@ const fillSubTable = async (form = null) => {
     }
 };
   
-
+// Funcion para cargar los datos desde la base de datos
 const fillTable = async (form = null) => {
     // Se inicializa el contenido de la tabla.
     PERMISSION_MAIN_CONTAINER.innerHTML = '';
@@ -352,7 +354,7 @@ const fillTable = async (form = null) => {
     }
 };
   
-
+// Funcion para cargar los datos desde la base de datos
 const fillPermissionData = async (id) => {
     const FORM = new FormData();
     FORM.append('idClasificacionPermiso', id);
@@ -365,7 +367,7 @@ const fillPermissionData = async (id) => {
         sweetAlert(2, DATA.error, false);
     }
 }
-
+// Funcion para establecer los select del buscador
 const fillSelectSubPermissions = async (id, filename, action, select) => {
     const FORM = new FormData();
     FORM.append('idClasificacionPermiso', id);
@@ -383,7 +385,7 @@ const fillSelectSubPermissions = async (id, filename, action, select) => {
     }
     document.getElementById(select).innerHTML = content;
 }
-
+// Funcion para estabelecer el tipo de fecha
 function DecomposeFormat(dateTime, type) {
     // Convert the string to a Date object
     let date = new Date(dateTime);
@@ -421,4 +423,11 @@ function DecomposeFormat(dateTime, type) {
     } else {
         return "Invalid type";
     }
+}
+// FUNCION PARA ABRIR LOS REPORTES
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/permisos.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
 }

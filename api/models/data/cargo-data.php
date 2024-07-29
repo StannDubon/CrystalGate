@@ -1,11 +1,11 @@
-
 <?php
 // Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
 require_once('../../models/handler/cargo-handler.php');
+
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla CARGO.
  */
 class CargoData extends CargoHandler
 {
@@ -18,6 +18,8 @@ class CargoData extends CargoHandler
     /*
      *  Métodos para validar y establecer los datos.
      */
+
+    // Método para establecer el ID, validando que sea un número natural.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -29,6 +31,7 @@ class CargoData extends CargoHandler
         }
     }
 
+    // Método para establecer el cargo, validando que sea alfanumérico y tenga la longitud adecuada.
     public function setCargo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
@@ -43,6 +46,7 @@ class CargoData extends CargoHandler
         }
     }
 
+    // Método para establecer el estado, validando que sea un valor booleano.
     public function setEstado($value)
     {
         // Validar el valor booleano usando validateBoolean
@@ -54,7 +58,7 @@ class CargoData extends CargoHandler
                 $value = (int) $value === 1;
             }
 
-            // Asignar el valor validado a $this->status
+            // Asignar el valor validado a $this->estado
             $this->estado = (bool) $value;
             return true;
         } else {
@@ -67,13 +71,17 @@ class CargoData extends CargoHandler
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
+
+    // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
 
+    // Método para obtener el nombre de archivo.
     public function getFilename()
     {
         return $this->filename;
     }
 }
+?>

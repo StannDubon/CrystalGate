@@ -1,8 +1,9 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
 require_once('../../helpers/database.php');
+
 /*
- *  Clase para manejar el comportamiento de los datos de la tabla TIPOS_PERMISOS.
+ *  Clase para manejar el comportamiento de los datos de la tabla tb_tipos_permisos.
  */
 class TipoPermisoHandler
 {
@@ -18,6 +19,8 @@ class TipoPermisoHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+    // Método para buscar tipos de permisos por un valor de búsqueda.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -26,6 +29,7 @@ class TipoPermisoHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para crear un nuevo tipo de permiso.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_tipos_permisos (id_clasificacion_permiso, tipo_permiso, lapso, estado) VALUES (?, ?, ?, ?)';
@@ -33,6 +37,7 @@ class TipoPermisoHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer todos los tipos de permisos.
     public function readAll()
     {
         $sql = 'SELECT *
@@ -41,6 +46,7 @@ class TipoPermisoHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer tipos de permisos que tienen referencias no vacías en la tabla tb_permisos.
     public function readNoEmtyReferences()
     {
         $sql = 'SELECT tp.id_tipo_permiso, tp.tipo_permiso, COUNT(p.id_permiso) AS cantidad_permisos
@@ -53,6 +59,7 @@ class TipoPermisoHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para leer un tipo de permiso específico por su ID.
     public function readOne()
     {
         $sql = 'SELECT *
@@ -62,15 +69,17 @@ class TipoPermisoHandler
         return Database::getRow($sql, $params);
     }
 
+    // Método para actualizar un tipo de permiso.
     public function updateRow()
     {
         $sql = 'UPDATE tb_tipos_permisos
                 SET id_clasificacion_permiso = ?, tipo_permiso = ?, lapso = ?, estado = ?
                 WHERE id_tipo_permiso = ?';
-        $params = array($this->clasificacion, $this->tipo, $this->lapso,$this->estado, $this->id);
+        $params = array($this->clasificacion, $this->tipo, $this->lapso, $this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar un tipo de permiso por su ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_tipos_permisos
@@ -79,6 +88,7 @@ class TipoPermisoHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para cambiar el estado (activo/inactivo) de un tipo de permiso.
     public function changeStatus()
     {
         $sql = 'UPDATE tb_tipos_permisos
@@ -87,6 +97,7 @@ class TipoPermisoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
 
     public function validatePermissions($value)
     {
@@ -110,3 +121,4 @@ class TipoPermisoHandler
         return $result['permission'] != '1';
     }
 }
+

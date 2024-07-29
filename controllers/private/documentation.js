@@ -1,14 +1,13 @@
-const REQUEST_API = 'services/admin/peticion.php';
+const REQUEST_API = 'services/admin/peticion.php'; // Endpoint de la API para solicitudes
 
-const SEARCH_FORM = document.getElementById("searchForm");
-const SEARCH_INPUT = document.getElementById("searchInput");
+const SEARCH_FORM = document.getElementById("searchForm"); // Elemento del formulario de búsqueda
+const SEARCH_INPUT = document.getElementById("searchInput"); // Elemento de entrada de búsqueda
 
-const REQUEST_MAIN_CONTAINER = document.getElementById("request-main-content")
-const REQUEST_HEADER_TITLE = document.getElementById("main-header-request-main-title")
+const REQUEST_MAIN_CONTAINER = document.getElementById("request-main-content"); // Contenedor para el contenido principal de solicitudes
+const REQUEST_HEADER_TITLE = document.getElementById("main-header-request-main-title"); // Elemento del título del encabezado
 
-// datos del modal a llenar xd
-
-PETICION_INFO_MODAL = document.getElementById("modal-info")
+// Elementos de datos del modal
+const PETICION_INFO_MODAL = document.getElementById("modal-info");
 
 const PETICION_INFO_MODAL_ID = document.getElementById('peticion-info-modal-id');
 const PETICION_INFO_MODAL_DIRECCION = document.getElementById('peticion-info-modal-direccion');
@@ -21,159 +20,226 @@ const PETICION_INFO_MODAL_CENTRO_ENTREGA = document.getElementById('peticion-inf
 const PETICION_INFO_MODAL_CORREO = document.getElementById('peticion-info-modal-correo');
 const PETICION_INFO_MODAL_MODO_ENTREGA = document.getElementById('peticion-info-modal-modo-entrega');
 
-
+// Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', () => {
-    loadTemplate();
-    fillTable();
-    setupModalDiscardButtons();
+    loadTemplate(); // Cargar la plantilla
+    fillTable(); // Llenar la tabla
+    setupModalDiscardButtons(); // Configurar los botones de descarte del modal
 });
 
+// Evento que se ejecuta cuando se escribe en el campo de búsqueda
 SEARCH_INPUT.addEventListener("input", (event) => {
     event.preventDefault();
-    const FORM = new FormData();
-    FORM.append("search", SEARCH_INPUT.value);
-    fillTable(FORM);
+    const FORM = new FormData(); // Crear un nuevo objeto FormData
+    FORM.append("search", SEARCH_INPUT.value); // Añadir el valor de búsqueda al FormData
+    fillTable(FORM); // Llenar la tabla con el formulario de búsqueda
 });
 
+// Función asincrónica para llenar la tabla
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
+    // Inicializar el contenido de la tabla
     REQUEST_MAIN_CONTAINER.innerHTML = '';
 
-    if(form == null){
-        form = new FormData();
+    if (form == null) {
+        form = new FormData(); // Crear un nuevo FormData si no se proporciona uno
     }
 
-    // Se verifica la acción a realizar.
+    // Verificar la acción a realizar
     const searchValue = form.get("search");
     const action = searchValue ? 'searchRows' : 'readAll';
 
-    // Petición para obtener los registros disponibles.
+    // Petición para obtener los registros disponibles
     const DATA = await fetchData(REQUEST_API, action, form);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-      if (action === 'searchRows' && DATA.dataset.length === 0) {
-        VoidResult(DATA.error);
-      } else {
-          DATA.dataset.forEach((row) => {
-            REQUEST_MAIN_CONTAINER.innerHTML += `
-            <!-- INICIO TARJETA -->
-            <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
-            <div class="content-card-general approved-permission card-fixer-history temp-info" onclick="openInfo(${row.id_usuario})">
-                <div class="content-card-general-col1">
-                    <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre +" "+ row.apellido}</b></p>
-                    <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
-                    <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
-                </div>
 
-                <div class="content-card-general-col2">
-                    <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
-                    <p class="content-card-general-name">Addres To: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
-                    <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${row.tipo_peticion}</b>
-                    </p>
+    // Comprobar si la respuesta es satisfactoria, de lo contrario mostrar un mensaje con la excepción
+    if (DATA.status) {
+        if (action === 'searchRows' && DATA.dataset.length === 0) {
+            VoidResult(DATA.error); // Mostrar resultado vacío si no hay datos
+        } else {
+
+            DATA.dataset.forEach((row) => {
+
+                let SEND_TYPE = row.modo_entrega;
+
+                if(SEND_TYPE == 0){
+                    SEND_TYPE = 'Scanned';
+                } else if(SEND_TYPE == 1){
+                    SEND_TYPE = 'Printed';
+                }
+
+                let ESTADO = row.estado;
+
+                if(ESTADO == 1){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                    <!-- INICIO TARJETA -->
+                    <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                    <div class="content-card-general card-fixer-history temp-info">
+                        <div class="content-card-general-col1"  onclick="openInfo(${row.id_peticion})">
+                            <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                            <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                            <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                        </div>
+    
+                        <div class="content-card-general-col2"  onclick="openInfo(${row.id_peticion})">
+                            <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                            <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                            <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                        </div>
+                        <div class="documentation-action-button">
+                            <div class="documentation-accept-button" onclick="openAccept(${row.id_peticion})">
+                                <svg width="32" height="32" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.707 8.293L1.414 5L0 6.414L4.707 11.121L14.414 1.414L13 0L4.707 8.293Z" fill="white"/>
+                                </svg>
+
+                            </div>
+                            <div class="documentation-reject-button" onclick="openReject(${row.id_peticion})">
+                                <svg width="32" height="32" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.899 0L5.656 4.242L1.414 0L0 1.414L4.242 5.656L0 9.898L1.414 11.312L5.656 7.07L9.899 11.312L11.313 9.898L7.071 5.656L11.313 1.414L9.899 0Z" fill="white"/>
+                                </svg>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL TARJETA -->
+                    `;
+                } else if (ESTADO == 2){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+                <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                <div class="content-card-general approved-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
+                    <div class="content-card-general-col1">
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                    </div>
+
+                    <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>APPROVED</p>
+                    </div>
                 </div>
-            </div>
-            <!-- FINAL TARJETA -->
-            `;
-            
-        });
-      }
+                <!-- FINAL TARJETA -->
+                `;
+                } else if (ESTADO == 3){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+                <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                <div class="content-card-general rejected-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
+                    <div class="content-card-general-col1">
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                    </div>
+
+                    <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>REJECTED</p>
+                    </div>
+                </div>
+                <!-- FINAL TARJETA -->
+                `;
+                }
+
+                
+            });
+        }
     } else {
-        REQUEST_MAIN_CONTAINER.innerHTML += DATA.error;
+        REQUEST_MAIN_CONTAINER.innerHTML += DATA.error; // Mostrar error si la solicitud falla
     }
 };
 
+openSettings = () => {
+    location.href = "documentation-settings.html"
+}
+
+// Función asincrónica para abrir la información de una solicitud
 const openInfo = async (id) => {
     const FORM = new FormData();
-    FORM.append('idPeticion', id);
-    const DATA = await fetchData(REQUEST_API, 'readOne', FORM);
+    FORM.append('idPeticion', id); // Añadir el ID de la petición al FormData
+    const DATA = await fetchData(REQUEST_API, 'readOne', FORM); // Obtener los datos de la solicitud
     if (DATA.status) {
         const ROW = DATA.dataset;
-        PETICION_INFO_MODAL_ID.textContent = ROW.id_peticion;
-        PETICION_INFO_MODAL_DIRECCION.textContent = ROW.direccion;
-        PETICION_INFO_MODAL_TELEFONO.textContent = ROW.telefono_contacto;
-        PETICION_INFO_MODAL_NOMBRE.textContent = ROW.nombre + " " + ROW.apellido;
-        PETICION_INFO_MODAL_ID_USUARIO.textContent = ROW.id_usuario;
-        PETICION_INFO_MODAL_TIPO_PETICION.textContent = ROW.tipo_peticion;
-        PETICION_INFO_MODAL_IDIOMA.textContent = ROW.idioma;
-        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = ROW.centro_entrega;
-        PETICION_INFO_MODAL_CORREO.textContent = ROW.correo;
-        PETICION_INFO_MODAL_MODO_ENTREGA.textContent = ROW.modo_entrega;
-        PETICION_INFO_MODAL.classList.add('show');
-        document.body.classList.add('body-no-scroll');
+
+        let SEND_TYPE = ROW.modo_entrega;
+
+        if(SEND_TYPE == 0){
+            SEND_TYPE = 'Scanned';
+        } else if(SEND_TYPE == 1){
+            SEND_TYPE = 'Printed';
+        }
+
+
+        PETICION_INFO_MODAL_ID.value = ROW.id_peticion;
+        PETICION_INFO_MODAL_DIRECCION.textContent = "Address: " + ROW.direccion;
+        PETICION_INFO_MODAL_TELEFONO.textContent = "Contact Number: " + ROW.telefono_contacto;
+        PETICION_INFO_MODAL_NOMBRE.textContent = "Employee name: " + ROW.nombre + " " + ROW.apellido;
+        PETICION_INFO_MODAL_ID_USUARIO.value = ROW.id_usuario;
+        PETICION_INFO_MODAL_TIPO_PETICION.textContent = "Request Type: " + ROW.tipo_peticion;
+        PETICION_INFO_MODAL_IDIOMA.textContent = "Document Language: " + ROW.idioma;
+        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = "Location: " + ROW.centro_entrega;
+        PETICION_INFO_MODAL_CORREO.textContent = "Employee email: " + ROW.correo;
+        PETICION_INFO_MODAL_MODO_ENTREGA.textContent = "Send type: " + SEND_TYPE;
+        PETICION_INFO_MODAL.classList.add('show'); // Mostrar el modal
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
         PETICION_INFO_MODAL.style.marginTop = window.scrollY + 'px';
     } else {
-        sweetAlert(2, DATA.error, false);
+        sweetAlert(2, DATA.error, false); // Mostrar alerta si la solicitud falla
+    }
+};
+
+const openAccept = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to accept the petition?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',2);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+
+            const RESPONSE = await confirmActionSuccess('Petition accepted successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
-  
 
-const fillPermissionData = async (id) => {
-    const FORM = new FormData();
-    FORM.append('idClasificacionPermiso', id);
-    const DATA = await fetchData(AUTHORIZATION_API, 'readOne', FORM);
-    if (DATA.status) {
-        const ROW = DATA.dataset;
-        REQUEST_HEADER_TITLE.textContent = ROW.clasificacion_permiso;
-        fillSelectSubPermissions(id, SUB_AUTHORIZATION_API, 'readNoEmtyReferences', 'selectFilterIdClasificacionSubPermiso');
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
-}
+const openReject = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to reject the petition?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',3);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
 
-const fillSelectSubPermissions = async (id, filename, action, select) => {
-    const FORM = new FormData();
-    FORM.append('idClasificacionPermiso', id);
-    const DATA = await fetchData(filename, action, FORM);
-    let content = '';
-    if (DATA.status) {
-        content += '<option value="" selected>No filter</option>';
-        DATA.dataset.forEach(row => {
-            const value = Object.values(row)[0];
-            const text = Object.values(row)[1];
-            content += `<option value="${value}">${text}</option>`;
-        });
-    } else {
-        content += '<option>No Subpermissions</option>';
-    }
-    document.getElementById(select).innerHTML = content;
-}
-
-function DecomposeFormat(dateTime, type) {
-    // Convert the string to a Date object
-    let date = new Date(dateTime);
-    
-    // Check if the date is valid
-    if (isNaN(date)) {
-        return "Invalid date";
-    }
-    
-    // Get the components of the date and time
-    let day = date.getDate();
-    let month = date.getMonth() + 1; // Months are from 0 to 11
-    let year = date.getFullYear();
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-
-    // Format the date as strings
-    let formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-    let formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-
-    // Format the time in AM/PM if type is 3
-    let ampm = hours >= 12 ? 'PM' : 'AM';
-    let hour12 = hours % 12;
-    hour12 = hour12 ? hour12 : 12; // the hour '0' should be '12'
-    let formattedTime12 = `${hour12 < 10 ? '0' + hour12 : hour12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
-
-    // Return the date or time according to the requested type
-    if (type === 1) {
-        return formattedDate;
-    } else if (type === 2) {
-        return formattedTime;
-    } else if (type === 3) {
-        return formattedTime12;
-    } else {
-        return "Invalid type";
+            const RESPONSE = await confirmActionSuccess('Petition rejected successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }

@@ -6,7 +6,7 @@ const SEARCH_FORM = document.getElementById('search-form'),
 
 // Constante para establecer la caja donde se mostrarán los permisos
 const BOX_PERMISOS = document.getElementById('main-content');
-
+// Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', async () => {
     
     // Peticiones para solicitar los datos de la base.
@@ -46,6 +46,7 @@ search = async (SEARCH_VALUE) => {
        await fillPermissions();
     }
 }
+// Funcion para cargar los datos desde la base
 const fillPermissions = async (form = null) => {
 
     if(form == null){

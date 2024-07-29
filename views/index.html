@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Gate</title>
-    
+
     <!-- FUENTE -->
     <link rel="stylesheet" href="../resources/css/poppins.css">
-    
+
     <!-- COLOR MANAGER -->
     <link rel="stylesheet" href="../resources/css/color-manager.css">
 
@@ -70,7 +70,9 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="text" placeholder="Name" id="nombreAdministradorFU" name="nombreAdministradorFU">
+                    <input type="text" placeholder="Name" id="nombreAdministradorFU" name="nombreAdministradorFU"
+                        maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                        title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text" required>
                 </div>
 
 
@@ -82,7 +84,9 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="text" placeholder="Last Name" id="apellidoAdministradorFU" name="apellidoAdministradorFU">
+                    <input type="text" placeholder="Last Name" id="apellidoAdministradorFU"
+                        name="apellidoAdministradorFU" maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                        title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text" required>
                 </div>
 
                 <div class="input-container">
@@ -93,7 +97,8 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="email" placeholder="Email" id="correoAdministradorFU" name="correoAdministradorFU">
+                    <input type="email" placeholder="Email" id="correoAdministradorFU" name="correoAdministradorFU"
+                        inputmode="text" required>
                 </div>
 
 
@@ -105,7 +110,9 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Password" id="claveAdministradorFU" name="claveAdministradorFU">
+                    <input type="password" placeholder="Password" id="claveAdministradorFU" name="claveAdministradorFU"
+                        maxlength="100" minlength="8" required>
+
                 </div>
 
                 <div class="input-container">
@@ -116,9 +123,10 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Confirm Password" id="confirmarClaveFU" name="confirmarClaveFU">
+                    <input type="password" placeholder="Confirm Password" id="confirmarClaveFU" name="confirmarClaveFU"
+                        maxlength="100" minlength="8" required>
                 </div>
-                
+
             </div>
             <button>Log In</button>
         </form>
