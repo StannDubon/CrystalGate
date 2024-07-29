@@ -32,8 +32,9 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             // Caso para buscar registros.
             case 'searchRows':
-                // Validación del campo de búsqueda.
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($TipoPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoPermiso->searchRows()) {
                     // Si hay coincidencias, se establece el estado y el mensaje.
@@ -46,8 +47,9 @@ if (isset($_GET['action'])) {
             // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y asignación de valores para crear un nuevo tipo de permiso.
-                if (
+                if($TipoPermiso->validatePermissions('a')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
                     !$TipoPermiso->setLapso($_POST[POST_LAPSO]) or
@@ -63,7 +65,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer todos los registros.
             case 'readAll':
-                if ($result['dataset'] = $TipoPermiso->readAll()) {
+                if($TipoPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $TipoPermiso->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
@@ -72,7 +76,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer referencias no vacías.
             case 'readNoEmtyReferences':
-                if (!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])) {
+                if($TipoPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($result['dataset'] = $TipoPermiso->readNoEmtyReferences()) {
                     $result['status'] = 1;
@@ -82,7 +88,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer un registro en particular.
             case 'readOne':
-                if (!$TipoPermiso->setId($_POST[POST_ID])) {
+                if($TipoPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!$TipoPermiso->setId($_POST[POST_ID])) {
                     $result['error'] = $TipoPermiso->getDataError();
                 } elseif ($result['dataset'] = $TipoPermiso->readOne()) {
                     $result['status'] = 1;
@@ -93,8 +101,9 @@ if (isset($_GET['action'])) {
             // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y actualización de un tipo de permiso.
-                if (
+                if($TipoPermiso->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$TipoPermiso->setId($_POST[POST_ID]) or
                     !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION]) or
                     !$TipoPermiso->setTipo($_POST[POST_TIPO]) or
@@ -111,7 +120,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para eliminar un registro.
             case 'deleteRow':
-                if (
+                if($TipoPermiso->validatePermissions('d')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$TipoPermiso->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
@@ -125,8 +136,9 @@ if (isset($_GET['action'])) {
             // Caso para cambiar el estado de un registro.
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y cambio de estado de un tipo de permiso.
-                if (
+                if($TipoPermiso->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$TipoPermiso->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoPermiso->getDataError();
