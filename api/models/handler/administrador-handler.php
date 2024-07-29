@@ -212,4 +212,48 @@ class AdministradorHandler
         $params = array(1, $this->nombre, $this->apellido, $this->correo, $this->clave);
         return Database::executeRow($sql, $params); // Ejecuta la consulta para crear el primer administrador en el sistema.
     }
+
+
+    public function changePasswordFromEmail()
+    {
+        $sql = 'UPDATE tb_administradores SET clave = ? WHERE correo = ?';
+        $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyExistingEmail()
+    {
+        $sql = 'SELECT COUNT(*) as count
+                FROM tb_administradores a, tb_tipos_administradores b
+                WHERE a.correo = ? AND a.id_tipo_administrador = b.id_tipo_administrador';
+        $params = array($this->correo);
+        $result = Database::getRow($sql, $params);
+    
+        return $result['count'] > 0;
+
+    }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "administradores_view",
+            'u' => "administradores_update",
+            'd' => "administradores_delete",
+            'a' => "administradores_add"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
+    }
+    
 }
+

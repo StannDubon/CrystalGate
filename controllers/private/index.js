@@ -4,19 +4,17 @@ const ADMIN_API = 'services/admin/administrador.php';
 const SIGNUP_FORM = document.getElementById('signupForm');
 const LOGIN_FORM = document.getElementById('loginForm');
 
-const SIGNUP_VIEW = document.getElementById('SIGNUP_VIEW');
-const LOGIN_VIEW = document.getElementById('LOGIN_VIEW');
-// Evento que se ejecuta cuando el contenido del documento ha sido cargado
+
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA = await fetchData(USER_API, 'readUsers');
     if (DATA.session) {
         location.href = 'dashboard.html';
     } else if (DATA.status) {
-        LOGIN_VIEW.classList.remove('hide');
+        LOGIN_FORM.classList.remove('hide');
         sweetAlert(4, DATA.message, true);
     } else {
-        SIGNUP_VIEW.classList.remove('hide');
+        SIGNUP_FORM.classList.remove('hide');
         sweetAlert(4, DATA.error, true);
     }
 });

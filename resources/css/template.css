@@ -59,7 +59,7 @@ main{
 }
 
 .nav-logo{
-    height: 20vh;
+    height: calc(20vh - 15px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,8 +73,16 @@ main{
 }
 
 .nav-content{
-    height: 60vh;
+    height: calc(60vh - 15px);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 30px;
+}
+
+.nav-content-element:hover{
+    background-color: var(--color-extra-2);
 }
 
 .nav-content-element{
@@ -86,8 +94,9 @@ main{
     cursor: pointer;
     margin-left: 20px;
     
-    padding-top: 13px;
-    padding-bottom: 13px;
+    transition: all .3s ease;
+    padding-top: 12px;
+    padding-bottom: 12px;
     padding-left: 10px;
     border-radius: 15px 0px 0px 15px;
 }
@@ -121,11 +130,28 @@ main{
 }
 
 
+
 .nav-item-selected{
-    background-color: var(--color-extra-2);
+    background-color: #3F91FD;
+    box-shadow: 1px 1px 20px 3px #3f91fd75;
+    transition: all .3s ease;
+    padding-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+    b{
+        color: white;
+    }
+
+    svg path{
+        fill: white;
+    }
 }
 
-
+.nav-item-selected:hover{
+    background-color: #3f91fdab;
+    box-shadow: none;
+}
 
 .nav-profile-element{
     display: flex;
@@ -143,7 +169,12 @@ main{
     border-radius: 15px 0px 0px 15px;
     background-color: var(--color-fondo-3);
 
-    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.nav-profile-element:hover{
+    background-color: #3d3d3d;
+    box-shadow: 1px 1px 20px 3px #3d3d3dab;
 }
 
 .nav-profile-element b{
@@ -218,7 +249,7 @@ main{
 }
 
 .blured{
-    filter: blur(10px);
+    /*  filter: blur(10px); */
 }
 
 /* RESPONSIVE */
@@ -282,9 +313,11 @@ main{
 
     .nav-container{
         left: -100%;
-        width: 80vw;
+        width: 85vw;
         height: 100svh;
         position: fixed;
+        background-color: rgba(245, 245, 245, 0.479);
+        backdrop-filter: blur(20px);
     }
 
     .show-nav-bar{
@@ -292,7 +325,7 @@ main{
     }
     
     .nav-content{
-        height: 50vh;
+        height: 60vh;
         overflow-y: auto;
     }
 
