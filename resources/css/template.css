@@ -23,10 +23,6 @@
     height: 25px;
 }
 
-#TEMPLATE{
-    
-}
-
 /*Fixer*/
  
 *{
@@ -78,7 +74,7 @@ main{
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding-top: 30px;
+    padding-top: 15px;
 }
 
 .nav-content-element:hover{
@@ -302,6 +298,31 @@ main{
         padding-left: 30px;
         padding-top: 10px;
         padding-bottom: 10px;
+    }
+}
+
+@media only screen and (max-height: 540px) {
+
+    .nav-logo{
+        height: 10vh;
+    }
+    
+    .nav-logo img{
+        height: 60%;
+    }
+
+    .nav-content{
+        height: 60vh;
+        overflow-y: auto;
+    }
+
+    .nav-profile{
+        height: 25vh;
+    }
+    
+    .nav-profile-info{
+        padding: 0px;
+        padding-left: 30px;
     }
 }
 
