@@ -188,12 +188,12 @@ body{
     }
 }
 
-#LOGIN_VIEW,
-#SIGNUP_VIEW{
+#loginForm,
+#signupForm{
     display: flex;
 }
 
-#LOGIN_VIEW.hide,
-#SIGNUP_VIEW.hide{
+#loginForm.hide,
+#signupForm.hide{
     display: none;
 }

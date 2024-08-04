@@ -114,7 +114,7 @@ class UsuarioData extends UsuarioHandler
     // Método para establecer la imagen del usuario, validando el archivo y su tamaño.
     public function setImagen($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
+        if (Validator::validateImageFile($file, 100)) {
             $this->imagen = Validator::getFilename();
             return true;
         } elseif (Validator::getFileError()) {

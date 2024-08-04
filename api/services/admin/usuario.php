@@ -38,7 +38,9 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un usuario ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($usuario->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los usuarios';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $usuario->searchRows()) {
                     $result['status'] = 1;
@@ -60,6 +62,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($_POST[POST_CLAVE] != $_POST[POST_CLAVE_CONFIRMAR]) {
                     $result['error'] = 'Contraseñas diferentes';
+                } elseif ($usuario->validatePermissions('a')) {
+                    $result['error'] = 'No tiene permisos para añadir un usuario';
                 } elseif ($usuario->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario creado correctamente';
@@ -69,7 +73,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $usuario->readAll()) {
+                if($usuario->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los usuarios';
+                } elseif ($result['dataset'] = $usuario->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -77,7 +83,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$usuario->setId($_POST[POST_ID])) {
+                if($usuario->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los usuarios';
+                } elseif (!$usuario->setId($_POST[POST_ID])) {
                     $result['error'] = 'Usuario incorrecto';
                 } elseif ($result['dataset'] = $usuario->readOne()) {
                     $result['status'] = 1;
@@ -96,6 +104,8 @@ if (isset($_GET['action'])) {
                     !$usuario->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->validatePermissions('u')) {
+                    $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($usuario->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario modificado correctamente';
@@ -107,6 +117,8 @@ if (isset($_GET['action'])) {
             case 'deleteRow':
                 if (!$usuario->setId($_POST[POST_ID])) {
                     $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->validatePermissions('d')) {
+                    $result['error'] = 'No tiene permisos para poder eliminar el usuario';
                 } elseif ($usuario->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario eliminado correctamente';
