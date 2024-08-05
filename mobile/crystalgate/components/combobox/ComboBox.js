@@ -1,23 +1,15 @@
-// ComboBox.js
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 const ComboBox = ({ options, placeholder, onValueChange, label, selectedValue, isDisabled }) => {
-
-    const handleChange = (itemValue) => {
-        if (onValueChange) {
-            onValueChange(itemValue);
-        }
-    };
-
     return (
         <View style={styles.contenedor}>
             <Text style={styles.inputLabel}>{label}</Text>
             <View style={styles.div}>
                 <Picker
                     selectedValue={selectedValue}
-                    onValueChange={handleChange}
+                    onValueChange={(itemValue) => onValueChange(itemValue)}
                     style={styles.picker}
                     enabled={!isDisabled}
                 >
@@ -25,8 +17,8 @@ const ComboBox = ({ options, placeholder, onValueChange, label, selectedValue, i
                     {options.map((option, index) => (
                         <Picker.Item
                             key={index}
-                            label={option.value}
-                            value={option.identifier}
+                            label={option.label}
+                            value={option.value}
                         />
                     ))}
                 </Picker>
@@ -59,16 +51,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         width: 337,
-    },
-    input: {
-        fontFamily: "Poppins-Regular",
-        fontSize: 16,
-        fontWeight: "Regular",
-        color: "#4292F6",
-        paddingLeft: 15,
-        alignContent: "flex-end",
-        width: 290,
-        height: 40,
     },
     inputLabel: {
         color: "#98ADE3",

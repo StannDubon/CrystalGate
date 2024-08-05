@@ -6,7 +6,7 @@ import {
   Text,
   KeyboardAvoidingView,
   ScrollView,
-  Platform
+  Platform,
 } from 'react-native';
 import BackgroundImage from '../components/background/background-mountain';
 import UsernameInputForm from './input/input-username';
@@ -41,8 +41,10 @@ const Login = () => {
     const FORM = new FormData();
     FORM.append("correoUsuario", username);
     FORM.append("claveUsuario", password);
+    console.log(username, password);
     try {
       const result = await fetchData(service, action, FORM);
+      console.log(result);
       if (result.status == 1) {
         setSuccessModalVisible(true);
         setTimeout(() => {
@@ -51,9 +53,8 @@ const Login = () => {
         }, 3000);
       } else {
         setErrorModalVisible(true);
-      }
+      }   
     } catch (error) {
-      console.log(result);
       console.error("Error: ", error);
     }
   };

@@ -1,11 +1,10 @@
-const BASE_URL = "http://192.168.0.5/CrystalGate/api/services/public";
+const BASE_URL = "http://192.168.1.33/CrystalGate/api/services/public";
 
 const fetchData = async (service, action, data = null) => {
     const url = `${BASE_URL}/${service}.php?action=${action}`;
 
     const options = {
-        method: data ? 'POST' : 'GET',
-        
+        method: data ? 'POST' : 'GET',        
     };
 
     if (data) {
@@ -13,15 +12,20 @@ const fetchData = async (service, action, data = null) => {
     }
 
     try {
-        const response = await fetch(url, options);
+        const response = await Promise.race([
+            fetch(url, options),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 10000))
+        ]);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const result = await response.json(); // Parsear la respuesta como JSON
-        return result; // Devolver el JSON de la respuesta
+
+        const result = await response.json();
+        return result;
     } catch (error) {
         console.error('Fetch error:', error);
-        throw error;
+        throw error;    
     }
 };
 

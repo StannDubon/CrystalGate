@@ -113,6 +113,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
+                case 'logIn':
+                    $_POST = Validator::validateForm($_POST);
+                    if ($usuario->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
+                    } else {
+                        $result['error'] = 'Credenciales incorrectas';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

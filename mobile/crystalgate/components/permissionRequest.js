@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -31,11 +31,39 @@ import TimePicker from "./pickers/timePicker";
 // Selector de archivo para formularios
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
+import fetchData from './utils/database';
 
 const PermissionRequest = () => {
 
+    const [permissionTypes, setPermissionTypes] = useState([]);
+    const [selectedPermissionType, setSelectedPermissionType] = useState('');
+
+    useEffect(() => {
+        const loadPermissionTypes = async () => {
+            const data = await fetchPermissionTypes();
+            setPermissionTypes(data);
+        };
+
+        loadPermissionTypes();
+    }, []);
+
+    const fetchPermissionTypes = async () => {
+        const action = "readAll";
+        try {
+            const result = await fetchData('clasificacion-permiso', action); // Cambia 'permissionType' según tu servicio
+            if (result.status === 1) {
+                return result.dataset;
+            } else {
+                console.error("Error fetching permission types:", result.error);
+                return [];
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            return [];
+        }
+    };
+    
     // Opciones para las listas desplegables
-    const resquests_type = ['Vacations','Special Permission'];
     const send_by = ['Paternity/Maternity','ISSS'];
 
     // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
@@ -69,8 +97,18 @@ const PermissionRequest = () => {
             <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
             <View style={styles.formContainer}>
                 <Text style={styles.sectionText}>Details</Text>
-                <ComboBox label={"Permission Type"} options={resquests_type} placeholder={"Select an option"}></ComboBox>
-                <ComboBox label={"Sub-Permission Type"} options={send_by} placeholder={"Select an option"}></ComboBox>
+                <ComboBox 
+                    label={"Permission Type"} 
+                    options={permissionTypes.map(pt => ({ label: pt.clasificacionPermiso, value: pt.idClasificacionPermiso }))}
+                    placeholder={"Select an option"}
+                    selectedValue={selectedPermissionType}
+                    onValueChange={(value) => setSelectedPermissionType(value)}
+                />
+                <ComboBox 
+                    label={"Sub-Permission Type"} 
+                    options={send_by.map(sb => ({ label: sb, value: sb }))}
+                    placeholder={"Select an option"}
+                />
                 <TextArea label={"Permission description"}></TextArea>
                 <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
                 <Text style={styles.sectionText}>DATE</Text>

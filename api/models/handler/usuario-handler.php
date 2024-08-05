@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once __DIR__ . ('/../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_usuarios.
@@ -18,7 +18,7 @@ class UsuarioHandler
     protected $clave = null;
     protected $imagen = null;
 
-    const RUTA_IMAGEN = '../../images/user/';
+    const RUTA_IMAGEN = '../images/user/';
 
     /*
      *  Métodos para gestionar la cuenta del usuario.
