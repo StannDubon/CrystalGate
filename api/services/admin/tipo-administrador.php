@@ -30,8 +30,9 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             // Caso para buscar registros.
             case 'searchRows':
-                // Validación del campo de búsqueda.
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $TipoAdministrador->searchRows()) {
                     // Si hay coincidencias, se establece el estado y el mensaje.
@@ -44,8 +45,10 @@ if (isset($_GET['action'])) {
             // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y asignación de valores para crear un nuevo tipo de administrador.
-                if (
+
+                if($TipoAdministrador->validatePermissions('a')){
+                    $result['error'] = 'No tiene permisos para agregar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
                     !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
                 ) {
@@ -59,7 +62,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer todos los registros.
             case 'readAll':
-                if ($result['dataset'] = $TipoAdministrador->readAll()) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif ($result['dataset'] = $TipoAdministrador->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
@@ -68,7 +73,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer un registro en particular.
             case 'readOne':
-                if (!$TipoAdministrador->setId($_POST[POST_ID])) {
+                if($TipoAdministrador->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de administrador';
+                } elseif (!$TipoAdministrador->setId($_POST[POST_ID])) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($result['dataset'] = $TipoAdministrador->readOne()) {
                     $result['status'] = 1;
@@ -79,8 +86,9 @@ if (isset($_GET['action'])) {
             // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y actualización de un tipo de administrador.
-                if (
+                if($TipoAdministrador->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para actualizar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID]) or
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
                     !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
@@ -96,8 +104,9 @@ if (isset($_GET['action'])) {
             // Caso para cambiar el estado de un registro.
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
-                // Validación y cambio de estado de un tipo de administrador.
-                if (
+                if($TipoAdministrador->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para actualizar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();
@@ -110,7 +119,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para eliminar un registro.
             case 'deleteRow':
-                if (
+                if($TipoAdministrador->validatePermissions('d')){
+                    $result['error'] = 'No tiene permisos para eliminar un tipo administrador';
+                } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();

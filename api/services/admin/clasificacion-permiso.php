@@ -29,7 +29,9 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             // Caso para buscar registros.
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
+                if($ClasificacionPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $ClasificacionPermiso->searchRows()) {
                     $result['status'] = 1;
@@ -41,7 +43,9 @@ if (isset($_GET['action'])) {
             // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($ClasificacionPermiso->validatePermissions('a')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
                     !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
                 ) {
@@ -55,7 +59,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer todos los registros.
             case 'readAll':
-                if ($result['dataset'] = $ClasificacionPermiso->readAll()) {
+                if($ClasificacionPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $ClasificacionPermiso->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
@@ -64,7 +70,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer un registro en particular.
             case 'readOne':
-                if (!$ClasificacionPermiso->setId($_POST[POST_ID])) {
+                if($ClasificacionPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (!$ClasificacionPermiso->setId($_POST[POST_ID])) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
                 } elseif ($result['dataset'] = $ClasificacionPermiso->readOne()) {
                     $result['status'] = 1;
@@ -75,7 +83,9 @@ if (isset($_GET['action'])) {
             // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($ClasificacionPermiso->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$ClasificacionPermiso->setId($_POST[POST_ID]) or
                     !$ClasificacionPermiso->setClasificacion($_POST[POST_CLASIFICACION]) or
                     !$ClasificacionPermiso->setEstado($_POST[POST_ESTADO])
@@ -91,7 +101,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para eliminar un registro.
             case 'deleteRow':
-                if (
+                if($ClasificacionPermiso->validatePermissions('d')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$ClasificacionPermiso->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();
@@ -104,7 +116,9 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para leer datos utilizables.
             case 'readUsableData':
-                if ($result['dataset'] = $ClasificacionPermiso->readUsableData()) {
+                if($ClasificacionPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $ClasificacionPermiso->readUsableData()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
@@ -114,7 +128,9 @@ if (isset($_GET['action'])) {
             // Caso para cambiar el estado de un registro.
             case 'changeStatus':
                 $_POST = Validator::validateForm($_POST);
-                if (
+                if($ClasificacionPermiso->validatePermissions('u')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
                     !$ClasificacionPermiso->setId($_POST[POST_ID])
                 ) {
                     $result['error'] = $ClasificacionPermiso->getDataError();

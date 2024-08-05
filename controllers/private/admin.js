@@ -18,7 +18,17 @@ const SAVE_FORM_ADMINISTRATOR = document.getElementById('administrator-form'),
     CLAVE_ADMINISTRATOR = document.getElementById('claveAdministrador'),
     CONFIRMAR_CLAVE_ADMINISTRATOR = document.getElementById('confirmarClave');
 
-// Método manejador de eventos para cuando el documento ha cargado.
+    const pastelAndContrastColors = () => {
+        // Genera un color pastel
+        const hue = Math.random() * 360; // El matiz es el mismo para ambos colores
+        const pastelColor = `hsl(${hue}, 100%, 87.5%)`;
+    
+        // Calcula un color con el mismo matiz pero más oscuro
+        const contrastColor = `hsl(${hue}, 100%, 50%)`; // Puedes ajustar el valor de luminosidad para más contraste
+    
+        return [pastelColor, contrastColor];
+    };
+    
 document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
     setupModalDiscardButtons();
@@ -104,6 +114,15 @@ const fillTable = async (form = null) => {
                 rol = "unknown"
             }
 
+            default_image_fixer = ""
+            if(row.imagen == "default.png"){
+                xd = pastelAndContrastColors();
+                image_value = ""
+                default_image_fixer = `<div class="default-image-fixer" style="background-color: ${xd[0]};"> <b style="color: ${xd[1]};">${row.nombre[0] + row.apellido[0]}</b></div>`
+            } else{
+                image_value = "../api/images/admin/"+row.imagen
+            }
+
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             ADMINISTRATOR.innerHTML += `
             <!-- INICIO TARJETA -->
@@ -111,7 +130,8 @@ const fillTable = async (form = null) => {
             <div class="content-card-admin-info">
                 
                     <div class="image-container">
-                        <img src="../api/images/admin/${row.imagen}" alt="">
+                            ${default_image_fixer}
+                            <img src="${image_value}" alt="">
                         <div class="info-icon">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13 0C5.8318 0 0 5.8318 0 13C0 20.1682 5.8318 26 13 26C20.1682 26 26 20.1682 26 13C26 5.8318 20.1682 0 13 0ZM14.3 18.5C14.3 19.0523 13.8523 19.5 13.3 19.5H12.7C12.1477 19.5 11.7 19.0523 11.7 18.5V12.7C11.7 12.1477 12.1477 11.7 12.7 11.7H13.3C13.8523 11.7 14.3 12.1477 14.3 12.7V18.5ZM14.3 8.1C14.3 8.65228 13.8523 9.1 13.3 9.1H12.7C12.1477 9.1 11.7 8.65228 11.7 8.1V7.5C11.7 6.94772 12.1477 6.5 12.7 6.5H13.3C13.8523 6.5 14.3 6.94772 14.3 7.5V8.1Z" fill="white"/>
@@ -219,4 +239,12 @@ const openDelete = async (id) => {
             sweetAlert(2, DATA.error, false);
         }
     }
+}
+
+// Funcion para abrir los reportes
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administradores.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
 }

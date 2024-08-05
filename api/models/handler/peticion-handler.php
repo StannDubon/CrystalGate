@@ -61,7 +61,8 @@ class PeticionHandler
         $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega, b.correo
                 FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
-                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega';
+                AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega 
+                ORDER BY a.estado';
         return Database::getRows($sql);
     }
 
@@ -102,6 +103,16 @@ class PeticionHandler
                         $this->estado, $this->fechaEnvio, $this->id);
         return Database::executeRow($sql, $params);
     }
+
+        // Método para actualizar solo el estado de una peticion.
+        public function updateState()
+        {
+            $sql = 'UPDATE tb_peticiones
+                    SET estado = ?
+                    WHERE id_peticion = ?';
+            $params = array($this->estado, $this->id);
+            return Database::executeRow($sql, $params);
+        }
 
     // Método para eliminar una petición por su ID.
     public function deleteRow()

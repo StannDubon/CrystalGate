@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once('../../helpers/validator.php');
+require_once __DIR__ . ('/../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/usuario-handler.php');
+require_once __DIR__ . ('/../../models/handler/usuario-handler.php');
 
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
@@ -114,7 +114,7 @@ class UsuarioData extends UsuarioHandler
     // Método para establecer la imagen del usuario, validando el archivo y su tamaño.
     public function setImagen($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
+        if (Validator::validateImageFile($file, 100)) {
             $this->imagen = Validator::getFilename();
             return true;
         } elseif (Validator::getFileError()) {

@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_permisos.
@@ -87,6 +87,40 @@ class PermisoHandler
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso
                 ORDER BY a.estado';
+        return Database::getRows($sql);
+    }
+
+    // Método para leer todos los permisos. (para los reportes)
+    public function readAllPermissions()
+    {
+        $sql = "SELECT 
+                    CONCAT(b.nombre, ' ', b.apellido) AS employee, 
+                    cp.clasificacion_permiso AS clasification, 
+                    tp.tipo_permiso AS 'type', 
+                    CASE 
+                        WHEN tp.lapso = 1 THEN 'Day'
+                        WHEN tp.lapso = 2 THEN 'Hour'
+                        WHEN tp.lapso = 3 THEN 'Day and Hour'
+                    END AS lapso, 
+                        a.fecha_inicio, 
+                    a.fecha_final, 
+                    a.fecha_envio, 
+                    a.descripcion_permiso AS 'description', 
+                    CASE 
+                        WHEN a.estado = 1 THEN 'Pending'
+                        WHEN a.estado = 2 THEN 'Approved'
+                        WHEN a.estado = 3 THEN 'Rejected'
+                    END AS estado
+                FROM 
+                    tb_permisos a
+                JOIN 
+                    tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN 
+                    tb_tipos_permisos tp ON a.id_tipo_permiso = tp.id_tipo_permiso
+                JOIN 
+                    tb_clasificaciones_permisos cp ON tp.id_clasificacion_permiso = cp.id_clasificacion_permiso
+                ORDER BY 
+                    a.estado";
         return Database::getRows($sql);
     }
 
@@ -181,5 +215,27 @@ class PermisoHandler
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND tp.id_tipo_permiso = ?';
         $params = array($this->idTipoPermiso);
         return Database::getRows($sql, $params);
+    }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "permisos",
+            'u' => "permisos",
+            'd' => "permisos",
+            'a' => "permisos"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
     }
 }

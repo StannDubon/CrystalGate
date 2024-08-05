@@ -461,6 +461,29 @@
 .image-container {
     position: relative;
     width: 130px;
+
+    img[src=""] {
+        display: none;
+    }
+    
+    .default-image-fixer{
+        width: 130px;
+        height: 130px;
+        transition: filter 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        b{
+            font-size: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    }
+}
+
+.image-container:hover .default-image-fixer{
+    filter: brightness(80%);
 }
 
 .image-container img {
@@ -469,6 +492,8 @@
     object-fit: cover;
     transition: filter 0.3s ease;
 }
+
+
 
 .image-container .info-icon {
     display: none;
@@ -563,6 +588,39 @@
 
 .admin-action-button .admin-edit-button:hover{
     background-color: var(--primary-hover-blue);
+}
+
+.documentation-action-button{
+    height: 100%;
+
+}
+
+.documentation-action-button div{
+    height: 38%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.documentation-action-button .documentation-reject-button{
+    background-color: var(--color-rejected);
+    border-radius: 0 0 10px 0;
+}
+
+.documentation-action-button .documentation-reject-button:hover{
+    background-color: var(--primary-hover-red);
+}
+
+.documentation-action-button .documentation-accept-button{
+    background-color: var(--color-approved);
+    border-radius: 0 10px 0 0;
+}
+
+.documentation-action-button .documentation-accept-button:hover{
+    background-color: var(--primary-hover-green);
 }
 
 #admin-main-cards-container{

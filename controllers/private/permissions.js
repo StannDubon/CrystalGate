@@ -424,3 +424,10 @@ function DecomposeFormat(dateTime, type) {
         return "Invalid type";
     }
 }
+// FUNCION PARA ABRIR LOS REPORTES
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/permisos.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}

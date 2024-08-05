@@ -8,11 +8,35 @@ GRANT ALL PRIVILEGES ON CrystalGate.* TO 'crystal-gate-admin'@'localhost';
 FLUSH PRIVILEGES;
 
 /* TABLAS INDEPENDIENTES */
+
 CREATE TABLE
     tb_tipos_administradores (
         id_tipo_administrador INT PRIMARY KEY AUTO_INCREMENT,
         tipo_administrador VARCHAR(50) UNIQUE,
-        estado BOOLEAN DEFAULT TRUE
+        estado BOOLEAN DEFAULT TRUE,
+
+        permisos BOOLEAN DEFAULT FALSE,
+		documentacion BOOLEAN DEFAULT FALSE,
+
+        empleados_view BOOLEAN DEFAULT FALSE,
+		empleados_update BOOLEAN DEFAULT FALSE,
+        empleados_delete BOOLEAN DEFAULT FALSE,
+        empleados_add BOOLEAN DEFAULT FALSE,
+
+		administradores_view BOOLEAN DEFAULT FALSE,
+		administradores_update BOOLEAN DEFAULT FALSE,
+		administradores_delete BOOLEAN DEFAULT FALSE,
+		administradores_add BOOLEAN DEFAULT FALSE,
+
+		autorizaciones_view BOOLEAN DEFAULT FALSE,
+		autorizaciones_update BOOLEAN DEFAULT FALSE,
+		autorizaciones_delete BOOLEAN DEFAULT FALSE,
+		autorizaciones_add BOOLEAN DEFAULT FALSE,
+
+        tipo_administrador_view BOOLEAN DEFAULT FALSE,
+        tipo_administrador_update BOOLEAN DEFAULT FALSE,
+        tipo_administrador_delete BOOLEAN DEFAULT FALSE,
+        tipo_administrador_add BOOLEAN DEFAULT FALSE
     );
 
 CREATE TABLE
@@ -52,6 +76,7 @@ CREATE TABLE
     );
 
 /* TABLAS DEPENDIENTES */
+
 CREATE TABLE
     tb_usuarios (
         id_usuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -79,7 +104,7 @@ CREATE TABLE
         nombre_entrega VARCHAR(64),
         email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
-        estado ENUM('1','2','3'),
+        estado ENUM('1','2','3'), /*1= Pending, 2= Accepted, 3= Rejected */
         fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
@@ -110,6 +135,7 @@ CREATE TABLE
         fecha_envio DATETIME NOT NULL,
         documento_permiso varchar(32) NOT NULL,
         descripcion_permiso VARCHAR(300),
+
         estado ENUM ('1', '2', '3'), /*1= Pending, 2= Accepted, 3= Rejected */
         CONSTRAINT fk_permiso_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
         CONSTRAINT fk_permiso_tipo_permiso FOREIGN KEY (id_tipo_permiso) REFERENCES tb_tipos_permisos(id_tipo_permiso)
@@ -152,7 +178,34 @@ CREATE TABLE
         CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
     );
 
-INSERT INTO tb_tipos_administradores(tipo_administrador) VALUES('root');
+INSERT INTO tb_tipos_administradores VALUES(
+/* id */ 1,
+/* Nombre */ "root",
+/* Estado */ 1,
+
+/* PERMISOS */ 1,
+/* DOCUMENTACION */ 1,
+
+/* Empleados VER */ 1,
+/* Empleados ACTUALIZAR */ 1,
+/* Empleados ELIMINAR */ 1,
+/* Empleados AGREGAR */ 1,
+
+/* Administradores VER */ 1,
+/* Administradores ACTUALIZAR */ 1,
+/* Administradores ELIMINAR */ 1,
+/* Administradores AGREGAR */ 1,
+
+/* Autorizaciones VER */ 1,
+/* Autorizaciones ACTUALIZAR */ 1,
+/* Autorizaciones ELIMINAR */ 1,
+/* Autorizaciones AGREGAR */ 1,
+
+/* Tipos de administrador VER */ 1,
+/* Tipos de administrador ACTUALIZAR */ 1,
+/* Tipos de administrador ELIMINAR */ 1,
+/* Tipos de administrador AGREGAR */ 1
+);
 
 INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
 ("Medical Leave"),
@@ -176,6 +229,9 @@ INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VAL
 (2, "Breastfeeding", "3"),
 (2, "Personal Day", "3"),
 (2, "Other", "3");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(3, "Vacations", "3");
 
 INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, correo, imagen) 
 

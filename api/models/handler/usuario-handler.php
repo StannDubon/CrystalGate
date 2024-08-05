@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_usuarios.
@@ -18,7 +18,7 @@ class UsuarioHandler
     protected $clave = null;
     protected $imagen = null;
 
-    const RUTA_IMAGEN = '../images/user/';
+    const RUTA_IMAGEN = '../../images/user/';
 
     /*
      *  Métodos para gestionar la cuenta del usuario.
@@ -112,6 +112,29 @@ class UsuarioHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer todos los usuarios. (para reportes)
+    public function readAllUsers()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'Employee',
+                    u.correo AS 'Email',
+                    c.cargo AS 'charge',
+                    SUM(CASE WHEN p.estado = '2' THEN 1 ELSE 0 END) AS 'approved',
+                    SUM(CASE WHEN p.estado = '3' THEN 1 ELSE 0 END) AS 'rejected',
+                    COUNT(p.id_permiso) AS 'total'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                LEFT JOIN 
+                    tb_cargos c ON u.id_cargo = c.id_cargo
+                GROUP BY 
+                    u.id_usuario, u.nombre, u.apellido, u.correo, c.cargo
+                ORDER BY
+                    Employee";
+        return Database::getRows($sql);
+    }
+
     // Método para leer un usuario específico por su ID.
     public function readOne()
     {
@@ -149,5 +172,27 @@ class UsuarioHandler
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "empleados_view",
+            'u' => "empleados_update",
+            'd' => "empleados_delete",
+            'a' => "empleados_add"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
     }
 }
