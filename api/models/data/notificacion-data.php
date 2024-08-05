@@ -1,13 +1,22 @@
 <?php
-require_once('../../helpers/database.php');
-require_once('../../helpers/validator.php');
 
+// Se incluye la clase para validar los datos de entrada.
+require_once('../../helpers/validator.php');
+// Se incluye la clase padre.
+require_once('../../models/handler/notificacion-handler.php');
+
+/*
+ *  Clase para manejar el encapsulamiento de los datos de la tabla NOTIFICACION.
+ */
 class NotificacionData extends NotificacionHandler
 {
 
+    // Atributo para manejar errores de datos.
     private $data_error = null;
 
     // Métodos para asignar valores a los atributos.
+
+    // Método para establecer el ID, validando que sea un número natural.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -18,6 +27,7 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer el ID del administrador, validando que sea un número natural.
     public function setIdAdministrador($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -28,6 +38,7 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer el ID del permiso, validando que sea un número natural.
     public function setIdPermiso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -38,6 +49,7 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer la fecha de envío, validando que sea un formato de fecha y hora válido.
     public function setFechaEnvio($value)
     {
         if (Validator::validateDateTime($value)) {
@@ -48,6 +60,7 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer la descripción, validando que sea una cadena de texto válida.
     public function setDescripcion($value)
     {
         if (Validator::validateString($value)) {
@@ -62,8 +75,11 @@ class NotificacionData extends NotificacionHandler
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
+
+    // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
 }
+?>

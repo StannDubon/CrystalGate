@@ -187,6 +187,16 @@ class Validator
         }
     }
 
+    public static function validateNumeric($value)
+{
+    // Se verifica que el valor contenga solo números.
+    if (ctype_digit($value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
     /*
     *   Método para validar la longitud de una cadena de texto.
     *   Parámetros: $value (dato a validar), $min (longitud mínima) y $max (longitud máxima).
@@ -379,5 +389,20 @@ public static function validateTime($value)
         } else {
             return false;
         }
+    }
+
+    /*
+    *   Método para generar una cadena aleatoria de una longitud específica.
+    *   Parámetros: $length (entero, longitud de la cadena aleatoria, por defecto es 8).
+    *   Retorno: string (cadena aleatoria que contiene números, letras minúsculas y letras mayúsculas).
+    */
+    public static function generateRandomString($length = 24) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[mt_rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

@@ -1,8 +1,9 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
+
 /*
- *  Clase para manejar el comportamiento de los datos de la tabla usuario.
+ *  Clase para manejar el comportamiento de los datos de la tabla tb_usuarios.
  */
 class UsuarioHandler
 {
@@ -17,11 +18,13 @@ class UsuarioHandler
     protected $clave = null;
     protected $imagen = null;
 
-    const RUTA_IMAGEN = '../images/user/';
+    const RUTA_IMAGEN = '../../images/user/';
 
     /*
      *  Métodos para gestionar la cuenta del usuario.
      */
+
+    // Método para verificar el usuario por correo y contraseña.
     public function checkUser($email, $password)
     {
         $sql = 'SELECT id_usuario, correo, clave FROM tb_usuarios WHERE correo = ?';
@@ -37,19 +40,21 @@ class UsuarioHandler
         }
     }
 
+    // Método para verificar si la contraseña actual del usuario es correcta.
     public function checkPassword($password)
     {
         $sql = 'SELECT * FROM tb_usuarios WHERE id_usuario = ?';
         $params = array($_SESSION['idUsuario']);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['clave_usuario'])) {
+        if (password_verify($password, $data['clave'])) {
             return true;
         } else {
             return false;
         }
     }
 
+    // Método para cambiar la contraseña del usuario.
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
@@ -57,15 +62,17 @@ class UsuarioHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer el perfil del usuario actual.
     public function readProfile()
     {
         $sql = 'SELECT a.id_usuario, ta.tipo_administrador, a.nombre, a.apellido, a.correo, a.imagen
                 FROM tb_usuarios a INNER JOIN tb_cargos ta ON a.id_cargo = ta.id_cargo
-                WHERE a.id_usuario = ?;';
+                WHERE a.id_usuario = ?';
         $params = array($_SESSION['idUsuario']);
         return Database::getRow($sql, $params);
     }
 
+    // Método para editar el perfil del usuario actual.
     public function editProfile()
     {
         $sql = 'UPDATE tb_usuarios SET nombre = ?, apellido = ?, correo = ?, imagen = ? WHERE id_usuario = ?';
@@ -76,22 +83,27 @@ class UsuarioHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+    // Método para buscar usuarios por un valor de búsqueda.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT a.*, b.cargo FROM tb_usuarios a, tb_cargos b 
-                WHERE a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?';
+        $sql = 'SELECT a.*, b.cargo 
+                FROM tb_usuarios a, tb_cargos b 
+                WHERE (a.id_usuario LIKE ? OR a.nombre LIKE ? OR a.apellido LIKE ? OR b.cargo LIKE ?) AND a.id_cargo = b.id_cargo';
         $params = array($value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }
 
+    // Método para crear un nuevo usuario.
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_usuarios(id_cargo, nombre, apellido, correo, imagen, clave) VALUES(?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO tb_usuarios (id_cargo, nombre, apellido, correo, imagen, clave) VALUES (?, ?, ?, ?, ?, ?)';
         $params = array($this->id_cargo, $this->nombre, $this->apellido, $this->correo, $this->imagen, $this->clave);
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer todos los usuarios.
     public function readAll()
     {
         $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
@@ -100,15 +112,40 @@ class UsuarioHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer todos los usuarios. (para reportes)
+    public function readAllUsers()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'Employee',
+                    u.correo AS 'Email',
+                    c.cargo AS 'charge',
+                    SUM(CASE WHEN p.estado = '2' THEN 1 ELSE 0 END) AS 'approved',
+                    SUM(CASE WHEN p.estado = '3' THEN 1 ELSE 0 END) AS 'rejected',
+                    COUNT(p.id_permiso) AS 'total'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                LEFT JOIN 
+                    tb_cargos c ON u.id_cargo = c.id_cargo
+                GROUP BY 
+                    u.id_usuario, u.nombre, u.apellido, u.correo, c.cargo
+                ORDER BY
+                    Employee";
+        return Database::getRows($sql);
+    }
+
+    // Método para leer un usuario específico por su ID.
     public function readOne()
     {
         $sql = 'SELECT a.id_usuario, b.cargo, a.nombre, a.apellido, a.clave, a.correo, a.imagen
-                FROM tb_usuarios a, tb_cargos b WHERE a.id_cargo = b.id_cargo
-                WHERE id_usuario = ?';
+                FROM tb_usuarios a, tb_cargos b 
+                WHERE a.id_cargo = b.id_cargo AND a.id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
+    // Método para actualizar un usuario.
     public function updateRow()
     {
         $sql = 'UPDATE tb_usuarios
@@ -118,6 +155,7 @@ class UsuarioHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar un usuario por su ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_usuarios
@@ -126,6 +164,7 @@ class UsuarioHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer el nombre de archivo de imagen de un usuario por su ID.
     public function readFilename()
     {
         $sql = 'SELECT imagen
@@ -133,5 +172,27 @@ class UsuarioHandler
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    public function validatePermissions($value)
+    {
+        $pass_data = [
+            'v' => "empleados_view",
+            'u' => "empleados_update",
+            'd' => "empleados_delete",
+            'a' => "empleados_add"
+        ];
+
+        // Ensure column_name is replaced correctly in the SQL query
+        $sql = 'SELECT ' . $pass_data[$value] . ' as permission
+                FROM tb_administradores a
+                INNER JOIN tb_tipos_administradores b
+                ON a.id_tipo_administrador = b.id_tipo_administrador
+                WHERE a.id_administrador = ?;';
+        
+        // Prepare the parameters for the SQL query
+        $params = array($_SESSION['idAdministrador']);
+        $result = Database::getRow($sql, $params);
+        return $result['permission'] != '1';
     }
 }

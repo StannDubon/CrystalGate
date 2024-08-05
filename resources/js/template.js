@@ -23,8 +23,8 @@ window.addEventListener('resize', function() {
 
 
 // Definir las rutas y los IDs
-const rutas = ['/dashboard', '/inbox', '/medical', '/vacation', '/permissions', '/employees', '/reports', '/history', '/index'];
-const ids = ['dashboard', 'inbox', 'medical-leave', 'vacation-request', 'permissions', 'employees', 'reports', 'history', 'log-out'];
+const rutas = ['/dashboard', '/inbox', '/permissions', '/employees', '/reports', '/history', '/index'];
+const ids = ['dashboard', 'inbox', 'permissions', 'employees', 'reports', 'history', 'log-out'];
 
 // Agregar event listener a cada div
 ids.forEach((id, index) => {

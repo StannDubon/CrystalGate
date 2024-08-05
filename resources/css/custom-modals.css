@@ -1,0 +1,267 @@
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.custom-modal-container.show {
+  display: flex;
+}
+
+.custom-modal-container.show .box-content {
+  animation: bounceIn 0.5s ease;
+}
+
+.custom-modal-container {
+  background-color: rgba(0, 0, 0, 0.473);
+  position: absolute;
+  z-index: 998;
+  display: none;
+  animation: fadeIn 0.5s ease;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-modal-container .custom-modal-container-fixer {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-content {
+  width: 50vw;
+  border-radius: 8px;
+  height: fit-content;
+  background-color: white;
+}
+
+.tittle-modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  font-weight: 600;
+  color: var(--color-texto-3);
+  font-size: var(--larger-text-size);
+}
+
+.main-modal-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-modal-content {
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.footer-modal-content button {
+  padding: 10px 15px 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: var(--normal-text-size);
+  color: white;
+}
+
+.custom-modal-button-save {
+  background-color: var(--color-approved);
+  transition: all 0.3s ease;
+}
+.custom-modal-button-discard {
+  background-color: var(--color-extra-3);
+  transition: all 0.3s ease;
+}
+.custom-modal-button-save:hover {
+  background-color: var(--primary-hover-green);
+}
+.custom-modal-button-discard:hover {
+  background-color: var(--color-texto-4);
+}
+
+
+/* CUSTOM CSS ELEMENTS */
+
+
+.main-modal-content input {
+    border-radius: 8px;
+    font-size: 15px;
+    width: 70%;
+    background-color: #E7E7E7;
+    height: 2.625em;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.main-modal-content input:focus {
+    outline: 3px solid #4293f686;
+}
+
+.main-modal-content input::placeholder {
+    color: #a1a1a1;
+}
+
+.main-modal-content select {
+    border-radius: 8px;
+    font-size: 15px;
+    width: calc(70% + 20px);
+    background-color: #E7E7E7;
+    height: 2.625em;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.main-modal-content select.unselectable{
+    color: #a1a1a1;
+}
+
+.main-modal-content select option{
+    background-color: #E7E7E7;
+    color: #333;
+    padding: 8px;
+}
+
+.main-modal-content select:focus {
+    outline: 3px solid #4293f686;
+}
+
+.main-modal-content select::placeholder {
+    color: #a1a1a1;
+}
+
+
+.swal-custom-format-day-container {
+    border-radius: 10px;
+    background-color: #D9D9D9;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    width: 220.2px;
+}
+
+#swal-custom-days,
+#swal-custom-hours {
+    margin: 4px;
+    width: 80px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    padding: 5px 10px 5px 10px;
+    width: fit-content;
+    transition: all .3s ease;
+}
+
+#swal-custom-days p,
+#swal-custom-hours p {
+    margin: 0px;
+    color: #7E7E7E;
+    font-size: 15px;
+}
+
+#swal-custom-days-hours {
+    background-color: #7E7E7E;
+    padding: 7px;
+    margin-left: 5px;
+    border-radius: 0px 10px 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+#swal-custom-days.swal-custom-format-selected-option,
+#swal-custom-hours.swal-custom-format-selected-option,
+#swal-custom-days-hours.swal-custom-format-selected-option {
+    background-color: #4292F6;
+}
+
+#swal-custom-days.swal-custom-format-selected-option p,
+#swal-custom-hours.swal-custom-format-selected-option p {
+    color: white;
+}
+
+#swal-custom-days.swal-custom-format-selected-option svg path,
+#swal-custom-hours.swal-custom-format-selected-option svg path,
+#swal-custom-days-hours.swal-custom-format-selected-option svg path {
+    fill: white;
+}
+
+
+/* BOTONES PARA ACTIVE E INACTIVE */
+
+.swal-custom-status-chooser{
+    display: flex;
+    gap: 0px;
+    background-color: #D9D9D9;
+    width: 212.2px;
+    padding: 4px;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.swal-custom-toggle-active,
+.swal-custom-toggle-inactive{
+    border-radius: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #7E7E7E;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.swal-custom-toggle-inactive{
+    background-color: #7E7E7E;
+    color: #D9D9D9;
+}
+
+.swal-custom-status-chooser.active .swal-custom-toggle-active{
+    background-color: #4292F6;
+    color: white;
+}
+
+.swal-custom-status-chooser.active .swal-custom-toggle-inactive{
+    background-color: #D9D9D9;
+    color: #7E7E7E;
+}
+
+.body-no-scroll {
+  overflow: hidden;
+}

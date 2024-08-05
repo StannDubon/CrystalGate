@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="../resources/css/poppins.css">
+    <!-- FONT MANAGER -->
+    <link rel="stylesheet" href="../resources/css/font-manager.css">
+    <!-- COLOR MANAGER -->
+    <link rel="stylesheet" href="../resources/css/color-manager.css">
+
+    <!-- PAGE TEMPLATE -->
+    <link rel="stylesheet" href="../resources/css/template.css">
+    <!-- TEMPLATE PERMISSION DISPLAY -->
+    <link rel="stylesheet" href="../resources/css/template-permission-display.css">
+    <!-- CSS FOR AUTHORIZATION MANAGER -->
+    <link rel="stylesheet" href="../resources/css/authorization-manager.css">
+
+    <link rel="stylesheet" href="../resources/css/custom-modals.css">
+
+    <link rel="stylesheet" href="../resources/css/template-permissions-top-buttons.css">
+
+    <!-- CSS MODAL -->
+    <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+</head>
+
+<body id="local-documentation-settings">
+
+    <div id="TEMPLATE"></div>
+
+    <main>
+        <div class="main-header">
+            <div class="main-title">
+                <p>Manage Documentation Requests</p>
+            </div>
+
+            <div class="main-utilities">
+                <form id="search-form"></form>
+                <div class="main-utilities-search">
+
+                    <input id="search-input" type="text" placeholder="Search">
+
+                    <div class="icon">
+                        <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--color-fondo-1)"
+                                d="M9.40824 0C4.22077 0 0 4.41239 0 9.83536C0 15.2583 4.22077 19.6707 9.40824 19.6707C10.883 19.6704 12.3278 19.3057 13.6287 18.6175C14.5518 18.1292 15.7243 18.1778 16.4461 18.9323L19.4687 22.0922C19.942 22.5869 20.7322 22.5869 21.2054 22.0922V22.0922C21.6499 21.6276 21.6499 20.8956 21.2054 20.431L18.0013 17.0814C17.3255 16.3749 17.2804 15.2914 17.7234 14.4198C18.4369 13.0156 18.8161 11.4426 18.8165 9.83536C18.8165 4.41239 14.5957 0 9.40824 0Z"
+                                fill="#888888" />
+                        </svg>
+                    </div>
+
+                </div>
+                </form>
+
+                <button onclick="openCreateRequestType()" class="" id="addRequestType" name="addRequestType"
+                    title="Add a request type">
+                    <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20 8.89286H13.4286C13.0144 8.89286 12.6786 8.55707 12.6786 8.14286V2C12.6786 1.30964 12.1189 0.75 11.4286 0.75H10.5714C9.88107 0.75 9.32143 1.30964 9.32143 2V8.14286C9.32143 8.55707 8.98564 8.89286 8.57143 8.89286H2C1.30964 8.89286 0.75 9.4525 0.75 10.1429V10.8571C0.75 11.5475 1.30964 12.1071 2 12.1071H8.57143C8.98564 12.1071 9.32143 12.4429 9.32143 12.8571V19C9.32143 19.6904 9.88107 20.25 10.5714 20.25H11.4286C12.1189 20.25 12.6786 19.6904 12.6786 19V12.8571C12.6786 12.4429 13.0144 12.1071 13.4286 12.1071H20C20.6904 12.1071 21.25 11.5475 21.25 10.8571V10.1429C21.25 9.4525 20.6904 8.89286 20 8.89286Z"
+                            fill="white" stroke="white" stroke-width="0.5" />
+                    </svg>
+                    Request Type
+                </button>
+
+                <button onclick="openCreateLanguage()" class="" id="addLanguage" name="addLanguage"
+                    title="Add a document language">
+                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21.4876 19.4781L17.4446 9.68517C17.37 9.50432 17.2433 9.3497 17.0807 9.24091C16.9181 9.13211 16.7268 9.07404 16.5312 9.07404C16.3355 9.07404 16.1442 9.13211 15.9816 9.24091C15.819 9.3497 15.6923 9.50432 15.6177 9.68517L11.5747 19.4781C11.5244 19.5982 11.4984 19.7271 11.4981 19.8573C11.4977 19.9875 11.5231 20.1164 11.5728 20.2368C11.6225 20.3571 11.6954 20.4665 11.7875 20.5585C11.8795 20.6506 11.9889 20.7236 12.1092 20.7733C12.2295 20.8229 12.3585 20.8483 12.4887 20.848C12.6189 20.8477 12.7477 20.8217 12.8678 20.7714C12.9879 20.7212 13.0969 20.6477 13.1885 20.5552C13.2802 20.4627 13.3526 20.353 13.4017 20.2324L14.2251 18.2383H18.8372L19.6606 20.2324C19.7353 20.4133 19.862 20.568 20.0246 20.6768C20.1873 20.7857 20.3786 20.8438 20.5743 20.8438C20.7367 20.8437 20.8966 20.8035 21.0398 20.727C21.183 20.6504 21.3051 20.5397 21.3954 20.4047C21.4856 20.2697 21.5412 20.1145 21.5572 19.9529C21.5732 19.7913 21.5492 19.6282 21.4872 19.4781H21.4876ZM15.0413 16.2617L16.5314 12.6523L18.0214 16.2617H15.0413Z"
+                            fill="white" />
+                        <path
+                            d="M12.0319 15.4046C12.1854 15.1925 12.2485 14.9282 12.2073 14.6696C12.1661 14.4111 12.024 14.1794 11.8122 14.0255C11.8032 14.0188 11.1384 13.5255 10.173 12.4654C11.9542 10.054 12.9631 7.31059 13.3746 6.01953H14.8242C15.0863 6.01953 15.3377 5.91541 15.523 5.73007C15.7084 5.54473 15.8125 5.29336 15.8125 5.03125C15.8125 4.76914 15.7084 4.51777 15.523 4.33243C15.3377 4.14709 15.0863 4.04297 14.8242 4.04297H9.61328V3.14453C9.61328 2.88242 9.50916 2.63105 9.32382 2.44571C9.13848 2.26037 8.88711 2.15625 8.625 2.15625C8.36289 2.15625 8.11152 2.26037 7.92618 2.44571C7.74084 2.63105 7.63672 2.88242 7.63672 3.14453V4.04297H2.42578C2.16367 4.04297 1.9123 4.14709 1.72696 4.33243C1.54162 4.51777 1.4375 4.76914 1.4375 5.03125C1.4375 5.29336 1.54162 5.54473 1.72696 5.73007C1.9123 5.91541 2.16367 6.01953 2.42578 6.01953H11.2866C10.859 7.23018 10.0715 9.1416 8.87027 10.8873C7.45928 9.01492 6.93504 7.80338 6.931 7.7935C6.8277 7.55478 6.63445 7.3664 6.39317 7.26923C6.15189 7.17207 5.88203 7.17394 5.64213 7.27444C5.40222 7.37495 5.2116 7.56598 5.11162 7.80611C5.01165 8.04624 5.01037 8.3161 5.10807 8.55717C5.13412 8.61916 5.76168 10.0948 7.48264 12.3275C7.52397 12.3809 7.56484 12.433 7.60572 12.4851C5.84299 14.4774 4.1135 15.7132 3.3898 16.1121C3.15969 16.2376 2.98885 16.4494 2.91488 16.7009C2.84092 16.9524 2.86988 17.2229 2.99539 17.453C3.1209 17.6832 3.33269 17.854 3.58416 17.928C3.83563 18.0019 4.10619 17.973 4.33631 17.8475C4.43334 17.7945 6.51951 16.6395 8.90172 14.0026C9.91336 15.0843 10.6087 15.5946 10.6505 15.6243C10.7556 15.7006 10.8748 15.7555 11.0011 15.7858C11.1275 15.816 11.2585 15.8211 11.3868 15.8006C11.5151 15.7802 11.6382 15.7346 11.7488 15.6666C11.8595 15.5986 11.9557 15.5094 12.0319 15.4042V15.4046Z"
+                            fill="white" />
+                    </svg>
+
+                </button>
+
+                <button onclick="openCreateLocation()" class="" id="addLocation" name="addLocation"
+                    title="Add a location">
+                    <svg width="17" height="23" viewBox="0 0 17 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M7.62645 22.536C1.19398 13.0737 0 12.1025 0 8.625C0 3.86153 3.80556 0 8.5 0C13.1944 0 17 3.86153 17 8.625C17 12.1025 15.806 13.0737 9.37355 22.536C8.95143 23.1547 8.04853 23.1547 7.62645 22.536ZM8.5 12.2187C10.456 12.2187 12.0417 10.6098 12.0417 8.625C12.0417 6.64021 10.456 5.03125 8.5 5.03125C6.54398 5.03125 4.95833 6.64021 4.95833 8.625C4.95833 10.6098 6.54398 12.2187 8.5 12.2187Z"
+                            fill="white" />
+                    </svg>
+
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+
+            <div class="authorization-box">
+                <span>Request types</span>
+                <ul id="box-request-type">
+
+                </ul>
+            </div>
+
+            <div class="authorization-box">
+                <span>Document languages</span>
+                <ul id="box-languages">
+
+                </ul>
+            </div>
+
+            <div class="authorization-box">
+                <span>Locations</span>
+                <ul id="box-locations">
+
+                </ul>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+
+
+
+
+    <div id="modal-request-type" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title"></div>
+                <form id="save-form-request-type">
+                    <div class="main-modal-content">
+
+                        <input type="text" id="idTipoPeticion" name="idTipoPeticion" hidden>
+                        <input placeholder="Request Type" name="tipoPeticion" id="tipoPeticion" maxlength="32"
+                            minlength="2" pattern="[A-Za-z\s]{2,32}"
+                            title="Only letters and spaces allowed, between 2 and 32 characters." inputmode="text"
+                            required>
+
+                        <div id="swal-custom-status-chooser-req-type" class="swal-custom-status-chooser active">
+
+                            <input id="estadoTipoPeticion" name="estadoTipoPeticion" type="hidden" value="1"></input>
+
+                            <span class="swal-custom-toggle-inactive">Inactive</span>
+                            <span class="swal-custom-toggle-active">Active</span>
+                        </div>
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-languages" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-languages"></div>
+                <form id="save-form-languages">
+                    <div class="main-modal-content">
+
+                        <input type="text" id="idIdioma" name="idIdioma" hidden>
+                        <input placeholder="Document language" name="idioma" id="idioma" maxlength="32"
+                        minlength="2" pattern="[A-Za-z\s]{2,32}"
+                        title="Only letters and spaces allowed, between 2 and 32 characters." inputmode="text" required>
+
+                        <div id="swal-custom-status-chooser-doc-lang" class="swal-custom-status-chooser active">
+
+                            <input id="estadoIdioma" name="estadoIdioma" type="hidden" value="1"></input>
+
+                            <span class="swal-custom-toggle-inactive">Inactive</span>
+                            <span class="swal-custom-toggle-active">Active</span>
+                        </div>
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-locations" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-locations"></div>
+                <form id="save-form-locations">
+                    <div class="main-modal-content">
+
+                        <input type="text" id="idCentroEntrega" name="idCentroEntrega" hidden>
+                        <input placeholder="Location" name="centroEntrega" id="centroEntrega" maxlength="64"
+                        minlength="2" pattern="[A-Za-z\s]{2,64}"
+                        title="Only letters and spaces allowed, between 2 and 64 characters." inputmode="text" required>
+
+                        <div id="swal-custom-status-chooser-location" class="swal-custom-status-chooser active">
+
+                            <input id="estadoCentroEntrega" name="estadoCentroEntrega" type="hidden" value="1"></input>
+
+                            <span class="swal-custom-toggle-inactive">Inactive</span>
+                            <span class="swal-custom-toggle-active">Active</span>
+                        </div>
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SWEET ALERTS -->
+    <script src="../resources/js/sweetalert.min.js"></script>
+
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+    <script src="../resources/js/swal-custom.js"></script>
+
+    <!-- CONTROLADORES ESPECIFICOS -->
+    <script src="../controllers/private/manage-documentation-request.js"></script>
+</body>
+
+</html>

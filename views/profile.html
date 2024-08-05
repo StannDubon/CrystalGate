@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="../resources/css/poppins.css">
+    <!-- FONT MANAGER -->
+    <link rel="stylesheet" href="../resources/css/font-manager.css">
+    <!-- COLOR MANAGER -->
+    <link rel="stylesheet" href="../resources/css/color-manager.css">
+
+    <!-- PAGE TEMPLATE -->
+    <link rel="stylesheet" href="../resources/css/template.css">
+    <!-- TEMPLATE PERMISSION DISPLAY -->
+    <link rel="stylesheet" href="../resources/css/template-permission-display.css">
+    <!-- CSS PROFILE -->
+    <link rel="stylesheet" href="../resources/css/profile.css">
+
+    <link rel="stylesheet" href="../resources/css/custom-modals.css">
+    <!-- CSS MODAL -->
+    <link rel="stylesheet" href="../resources/css/modal-documentation-request.css">
+</head>
+
+<body id="local-requests-settings">
+
+    <div id="TEMPLATE"></div>
+
+    <main>
+        <div class="main-header">
+            <div class="main-title">
+                <p>Profile info</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="profile-info">
+                <div class="profile-card">
+                    <div class="profile-picture">
+                        <img id="imagenAdmin" alt="">
+                    </div>
+                    <div class="profile-details">
+                        <p hidden>ID: 00001</p>
+                        <p class="profile-name" id="nameAdmin"></p>
+                        <p id="tipoAdmin"></p>
+                        <div class="profile-email-box">
+                            <p id="correoAdmin"></p>
+                            <svg onclick="copyEmail()" title="Copy email" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                    fill="#888888" />
+                                <path
+                                    d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                    fill="#888888" />
+                            </svg>
+
+                        </div>
+                        <div class="profile-action">
+                            <button onclick="openProfile()" class="button edit-info"><svg width="16" height="20"
+                                    viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 0L15 3L12.713 5.288L9.713 2.288L12 0ZM0 11.988V14.988H3L11.299 6.701L8.299 3.701L0 11.988ZM0 17.988H16V19.988H0V17.988Z"
+                                        fill="white" />
+                                </svg>
+                                Edit Info</button>
+                            <button onclick="openPassword()" class="button change-password"><svg width="16" height="20"
+                                    viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14 8H5V5C5 3.346 6.346 2 8 2C9.654 2 11 3.346 11 5H13C13 2.243 10.757 0 8 0C5.243 0 3 2.243 3 5V8H2C1.46957 8 0.960859 8.21071 0.585786 8.58579C0.210714 8.96086 0 9.46957 0 10V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H14C14.5304 20 15.0391 19.7893 15.4142 19.4142C15.7893 19.0391 16 18.5304 16 18V10C16 9.46957 15.7893 8.96086 15.4142 8.58579C15.0391 8.21071 14.5304 8 14 8ZM6.061 13.499C6.18392 13.0284 6.47394 12.6187 6.87688 12.3463C7.27982 12.074 7.76813 11.9576 8.2506 12.019C8.73308 12.0803 9.17671 12.3152 9.49864 12.6798C9.82058 13.0444 9.99879 13.5136 10 14C9.99943 14.3497 9.90669 14.6932 9.73113 14.9956C9.55557 15.2981 9.30339 15.549 9 15.723V18H7V15.723C6.62162 15.5062 6.32484 15.1712 6.15522 14.7694C5.9856 14.3677 5.9525 13.9214 6.061 13.499Z"
+                                        fill="white" />
+                                </svg>
+                                Change Password</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ----------------------------------------------------- MODALS ----------------------------------------------------- -->
+
+    <div id="modal-edit-info" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-edit-info"></div>
+                <form id="save-form-edit-info">
+                    <div class="main-modal-content">
+
+                        <input id="modalImagenAdministrador" type="file" name="imagenAdministrador" class="form-control"
+                            accept=".png, .jpg">
+                        <input type="text" id="modalNombreAdministrador" name="nombreAdministrador"
+                            placeholder="First Name" maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <input type="text" id="modalApellidoAdministrador" name="apellidoAdministrador"
+                            placeholder="Last Name" maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            required>
+                        <input type="email" id="modalCorreoAdministrador" name="correoAdministrador" placeholder="Email"
+                            required>
+
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-password" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-password"></div>
+                <form id="save-form-password">
+                    <div class="main-modal-content">
+
+                        <input type="password" id="idioma" name="claveActual" placeholder="Current Password"
+                            maxlength="100" required>
+                        <input type="password" id="idioma" name="claveNueva" placeholder="New Password" maxlength="100"
+                            minlength="8" required>
+                        <input type="password" id="idioma" name="confirmarClave" placeholder="Confirm Password"
+                            maxlength="100" minlength="8" required>
+
+                    </div>
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="button">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SWEET ALERTS -->
+    <script src="../resources/js/sweetalert.min.js"></script>
+
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+
+    <!-- CONTROLADORES ESPECIFICOS -->
+    <script src="../controllers/private/dashboard.js"></script>
+    <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+
+    <script src="../resources/js/swal-custom.js"></script>
+    <!-- Controlador de la pagina -->
+    <script src="../controllers/private/profile.js"></script>
+</body>
+
+</html>

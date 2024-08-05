@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
+// Import Svg de react-native-svg, para agregar archivos svg
 import Svg, { Path } from "react-native-svg";
 
+// Componente UsernameInputForm que recibe props onChangeText, value y placeholder
 const UsernameInputForm = ({ onChangeText, value, placeholder }) => {
+    // Renderizado del componente
     return (
         <View style={styles.div}>
             <Svg
@@ -29,33 +32,35 @@ const UsernameInputForm = ({ onChangeText, value, placeholder }) => {
     );
 };
 
+// Hoja de estilos para definir estilos del componente
 const styles = StyleSheet.create({
     div: {
-        display: "flex",
-        flexDirection: "row",
-        fontFamily: "Poppins",
-        fontSize: 20,
-        fontWeight: "Medium",
-        marginTop: 40,
-        borderColor: "#4292F6",
-        borderWidth: 1.5,
-        textAlign: "center",
-        alignItems: "center",
-        paddingStart: 15,
-        borderRadius: 8,
-        height: 50,
-        width: 337,
+        display: "flex",                    // Utiliza el modelo de caja flexible
+        flexDirection: "row",               // Organiza los elementos en una fila horizontal
+        fontFamily: "Poppins-Regular",      // Define la fuente para el texto dentro del contenedor
+        fontSize: 20,                       // Tamaño de la fuente para el texto dentro del contenedor
+        fontWeight: "Medium",               // Peso de la fuente para el texto dentro del contenedor
+        marginTop: 40,                      // Margen superior de 40 unidades
+        borderColor: "#4292F6",             // Color del borde del contenedor
+        borderWidth: 1.5,                   // Ancho del borde del contenedor
+        textAlign: "center",                // Centra el contenido del texto horizontalmente
+        alignItems: "center",               // Centra los elementos verticalmente dentro del contenedor
+        paddingStart: 15,                   // Relleno en el inicio del contenedor
+        borderRadius: 8,                    // Radio de borde para esquinas redondeadas
+        height: 50,                         // Altura del contenedor
+        width: 337,                         // Ancho del contenedor
     },
     input: {
-        fontFamily: "Poppins",
-        fontSize: 16,
-        fontWeight: "Regular",
-        color: "#4292F6",
-        paddingLeft: 15,
-        alignContent: "flex-end",
-        width: 290,
-        height: 40,
+        fontFamily: "Poppins-Regular",      // Define la fuente para el texto dentro del TextInput
+        fontSize: 16,                       // Tamaño de la fuente para el texto dentro del TextInput
+        fontWeight: "Regular",              // Peso de la fuente para el texto dentro del TextInput
+        color: "#4292F6",                   // Color del texto dentro del TextInput
+        paddingLeft: 15,                    // Relleno en el inicio del TextInput
+        alignContent: "flex-end",           // Alinea el contenido del TextInput hacia el extremo inferior
+        width: 290,                         // Ancho del TextInput
+        height: 40,                         // Altura del TextInput
     },
 });
 
+ // Exporta el componente UsernameInputForm como exportación por defecto
 export default UsernameInputForm;

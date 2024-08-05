@@ -6,10 +6,9 @@ const POST_ID = "idCentroEntrega";
 const POST_CENTRO = "centroEntrega";
 const POST_ESTADO = "estadoCentroEntrega";
 
-
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -28,6 +27,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -35,56 +35,60 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega creado correctamente';
+                    $result['message'] = 'Place of pick up added succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el centro de entrega';
+                    $result['error'] = 'An error ocurred while creating the pick up place';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $CentroEntrega->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen centros de entrega registrados';
+                    $result['error'] = 'There aren´t places of pick up';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$CentroEntrega->setId($_POST[POST_ID])) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($result['dataset'] = $CentroEntrega->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Centros de entrega inexistente';
+                    $result['error'] = 'Pick up place non-existent';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$CentroEntrega->setId($_POST[POST_ID]) or
                     !$CentroEntrega->setCentro($_POST[POST_CENTRO]) or
-                    !$CentroEntrega->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$CentroEntrega->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega modificado correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
+                    $result['message'] = 'Pick up place edited succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el centro de entrega';
+                    $result['error'] = 'An error ocurred while editing the pick up place';
                 }
                 break;
+            // Caso para eliminar un registro.
             case 'deleteRow':
                 if (
                     !$CentroEntrega->setId($_POST[POST_ID])
@@ -92,13 +96,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = $CentroEntrega->getDataError();
                 } elseif ($CentroEntrega->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Centro de entrega eliminado correctamente';
+                    $result['message'] = 'Pick up place deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el centro de entrega';
+                    $result['error'] = 'An error ocurred while deleting the pick up place';
                 }
                 break;
+            // Caso para cambiar el estado de un registro.
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$CentroEntrega->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $CentroEntrega->getDataError();
+                } elseif ($CentroEntrega->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                } else {
+                    $result['error'] = 'An error ocurred while editing the type of petition';
+                }
+                break;
+            // Caso predeterminado
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -107,8 +126,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }

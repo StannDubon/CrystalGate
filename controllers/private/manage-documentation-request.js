@@ -35,7 +35,12 @@ const SAVE_FORM_REQUEST_TYPE = document.getElementById('save-form-request-type')
 
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    
+
+    loadTemplate();
+    setupModalDiscardButtons();
+    loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoPeticion");
+    loadStatusSelectorJs('swal-custom-status-chooser-doc-lang', "estadoIdioma");
+    loadStatusSelectorJs('swal-custom-status-chooser-location', "estadoCentroEntrega");
     // Petición para solicitar los tipos de peticiones (request types).
     fillRequestType();
     
@@ -73,17 +78,20 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 });
 
 
-// Funcion para cerrar el modal
+// Funcion para cerrar los modals
 closeModalRequestType = () => {
     SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 closeModalLanguages = () => {
     SAVE_MODAL_LANGUAGES.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
 closeModalLocations = () => {
     SAVE_MODAL_LOCATIONS.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 }
-
+// Funcion para cargar los datos desde la base
 const fillRequestType = async (form = null) => {
 
     (form) ? action = 'searchRows' : action = 'readAll';
@@ -97,6 +105,14 @@ const fillRequestType = async (form = null) => {
         REQUEST_TYPE.innerHTML = '';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA_REQUEST_TYPE.dataset.forEach(row => {
+            let reqTypeStatusColor = null
+            
+            if(row.estado == 1){
+                reqTypeStatusColor = "#8DDA8C"
+            } else{
+                reqTypeStatusColor = "#F54C60"
+            }
+
             // Se crean y concatenan las filas con los datos de cada tipo de request.
             REQUEST_TYPE.innerHTML += `
                 <li>
@@ -115,12 +131,34 @@ const fillRequestType = async (form = null) => {
                             </svg></div>
                     </div>
                     <span>${row.tipo_peticion}</span>
+                    <div class="authorization-status-button" style="background-color: ${reqTypeStatusColor};" onclick="changeRequestStatus(${row.id_tipo_peticion})"></div>
+
                 </li>
             `;
         });
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         REQUEST_TYPE.textContent = DATA_REQUEST_TYPE.error;
+    }
+}
+// Funcion para cambiar el estado del registro seleccionado
+const changeRequestStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this request?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idTipoPeticion', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(REQUEST_TYPE_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillRequestType();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
@@ -138,6 +176,7 @@ SAVE_FORM_REQUEST_TYPE.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_REQUEST_TYPE.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -155,6 +194,9 @@ SAVE_FORM_REQUEST_TYPE.addEventListener('submit', async (event) => {
 const openCreateRequestType = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_REQUEST_TYPE.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_REQUEST_TYPE.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE.textContent = 'Add a request type';
     // Se prepara el formulario.
     SAVE_FORM_REQUEST_TYPE.reset();
@@ -175,6 +217,9 @@ const openUpdateRequestType = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_REQUEST_TYPE.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_REQUEST_TYPE.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE.textContent = 'Update request type';
         // Se prepara el formulario.
         SAVE_FORM_REQUEST_TYPE.reset();
@@ -182,7 +227,8 @@ const openUpdateRequestType = async (id) => {
         const ROW = DATA.dataset;
         ID_REQUEST_TYPE.value = ROW.id_tipo_peticion;
         TIPO_PETICION.value = ROW.tipo_peticion;
-        ESTADO_REQUEST_TYPE.checked = ROW.estado;
+        ESTADO_REQUEST_TYPE.value = ROW.estado;
+        setFormatSelectorFromApi('swal-custom-status-chooser-req-type', "estadoTipoPeticion", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -230,6 +276,13 @@ const fillLanguages = async (form = null) => {
         LANGUAGES.innerHTML = '';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA_LANGUAGES.dataset.forEach(row => {
+            let reqLangStatusColor = null
+            
+            if(row.estado == 1){
+                reqLangStatusColor = "#8DDA8C"
+            } else{
+                reqLangStatusColor = "#F54C60"
+            }
             // Se crean y concatenan las filas con los datos de la base.
             LANGUAGES.innerHTML += `
                 <li>
@@ -248,12 +301,33 @@ const fillLanguages = async (form = null) => {
                             </svg></div>
                     </div>
                     <span>${row.idioma}</span>
+                    <div class="authorization-status-button" style="background-color: ${reqLangStatusColor};" onclick="changeLanguageStatus(${row.id_idioma})"></div>
                 </li>
             `;
         });
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         LANGUAGES.textContent = DATA_LANGUAGES.error;
+    }
+}
+// Funcion para cambiar el estado del registro seleccionado
+const changeLanguageStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this language?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idIdioma', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(LANGUAGES_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillLanguages();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
@@ -271,6 +345,7 @@ SAVE_FORM_LANGUAGES.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_LANGUAGES.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -288,6 +363,9 @@ SAVE_FORM_LANGUAGES.addEventListener('submit', async (event) => {
 const openCreateLanguage = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_LANGUAGES.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LANGUAGES.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_LANGUAGES.textContent = 'Add a document language';
     // Se prepara el formulario.
     SAVE_FORM_LANGUAGES.reset();
@@ -308,6 +386,9 @@ const openUpdateLanguage = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_LANGUAGES.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LANGUAGES.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_LANGUAGES.textContent = 'Update document language';
         // Se prepara el formulario.
         SAVE_FORM_LANGUAGES.reset();
@@ -315,7 +396,8 @@ const openUpdateLanguage = async (id) => {
         const ROW = DATA.dataset;
         ID_LANGUAGES.value = ROW.id_idioma;
         IDIOMA.value = ROW.idioma;
-        ESTADO_IDIOMA.checked = ROW.estado;
+        ESTADO_IDIOMA.value = ROW.estado;
+        setFormatSelectorFromApi('swal-custom-status-chooser-doc-lang', "estadoIdioma", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -364,6 +446,13 @@ const fillLocations = async (form = null) => {
         LOCATIONS.innerHTML = '';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA_LOCATIONS.dataset.forEach(row => {
+            let reqLocStatusColor = null
+            
+            if(row.estado == 1){
+                reqLocStatusColor = "#8DDA8C"
+            } else{
+                reqLocStatusColor = "#F54C60"
+            }
             // Se crean y concatenan las tarjetas con los datos de cada producto.
             LOCATIONS.innerHTML += `
                 <li>
@@ -382,12 +471,33 @@ const fillLocations = async (form = null) => {
                             </svg></div>
                     </div>
                     <span>${row.centro_entrega}</span>
+                    <div class="authorization-status-button" style="background-color: ${reqLocStatusColor};" onclick="changeLocationStatus(${row.id_centro_entrega})"></div>
                 </li>
             `;
         });
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         LOCATIONS.textContent = DATA_LOCATIONS.error;
+    }
+}
+// Funcion para cambiar el estado del  registro seleccionado
+const changeLocationStatus = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to change the status of this location?');
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idCentroEntrega', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(LOCATIONS_API, 'changeStatus', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true);
+            fillLocations();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
 }
 
@@ -405,6 +515,7 @@ SAVE_FORM_LOCATIONS.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_LOCATIONS.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -422,6 +533,9 @@ SAVE_FORM_LOCATIONS.addEventListener('submit', async (event) => {
 const openCreateLocation = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL_LOCATIONS.classList.add('show');
+    document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LOCATIONS.style.marginTop = window.scrollY + 'px';
     MODAL_TITLE_LOCATIONS.textContent = 'Add a location';
     // Se prepara el formulario.
     SAVE_FORM_LOCATIONS.reset();
@@ -442,6 +556,9 @@ const openUpdateLocation = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL_LOCATIONS.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_LOCATIONS.style.marginTop = window.scrollY + 'px';
         MODAL_TITLE_LOCATIONS.textContent = 'Update location';
         // Se prepara el formulario.
         SAVE_FORM_LOCATIONS.reset();
@@ -449,7 +566,8 @@ const openUpdateLocation = async (id) => {
         const ROW = DATA.dataset;
         ID_LOCATIONS.value = ROW.id_centro_entrega;
         CENTRO_ENTREGA.value = ROW.centro_entrega;
-        ESTADO_CENTRO_ENTREGA.checked = ROW.estado;
+        ESTADO_CENTRO_ENTREGA.value = ROW.estado;
+        setFormatSelectorFromApi('swal-custom-status-chooser-location', "estadoCentroEntrega", ROW.estado);
     } else {
         sweetAlert(2, DATA.error, false);
     }

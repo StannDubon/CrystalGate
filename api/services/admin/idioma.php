@@ -6,10 +6,9 @@ const POST_ID = "idIdioma";
 const POST_IDIOMA = "idioma";
 const POST_ESTADO = "estadoIdioma";
 
-
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se establecen los parametros para la sesion
+    // Se establecen los parámetros para la sesión.
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -28,63 +27,69 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para buscar registros.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($result['dataset'] = $Idioma->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' coincidences';
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'There aren´t coincidences';
                 }
                 break;
+            // Caso para crear un nuevo registro.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma creado correctamente';
+                    $result['message'] = 'Language created succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el idioma';
+                    $result['error'] = 'An error ocurred while creating the language';
                 }
                 break;
+            // Caso para leer todos los registros.
             case 'readAll':
                 if ($result['dataset'] = $Idioma->readAll()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
-                    $result['error'] = 'No existen idiomas registrados';
+                    $result['error'] = 'There aren´t registered languages';
                 }
                 break;
+            // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$Idioma->setId($_POST[POST_ID])) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($result['dataset'] = $Idioma->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Idioma inexistente';
+                    $result['error'] = 'Non-existent languages';
                 }
                 break;
+            // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Idioma->setId($_POST[POST_ID]) or
                     !$Idioma->setIdioma($_POST[POST_IDIOMA]) or
-                    !$Idioma->setEstado(isset($_POST[POST_ESTADO]) ? 1 : 0)
+                    !$Idioma->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma modificado correctamente';
+                    $result['message'] = 'Language edited succesfully';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el idioma';
+                    $result['error'] = 'An error ocurred while editing the language';
                 }
                 break;
+            // Caso para eliminar un registro.
             case 'deleteRow':
                 if (
                     !$Idioma->setId($_POST[POST_ID])
@@ -92,13 +97,29 @@ if (isset($_GET['action'])) {
                     $result['error'] = $Idioma->getDataError();
                 } elseif ($Idioma->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Idioma eliminado correctamente';
+                    $result['message'] = 'Language deleted succesfully';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el idioma';
+                    $result['error'] = 'An error ocurred while deleting the language';
                 }
                 break;
+            // Caso para cambiar el estado de un registro.
+            case 'changeStatus':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$Idioma->setId($_POST[POST_ID])
+                ) {
+                    $result['error'] = $Idioma->getDataError();
+                } elseif ($Idioma->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'The status was updated successfully';
+                    // Se asigna el estado del archivo después de actualizar.
+                } else {
+                    $result['error'] = 'An error ocurred while editing the type of petition';
+                }
+                break;
+            // Caso predeterminado.
             default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+                $result['error'] = 'Action not available in the session';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -107,8 +128,8 @@ if (isset($_GET['action'])) {
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print(json_encode('Access denied'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print(json_encode('Resource not available'));
 }

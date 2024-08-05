@@ -72,6 +72,7 @@ const openModalAuthorization = () => {
 const closeModalAuthorization = () => {
     // Elimina la clase 'show' para ocultar el modal
     SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 };
 
 // Función para abrir el modal de ADD SUB-AUTHORIZATION
@@ -87,6 +88,7 @@ const openModalSubAuthorization = () => {
 const closeModalSubAuthorization = () => {
     // Elimina la clase 'show' para ocultar el modal
     SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
+    document.body.classList.remove('body-no-scroll');
 };
 
 //CÓDIGO DEL MODAL ADD AUTHORIZATION 
@@ -103,6 +105,7 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Cierra el modal si la respuesta es satisfactoria
         SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Muestra un mensaje de éxito
         showAlert(1, DATA.message);
         // Recarga la lista de permisos
@@ -163,6 +166,7 @@ SAVE_FORM_AUTHORIZATION.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
@@ -282,6 +286,7 @@ SAVE_FORM_SUB_AUTHORIZATION.addEventListener('submit', async (event) => {
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_SUB_AUTHORIZATION.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
