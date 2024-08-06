@@ -3,10 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
-    Clipboard,
     Alert,
-    Button,
 } from "react-native";
 // Importación del archivo de constantes de colores
 import { Color } from "../assets/const/color";
@@ -34,64 +31,73 @@ import SuccessModal from "./modal/alertModal";
 import fetchData from './utils/database';
 
 const PermissionRequest = () => {
-
+    const [permissionClassification, setPermissionClassification] = useState([]);
     const [permissionTypes, setPermissionTypes] = useState([]);
-    const [selectedPermissionType, setSelectedPermissionType] = useState('');
+    const [selectedPermissionClassification, setSelectedPermissionClassification] = useState("");
+    const [selectedPermissionType, setSelectedPermissionType] = useState("");
+    const [selectedOption, setSelectedOption] = useState('Days');
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const loadPermissionClassification = async () => {
+            try {
+                const ClassificationResult = await fetchData('clasificacion-permiso', 'readAll');
+                if (ClassificationResult.status) {
+                    let narray = [];
+                    ClassificationResult.dataset.map((item) => {
+                        narray.push({ identifier: item.id_clasificacion_permiso, value: item.clasificacion_permiso });
+                    });
+                    setPermissionClassification(narray);
+                }
+            } catch (error) {
+                Alert.alert("Fetch Error", error.message || "An error occurred while fetching data");
+            }
+        };
+
+        loadPermissionClassification();
+    }, [navigation]);
 
     useEffect(() => {
         const loadPermissionTypes = async () => {
-            const data = await fetchPermissionTypes();
-            setPermissionTypes(data);
-        };
-
-        loadPermissionTypes();
-    }, []);
-
-    const fetchPermissionTypes = async () => {
-        const action = "readAll";
-        try {
-            const result = await fetchData('clasificacion-permiso', action); // Cambia 'permissionType' según tu servicio
-            if (result.status === 1) {
-                return result.dataset;
-            } else {
-                console.error("Error fetching permission types:", result.error);
-                return [];
-            }
-        } catch (error) {
-            console.error("Fetch error:", error);
-            return [];
-        }
-    };
+            //console.log("id del tipo de permiso "+selectedPermissionClassification);
+            const FORM = new FormData();
+            FORM.append("idClasificacionPermiso", selectedPermissionClassification);
+            try {
+                const TypeResult = await fetchData('tipo-permiso', 'readLike', FORM);
+                //console.log("TypeResult:", TypeResult); // Verifica la respuesta del fetchData
     
-    // Opciones para las listas desplegables
-    const send_by = ['Paternity/Maternity','ISSS'];
+                if (TypeResult.status) {
+                    let narray = [];
+                    TypeResult.dataset.map((item) => {
+                        narray.push({ identifier: item.id_tipo_permiso, value: item.tipo_permiso });
+                    });
+                    setPermissionTypes(narray);
+                } else {
+                    console.error("Failed to load permission types.");
+                }
+            } catch (error) {
+                Alert.alert("Fetch Error", error.message || "An error occurred while fetching data");
+            }
+        };
+    
+        loadPermissionTypes();
+    }, [selectedPermissionClassification]);
+    
 
-    // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
-    const navigation = useNavigation();
-    const [selectedOption, setSelectedOption] = useState('Days');
-
-    // Hook de navegación para gestionar la navegación entre pantallas
-    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
-
-    // Función para manejar el envío del formulario
     const handleSend = () => {
-        // Mostrar el modal de éxito
         setSuccessModalVisible(true);
-
-        // Ocultar el modal después de 4 segundos y navegar a la pantalla de Dashboard
         setTimeout(() => {
             setSuccessModalVisible(false);
             navigation.navigate('Dashboard');
         }, 4000); 
     };
 
-    // Función para manejar la selección de archivos
     const handleFileSelect = (file) => {
-        // Aquí podrías implementar lógica adicional para manejar el archivo seleccionado
         console.log("Selected File:", file);
     };
 
-    // Renderizado del componente
     return (
         <View style={styles.container}>
             <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
@@ -99,65 +105,67 @@ const PermissionRequest = () => {
                 <Text style={styles.sectionText}>Details</Text>
                 <ComboBox 
                     label={"Permission Type"} 
-                    options={permissionTypes.map(pt => ({ label: pt.clasificacionPermiso, value: pt.idClasificacionPermiso }))}
+                    options={permissionClassification}
                     placeholder={"Select an option"}
-                    selectedValue={selectedPermissionType}
-                    onValueChange={(value) => setSelectedPermissionType(value)}
+                    selectedValue={selectedPermissionClassification}
+                    onValueChange={setSelectedPermissionClassification}
+                    isDisabled={false}
                 />
                 <ComboBox 
                     label={"Sub-Permission Type"} 
-                    options={send_by.map(sb => ({ label: sb, value: sb }))}
+                    options={permissionTypes}
                     placeholder={"Select an option"}
+                    selectedValue={selectedPermissionType}
+                    onValueChange={setSelectedPermissionType}
+                    isDisabled={false}
                 />
-                <TextArea label={"Permission description"}></TextArea>
-                <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
+                <TextArea label={"Permission description"} />
+                <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption} />
                 <Text style={styles.sectionText}>DATE</Text>
                 {
-                    selectedOption == "Days" ? 
+                    selectedOption === "Days" ? 
                     <>
-                        <DatePicker label={"From: "}></DatePicker>
-                        <DatePicker label={"To: "}></DatePicker>
+                        <DatePicker label={"From: "} />
+                        <DatePicker label={"To: "} />
                     </>
                     :
                     <>
-                        <DatePicker label={"Of: "}></DatePicker>
-                        <TimePicker label={"From: "}></TimePicker>
-                        <TimePicker label={"To: "}></TimePicker>
+                        <DatePicker label={"Of: "} />
+                        <TimePicker label={"From: "} />
+                        <TimePicker label={"To: "} />
                     </>
                 }
-                <FilePicker onSelectFile={handleFileSelect}></FilePicker>
-                <SendButtonForm onPress={handleSend}></SendButtonForm>
+                <FilePicker onSelectFile={handleFileSelect} />
+                <SendButtonForm onPress={handleSend} />
             </View>
             <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Permission sent successfully"} />
         </View>
     );
 };
 
-// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Flex 1 para ocupar todo el espacio disponible
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        backgroundColor: Color.colorBackground, // Color de fondo definido en la constante Color
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: Color.colorBackground,
     },
     formContainer: {
-        paddingBottom: 200, // Espacio adicional en la parte inferior para evitar que los elementos finales se superpongan con el teclado
-        flex: 1, // Flex 1 para que ocupe todo el espacio vertical disponible
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        justifyContent: "center", // Centrar verticalmente los elementos hijos
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        paddingBottom: 200,
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
     },
-    sectionText:{
-        display: "flex", // Mostrar como contenedor flexible
-        alignSelf: "flex-start", // Alinear el texto al inicio del contenedor
-        paddingLeft: 30, // Espacio de relleno a la izquierda
-        fontFamily: "Poppins-Regular", // Fuente de texto
-        color: "#98ADE3", // Color del texto
-        paddingTop: 20, // Espacio adicional en la parte superior
+    sectionText: {
+        display: "flex",
+        alignSelf: "flex-start",
+        paddingLeft: 30,
+        fontFamily: "Poppins-Regular",
+        color: "#98ADE3",
+        paddingTop: 20,
     },
 });
 
-// Exporta el componente PermissionRequest como el predeterminado
 export default PermissionRequest;

@@ -44,7 +44,7 @@ const Login = () => {
     console.log(username, password);
     try {
       const result = await fetchData(service, action, FORM);
-      console.log(result);
+      console.log(result);  
       if (result.status == 1) {
         setSuccessModalVisible(true);
         setTimeout(() => {

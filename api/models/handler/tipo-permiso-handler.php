@@ -46,6 +46,18 @@ class TipoPermisoHandler
         return Database::getRows($sql);
     }
 
+    public function readLike()
+    {
+        $sql = 'SELECT * 
+                FROM tb_tipos_permisos
+                WHERE id_clasificacion_permiso = ?';
+        $params = array($this->clasificacion);
+        $result = Database::getRows($sql, $params);
+        return $result;
+    }
+    
+
+
     // Método para leer tipos de permisos que tienen referencias no vacías en la tabla tb_permisos.
     public function readNoEmtyReferences()
     {
