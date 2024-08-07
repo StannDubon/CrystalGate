@@ -117,6 +117,11 @@ const styles = StyleSheet.create({
         backgroundColor: Color.colorBackground, // Color de fondo definido en la constante Color
     },
 
+    body:{
+        width: "100%",
+        backgroundColor: "red"
+    },
+
 
     topContrast: {
         display: "flex", // Mostrar como contenedor flexible

@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.0.5/CrystalGate/api/services/public";
+const BASE_URL = "http://192.168.56.1/CrystalGate/api/services/public";
 
 const fetchData = async (service, action, data = null) => {
     const url = `${BASE_URL}/${service}.php?action=${action}`;

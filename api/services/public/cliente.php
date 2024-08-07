@@ -8,6 +8,7 @@ const POST_APELLIDO = "apellidoUsuario";
 const POST_CORREO = "correoUsuario";
 const POST_CLAVE = "claveUsuario";
 const POST_IMAGEN = "imagenUsuario";
+const POST_ID_CARGO = "cargoUsuario";
 
 // Variables para acciones con contraseaña
 const POST_CLAVE_ACTUAL = "claveActual";
@@ -17,6 +18,15 @@ const POST_CLAVE_CONFIRMAR = "confirmarClave";
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     
+    // Se establecen los parametros para la sesion
+    session_set_cookie_params([
+        'lifetime' => 43200,
+        'path' => '/',
+        'domain' => '',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'None'
+    ]);
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
@@ -45,7 +55,7 @@ if (isset($_GET['action'])) {
                     !$usuario->setNombre($_POST[POST_NOMBRE]) or
                     !$usuario->setApellido($_POST[POST_APELLIDO]) or
                     !$usuario->setCorreo($_POST[POST_CORREO]) or
-                    !$usuario->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or 
+                    !$usuario->setIdCargo($_POST[POST_ID_CARGO]) or 
                     !$usuario->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $usuario->getDataError();
