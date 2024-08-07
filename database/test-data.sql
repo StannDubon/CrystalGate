@@ -7,11 +7,11 @@ INSERT INTO tb_cargos (cargo) VALUES
 
 
 INSERT INTO tb_usuarios (id_cargo, nombre, apellido, clave, correo) VALUES
-(1, 'John', 'Doe', 'password123', 'john.doe@example.com'),
-(2, 'Jane', 'Smith', 'password456', 'jane.smith@example.com'),
-(3, 'Alice', 'Johnson', 'password789', 'alice.johnson@example.com'),
-(4, 'Bob', 'Brown', 'password012', 'bob.brown@example.com'),
-(5, 'Charlie', 'Davis', 'password345', 'charlie.davis@example.com');
+(1, 'John', 'Doe', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'john.doe@example.com'),
+(2, 'Jane', 'Smith', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'jane.smith@example.com'),
+(3, 'Alice', 'Johnson', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'alice.johnson@example.com'),
+(4, 'Bob', 'Brown', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'bob.brown@example.com'),
+(5, 'Charlie', 'Davis', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'charlie.davis@example.com');
 
 INSERT INTO tb_permisos (id_usuario, id_tipo_permiso, fecha_inicio, fecha_final, fecha_envio, documento_permiso, descripcion_permiso, estado) VALUES
 (1, 1, '2024-07-01 08:00:00', '2024-07-10 17:00:00', '2024-06-25 09:00:00', 'doc_12345.pdf', 'Family emergency', '1'),
