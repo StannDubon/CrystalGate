@@ -8,6 +8,7 @@ const POST_APELLIDO = "apellidoUsuario";
 const POST_CORREO = "correoUsuario";
 const POST_CLAVE = "claveUsuario";
 const POST_IMAGEN = "imagenUsuario";
+const POST_ID_CARGO = "idCargoUsuario";
 
 // Variables para acciones con contraseaña
 const POST_CLAVE_ACTUAL = "claveActual";
@@ -45,7 +46,7 @@ if (isset($_GET['action'])) {
                     !$usuario->setNombre($_POST[POST_NOMBRE]) or
                     !$usuario->setApellido($_POST[POST_APELLIDO]) or
                     !$usuario->setCorreo($_POST[POST_CORREO]) or
-                    !$usuario->setIdTipoAdmin($_POST[POST_ID_TIPO_ADMIN]) or 
+                    !$usuario->setIdCargo($_POST[POST_ID_CARGO]) or 
                     !$usuario->setImagen($_FILES[POST_IMAGEN])
                 ) {
                     $result['error'] = $usuario->getDataError();

@@ -270,10 +270,16 @@ if (isset($_GET['action'])) {
                         'expiration_time' => time() + (60 * 25) # (x*y) y=minutos de vida 
                     ];
 
-                    sendVerificationEmail($_POST[POST_CORREO], $secret_change_password_code);
-                    $result['status'] = 1;
-                    $result['message'] = 'Correo enviado';
-                    $result['dataset'] = $token;
+                    try {
+                        sendVerificationEmail($_POST[POST_CORREO], $secret_change_password_code);
+                        $result['status'] = 1;
+                        $result['message'] = 'Correo enviado';
+                        $result['dataset'] = $token;
+
+                    } catch (Exception $e) {
+                        $result['error'] = 'Ocurrió un error al enviar el correo';
+                    }
+
                 } else {
                     $result['error'] = 'El correo indicado no existe';
                 }
