@@ -40,6 +40,15 @@ class TipoPermisoHandler
         return Database::getRows($sql,$params);
     } 
 
+    //Método para obtener lapso de tiempo por tipo de permiso
+    public function getLapso(){
+        $sql = 'SELECT lapso
+                FROM tb_tipos_permisos
+                WHERE id_tipo_permiso = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
     // Método para crear un nuevo tipo de permiso.
     public function createRow()
     {

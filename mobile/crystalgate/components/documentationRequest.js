@@ -154,7 +154,8 @@ const DocumentationRequest = () => {
         !address ||
         !selectedRequestType ||
         !selectedSendBy ||
-        !selectedLanguage;
+        !selectedLanguage ||
+        !selectedDeliverCenter;
 
     return (
         <View style={styles.container}>

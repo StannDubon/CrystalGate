@@ -51,6 +51,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t permission types registered';
                 }
                 break;
+            //Caso para obtener lapso por tipo de permiso.
+            case 'getLapso':
+                if (!$TipoPermiso->setId($_POST[POST_ID])) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($result['dataset'] = $TipoPermiso->getLapso()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Non-existent permission type';
+                }
+                break;
             //Caso para leer los registros por categoria.
             case 'readAllByCategorie':
                 if(!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])){

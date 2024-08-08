@@ -30,10 +30,6 @@ const Profile = () => {
     const navigation = useNavigation();
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
-    const getInitials = (nombre, apellido) =>{
-        return nombre[0]+apellido[0];
-    }
-
     const getUser = async () =>{
         const result = await fetchData('cliente','readOne');
         if(result.status){
@@ -41,14 +37,13 @@ const Profile = () => {
             setApellido(result.dataset.apellido);
             setNombre(result.dataset.nombre);
             setCargo(result.dataset.cargo);
-            setIniciales(getInitials(nombre,apellido));
+            setIniciales(result.dataset.nombre[0]+result.dataset.apellido[0]);
             setId(result.dataset.id_usuario);
         }
     }
 
     useEffect(() => {
         getUser();
-
     },[navigation]);
 
     const copyToClipboard = (text) => {

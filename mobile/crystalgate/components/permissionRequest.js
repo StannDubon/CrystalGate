@@ -41,6 +41,8 @@ const PermissionRequest = () => {
 
     //Validadores de habilitación
     const [subTypeDisabled, setSubTypeDisabled] = useState(true);
+    const [disabledDay, setDisabledDay] = useState(true);
+    const [disabledHour, setDisabledHour] = useState(true);
 
     //valores de combo box
     const [selectedType, setSelectedType] = useState("");
@@ -49,7 +51,7 @@ const PermissionRequest = () => {
 
     // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
     const navigation = useNavigation();
-    const [selectedOption, setSelectedOption] = useState('Days');
+    const [selectedOption, setSelectedOption] = useState('');
 
     // Hook de navegación para gestionar la navegación entre pantallas
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
@@ -81,8 +83,42 @@ const PermissionRequest = () => {
         else{
             setSubTypeDisabled(true);
             setSelectedSubType(0);
+            setSelectedOption("");
+            setDisabledDay(true);
+            setDisabledHour(true);
         }
         setSelectedType(itemValue);
+    }
+
+    const changeSubCategorie = async (itemValue) =>{
+        setSelectedSubType(itemValue);
+        const formData = new FormData();
+        formData.append('idTipoPermiso',itemValue);
+        const result = await fetchData('tipo-permiso','getLapso',formData);
+        console.log(result);
+        if(result.status){
+            if(result.dataset.lapso == '1'){
+                setSelectedOption("Day");
+                setDisabledDay(false);
+                setDisabledHour(true);
+            }
+            else if(result.dataset.lapso == '2'){
+                setSelectedOption("Hour");
+                setDisabledDay(true);
+                setDisabledHour(false);
+            }
+            else{
+                console.log("here");
+                setSelectedOption("Day");
+                setDisabledDay(false);
+                setDisabledHour(false);
+            }
+        }
+        else{
+            setSelectedOption("");
+            setDisabledDay(true);
+            setDisabledHour(true);
+        }
     }
 
     useEffect(() => {
@@ -121,12 +157,15 @@ const PermissionRequest = () => {
                 <ComboBox   label={"Sub-Permission Type"} 
                             options={subRequestsType} 
                             selectedValue={selectedSubType}
-                            onValueChange={setSelectedSubType}
+                            onValueChange={changeSubCategorie}
                             placeholder={"Select an option"} 
                             isDisabled={subTypeDisabled}
                             ></ComboBox>
                 <TextArea label={"Permission description"}></TextArea>
-                <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
+                <SwitchButton   selectedOption={selectedOption} 
+                                onSelectOption={setSelectedOption} 
+                                disabled1={disabledDay} 
+                                disabled2={disabledHour}></SwitchButton>
                 <Text style={styles.sectionText}>DATE</Text>
                 {
                     selectedOption == "Days" ? 
@@ -134,11 +173,14 @@ const PermissionRequest = () => {
                         <DatePicker label={"From: "}></DatePicker>
                         <DatePicker label={"To: "}></DatePicker>
                     </>
-                    :
+                    : selectedOption == "Hours" ?
                     <>
                         <DatePicker label={"Of: "}></DatePicker>
                         <TimePicker label={"From: "}></TimePicker>
                         <TimePicker label={"To: "}></TimePicker>
+                    </>
+                    :
+                    <>
                     </>
                 }
                 <FilePicker onSelectFile={handleFileSelect}></FilePicker>
