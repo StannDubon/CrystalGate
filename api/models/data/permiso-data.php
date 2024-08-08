@@ -26,7 +26,7 @@ class PermisoData extends PermisoHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del permiso es incorrecto';
+            $this->data_error = 'The identificator of the permission is incorrect';
             return false;
         }
     }
@@ -38,7 +38,7 @@ class PermisoData extends PermisoHandler
             $this->idUsuario = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del usuario es incorrecto';
+            $this->data_error = 'The identificator of the user is incorrect';
             return false;
         }
     }
@@ -50,7 +50,7 @@ class PermisoData extends PermisoHandler
             $this->idTipoPermiso = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo permiso es incorrecto';
+            $this->data_error = 'The identificator of the type of permission is incorrect';
             return false;
         }
     }
@@ -62,7 +62,7 @@ class PermisoData extends PermisoHandler
             $this->idClasificacionPermiso = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la clasificación de permiso es incorrecto';
+            $this->data_error = 'The identificator of the clasification of permission is incorrect';
             return false;
         }
     }
@@ -74,7 +74,7 @@ class PermisoData extends PermisoHandler
             $this->estado = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del estado permiso es incorrecto';
+            $this->data_error = 'The identificator of the state of permission is incorrect';
             return false;
         }
     }
@@ -86,7 +86,7 @@ class PermisoData extends PermisoHandler
             $this->fechaInicio = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de inicio es incorrecta';
+            $this->data_error = 'The start date is incorrect';
             return false;
         }
     }
@@ -98,7 +98,7 @@ class PermisoData extends PermisoHandler
             $this->fechaFinal = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de finalización es incorrecta';
+            $this->data_error = 'The finish date is incorrect';
             return false;
         }
     }
@@ -110,7 +110,7 @@ class PermisoData extends PermisoHandler
             $this->fechaEnvio = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de envío es incorrecta';
+            $this->data_error = 'The shipping date is incorrect';
             return false;
         }
     }
@@ -122,7 +122,7 @@ class PermisoData extends PermisoHandler
             $this->filename = $data['documento_permiso'];
             return true;
         } else {
-            $this->data_error = 'Permiso inexistente';
+            $this->data_error = 'Unexistent permission';
             return false;
         }
     }

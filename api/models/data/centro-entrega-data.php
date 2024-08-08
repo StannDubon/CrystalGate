@@ -26,7 +26,7 @@ class CentroEntregaData extends CentroEntregaHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de peticion es incorrecto';
+            $this->data_error = 'The identificator of the type of petition is incorrect';
             return false;
         }
     }
@@ -35,13 +35,13 @@ class CentroEntregaData extends CentroEntregaHandler
     public function setCentro($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El tipo de peticion debe ser un valor alfanumérico';
+            $this->data_error = 'The petition type has to be an alphanumeric value';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->centro = $value;
             return true;
         } else {
-            $this->data_error = 'El tipo de peticion debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the type of petition has to be from ' . $min . ' y ' . $max;
             return false;
         }
     }
@@ -62,7 +62,7 @@ class CentroEntregaData extends CentroEntregaHandler
             $this->estado = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'The lenght of the type of petition has to be from (true/false o 1/0)';
             return false;
         }
     }

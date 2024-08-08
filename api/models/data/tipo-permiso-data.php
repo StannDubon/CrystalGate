@@ -25,7 +25,7 @@ class TipoPermisoData extends TipoPermisoHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de permiso es incorrecto';
+            $this->data_error = 'The identificator of the type of permission is incorrect';
             return false;
         }
     }
@@ -37,7 +37,7 @@ class TipoPermisoData extends TipoPermisoHandler
             $this->clasificacion = $value;
             return true;
         } else {
-            $this->data_error = 'La clasificación del permiso es incorrecta';
+            $this->data_error = 'The classification of the permission is incorrect';
             return false;
         }
     }
@@ -46,13 +46,13 @@ class TipoPermisoData extends TipoPermisoHandler
     public function setTipo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El tipo de permiso debe ser un valor alfanumérico';
+            $this->data_error = 'The permission type has to be alphanumeric ';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->tipo = $value;
             return true;
         } else {
-            $this->data_error = 'El tipo de permiso debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the type of permission has to be from ' . $min . ' and ' . $max;
             return false;
         }
     }
@@ -64,7 +64,7 @@ class TipoPermisoData extends TipoPermisoHandler
             $this->lapso = $value;
             return true;
         } else {
-            $this->data_error = 'El lapso es incorrecto';
+            $this->data_error = 'The lapse is incorrect';
             return false;
         }
     }
@@ -84,7 +84,7 @@ class TipoPermisoData extends TipoPermisoHandler
             $this->estado = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'The value has to be a boolean (true/false o 1/0)';
             return false;
         }
     }
