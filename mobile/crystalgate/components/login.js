@@ -35,6 +35,23 @@ const Login = () => {
     }, [])
   );
 
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      let action = "getUser";
+      try {
+        const result = await fetchData(service, action);
+        if (result.status) {
+          navigation.navigate('Navigation');
+        }
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+
+    checkUserLoggedIn();
+  }, [navigation]);
+  
+
   const handleSendNav = async () => {
     let action = "logIn";
 

@@ -46,3 +46,29 @@ INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_ent
 (4, 2, 2, 2, '505 Spruce St', FALSE, '555-1122',2),
 (1, 3, 3, 3, '606 Walnut St', TRUE, '555-1234',3),
 (2, 1, 1, 1, '707 Hickory St', FALSE, '555-5678',3);
+
+INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
+("Medical Leave"),
+("Permissions"),
+("Vacation Request");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(1, "ISSS", "3"),
+(1, "Service of Public Health", "3"),
+(1, "Service of Private Health", "3");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(2, "Medical Appointment", "3"),
+(2, "Emergency Appointment", "3"),
+(2, "Family Emergency", "3"),
+(2, "Bereavement Leave", "3"),
+(2, "Marriage Leave", "3"),
+(2, "Paternity Leave", "3"),
+(2, "Personal Process", "3"),
+(2, "Court Date", "3"),
+(2, "Breastfeeding", "3"),
+(2, "Personal Day", "3"),
+(2, "Other", "3");
+
+INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
+(3, "Vacations", "3");

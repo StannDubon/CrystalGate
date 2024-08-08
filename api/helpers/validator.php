@@ -282,10 +282,12 @@ class Validator
     *   Parámetros: $value (dato a validar).
     *   Retorno: booleano (true si el valor es una fecha y hora válidas en el formato especificado, false en caso contrario).
     */
-    public static function validateDateTime($value)
-    {
-        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
-        return $dateTime && $dateTime->format('Y-m-d H:i:s') === $value;
+    function validateDateTime($dateTime) {
+        $format = 'Y-m-d H:i:s';
+        $dateTimeObject = DateTime::createFromFormat($format, $dateTime);
+    
+        // Verifica si el objeto DateTime se creó correctamente y si la fecha y hora coinciden con el formato
+        return $dateTimeObject && $dateTimeObject->format($format) === $dateTime;
     }
 
 
