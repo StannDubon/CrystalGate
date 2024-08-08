@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -31,12 +31,21 @@ import TimePicker from "./pickers/timePicker";
 // Selector de archivo para formularios
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
+import fetchData from "./utils/database";
 
 const PermissionRequest = () => {
 
     // Opciones para las listas desplegables
-    const resquests_type = ['Vacations','Special Permission'];
-    const send_by = ['Paternity/Maternity','ISSS'];
+    const [resquestsType,setRequestsType] = useState([]);
+    const [subRequestsType, setSubRequestsType] = useState([]);
+
+    //Validadores de habilitación
+    const [subTypeDisabled, setSubTypeDisabled] = useState(true);
+
+    //valores de combo box
+    const [selectedType, setSelectedType] = useState("");
+    const [selectedSubType, setSelectedSubType] = useState("");
+
 
     // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
     const navigation = useNavigation();
@@ -44,6 +53,41 @@ const PermissionRequest = () => {
 
     // Hook de navegación para gestionar la navegación entre pantallas
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+
+    const loadData = async () =>{
+        const result = await fetchData('clasificacion-permiso','readAll');
+        if(result.status){
+            let requestTypes = [];
+            result.dataset.map((item) => {
+                requestTypes.push({identifier: item.id_clasificacion_permiso, value: item.clasificacion_permiso});
+            });
+            setRequestsType(requestTypes);
+        }
+    }
+
+    const changeCategorie = async (itemValue) =>{
+        const formData = new FormData();
+        formData.append('idClasificacionPermiso',itemValue);
+        const result = await fetchData('tipo-permiso','readAllByCategorie',formData);
+        if(result.status){
+            setSubTypeDisabled(false);
+            let subTypes = [];
+            result.dataset.map((item) => {
+                subTypes.push({identifier:item.id_tipo_permiso, value:item.tipo_permiso})
+            });
+            setSubRequestsType(subTypes);
+            setSelectedSubType(0);
+        }
+        else{
+            setSubTypeDisabled(true);
+            setSelectedSubType(0);
+        }
+        setSelectedType(itemValue);
+    }
+
+    useEffect(() => {
+        loadData();
+    },[navigation]);
 
     // Función para manejar el envío del formulario
     const handleSend = () => {
@@ -69,8 +113,18 @@ const PermissionRequest = () => {
             <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
             <View style={styles.formContainer}>
                 <Text style={styles.sectionText}>Details</Text>
-                <ComboBox label={"Permission Type"} options={resquests_type} placeholder={"Select an option"}></ComboBox>
-                <ComboBox label={"Sub-Permission Type"} options={send_by} placeholder={"Select an option"}></ComboBox>
+                <ComboBox   label={"Permission Type"} 
+                            options={resquestsType} 
+                            selectedValue={selectedType}
+                            placeholder={"Select an option"} 
+                            onValueChange={changeCategorie}/>
+                <ComboBox   label={"Sub-Permission Type"} 
+                            options={subRequestsType} 
+                            selectedValue={selectedSubType}
+                            onValueChange={setSelectedSubType}
+                            placeholder={"Select an option"} 
+                            isDisabled={subTypeDisabled}
+                            ></ComboBox>
                 <TextArea label={"Permission description"}></TextArea>
                 <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
                 <Text style={styles.sectionText}>DATE</Text>

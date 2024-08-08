@@ -126,6 +126,7 @@ const DocumentationRequest = () => {
     };
 
     useEffect(() => {
+        console.log("hola");
         loadData();
         resetFields();
     }, [navigation]);

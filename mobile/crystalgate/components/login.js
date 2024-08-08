@@ -32,21 +32,23 @@ const Login = () => {
       // Clear the input fields when the screen is focused
       setUsername("");
       setPassword("");
+      checkUserLoggedIn();
     }, [])
   );
 
-  useEffect(() => {
-    const checkUserLoggedIn = async () => {
-      let action = "getUser";
-      try {
-        const result = await fetchData(service, action);
-        if (result.status) {
-          navigation.navigate('Navigation');
-        }
-      } catch (error) {
-        console.error("Error: ", error);
+  const checkUserLoggedIn = async () => {
+    let action = "getUser";
+    try {
+      const result = await fetchData(service, action);
+      if (result.status) {
+        navigation.replace('Navigation');
       }
-    };
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
+  useEffect(() => {
 
     checkUserLoggedIn();
   }, [navigation]);
@@ -64,7 +66,7 @@ const Login = () => {
         setSuccessModalVisible(true);
         setTimeout(() => {
           setSuccessModalVisible(false);
-          navigation.navigate('Navigation');
+          navigation.replace('Navigation');
         }, 3000);
       } else {
         setErrorModalVisible(true);

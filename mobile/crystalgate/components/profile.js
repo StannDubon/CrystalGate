@@ -47,7 +47,6 @@ const Profile = () => {
     }
 
     useEffect(() => {
-
         getUser();
 
     },[navigation]);
