@@ -75,14 +75,6 @@ const DocumentationRequest = () => {
         formData.append('fechaEnvio',getDateTime());
         formData.append('idCentroEntrega',selectedDeliverCenter);
 
-        console.log(selectedLanguage);
-        console.log(selectedDeliverCenter);
-        console.log(address);
-        console.log(selectedSendBy);
-        console.log(name);
-        console.log(email);
-        console.log(phone);
-
 
         const result = await fetchData('peticion','createRow',formData);
         console.log(result);
