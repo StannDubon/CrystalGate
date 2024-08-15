@@ -20,6 +20,8 @@ class PermisoHandler
     protected $fechaEnvio = null;
     protected $documento = null;
     protected $descripcion = null;
+
+    protected $selected_subpermissions;
     const RUTA_DOCUMENTO = '../documents/permiso/';
 
     /*
@@ -133,8 +135,27 @@ class PermisoHandler
                 ORDER BY a.estado';
         $params = array($this->estado);
         return Database::getRows($sql, $params);
+    }   
+    // Método para obtener registros filtrados para el reporte
+    public function readPermissonReport()
+    {
+        $sql = 'SELECT p.*,
+                tp.id_clasificacion_permiso,
+                tp.tipo_permiso
+            FROM 
+                tb_permisos p
+            JOIN 
+                tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
+            WHERE 
+                tp.id_clasificacion_permiso = ?        
+                AND p.id_tipo_permiso IN (?)        
+                AND p.fecha_inicio >= ?
+                AND p.fecha_final <= ? 
+                AND p.estado IN (?)
+        ';
+        $params = array($this->idClasificacionPermiso,$this->idTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->estado);
+        return Database::getRow($sql, $params);
     }
-
     // Método para leer un permiso específico por su ID.
     public function readOne()
     {

@@ -79,6 +79,18 @@ class PermisoData extends PermisoHandler
         }
     }
 
+    
+    public function setSelectedSubPermissions($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->estado = $value;
+            return true;
+        } else {
+            $this->data_error = 'The identificator of the state of permission is incorrect';
+            return false;
+        }
+    }
+
     // Método para establecer la fecha de inicio del permiso, validando que sea un formato de fecha y hora válido.
     public function setFechaInicio($value)
     {
@@ -155,6 +167,33 @@ class PermisoData extends PermisoHandler
             return false;
         }
     }
+
+    public function setParameters(array $params)
+    {
+        // Filtrar los valores válidos
+        $validValues = array_filter($params, function ($value) {
+            return Validator::validateNaturalNumber($value);
+        });
+    
+        // Verificar si todos los valores son válidos
+        if (count($validValues) !== count($params)) {
+            // Encontrar el primer valor inválido y establecer el error
+            $invalidKey = array_search(false, array_map(function ($value) {
+                return Validator::validateNaturalNumber($value);
+            }, $params), true);
+    
+            $this->data_error = 'The identificator of the ' . $invalidKey . ' is incorrect: ' . $params[$invalidKey];
+            return false;
+        }
+    
+        // Construir la cadena en el formato deseado
+        $this->selected_subpermissions = implode(', ', $validValues);
+    
+        return true;
+    }
+    
+
+
 
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
