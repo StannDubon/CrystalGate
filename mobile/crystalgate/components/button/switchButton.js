@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Svg, { Path } from "react-native-svg";
 
 // Definición del componente funcional SwitchButton
-const SwitchButton = ({ selectedOption, onSelectOption }) => {
+const SwitchButton = ({ selectedOption, onSelectOption, disabled1, disabled2 }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -13,6 +13,7 @@ const SwitchButton = ({ selectedOption, onSelectOption }) => {
           selectedOption === 'Days' && styles.selectedButton
         ]}
         onPress={() => onSelectOption('Days')}
+        disabled = {disabled1}
       >
         <Text
           style={[
@@ -41,6 +42,7 @@ const SwitchButton = ({ selectedOption, onSelectOption }) => {
           selectedOption === 'Hours' && styles.selectedButton
         ]}
         onPress={() => onSelectOption('Hours')}
+        disabled = {disabled2}
       >
         <Text
           style={[

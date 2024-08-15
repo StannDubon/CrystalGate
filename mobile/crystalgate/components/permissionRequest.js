@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -31,19 +31,99 @@ import TimePicker from "./pickers/timePicker";
 // Selector de archivo para formularios
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
+import fetchData from "./utils/database";
 
 const PermissionRequest = () => {
 
     // Opciones para las listas desplegables
-    const resquests_type = ['Vacations','Special Permission'];
-    const send_by = ['Paternity/Maternity','ISSS'];
+    const [resquestsType,setRequestsType] = useState([]);
+    const [subRequestsType, setSubRequestsType] = useState([]);
+
+    //Validadores de habilitación
+    const [subTypeDisabled, setSubTypeDisabled] = useState(true);
+    const [disabledDay, setDisabledDay] = useState(true);
+    const [disabledHour, setDisabledHour] = useState(true);
+
+    //valores de combo box
+    const [selectedType, setSelectedType] = useState("");
+    const [selectedSubType, setSelectedSubType] = useState("");
+
 
     // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
     const navigation = useNavigation();
-    const [selectedOption, setSelectedOption] = useState('Days');
+    const [selectedOption, setSelectedOption] = useState('');
 
     // Hook de navegación para gestionar la navegación entre pantallas
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+
+    const loadData = async () =>{
+        const result = await fetchData('clasificacion-permiso','readAll');
+        if(result.status){
+            let requestTypes = [];
+            result.dataset.map((item) => {
+                requestTypes.push({identifier: item.id_clasificacion_permiso, value: item.clasificacion_permiso});
+            });
+            setRequestsType(requestTypes);
+        }
+    }
+
+    const changeCategorie = async (itemValue) =>{
+        const formData = new FormData();
+        formData.append('idClasificacionPermiso',itemValue);
+        const result = await fetchData('tipo-permiso','readAllByCategorie',formData);
+        if(result.status){
+            setSubTypeDisabled(false);
+            let subTypes = [];
+            result.dataset.map((item) => {
+                subTypes.push({identifier:item.id_tipo_permiso, value:item.tipo_permiso})
+            });
+            setSubRequestsType(subTypes);
+            setSelectedSubType(0);
+        }
+        else{
+            setSubTypeDisabled(true);
+            setSelectedSubType(0);
+            setSelectedOption("");
+            setDisabledDay(true);
+            setDisabledHour(true);
+        }
+        setSelectedType(itemValue);
+    }
+
+    const changeSubCategorie = async (itemValue) =>{
+        setSelectedSubType(itemValue);
+        const formData = new FormData();
+        formData.append('idTipoPermiso',itemValue);
+        const result = await fetchData('tipo-permiso','getLapso',formData);
+        console.log(result);
+        if(result.status){
+            if(result.dataset.lapso == '1'){
+                setSelectedOption("Day");
+                setDisabledDay(false);
+                setDisabledHour(true);
+            }
+            else if(result.dataset.lapso == '2'){
+                setSelectedOption("Hour");
+                setDisabledDay(true);
+                setDisabledHour(false);
+            }
+            else{
+                console.log("here");
+                setSelectedOption("Day");
+                setDisabledDay(false);
+                setDisabledHour(false);
+            }
+        }
+        else{
+            setSelectedOption("");
+            setDisabledDay(true);
+            setDisabledHour(true);
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    },[navigation]);
 
     // Función para manejar el envío del formulario
     const handleSend = () => {
@@ -69,10 +149,23 @@ const PermissionRequest = () => {
             <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
             <View style={styles.formContainer}>
                 <Text style={styles.sectionText}>Details</Text>
-                <ComboBox label={"Permission Type"} options={resquests_type} placeholder={"Select an option"}></ComboBox>
-                <ComboBox label={"Sub-Permission Type"} options={send_by} placeholder={"Select an option"}></ComboBox>
+                <ComboBox   label={"Permission Type"} 
+                            options={resquestsType} 
+                            selectedValue={selectedType}
+                            placeholder={"Select an option"} 
+                            onValueChange={changeCategorie}/>
+                <ComboBox   label={"Sub-Permission Type"} 
+                            options={subRequestsType} 
+                            selectedValue={selectedSubType}
+                            onValueChange={changeSubCategorie}
+                            placeholder={"Select an option"} 
+                            isDisabled={subTypeDisabled}
+                            ></ComboBox>
                 <TextArea label={"Permission description"}></TextArea>
-                <SwitchButton selectedOption={selectedOption} onSelectOption={setSelectedOption}></SwitchButton>
+                <SwitchButton   selectedOption={selectedOption} 
+                                onSelectOption={setSelectedOption} 
+                                disabled1={disabledDay} 
+                                disabled2={disabledHour}></SwitchButton>
                 <Text style={styles.sectionText}>DATE</Text>
                 {
                     selectedOption == "Days" ? 
@@ -80,11 +173,14 @@ const PermissionRequest = () => {
                         <DatePicker label={"From: "}></DatePicker>
                         <DatePicker label={"To: "}></DatePicker>
                     </>
-                    :
+                    : selectedOption == "Hours" ?
                     <>
                         <DatePicker label={"Of: "}></DatePicker>
                         <TimePicker label={"From: "}></TimePicker>
                         <TimePicker label={"To: "}></TimePicker>
+                    </>
+                    :
+                    <>
                     </>
                 }
                 <FilePicker onSelectFile={handleFileSelect}></FilePicker>

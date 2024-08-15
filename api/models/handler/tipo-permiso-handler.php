@@ -29,6 +29,26 @@ class TipoPermisoHandler
         return Database::getRows($sql, $params);
     }
 
+    //Método para enlistar tipos de permisos segun categoria
+    public function readAllByCategorie(){
+        $sql = 'SELECT a.*, b.clasificacion_permiso
+                FROM tb_tipos_permisos a, tb_clasificaciones_permisos b 
+                WHERE a.id_clasificacion_permiso = b.id_clasificacion_permiso
+                AND b.id_clasificacion_permiso = ? AND a.estado = TRUE
+                ORDER BY a.tipo_permiso';
+        $params = array($this->clasificacion);
+        return Database::getRows($sql,$params);
+    } 
+
+    //Método para obtener lapso de tiempo por tipo de permiso
+    public function getLapso(){
+        $sql = 'SELECT lapso
+                FROM tb_tipos_permisos
+                WHERE id_tipo_permiso = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
     // Método para crear un nuevo tipo de permiso.
     public function createRow()
     {

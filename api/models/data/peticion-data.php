@@ -25,7 +25,7 @@ class PeticionData extends PeticionHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la petición es incorrecto';
+            $this->data_error = 'The identificator of the petition is incorrect';
             return false;
         }
     }
@@ -37,7 +37,7 @@ class PeticionData extends PeticionHandler
             $this->idUsuario = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del usuario es incorrecto';
+            $this->data_error = 'The identificator of the user is incorrect';
             return false;
         }
     }
@@ -49,7 +49,7 @@ class PeticionData extends PeticionHandler
             $this->idTipoPeticion = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de petición es incorrecto';
+            $this->data_error = 'The identificator of the type of petition is incorrect';
             return false;
         }
     }
@@ -61,7 +61,7 @@ class PeticionData extends PeticionHandler
             $this->idIdioma = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del idioma es incorrecto';
+            $this->data_error = 'The identificator of the language is incorrect';
             return false;
         }
     }
@@ -73,7 +73,7 @@ class PeticionData extends PeticionHandler
             $this->idCentroEntrega = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del centro de entrega es incorrecto';
+            $this->data_error = 'The identificator of the delivery center is incorrect';
             return false;
         }
     }
@@ -85,7 +85,7 @@ class PeticionData extends PeticionHandler
             $this->fechaEnvio = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de envío es incorrecta';
+            $this->data_error = 'The shipping date is incorrect';
             return false;
         }
     }
@@ -99,7 +99,7 @@ class PeticionData extends PeticionHandler
             $this->direccion = $value;
             return true;
         } else {
-            $this->data_error = 'La dirección es incorrecta';
+            $this->data_error = 'The direction is incorrect';
             return false;
         }
     }
@@ -111,7 +111,7 @@ class PeticionData extends PeticionHandler
             $this->estado = $value;
             return true;
         } else {
-            $this->data_error = 'El valor del estado debe ser una cadena';
+            $this->data_error = 'State value must be a string';
             return false;
         }
     }
@@ -131,7 +131,7 @@ class PeticionData extends PeticionHandler
             $this->modoEntrega = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor del modo de entrega debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'The value of the delivery option has to be a boolean (true/false o 1/0)';
             return false;
         }
     }
@@ -143,7 +143,7 @@ class PeticionData extends PeticionHandler
             $this->telefono = $value;
             return true;
         } else {
-            $this->data_error = 'El número de teléfono es inválido';
+            $this->data_error = 'The phone number is invalid';
             return false;
         }
     }
@@ -155,7 +155,7 @@ class PeticionData extends PeticionHandler
             $this->nombre = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre es inválido';
+            $this->data_error = 'The name is invalid';
             return false;
         }
     }
@@ -167,7 +167,7 @@ class PeticionData extends PeticionHandler
             $this->email = $value;
             return true;
         } else {
-            $this->data_error = 'El correo electrónico es inválido';
+            $this->data_error = 'The email is invalid';
             return false;
         }
     }

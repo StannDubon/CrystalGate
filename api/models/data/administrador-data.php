@@ -24,7 +24,7 @@ class AdministradorData extends AdministradorHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo es incorrecto';
+            $this->data_error = 'The identificator of the type is incorrect';
             return false;
         }
     }
@@ -36,7 +36,7 @@ class AdministradorData extends AdministradorHandler
             $this->id_tipo_administrador = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del administrador es incorrecto';
+            $this->data_error = 'The identificator of the administrator is incorrect';
             return false;
         }
     }
@@ -45,13 +45,13 @@ class AdministradorData extends AdministradorHandler
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'The name has to be an alphanumeric value';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the name has to be from' . $min . ' and' . $max;
             return false;
         }
     }
@@ -60,13 +60,13 @@ class AdministradorData extends AdministradorHandler
     public function setApellido($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El apellido debe ser un valor alfabético';
+            $this->data_error = 'The last name has to be an alphanumeric value';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->apellido = $value;
             return true;
         } else {
-            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the last name has to be from ' . $min . ' and ' . $max;
             return false;
         }
     }
@@ -75,13 +75,13 @@ class AdministradorData extends AdministradorHandler
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
-            $this->data_error = 'El correo no es válido';
+            $this->data_error = 'The email is invalid';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->correo = $value;
             return true;
         } else {
-            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the email has to be from ' . $min . ' and ' . $max;
             return false;
         }
     }
@@ -105,7 +105,7 @@ class AdministradorData extends AdministradorHandler
             $this->filename = $data['imagen'];
             return true;
         } else {
-            $this->data_error = 'Administrador inexistente';
+            $this->data_error = 'Unexistent Administrator';
             return false;
         }
     }
@@ -117,7 +117,7 @@ class AdministradorData extends AdministradorHandler
             $this->filename = $data['imagen'];
             return true;
         } else {
-            $this->data_error = 'Administrador inexistente';
+            $this->data_error = 'Unexistent Administrator';
             return false;
         }
     }
