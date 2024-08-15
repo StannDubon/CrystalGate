@@ -1,0 +1,12 @@
+:root{
+    --f1: 30px;
+
+    --fc-black: #2e2e2e;
+    --ic-black: rgb(63, 63, 63);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "p-b2";
+}
