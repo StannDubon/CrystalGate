@@ -46,7 +46,7 @@
                     <span class="filter-text">Filter</span>
                     <img class="filter-img" src="../resources/svg/Arrow.svg" alt="">
                 </div>
-                <div class="filter-option">
+                <div class="filter-option" id="box-filter-option">
                     <div class="option">
                         <span class="option-text">Medical Leave</span>
                     </div>
@@ -80,10 +80,8 @@
                     <span class="customize-text">Customize</span>
                     <img class="customize-img" src="../resources/svg/Arrow.svg" alt="">
                 </div>
-
                 <!--CUSTOMIZER PERMISSIONS-->
-                <div class="customize-type">
-
+                <div class="customize-type" id="box-customize-type">
                     <div class="type">
                         <span class="type-text">Medical Appointment</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
@@ -128,11 +126,10 @@
                         <span class="type-text">Other</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
                     </div>
-
                 </div>
 
                 <!--CUSTOMIZER MEDICAL LEAVE-->
-                <div class="customize-type-ml">
+                <!-- <div class="customize-type-ml">
 
                     <div class="type">
                         <span class="type-text">ISSS</span>
@@ -146,15 +143,15 @@
                         <span class="type-text">Service of Private Health</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
                     </div>
-                </div>
+                </div> -->
 
                 <!--CUSTOMIZER VACATION REQUEST-->
-                <div class="customize-type-vr">
+                <!-- <div class="customize-type-vr">
 
-                </div>
+                </div> -->
 
                 <!--CUSTOMIZER EMPLOYEES-->
-                <div class="customize-type-em">
+                <!-- <div class="customize-type-em">
 
                     <div class="type">
                         <span class="type-text">More Permissions</span>
@@ -172,7 +169,7 @@
                         <span class="type-text">More Request</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="customize-filter-bottom">
                     <div class="pending-btn">
@@ -252,6 +249,7 @@
 
     <!-- CONTROLADORES ESPECIFICOS -->
     <script src="../controllers/private/dashboard.js"></script> <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+    <script src="../controllers/private/report-permissions.js"></script>
 
     <!-- ¡¡¡¡CODIGO A AÑADIR A SU CONTROLADOR ESPECIFICO!!!! -->
     <script src="../resources/js/reports.js"></script>
