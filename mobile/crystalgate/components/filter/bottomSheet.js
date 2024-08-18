@@ -47,7 +47,7 @@ const BottomSheet = ({ visible, onClose }) => {
                     </View>
                     <View style={styles.body}>
                         <ComboBox label={"PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
-                        <ComboBox label={"SUB-PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
+                        <ComboBox label={"SUB-PERMISSION TYPE"} placeholder={"Select an option"} options={sub_permissions}></ComboBox>
                         <DatePicker label={"From: "} style={styles.date}></DatePicker>
                         <DatePicker label={"To: "} style={styles.date}></DatePicker>
                         <View style={styles.btnContainer}>
