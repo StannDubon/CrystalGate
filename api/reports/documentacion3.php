@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . ('/../libraries/vendor/autoload.php');
-require_once __DIR__ .  ('/../models/data/permiso-data.php');
+require_once __DIR__ .  ('/../models/data/peticion-data.php');
 
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 
@@ -73,39 +73,39 @@ $hojaActiva->getColumnDimension('A')->setWidth(15);
 $hojaActiva->setCellValue('A1', 'Employee ID');
 $hojaActiva->getColumnDimension('B')->setWidth(25);
 $hojaActiva->setCellValue('B1', 'Employee');
-$hojaActiva->getColumnDimension('C')->setWidth(20);
-$hojaActiva->setCellValue('C1', 'Classification');
-$hojaActiva->getColumnDimension('D')->setWidth(30);
-$hojaActiva->setCellValue('D1', 'Permission Type');
-$hojaActiva->getColumnDimension('E')->setWidth(15);
-$hojaActiva->setCellValue('E1', 'Lapse');
-$hojaActiva->getColumnDimension('F')->setWidth(20);
-$hojaActiva->setCellValue('F1', 'Start Date');
-$hojaActiva->getColumnDimension('G')->setWidth(20);
-$hojaActiva->setCellValue('G1', 'Finish Date');
+$hojaActiva->getColumnDimension('C')->setWidth(25);
+$hojaActiva->setCellValue('C1', 'Request Type');
+$hojaActiva->getColumnDimension('D')->setWidth(25);
+$hojaActiva->setCellValue('D1', 'Location');
+$hojaActiva->getColumnDimension('E')->setWidth(35);
+$hojaActiva->setCellValue('E1', 'Address To');
+$hojaActiva->getColumnDimension('F')->setWidth(25);
+$hojaActiva->setCellValue('F1', 'Request Name');
+$hojaActiva->getColumnDimension('G')->setWidth(35);
+$hojaActiva->setCellValue('G1', 'Request Email');
 $hojaActiva->getColumnDimension('H')->setWidth(20);
-$hojaActiva->setCellValue('H1', 'Send Date');
-$hojaActiva->getColumnDimension('I')->setWidth(40);
-$hojaActiva->setCellValue('I1', 'Description');
+$hojaActiva->setCellValue('H1', 'Contact Number');
+$hojaActiva->getColumnDimension('I')->setWidth(20);
+$hojaActiva->setCellValue('I1', 'Date Sent');
 $hojaActiva->getColumnDimension('J')->setWidth(10);
 $hojaActiva->setCellValue('J1', 'State');
 
-$permiso = new PermisoData();
+$peticion = new PeticionData();
 
-if ($dataPermiso = $permiso->readAllPermissions()) {
+if ($dataPermiso = $peticion->readAllThursFri()) {
 
     $fila = 2;
 
     foreach ($dataPermiso as $rows) {
         $hojaActiva->setCellValue('A' . $fila, $rows['id_usuario']);
         $hojaActiva->setCellValue('B' . $fila, $rows['employee']);
-        $hojaActiva->setCellValue('C' . $fila, $rows['clasification']);
-        $hojaActiva->setCellValue('D' . $fila, $rows['type']);
-        $hojaActiva->setCellValue('E' . $fila, $rows['lapso']);
-        $hojaActiva->setCellValue('F' . $fila, $rows['fecha_inicio']);
-        $hojaActiva->setCellValue('G' . $fila, $rows['fecha_final']);
-        $hojaActiva->setCellValue('H' . $fila, $rows['fecha_envio']);
-        $hojaActiva->setCellValue('I' . $fila, $rows['description']);
+        $hojaActiva->setCellValue('C' . $fila, $rows['tipo_peticion']);
+        $hojaActiva->setCellValue('D' . $fila, $rows['centro_entrega']);
+        $hojaActiva->setCellValue('E' . $fila, $rows['direccion']);
+        $hojaActiva->setCellValue('F' . $fila, $rows['nombre_entrega']);
+        $hojaActiva->setCellValue('G' . $fila, $rows['email_entrega']);
+        $hojaActiva->setCellValue('H' . $fila, $rows['telefono_contacto']);
+        $hojaActiva->setCellValue('I' . $fila, $rows['fecha_envio']);
         $hojaActiva->setCellValue('J' . $fila, $rows['estado']);
 
         // Aplicar estilo a cada fila de datos
@@ -118,15 +118,15 @@ if ($dataPermiso = $permiso->readAllPermissions()) {
     }
 
 } else {
-    $hojaActiva->setCellValue('A2', 'No permissions registered');
-    // Aplicar estilo a la fila de "No permissions registered"
+    $hojaActiva->setCellValue('A2', 'No petitions registered');
+    // Aplicar estilo a la fila de "No petitions registered"
     $hojaActiva->getStyle('A2:J2')->applyFromArray($styleData);
-    // Bloquear la fila de "No permissions registered"
+    // Bloquear la fila de "No petitions registered"
     $hojaActiva->getStyle('A2:J2')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Permissions.xlsx"');
+header('Content-Disposition: attachment;filename="Report of Documentation Requests.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = IOFactory::createWriter($excel, 'Xlsx');

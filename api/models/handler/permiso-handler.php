@@ -106,6 +106,7 @@ class PermisoHandler
     public function readAllPermissions()
     {
         $sql = "SELECT 
+                    b.id_usuario,
                     CONCAT(b.nombre, ' ', b.apellido) AS employee, 
                     cp.clasificacion_permiso AS clasification, 
                     tp.tipo_permiso AS 'type', 
