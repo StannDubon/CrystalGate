@@ -243,3 +243,37 @@ const openReject = async (id) => {
         }
     }
 }
+
+// FUNCION PARA ABRIR LOS REPORTES
+const openReport = () => {
+
+    // Obtener el día actual (0 = domingo, 1 = lunes, ..., 6 = sábado)
+    const today = new Date().getDay();
+
+    if (today === 1) {
+        // Lunes
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion1.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else if (today === 2 || today === 3) {
+        // Martes o miércoles
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion2.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else if (today === 4 || today === 5) {
+        // Jueves o viernes
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion3.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else {
+        // Sábado o domingo
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion4.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    }
+
+}
