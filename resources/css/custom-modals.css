@@ -75,6 +75,13 @@
   gap: 20px;
 }
 
+.main-modal-content.request {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+}
+
 .footer-modal-content {
   margin-top: 20px;
   padding: 20px;
@@ -98,6 +105,7 @@
 .custom-modal-button-discard {
   background-color: var(--color-extra-3);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .custom-modal-button-save:hover {
   background-color: var(--primary-hover-green);
@@ -109,6 +117,13 @@
 
 /* CUSTOM CSS ELEMENTS */
 
+.main-modal-content.request .item{
+  width: 40%;
+}
+
+.main-modal-content.request b.bold{
+  font-weight: var(--medium-text-weight);
+}
 
 .main-modal-content input {
     border-radius: 8px;
