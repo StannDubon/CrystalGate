@@ -62,12 +62,12 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAllByCostumer':
-                if (!$peticion->setIdUsuario($_POST[POST_ID_USUARIO])) {
+                if (!$peticion->setIdUsuario($_SESSION['idUsuario'])) {
                     $result['error'] = 'user not found';
                 }
                 else if ($result['dataset'] = $peticion->readAllByCostumer()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    error_log(print_r($result['dataset'], true));
                 } else {
                     $result['error'] = 'No existen peticions registrados';
                 }

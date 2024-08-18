@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -13,29 +13,44 @@ import FilterButton from "../components/button/filterButton";
 // Importa el componente PermissionCard para las tarjetas de permisos
 import PermissionCard from "./cards/permissionCard";
 import NotificationCard from "./cards/notificationCard";
+import DocumentCard from "./cards/documentCard";
 import BottomSheet from "./filter/bottomSheet";
 import SegmentedControl from "./button/historyButton";
+import fetchData from "./utils/database";
 
 const History = () => {
     // Estado para controlar la visibilidad de la hoja inferior
     const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [permissions, setPermissions] = useState([]);
+    const [documents, setDocuments] = useState([]);
 
-    const permissions = [
-        { id: '1', title: 'Permission 1', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '2', title: 'Permission 2', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '3', title: 'Permission 3', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '4', title: 'Permission 4', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '5', title: 'Permission 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    ];
+    const getData = async () => {
+        try {
+            
+            // Fetch permisos
+            const permissionsData = await fetchData("permiso", "readAllByCostumer");
+            if (permissionsData.status) {
+                setPermissions(permissionsData.dataset);
+            } else {
+                alert("Error fetching permissions: " + permissionsData.error);
+            }
 
-    const documents = [
-        { id: '1', title: 'Document 1', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '2', title: 'Document 2', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '3', title: 'Document 3', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '4', title: 'Document 4', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '5', title: 'Document 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    ];
+            // Fetch peticiones (documentos)
+            const documentsData = await fetchData("peticion", "readAllByCostumer");
+            if (documentsData.status) {
+                setDocuments(documentsData.dataset);
+            } else {
+                console.error("Error fetching documents:", documentsData.error);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     // Función para alternar la visibilidad de la hoja inferior
     const toggleWidget = () => {
@@ -57,21 +72,21 @@ const History = () => {
                 {selectedIndex === 0 ? (
                     permissions.map((item) => (
                         <PermissionCard
-                            key={item.id}
-                            title={item.title}
-                            type={item.type}
-                            dateBegin={item.dateBegin}
-                            dateEnd={item.dateEnd}
+                            key={item.id_permiso}
+                            title={item.tipo_permiso}
+                            type={item.estado}
+                            dateBegin={item.fecha_inicio}
+                            dateEnd={item.fecha_final}
                         />
                     ))
                 ) : (
                     documents.map((item) => (
-                        <NotificationCard
-                            key={item.id}
-                            title={item.title}
-                            type={item.type}
-                            dateBegin={item.dateBegin}
-                            dateEnd={item.dateEnd}
+                        <DocumentCard
+                            key={item.id_peticion}
+                            title={item.tipo_peticion}
+                            dateSend={item.fecha_envio}
+                            Language={item.idioma}                            
+                            type={item.modo_entrega}
                         />
                     ))
                 )}
