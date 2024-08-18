@@ -6,6 +6,9 @@ const DocumentCard = ({title, dateSend, Language, type}) => {
     // Split dateSend to remove time
     const [dateOnly] = dateSend.split(' ');
 
+    // Determine the type text
+    const typeText = type == 1 ? 'Physical' : 'Scanned';
+
     return (
       <View style={[styles.card]}>
         <View style={[styles.cardHeader, { backgroundColor: "#3452D3"}]}>
@@ -18,7 +21,7 @@ const DocumentCard = ({title, dateSend, Language, type}) => {
                 </View>                
                 <View style={styles.infoItem}>
                     <Text style={styles.cardText}>{Language}</Text>
-                    <Text style={styles.cardText}>{type}</Text>
+                    <Text style={styles.cardText}>{typeText}</Text>
                 </View>
             </View>
         </View>

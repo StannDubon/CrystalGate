@@ -12,7 +12,6 @@ import HeaderSingle from "../components/header/headerSigle";
 import FilterButton from "../components/button/filterButton";
 // Importa el componente PermissionCard para las tarjetas de permisos
 import PermissionCard from "./cards/permissionCard";
-import NotificationCard from "./cards/notificationCard";
 import DocumentCard from "./cards/documentCard";
 import BottomSheet from "./filter/bottomSheet";
 import SegmentedControl from "./button/historyButton";
@@ -26,31 +25,30 @@ const History = () => {
     const [documents, setDocuments] = useState([]);
 
     const getData = async () => {
-        try {
+        try {           
+                // Fetch permisos
+                const permissionsData = await fetchData("permiso", "readAllByCostumer");
+                if (permissionsData.status) {
+                    setPermissions(permissionsData.dataset);
+                } else {
+                    alert("Error fetching permissions: " + permissionsData.error);
+                }
             
-            // Fetch permisos
-            const permissionsData = await fetchData("permiso", "readAllByCostumer");
-            if (permissionsData.status) {
-                setPermissions(permissionsData.dataset);
-            } else {
-                alert("Error fetching permissions: " + permissionsData.error);
-            }
-
-            // Fetch peticiones (documentos)
-            const documentsData = await fetchData("peticion", "readAllByCostumer");
-            if (documentsData.status) {
-                setDocuments(documentsData.dataset);
-            } else {
-                console.error("Error fetching documents:", documentsData.error);
-            }
+                // Fetch peticiones (documentos)
+                const documentsData = await fetchData("peticion", "readAllByCostumer");
+                if (documentsData.status) {
+                    setDocuments(documentsData.dataset);
+                } else {
+                    console.error("Error fetching documents:", documentsData.error);
+                }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     };
 
     useEffect(() => {
-        getData();
-    }, []);
+        getData(selectedIndex);
+    }, [selectedIndex]);
 
     // Función para alternar la visibilidad de la hoja inferior
     const toggleWidget = () => {
@@ -66,7 +64,11 @@ const History = () => {
                 onChange={(index) => setSelectedIndex(index)}
             />
             <View style={styles.filterContainer}>
+            {selectedIndex === 0 ? (
                 <FilterButton onPress={toggleWidget}></FilterButton>
+            ) : (
+                <FilterButton onPress={toggleWidget}></FilterButton>
+            )}
             </View>
             <ScrollView contentContainerStyle={styles.permissionContainer}>
                 {selectedIndex === 0 ? (
