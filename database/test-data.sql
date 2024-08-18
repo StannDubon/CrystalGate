@@ -72,3 +72,75 @@ INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VAL
 
 INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
 (3, "Vacations", "3");
+
+
+
+-- 7 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 1, 1, 1, '123 Main St', TRUE, '555-1234',1, '2024-08-07 14:30:00'),
+(2, 2, 2, 2, '456 Oak St', FALSE, '555-5678',1, '2024-08-07 16:45:00');
+
+-- 8 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 3, 3, 3, '789 Pine St', TRUE, '555-9101',1, '2024-08-08 10:15:00'),
+(4, 1, 1, 1, '101 Maple St', FALSE, '555-1122',1, '2024-08-08 18:00:00');
+
+-- 9 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 2, 2, 2, '202 Elm St', TRUE, '555-1234',1, '2024-08-09 12:20:00'),
+(2, 3, 3, 3, '303 Birch St', FALSE, '555-5678',2, '2024-08-09 14:50:00');
+
+-- 10 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 1, 1, 1, '404 Cedar St', TRUE, '555-9101',2, '2024-08-10 09:10:00'),
+(4, 2, 2, 2, '505 Spruce St', FALSE, '555-1122',2, '2024-08-10 15:35:00');
+
+-- 11 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 3, 3, 3, '606 Walnut St', TRUE, '555-1234',3, '2024-08-11 11:55:00'),
+(2, 1, 1, 1, '707 Hickory St', FALSE, '555-5678',3, '2024-08-11 17:25:00');
+
+-- 12 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 2, 2, 2, '808 Willow St', TRUE, '555-2345',1, '2024-08-12 13:40:00'),
+(4, 3, 3, 3, '909 Poplar St', FALSE, '555-6789',1, '2024-08-12 18:55:00');
+
+-- 13 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 1, 1, 1, '1010 Cypress St', TRUE, '555-9102',2, '2024-08-13 08:25:00'),
+(2, 2, 2, 2, '1111 Fir St', FALSE, '555-1123',2, '2024-08-13 19:15:00');
+
+-- 14 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 3, 3, 3, '1212 Pine St', TRUE, '555-2346',3, '2024-08-14 10:50:00'),
+(4, 1, 1, 1, '1313 Oak St', FALSE, '555-6780',3, '2024-08-14 15:20:00');
+
+-- 15 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 2, 2, 2, '1414 Cedar St', TRUE, '555-9103',1, '2024-08-15 09:45:00'),
+(2, 3, 3, 3, '1515 Maple St', FALSE, '555-1124',1, '2024-08-15 17:10:00');
+
+-- 16 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 1, 1, 1, '1616 Spruce St', TRUE, '555-2347',2, '2024-08-16 11:30:00'),
+(4, 2, 2, 2, '1717 Birch St', FALSE, '555-6781',2, '2024-08-16 14:55:00');
+
+-- 17 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 3, 3, 3, '1818 Elm St', TRUE, '555-9104',3, '2024-08-17 08:05:00'),
+(2, 1, 1, 1, '1919 Walnut St', FALSE, '555-1125',3, '2024-08-17 19:35:00');
+
+-- 18 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 2, 2, 2, '2020 Hickory St', TRUE, '555-2348',1, '2024-08-18 14:20:00'),
+(4, 3, 3, 3, '2121 Cypress St', FALSE, '555-6782',1, '2024-08-18 16:45:00');
+
+-- 19 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(1, 1, 1, 1, '2222 Pine St', TRUE, '555-9105',2, '2024-08-19 11:10:00'),
+(2, 2, 2, 2, '2323 Oak St', FALSE, '555-1126',2, '2024-08-19 18:30:00');
+
+-- 20 de agosto de 2024
+INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio) VALUES
+(3, 3, 3, 3, '2424 Cedar St', TRUE, '555-2349',3, '2024-08-20 13:55:00'),
+(4, 1, 1, 1, '2525 Maple St', FALSE, '555-6783',3, '2024-08-20 15:40:00');
