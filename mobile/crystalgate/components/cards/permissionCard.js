@@ -2,19 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Svg, { Path } from "react-native-svg";
 
-const PermissionCard = ({title, type = 1, dateBegin, timeBegin="7:00 a.m", dateEnd, timeEnd="4:00 p.m"}) => {
+const PermissionCard = ({title, type, dateBegin, timeBegin, dateEnd, timeEnd}) => {
     const [colorCard, setColorCard] = useState("#8DDA8C");
 
     useEffect(() => {
-        if (type === 1) {
-            setColorCard("#8DDA8C");
+        if (type == 1) {
+            //PENDING
+            setColorCard("#F2A359");
         } else if(type == 2) {
-            setColorCard("#F54C60");
+            //ACCEPTED
+            setColorCard("#8DDA8C");
         }
         else{
-            setColorCard("#F2A359")
+            //REJECTED
+            setColorCard("#F54C60")
         }
     }, [type]);
+
+    // Separate date and time from dateBegin and dateEnd
+    const [dateOnlyBegin, timeOnlyBegin] = dateBegin.split(' ');
+    const [dateOnlyEnd, timeOnlyEnd] = dateEnd.split(' ');
+
+
     return (
       <View style={[styles.card]}>
         <View style={[styles.cardHeader, { backgroundColor: colorCard }]}>
@@ -23,8 +32,8 @@ const PermissionCard = ({title, type = 1, dateBegin, timeBegin="7:00 a.m", dateE
         <View style={styles.cardBody}>
         <View style={styles.dateContainer}>
                 <View style={styles.dateItem}>
-                    <Text style={styles.cardText}>{dateBegin}</Text>
-                    <Text style={styles.cardText}>{timeBegin}</Text>
+                    <Text style={styles.cardText}>{dateOnlyBegin}</Text>
+                    <Text style={styles.cardText}>{timeOnlyBegin}</Text>
                 </View>
                 <Svg
                   width="27"
@@ -39,8 +48,8 @@ const PermissionCard = ({title, type = 1, dateBegin, timeBegin="7:00 a.m", dateE
                   />
                 </Svg>
                 <View style={styles.dateItem}>
-                    <Text style={styles.cardText}>{dateEnd}</Text>
-                    <Text style={styles.cardText}>{timeEnd}</Text>
+                    <Text style={styles.cardText}>{dateOnlyEnd}</Text>
+                    <Text style={styles.cardText}>{timeOnlyEnd}</Text>
                 </View>
             </View>
         </View>
@@ -52,7 +61,7 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 20,
     width: 300,
-    height: 90,
+    height: 100,
     borderRadius: 10,
     marginHorizontal: 10, 
     backgroundColor: "#EEEEEE"
