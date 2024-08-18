@@ -32,29 +32,29 @@ const Login = () => {
       // Clear the input fields when the screen is focused
       setUsername("");
       setPassword("");
+      checkUserLoggedIn();
     }, [])
   );
 
-  const ValidateSession = async () => {
+
+  const checkUserLoggedIn = async () => {
+    let action = "getUser";
     try {
-      // Realizar una solicitud para verificar la sesión del usuario
-      const DATA = await fetchData(service, "getUser");
-      if (DATA.session) {
-        // Limpiar los campos de usuario y contraseña si hay una sesión activa
-        setPassword("");
-        setUsername("");
-        // Navegar a la pantalla principal de la aplicación
-        navigation.replace("Navigation");
-      } else {
-        console.log("No hay sesión activa");
-        return;
+      const result = await fetchData(service, action);
+      if (result.status) {
+        navigation.replace('Navigation');
       }
     } catch (error) {
-      // Capturar y manejar errores durante la solicitud
-      console.error(error);
-      Alert.alert("Error", "Ocurrió un error al validar la sesión");
+      console.error("Error: ", error);
     }
   };
+
+  useEffect(() => {
+
+    checkUserLoggedIn();
+  }, [navigation]);
+  
+
 
   const handleSendNav = async () => {
     let action = "logIn";
@@ -69,7 +69,7 @@ const Login = () => {
         setSuccessModalVisible(true);
         setTimeout(() => {
           setSuccessModalVisible(false);
-          navigation.navigate('Navigation');
+          navigation.replace('Navigation');
         }, 3000);
       } else {
         setErrorModalVisible(true);

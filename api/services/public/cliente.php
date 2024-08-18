@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un Usuario ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readOne':
-                if (!$usuario->setId($_POST[POST_ID])) {
+                if (!$usuario->setId($_SESSION['idUsuario'])) {
                     $result['error'] = 'Usuario incorrecto';
                 } elseif ($result['dataset'] = $usuario->readOne()) {
                     $result['status'] = 1;

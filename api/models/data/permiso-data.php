@@ -26,7 +26,7 @@ class PermisoData extends PermisoHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del permiso es incorrecto';
+            $this->data_error = 'The identificator of the permission is incorrect';
             return false;
         }
     }
@@ -38,7 +38,7 @@ class PermisoData extends PermisoHandler
             $this->idUsuario = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del usuario es incorrecto';
+            $this->data_error = 'The identificator of the user is incorrect';
             return false;
         }
     }
@@ -50,7 +50,7 @@ class PermisoData extends PermisoHandler
             $this->idTipoPermiso = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo permiso es incorrecto';
+            $this->data_error = 'The identificator of the type of permission is incorrect';
             return false;
         }
     }
@@ -62,7 +62,7 @@ class PermisoData extends PermisoHandler
             $this->idClasificacionPermiso = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la clasificación de permiso es incorrecto';
+            $this->data_error = 'The identificator of the clasification of permission is incorrect';
             return false;
         }
     }
@@ -74,7 +74,19 @@ class PermisoData extends PermisoHandler
             $this->estado = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del estado permiso es incorrecto';
+            $this->data_error = 'The identificator of the state of permission is incorrect';
+            return false;
+        }
+    }
+
+    
+    public function setSelectedSubPermissions($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->estado = $value;
+            return true;
+        } else {
+            $this->data_error = 'The identificator of the state of permission is incorrect';
             return false;
         }
     }
@@ -86,7 +98,7 @@ class PermisoData extends PermisoHandler
             $this->fechaInicio = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de inicio es incorrecta';
+            $this->data_error = 'The start date is incorrect';
             return false;
         }
     }
@@ -98,7 +110,7 @@ class PermisoData extends PermisoHandler
             $this->fechaFinal = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de finalización es incorrecta';
+            $this->data_error = 'The finish date is incorrect';
             return false;
         }
     }
@@ -110,7 +122,7 @@ class PermisoData extends PermisoHandler
             $this->fechaEnvio = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de envío es incorrecta';
+            $this->data_error = 'The shipping date is incorrect';
             return false;
         }
     }
@@ -122,7 +134,7 @@ class PermisoData extends PermisoHandler
             $this->filename = $data['documento_permiso'];
             return true;
         } else {
-            $this->data_error = 'Permiso inexistente';
+            $this->data_error = 'Unexistent permission';
             return false;
         }
     }
@@ -155,6 +167,33 @@ class PermisoData extends PermisoHandler
             return false;
         }
     }
+
+    public function setParameters(array $params)
+    {
+        // Filtrar los valores válidos
+        $validValues = array_filter($params, function ($value) {
+            return Validator::validateNaturalNumber($value);
+        });
+    
+        // Verificar si todos los valores son válidos
+        if (count($validValues) !== count($params)) {
+            // Encontrar el primer valor inválido y establecer el error
+            $invalidKey = array_search(false, array_map(function ($value) {
+                return Validator::validateNaturalNumber($value);
+            }, $params), true);
+    
+            $this->data_error = 'The identificator of the ' . $invalidKey . ' is incorrect: ' . $params[$invalidKey];
+            return false;
+        }
+    
+        // Construir la cadena en el formato deseado
+        $this->selected_subpermissions = implode(', ', $validValues);
+    
+        return true;
+    }
+    
+
+
 
     /*
      *  Métodos para obtener el valor de los atributos adicionales.

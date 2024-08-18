@@ -11,7 +11,7 @@ const FilePicker = ({ onSelectFile }) => {
     const pickFile = async () => {
         try {
             const res = await DocumentPicker.getDocumentAsync({
-                type: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                type: ["application/pdf","application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
             });
             // Si no se cancela la selección del archivo
             if (!res.cancelled) {

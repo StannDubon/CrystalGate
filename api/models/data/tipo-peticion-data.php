@@ -25,7 +25,7 @@ class TipoPeticionData extends TipoPeticionHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de petición es incorrecto';
+            $this->data_error = 'The identificator of the type of petition is incorrect';
             return false;
         }
     }
@@ -34,13 +34,13 @@ class TipoPeticionData extends TipoPeticionHandler
     public function setTipo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El tipo de petición debe ser un valor alfanumérico';
+            $this->data_error = 'The petition type has to be an alphanumeric value';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->tipo = $value;
             return true;
         } else {
-            $this->data_error = 'El tipo de petición debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the type of petition has to be from ' . $min . ' and ' . $max;
             return false;
         }
     }
@@ -60,7 +60,7 @@ class TipoPeticionData extends TipoPeticionHandler
             $this->estado = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'The value of the state has to be a boolean (true/false o 1/0)';
             return false;
         }
     }

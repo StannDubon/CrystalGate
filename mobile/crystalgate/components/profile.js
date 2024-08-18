@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -21,9 +21,30 @@ import AlertModal from './modal/alertModal';
 import fetchData from "./utils/database";
 
 const Profile = () => {
-    const email = "cm.climber@glassbbo.com";
+    const [email,setEmail] = useState("");
+    const [iniciales,setIniciales] = useState("");
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [cargo, setCargo] = useState("");
+    const [id, setId] = useState("");
     const navigation = useNavigation();
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
+
+    const getUser = async () =>{
+        const result = await fetchData('cliente','readOne');
+        if(result.status){
+            setEmail(result.dataset.correo);
+            setApellido(result.dataset.apellido);
+            setNombre(result.dataset.nombre);
+            setCargo(result.dataset.cargo);
+            setIniciales(result.dataset.nombre[0]+result.dataset.apellido[0]);
+            setId(result.dataset.id_usuario);
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+    },[navigation]);
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
@@ -62,12 +83,12 @@ const Profile = () => {
             <View style={styles.body}>
                 <View style={styles.topContrast}>
                     <View style={styles.circle}>
-                        <Text style={styles.initials}>CM</Text>
+                        <Text style={styles.initials}>{iniciales}</Text>
                     </View>
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.name}>Carlos Marte</Text>
-                    <Text style={styles.id}>ID: 10777</Text>
+                    <Text style={styles.name}>{nombre + " " + apellido}</Text>
+                    <Text style={styles.id}>ID: {id}</Text>
                     <Text style={styles.label}>EMAIL</Text>
                     <TouchableOpacity
                         style={styles.row}
@@ -94,7 +115,7 @@ const Profile = () => {
                     </TouchableOpacity>
 
                     <Text style={styles.label}>CHARGE</Text>
-                    <Text style={styles.charge}>Developer Manager</Text>
+                    <Text style={styles.charge}>{cargo}</Text>
 
                     <View style={styles.ContentButton}>
                     <LogOutButton onPress={handleLogOut}></LogOutButton>

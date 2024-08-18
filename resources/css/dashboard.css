@@ -37,6 +37,7 @@ main *{
     font-size: var(--larger-xl-text-size);
     color: var(--color-texto-2);
     font-weight: 500;
+    
 }
 
 .dashboard-clock {
@@ -68,6 +69,7 @@ main *{
     width: 100%;
     border-radius: 20px;
     height: 70%;
+    backdrop-filter: blur(12px);
 }
 
 .dash-inbox-header {
@@ -208,6 +210,7 @@ main *{
     height: 20%;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(12px);
 }
 
 .measurer {
@@ -241,6 +244,7 @@ main *{
     background-color: var(--color-extra-4);
     height: 80%;
     border-radius: 20px;
+    backdrop-filter: blur(12px);
 }
 
 .dash-graph-header {

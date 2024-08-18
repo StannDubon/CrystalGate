@@ -16,7 +16,7 @@ const SuccessModal = ({ visible, onClose, content, type = 1 }) => {
             animation = require('../../assets/animations/warning-animation.json');
             break;
         case 4:
-            animation = re299quire('../../assets/animations/notice-animation.json');
+            animation = require('../../assets/animations/notice-animation.json');
             break;
         default:
             break;
