@@ -128,10 +128,10 @@ class PermisoData extends PermisoHandler
     }
 
     // Método para establecer el documento asociado al permiso.
-    public function setDocumento($file, $filename = null)
+    /*public function setDocumento($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
-            $this->documento = Validator::getFilename();
+        if (Validator::validateFile($file, 1000)) {
+            $this->filename = Validator::getFilename();
             return true;
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
@@ -143,7 +143,26 @@ class PermisoData extends PermisoHandler
             $this->documento = 'default.pdf';
             return true;
         }
+    }*/
+
+    public function setDocumento($file)
+{
+    // Verificar que se haya subido un archivo y que no haya errores
+    if (is_uploaded_file($file['tmp_name'])) {
+        // Verificar que el archivo sea de tipo PDF o DOCX y que tenga un tamaño aceptable
+        if (Validator::validateFile($file)) {
+            $this->documento = Validator::getFilename();
+            return true;
+        } else {
+            $this->data_error = Validator::getFileError();
+            return false;
+        }
+    } else {
+        $this->data_error = 'No se ha subido ningún archivo o el archivo es inválido';
+        return false;
     }
+}
+
 
     // Método para establecer la descripción del permiso.
     public function setDescripcion($value)
