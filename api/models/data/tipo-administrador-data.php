@@ -25,7 +25,7 @@ class TipoAdministradorData extends TipoAdministradorHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del tipo de administrador es incorrecto';
+            $this->data_error = 'The identificator of the type of administrator is incorrect';
             return false;
         }
     }
@@ -34,13 +34,13 @@ class TipoAdministradorData extends TipoAdministradorHandler
     public function setTipo($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El tipo de administrador debe ser un valor alfanumérico';
+            $this->data_error = 'The administrator type has to be an alphanumeric value';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->tipo = $value;
             return true;
         } else {
-            $this->data_error = 'El tipo de administrador debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'The lenght of the type of administrator has to be from ' . $min . ' y ' . $max;
             return false;
         }
     }
@@ -60,7 +60,7 @@ class TipoAdministradorData extends TipoAdministradorHandler
             $this->estado = (bool) $value;
             return true;
         } else {
-            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            $this->data_error = 'The value of the state has to be a boolean (true/false o 1/0)';
             return false;
         }
     }

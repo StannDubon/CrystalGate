@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginVertical: 10,
         marginHorizontal: 20,
+        marginTop: 22,
     },
     segmentedControlOption: {
         flex: 1,

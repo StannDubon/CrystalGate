@@ -2,8 +2,8 @@
 const PERMISOS_API   = 'services/admin/permiso.php';
 // Constante para establecer la caja donde se mostrarán los permisos
 const BOX_PERMISOS = document.getElementById('inbox-content'),
-    NUMERO_PERMISOS = document.getElementById('inbox-number');
-
+    NUMERO_PERMISOS = document.getElementById('inbox-number'),
+    BOX_NUMERO_PERMISOS = document.getElementById('inbox-box-number');
 document.addEventListener('DOMContentLoaded', async () => {
     
     // Peticiones para solicitar los datos de la base.
@@ -21,11 +21,18 @@ const fillPermissions = async (form = null) => {
     BOX_PERMISOS.innerHTML = '';
     // Petición para solicitar los tipos de peticiones (request types).
     const DATA = await fetchData(PERMISOS_API ,'readAllPendings',form); 
-    console.log(DATA);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+
+    if(DATA.dataset.length != 0){
+        NUMERO_PERMISOS.textContent = DATA.dataset.length;
+    }else{
+        BOX_NUMERO_PERMISOS.style.display = 'none';
+    }
+
     if (DATA.status) {
         // Se inicializa el contenedor de productos.
-        NUMERO_PERMISOS.textContent = DATA.dataset.length;
+
+
         BOX_PERMISOS.innerHTML = '';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {

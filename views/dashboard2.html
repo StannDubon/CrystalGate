@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" href="../resources/img/head-logo.png" type="image/png">
+
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="../resources/css/poppins.css">
+
+    <!-- COLOR MANAGER -->
+    <link rel="stylesheet" href="../resources/css/color-manager-dark.css">
+
+    <!-- FONT MANAGER -->
+    <link rel="stylesheet" href="../resources/css/font-manager.css">
+
+    <!-- PAGE TEMPLATE -->
+    <link rel="stylesheet" href="../resources/css/template.css">
+
+    <!-- DASHBOARD -->
+    <link rel="stylesheet" href="../resources/css/dashboard.css">
+
+
+</head>
+<style>
+    body{
+        position: relative;
+        overflow: hidden;
+
+        .bg-decorator{
+            
+            img{
+                position: absolute;
+                z-index: -7;
+            }
+
+            #bgd-v1{
+                top: -300px;
+                left: -200px;
+            } #bgd-v2{
+                bottom: -300px;
+                left: -200px;
+            } #bgd-v3{
+                right: -350px;
+                top: -300px;
+            } #bgd-v4{
+                right: -200px;
+                bottom: -200px;
+            } #bgd-v5{
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 35%;
+            }
+        }
+    } 
+</style>
+<body id="local-dashboard">
+
+    <div class="bg-decorator">
+        <img src="../resources/img/bgv/dv4.png" id="bgd-v1" alt="">
+        <img src="../resources/img/bgv/dv3.png" id="bgd-v2" alt="">
+        <img src="../resources/img/bgv/dv3.png" id="bgd-v3" alt="">
+
+        <img src="../resources/img/bgv/dv1.png" id="bgd-v4" alt="">
+        <img src="../resources/img/bgv/dv4.png" id="bgd-v5" alt="">
+    </div>
+
+    <div id="TEMPLATE"></div>
+
+    <main>
+
+
+        <div class="main-col-1">
+
+            <!-- Name + Clock -->
+            <div class="dash-extra-elements">
+                <p class="dashboard-employee-name" id="employee-name"></p>
+                <p class="dashboard-clock" id="dashboard-clock"></p>
+                <b class="dashboard-date" id="dashboard-date"></b>
+            </div>
+
+            <!-- Inbox -->
+            <div class="dash-inbox">
+                <div class="dash-inbox-header">
+                    <div class="dash-inbox-header-title">
+                        <svg width="27" height="27" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--color-extra-1)" d="M28.8 0H3.2C1.4352 0 0 1.59467 0 3.55556V28.4444C0 29.3874 0.337142 30.2918 0.937258 30.9586C1.53737 31.6254 2.35131 32 3.2 32H28.8C29.6487 32 30.4626 31.6254 31.0627 30.9586C31.6629 30.2918 32 29.3874 32 28.4444V3.55556C32 1.59467 30.5648 0 28.8 0ZM27.2 16H22.1728C21.4592 19.0613 18.9776 21.3333 16 21.3333C13.0224 21.3333 10.5408 19.0613 9.8272 16H3.2V3.55556H28.8V16H27.2Z" fill="#888888"/>
+                        </svg>
+    
+                        <b>Inbox</b>
+                    </div>
+                    <div class="dash-inbox-alert" id="inbox-box-number">
+                        <p id="inbox-number"></p>
+                    </div>
+                        
+                </div>
+                <div class="dash-inbox-content" id="inbox-content">
+           
+                </div>
+            </div>
+        </div>
+        <div class="main-col-2">
+
+            <div class="permission-quantity">
+                <div class="measurer">
+                    <p class="measurer-number">56</p>
+                    <p class="measurer-text">Processed Permissions</p>
+                </div>
+
+                <div class="measurer">
+                    <p class="measurer-number">750</p>
+                    <p class="measurer-text">Hours on Permissions</p>
+                </div>
+            </div>
+
+            <div class="dash-graph">
+                <div class="dash-graph-header">
+                    <b>Statistics</b>
+
+                    <div class="toggle">
+                        <p id="sort-graph-month" class="selected-statistics-sort">Month</p>
+                        <p id="sort-graph-week">Week</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SWEET ALERTS -->
+    <script src="../resources/js/sweetalert.min.js"></script>
+
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+
+    <!-- CONTROLADORES ESPECIFICOS -->
+    <script src="../controllers/private/dashboard.js"></script> <!-- CODIGO COMPARTIDO SOLO PARA QUE CARGUE EL SIDEBAR -->
+    <script src="../controllers/private/dashboard-inbox.js"></script>
+    <script src="../controllers/private/dashboard-content.js"></script>
+
+    <!-- ¡¡¡¡CODIGO A AÑADIR A SU CONTROLADOR ESPECIFICO!!!! -->
+    <script src="../resources/js/dashboard.js"></script>
+
+</body>
+</html>

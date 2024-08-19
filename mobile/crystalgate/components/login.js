@@ -36,6 +36,7 @@ const Login = () => {
     }, [])
   );
 
+
   const checkUserLoggedIn = async () => {
     let action = "getUser";
     try {
@@ -54,14 +55,16 @@ const Login = () => {
   }, [navigation]);
   
 
+
   const handleSendNav = async () => {
     let action = "logIn";
-
+    
     const FORM = new FormData();
     FORM.append("correoUsuario", username);
     FORM.append("claveUsuario", password);
     try {
       const result = await fetchData(service, action, FORM);
+      console.log(result);
       if (result.status == 1) {
         setSuccessModalVisible(true);
         setTimeout(() => {
@@ -80,6 +83,10 @@ const Login = () => {
   const handleSendPas = () => {
     navigation.navigate('PasswordRecovery');
   };
+
+  useEffect(() => {
+    ValidateSession();
+  }, []);
 
   return (
     <KeyboardAvoidingView
