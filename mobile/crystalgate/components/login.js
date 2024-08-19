@@ -84,10 +84,6 @@ const Login = () => {
     navigation.navigate('PasswordRecovery');
   };
 
-  useEffect(() => {
-    ValidateSession();
-  }, []);
-
   return (
     <KeyboardAvoidingView
       style={styles.container}

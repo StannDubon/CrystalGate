@@ -170,11 +170,10 @@ const PermissionRequest = () => {
 
         formData.append('idTipoPermiso', selectedSubType);
         formData.append('descripcionPermiso', permissionDescription);
-
-        if (selectedOption === "Day") {
+        if (selectedOption == "Days") {
             formData.append('fechaInicio', startDate);
             formData.append('fechaFinal', endDate);
-        } else if (selectedOption === "Hour") {
+        } else if (selectedOption == "Hours") {
             formData.append('fechaInicio', `${startTime}`);
             formData.append('fechaFinal', `${endTime}`);
 
@@ -187,7 +186,7 @@ const PermissionRequest = () => {
                 uri: selectedFile.assets[0].uri,
                 name: selectedFile.assets[0].name,
                 type: selectedFile.assets[0].mimeType
-            }); 
+            });
         }
 
         console.log(selectedType);
@@ -195,6 +194,7 @@ const PermissionRequest = () => {
         console.log(permissionDescription);
         console.log(startDate);
         console.log(endDate);
+        console.log(selectedFile);
         console.log({
             uri: selectedFile.assets[0].uri,
             name: selectedFile.assets[0].name,

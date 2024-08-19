@@ -162,7 +162,7 @@ class PermisoData extends PermisoHandler
     // Verificar que se haya subido un archivo y que no haya errores
     if (is_uploaded_file($file['tmp_name'])) {
         // Verificar que el archivo sea de tipo PDF o DOCX y que tenga un tamaño aceptable
-        if (Validator::validateFile($file)) {
+        if (Validator::validateFile($file,5000)) {
             $this->documento = Validator::getFilename();
             return true;
         } else {

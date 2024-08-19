@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EEEEEE"
   },
   cardHeader:{
-    width: "auto",
+    width: 307,
     height: 30,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
