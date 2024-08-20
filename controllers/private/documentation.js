@@ -13,6 +13,7 @@ const PETICION_INFO_MODAL_ID = document.getElementById('peticion-info-modal-id')
 const PETICION_INFO_MODAL_DIRECCION = document.getElementById('peticion-info-modal-direccion');
 const PETICION_INFO_MODAL_TELEFONO = document.getElementById('peticion-info-modal-telefono');
 const PETICION_INFO_MODAL_NOMBRE = document.getElementById('peticion-info-modal-nombre');
+const PETICION_INFO_MODAL_NOMBRE_ENTREGA = document.getElementById('peticion-info-modal-nombre-entrega');
 const PETICION_INFO_MODAL_ID_USUARIO = document.getElementById('peticion-info-modal-id-usuario');
 const PETICION_INFO_MODAL_TIPO_PETICION = document.getElementById('peticion-info-modal-tipo_peticion');
 const PETICION_INFO_MODAL_IDIOMA = document.getElementById('peticion-info-modal-idioma');
@@ -77,13 +78,14 @@ const fillTable = async (form = null) => {
                         <div class="content-card-general-col1"  onclick="openInfo(${row.id_peticion})">
                             <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
                             <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
-                            <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+
                         </div>
     
                         <div class="content-card-general-col2"  onclick="openInfo(${row.id_peticion})">
+                            <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
                             <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
                             <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
-                            <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                            <p class="content-card-general-name" hidden>Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
                         </div>
                         <div class="documentation-action-button">
                             <div class="documentation-accept-button" onclick="openAccept(${row.id_peticion})">
@@ -110,13 +112,14 @@ const fillTable = async (form = null) => {
                     <div class="content-card-general-col1">
                         <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
                         <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
-                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+
                     </div>
 
                     <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
                         <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
                         <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
-                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                        <p class="content-card-general-name" hidden>Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
                     </div>
                     <div class="content-card-general-col3">
                         <p>APPROVED</p>
@@ -132,13 +135,13 @@ const fillTable = async (form = null) => {
                     <div class="content-card-general-col1">
                         <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
                         <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
-                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
                     </div>
 
                     <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
                         <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
                         <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
-                        <p class="content-card-general-name">Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                        <p class="content-card-general-name" hidden>Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
                     </div>
                     <div class="content-card-general-col3">
                         <p>REJECTED</p>
@@ -178,15 +181,15 @@ const openInfo = async (id) => {
 
 
         PETICION_INFO_MODAL_ID.value = ROW.id_peticion;
-        PETICION_INFO_MODAL_DIRECCION.textContent = "Address: " + ROW.direccion;
-        PETICION_INFO_MODAL_TELEFONO.textContent = "Contact Number: " + ROW.telefono_contacto;
-        PETICION_INFO_MODAL_NOMBRE.textContent = "Employee name: " + ROW.nombre + " " + ROW.apellido;
+        PETICION_INFO_MODAL_DIRECCION.textContent =  ROW.direccion;
+        PETICION_INFO_MODAL_TELEFONO.textContent =  ROW.telefono_contacto;
+        PETICION_INFO_MODAL_NOMBRE.textContent =  ROW.nombre + " " + ROW.apellido;
         PETICION_INFO_MODAL_ID_USUARIO.value = ROW.id_usuario;
-        PETICION_INFO_MODAL_TIPO_PETICION.textContent = "Request Type: " + ROW.tipo_peticion;
-        PETICION_INFO_MODAL_IDIOMA.textContent = "Document Language: " + ROW.idioma;
-        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = "Location: " + ROW.centro_entrega;
-        PETICION_INFO_MODAL_CORREO.textContent = "Employee email: " + ROW.correo;
-        PETICION_INFO_MODAL_MODO_ENTREGA.textContent = "Send type: " + SEND_TYPE;
+        PETICION_INFO_MODAL_TIPO_PETICION.textContent =  ROW.tipo_peticion;
+        PETICION_INFO_MODAL_IDIOMA.textContent =  ROW.idioma;
+        PETICION_INFO_MODAL_CENTRO_ENTREGA.textContent = ROW.centro_entrega;
+        PETICION_INFO_MODAL_NOMBRE_ENTREGA.textContent = ROW.nombre_entrega;
+        PETICION_INFO_MODAL_CORREO.textContent = ROW.email_entrega;
         PETICION_INFO_MODAL.classList.add('show'); // Mostrar el modal
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
@@ -242,4 +245,38 @@ const openReject = async (id) => {
             sweetAlert(2, DATA.error, false);
         }
     }
+}
+
+// FUNCION PARA ABRIR LOS REPORTES
+const openReport = () => {
+
+    // Obtener el día actual (0 = domingo, 1 = lunes, ..., 6 = sábado)
+    const today = new Date().getDay();
+
+    if (today === 1) {
+        // Lunes
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion1.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else if (today === 2 || today === 3) {
+        // Martes o miércoles
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion2.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else if (today === 4 || today === 5) {
+        // Jueves o viernes
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion3.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    } else {
+        // Sábado o domingo
+        // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+        const PATH = new URL(`${SERVER_URL}reports/documentacion4.php`);
+        // Se abre el reporte en una nueva pestaña.
+        window.open(PATH.href);
+    }
+
 }

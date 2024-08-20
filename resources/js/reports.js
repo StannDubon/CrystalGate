@@ -11,16 +11,14 @@ optionFilter.forEach(option => {
         textFilter.innerText = selectedOption;
         console.log(selectedOption)
 
-        document.querySelectorAll('.customize-type, .customize-type-ml, .customize-type-vr, .customize-type-em').forEach(customizeType => {
+        document.querySelectorAll('.customize-type').forEach(customizeType => {
             customizeType.classList.remove('selected');
         });
 
         document.querySelector('.customize-filter-bottom').classList.remove('selected');
-        
+            	
         // Añadir la clase "selected" solo al elemento seleccionado
-        if (selectedOption === "Medical Leave") {
-            document.querySelector('.customize-type-ml').classList.add('selected');
-        } else if (selectedOption === "Permissions") {
+        if (selectedOption === "Permissions") {
             document.querySelector('.customize-type').classList.add('selected');
         } else if (selectedOption === "Vacation Request") {
             document.querySelector('.customize-type-vr').classList.add('selected');

@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_peticiones.
@@ -88,6 +88,126 @@ class PeticionHandler
                 AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega AND a.id_peticion = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    // Método para los reportes de los días lunes.
+    public function readAllMonday()
+    {
+        $sql = "SELECT 
+                    p.id_usuario,
+                    CONCAT(u.nombre, ' ', u.apellido) AS employee,
+                    tp.tipo_peticion ,
+                    c.centro_entrega,
+                    p.direccion,
+                    p.nombre_entrega,
+                    p.email_entrega,
+                    p.telefono_contacto,
+                    p.fecha_envio,
+                    CASE 
+                        WHEN p.estado = 1 THEN 'Pending'
+                        WHEN p.estado = 2 THEN 'Approved'
+                        WHEN p.estado = 3 THEN 'Rejected'
+                    END AS estado
+                FROM tb_peticiones p
+                JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
+                JOIN tb_tipos_peticiones tp ON p.id_tipo_peticion = tp.id_tipo_peticion
+                JOIN tb_centros_entregas c ON p.id_centro_entrega = c.id_centro_entrega
+                WHERE p.fecha_envio > (
+                    SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL (WEEKDAY(CURDATE()) + 4) DAY), INTERVAL 14 HOUR)
+                )
+                ORDER BY p.fecha_envio";
+        return Database::getRows($sql);
+    }
+
+    // Método para los reportes de los días martes y miércoles.
+    public function readAllTueWed()
+    {
+        $sql = "SELECT 
+                    p.id_usuario,
+                    CONCAT(u.nombre, ' ', u.apellido) AS employee,
+                    tp.tipo_peticion ,
+                    c.centro_entrega,
+                    p.direccion,
+                    p.nombre_entrega,
+                    p.email_entrega,
+                    p.telefono_contacto,
+                    p.fecha_envio,
+                    CASE 
+                        WHEN p.estado = 1 THEN 'Pending'
+                        WHEN p.estado = 2 THEN 'Approved'
+                        WHEN p.estado = 3 THEN 'Rejected'
+                    END AS estado
+                FROM tb_peticiones p
+                JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
+                JOIN tb_tipos_peticiones tp ON p.id_tipo_peticion = tp.id_tipo_peticion
+                JOIN tb_centros_entregas c ON p.id_centro_entrega = c.id_centro_entrega
+                WHERE p.fecha_envio BETWEEN (
+                    DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) - 4 DAY) + INTERVAL 14 HOUR
+                ) AND (
+                    DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) + 2 DAY) + INTERVAL 14 HOUR
+                )
+                ORDER BY p.fecha_envio";
+        return Database::getRows($sql);
+    }
+
+    // Método para los reportes de los días jueves y viernes.
+    public function readAllThursFri()
+    {
+        $sql = "SELECT 
+                    p.id_usuario,
+                    CONCAT(u.nombre, ' ', u.apellido) AS employee,
+                    tp.tipo_peticion ,
+                    c.centro_entrega,
+                    p.direccion,
+                    p.nombre_entrega,
+                    p.email_entrega,
+                    p.telefono_contacto,
+                    p.fecha_envio,
+                    CASE 
+                        WHEN p.estado = 1 THEN 'Pending'
+                        WHEN p.estado = 2 THEN 'Approved'
+                        WHEN p.estado = 3 THEN 'Rejected'
+                    END AS estado
+                FROM tb_peticiones p
+                JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
+                JOIN tb_tipos_peticiones tp ON p.id_tipo_peticion = tp.id_tipo_peticion
+                JOIN tb_centros_entregas c ON p.id_centro_entrega = c.id_centro_entrega
+                WHERE p.fecha_envio BETWEEN (
+                    DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) + 1 DAY) + INTERVAL 14 HOUR
+                ) AND (
+                    DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) + 3 DAY) + INTERVAL 14 HOUR
+                )
+                ORDER BY p.fecha_envio";
+        return Database::getRows($sql);
+    }
+
+    // Método para los reportes de los días sábado y domingo.
+    public function readAllSatSun()
+    {
+        $sql = "SELECT 
+                    p.id_usuario,
+                    CONCAT(u.nombre, ' ', u.apellido) AS employee,
+                    tp.tipo_peticion ,
+                    c.centro_entrega,
+                    p.direccion,
+                    p.nombre_entrega,
+                    p.email_entrega,
+                    p.telefono_contacto,
+                    p.fecha_envio,
+                    CASE 
+                        WHEN p.estado = 1 THEN 'Pending'
+                        WHEN p.estado = 2 THEN 'Approved'
+                        WHEN p.estado = 3 THEN 'Rejected'
+                    END AS estado
+                FROM tb_peticiones p
+                JOIN tb_usuarios u ON p.id_usuario = u.id_usuario
+                JOIN tb_tipos_peticiones tp ON p.id_tipo_peticion = tp.id_tipo_peticion
+                JOIN tb_centros_entregas c ON p.id_centro_entrega = c.id_centro_entrega
+                WHERE p.fecha_envio > (
+                    SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL (WEEKDAY(CURDATE()) - 3) DAY), INTERVAL 14 HOUR)
+                )
+                ORDER BY p.fecha_envio";
+        return Database::getRows($sql);
     }
 
     // Método para actualizar una petición.

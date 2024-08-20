@@ -20,7 +20,9 @@ class PermisoHandler
     protected $fechaEnvio = null;
     protected $documento = null;
     protected $descripcion = null;
-    const RUTA_DOCUMENTO = '../documents/permiso/';
+
+    protected $selected_subpermissions;
+    const RUTA_DOCUMENTO = '../../documents/permiso/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -80,6 +82,16 @@ class PermisoHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function readAllByCostumer()
+    {
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND b.id_usuario = ?
+                ORDER BY a.estado';
+        $params = array($this->idUsuario);
+        return Database::getRows($sql, $params);
+    }
+
     // Método para leer todos los permisos.
     public function readAll()
     {
@@ -94,6 +106,7 @@ class PermisoHandler
     public function readAllPermissions()
     {
         $sql = "SELECT 
+                    b.id_usuario,
                     CONCAT(b.nombre, ' ', b.apellido) AS employee, 
                     cp.clasificacion_permiso AS clasification, 
                     tp.tipo_permiso AS 'type', 
@@ -133,8 +146,27 @@ class PermisoHandler
                 ORDER BY a.estado';
         $params = array($this->estado);
         return Database::getRows($sql, $params);
+    }   
+    // Método para obtener registros filtrados para el reporte
+    public function readPermissonReport()
+    {
+        $sql = 'SELECT p.*,
+                tp.id_clasificacion_permiso,
+                tp.tipo_permiso
+            FROM 
+                tb_permisos p
+            JOIN 
+                tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
+            WHERE 
+                tp.id_clasificacion_permiso = ?        
+                AND p.id_tipo_permiso IN (?)        
+                AND p.fecha_inicio >= ?
+                AND p.fecha_final <= ? 
+                AND p.estado IN (?)
+        ';
+        $params = array($this->idClasificacionPermiso,$this->idTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->estado);
+        return Database::getRow($sql, $params);
     }
-
     // Método para leer un permiso específico por su ID.
     public function readOne()
     {

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         width: 150, // Ancho del botón
         backgroundColor: "#D9E4FF", // Color de fondo del botón
         borderRadius: 8, // Borde redondeado
-        marginTop: 40, // Margen superior de 40 puntos
+        marginTop: 15, // Margen superior de 40 puntos
         justifyContent: "flex-start", // Alinea contenido al inicio horizontalmente
         alignItems: "center", // Alinea contenido al centro verticalmente
     },
