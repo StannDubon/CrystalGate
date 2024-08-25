@@ -22,7 +22,7 @@ class PermisoHandler
     protected $descripcion = null;
 
     protected $selected_subpermissions;
-    const RUTA_DOCUMENTO = '../documents/permiso/';
+    const RUTA_DOCUMENTO = '../../documents/permiso/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).

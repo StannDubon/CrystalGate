@@ -104,6 +104,43 @@ class Validator
         }
     }
 
+    public static function validateFile($file, $maxSize)
+    {
+        // Validar si el archivo se subió correctamente
+        if (is_uploaded_file($file['tmp_name'])) {
+            // Validar el tamaño del archivo (por ejemplo, 5MB)
+            if ($file['size'] > $maxSize * 1024 * 1024) {
+                self::$file_error = 'El tamaño del archivo debe ser menor a ' . $maxSize . 'MB';
+                return false;
+            }
+
+            // Obtener el tipo MIME del archivo
+            $fileType = mime_content_type($file['tmp_name']);
+
+            // Validar el tipo de archivo permitido (PDF y DOCX)
+            if ($fileType === 'application/pdf' || $fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                // Obtener la extensión del archivo
+                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+                // Validar la extensión del archivo
+                if ($extension === 'pdf' || $extension === 'docx') {
+                    // Establecer un nombre único para el archivo
+                    self::$filename = uniqid() . '.' . $extension;
+                    return true;
+                } else {
+                    self::$file_error = 'El tipo de archivo debe ser PDF o DOCX';
+                    return false;
+                }
+            } else {
+                self::$file_error = 'El archivo debe ser de tipo PDF o DOCX';
+                return false;
+            }
+        } else {
+            self::$file_error = 'No se pudo subir el archivo.';
+            return false;
+        }
+    }
+
     /*
     *   Método para validar un correo electrónico.
     *   Parámetros: $value (dato a validar).

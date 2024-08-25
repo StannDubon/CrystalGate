@@ -1,6 +1,6 @@
 // TimePicker.js
-import React, { useState } from "react";
-import { View, Platform, StyleSheet, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 // Importación del componente DateTimePicker de react-native-community/datetimepicker
 import DateTimePicker from "@react-native-community/datetimepicker";
 // Importación de Svg y Path desde react-native-svg
@@ -9,22 +9,44 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../../assets/const/color";
 
 // Componente funcional TimePicker que recibe la propiedad label
-const TimePicker = ({ label }) => {
+const TimePicker = ({ label, date, onTimeChange, disabled }) => {
     // Estado para almacenar la hora seleccionada y mostrar el selector de tiempo
-    const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState(date instanceof Date ? date : new Date());
     const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        setTime(date instanceof Date ? date : new Date());
+    }, [date]);
 
     // Función para manejar el cambio en la hora seleccionada
     const onChange = (event, selectedTime) => {
-        const currentTime = selectedTime || time; // Si no se selecciona una hora nueva, se usa la hora actual
-        setShow(Platform.OS === "ios"); // Si es iOS, muestra el selector de tiempo
-        setTime(currentTime); // Actualiza el estado con la nueva hora seleccionada
+        setShow(!show);
+        if(selectedTime && event.type == 'set'){
+            const currentTime = selectedTime || time;
+            const updatedTime = new Date(date); 
+            updatedTime.setHours(currentTime.getHours());
+            updatedTime.setMinutes(currentTime.getMinutes());
+            setShow(Platform.OS === "ios");
+            setTime(updatedTime);
+            onTimeChange && onTimeChange(updatedTime);
+        }
     };
 
     // Función para mostrar el selector de tiempo
-    const showMode = (currentMode) => {
-        // Muestra el selector de tiempo
-        setShow(true);
+    const showMode = () => {
+        if (!disabled) {
+            setShow(true);
+        }
+    };
+
+    // Formatear la hora manualmente
+    const formatTime = (time) => {
+        if (!(time instanceof Date)) {
+            time = new Date(time);
+        }
+        const hours = time.getHours().toString().padStart(2, '0');
+        const minutes = time.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
     };
 
     // Renderizado del componente
@@ -33,20 +55,9 @@ const TimePicker = ({ label }) => {
             <View style={styles.txtContainer}>
                 <Text style={styles.label}>{label}</Text>
             </View>
-            <View style={styles.timeContainer}>
-                {show && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={time}
-                        mode="time"
-                        display="default"
-                        onChange={onChange}
-                    />
-                )}
+            <TouchableOpacity style={[styles.timeContainer, disabled && styles.disabledContainer]} onPress={showMode}>
                 <View style={styles.labelContainer}>
-                    <Text style={styles.timeText}>
-                        {time.toLocaleTimeString()}
-                    </Text>
+                    <Text style={styles.timeText}>{formatTime(time)}</Text>
                 </View>
                 <View style={styles.btnTime}>
                     <Svg
@@ -54,7 +65,6 @@ const TimePicker = ({ label }) => {
                         height="20"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        onPress={showMode}
                     >
                         <Path
                             d="M9 0C4.122 0 0 4.122 0 9C0 13.878 4.122 18 9 18C13.879 18 18 13.878 18 9C18 4.122 13.879 0 9 0ZM14 10H8V4H10V8H14V10Z"
@@ -62,7 +72,16 @@ const TimePicker = ({ label }) => {
                         />
                     </Svg>
                 </View>
-            </View>
+            </TouchableOpacity>
+            {show && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={time}
+                    mode="time"
+                    display="default"
+                    onChange={onChange}
+                />
+            )}
         </View>
     );
 };
@@ -93,6 +112,11 @@ const styles = StyleSheet.create({
         borderRadius: 8, // Radio de borde del contenedor
         display: "flex", // Mostrar como contenedor flexible
         flexDirection: "row", // Dirección de los elementos en fila
+        alignItems: "center", //centrar elementos
+    },
+    disabledContainer: {
+        backgroundColor: "#f0f0f0",
+        borderColor: "#d0d0d0",
     },
     label: {
         textAlign: "left", // Alineación del texto a la izquierda

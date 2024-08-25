@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Color } from "../assets/const/color";
 import HeaderForms from "./header/headerForms";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import InputText from "./input/InputText";
 import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
@@ -75,9 +75,9 @@ const DocumentationRequest = () => {
         formData.append('fechaEnvio',getDateTime());
         formData.append('idCentroEntrega',selectedDeliverCenter);
 
-
+        
         const result = await fetchData('peticion','createRow',formData);
-        console.log(result);
+        
         if(result.status){
             setSuccessModalVisible(true);
             setTimeout(() => {
@@ -141,6 +141,13 @@ const DocumentationRequest = () => {
         setSelectedLanguage("");
         setSelectedDeliverCenter("");
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+          // Clear the input fields when the screen is focused
+          resetFields();
+        }, [])
+      );
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);

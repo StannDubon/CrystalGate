@@ -56,6 +56,7 @@ const History = () => {
     };
 
     // Renderizado del componente
+    
     return (
         <View style={styles.container}>
             <HeaderSingle title={"Your Journey"} subtitle={"History"}/>
@@ -64,35 +65,35 @@ const History = () => {
                 onChange={(index) => setSelectedIndex(index)}
             />
             <View style={styles.filterContainer}>
-            {selectedIndex === 0 ? (
                 <FilterButton onPress={toggleWidget}></FilterButton>
-            ) : (
-                <FilterButton onPress={toggleWidget}></FilterButton>
-            )}
             </View>
-            <ScrollView contentContainerStyle={styles.permissionContainer}>
-                {selectedIndex === 0 ? (
-                    permissions.map((item) => (
-                        <PermissionCard
-                            key={item.id_permiso}
-                            title={item.tipo_permiso}
-                            type={item.estado}
-                            dateBegin={item.fecha_inicio}
-                            dateEnd={item.fecha_final}
-                        />
-                    ))
-                ) : (
-                    documents.map((item) => (
-                        <DocumentCard
-                            key={item.id_peticion}
-                            title={item.tipo_peticion}
-                            dateSend={item.fecha_envio}
-                            Language={item.idioma}                            
-                            type={item.modo_entrega}
-                        />
-                    ))
-                )}
-            </ScrollView>
+            <View style={styles.scrollViewContainer}>
+                <ScrollView 
+                    contentContainerStyle={styles.permissionContainer}
+                >
+                    {selectedIndex === 0 ? (
+                        permissions.map((item) => (
+                            <PermissionCard
+                                key={item.id_permiso}
+                                title={item.tipo_permiso}
+                                type={item.estado}
+                                dateBegin={item.fecha_inicio}
+                                dateEnd={item.fecha_final}
+                            />
+                        ))
+                    ) : (
+                        documents.map((item) => (
+                            <DocumentCard
+                                key={item.id_peticion}
+                                title={item.tipo_peticion}
+                                dateSend={item.fecha_envio}
+                                Language={item.idioma}                            
+                                type={item.modo_entrega}
+                            />
+                        ))
+                    )}
+                </ScrollView>
+            </View>
             <BottomSheet visible={visible} onClose={toggleWidget} />
         </View>
     );
@@ -101,37 +102,22 @@ const History = () => {
 // Estilos del componente
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Ocupa todo el espacio disponible
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: Color.colorBackground, // Color de fondo usando una constante de color
-        marginBottom: 100, // Margen inferior adicional
-    },
-    filterButton:{
-        backgroundColor: "#D9E4FF", // Color de fondo del botón (no parece estar en uso)
-        borderCurve: 3, // Estilo del borde del botón (no es una propiedad válida)
-    },
-    filterContainer:{
-        display: "flex",
-        alignItems: "flex-start", // Alineación de los elementos hacia la izquierda
-    },
-    filterText:{
-        fontSize: 13, // Tamaño de fuente del texto del filtro
-        color: "#4292F6", // Color del texto del filtro
-    },
-    permissionContainer:{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: Color.colorBackground,
-        marginBottom: 150,
     },
-    flatListContainerPermission: {
-        display: "flex",
-        flexDirection: "column",
+    filterContainer: {
+        alignItems: "flex-start",
+        paddingHorizontal: 10,
+    },
+    scrollViewContainer: {
+        flex: 1,  // Asegura que el contenedor del ScrollView ocupe todo el espacio restante
+    },
+    permissionContainer: {
+        flexGrow: 1,
+        justifyContent: 'flex-start',  // Cambiado de 'center' para evitar alineación central si hay pocas tarjetas
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 20, // Espaciado vertical dentro del contenedor de la FlatList
+        paddingBottom: 150,
+        backgroundColor: Color.colorBackground,
     },
 });
 
