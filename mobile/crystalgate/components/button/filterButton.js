@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: "row", // Alinea elementos en una fila
         justifyContent: "flex-start", // Alinea contenido al inicio horizontalmente
         alignItems: "flex-start", // Alinea contenido al centro verticalmente
+        paddingVertical: 7,
     },
     button: {
         marginLeft: 10, // Margen izquierdo de 10 puntos
@@ -35,8 +36,8 @@ const styles = StyleSheet.create({
         height: 54, // Altura del botón
         width: 150, // Ancho del botón
         backgroundColor: "#D9E4FF", // Color de fondo del botón
-        borderRadius: 8, // Borde redondeado
-        marginTop: 15, // Margen superior de 40 puntos
+        borderRadius: 10, // Borde redondeado
+        marginTop: 10, // Margen superior de 40 puntos
         justifyContent: "flex-start", // Alinea contenido al inicio horizontalmente
         alignItems: "center", // Alinea contenido al centro verticalmente
     },
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         color: "#4292F6", // Color del texto
         marginRight: 20, // Margen derecho de 20 puntos
         marginLeft: 10, // Margen izquierdo de 10 puntos
-        marginVertical: 3, // Margen vertical de 3 puntos
+        marginTop: 3,
     },
 });
 

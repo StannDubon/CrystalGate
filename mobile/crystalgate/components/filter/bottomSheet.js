@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { View, StyleSheet, Animated, TouchableOpacity, Dimensions, Text } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, StyleSheet, Animated, TouchableOpacity, Dimensions, Text, ScrollView, } from 'react-native';
 // Import Color de const, para usar las constantes de colores
 import { Color } from "../../assets/const/color";
 // Import ComboBox de combobox
@@ -8,10 +8,11 @@ import ComboBox from '../combobox/ComboBox';
 import DatePicker from '../pickers/datePicker';
 // Import de StateButtom de filter
 import StateButton from './stateButton';
+import Svg, { Path } from "react-native-svg";
 
 const { height } = Dimensions.get('window');
 
-const BottomSheet = ({ visible, onClose }) => {
+const BottomSheet = ({ visible, onClose}) => {
     // Declara una animación utilizando useRef y Animated.Value
     const translateY = useRef(new Animated.Value(height)).current;
     // Opciones de permisos y tipos de sub-permisos
@@ -23,7 +24,7 @@ const BottomSheet = ({ visible, onClose }) => {
     const iconPending = "M15.5024 2.77477C7.71207 2.77477 1.1291 9.46735 1.1291 17.3874C1.1291 25.3074 7.71207 32 15.5024 32C23.2943 32 29.8757 25.3074 29.8757 17.3874C29.8757 9.46735 23.2943 2.77477 15.5024 2.77477ZM23.4876 17.3874C23.4876 18.2841 22.7606 19.011 21.8639 19.011H15.9054C14.8008 19.011 13.9054 18.1156 13.9054 17.011V10.8663C13.9054 9.98429 14.6204 9.26927 15.5024 9.26927C16.3844 9.26927 17.0994 9.98428 17.0994 10.8663V13.7638C17.0994 14.8683 17.9949 15.7638 19.0994 15.7638H21.8639C22.7606 15.7638 23.4876 16.4907 23.4876 17.3874ZM29.8912 6.0021C29.2613 6.6448 28.2269 6.64657 27.5947 6.00604L25.0506 3.42809C24.4331 2.80243 24.4314 1.79723 25.0467 1.16945C25.6766 0.526748 26.711 0.524973 27.3432 1.16551L29.8874 3.74346C30.5048 4.36912 30.5065 5.37432 29.8912 6.0021ZM3.62747 1.17391C4.25742 0.531327 5.29163 0.529369 5.92401 1.16956C6.54219 1.79537 6.5441 2.80136 5.92829 3.42951L3.40986 5.99843C2.7796 6.64134 1.74477 6.64293 1.11252 6.00197C0.495099 5.37604 0.49355 4.37067 1.10904 3.74284L3.62747 1.17391Z";
 
     // Efecto de animación para mostrar u ocultar la hoja inferior
-    React.useEffect(() => {
+    useEffect(() => {
         if (visible) {
             Animated.spring(translateY, {
                 toValue: height / 2,
@@ -39,13 +40,20 @@ const BottomSheet = ({ visible, onClose }) => {
 
     // Renderizado condicional basado en la visibilidad
     return ( visible && 
-        <Animated.View style={[styles.container, { transform: [{ translateY }] }]}>
+        <Animated.View style={[styles.container, { transform: [{ translateY }] }]} >
             <TouchableOpacity style={styles.overlay} onPress={onClose}/>
+            
                 <View style={styles.bottomSheet}>
+                    
                     <View style={styles.header}>
                         <Text style={styles.title}>Filters</Text>
+                        <Svg style={styles.bottomClose} width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" onPress={onClose}>
+                            <Path d="M21.9855 1.17321C21.2044 0.392165 19.9381 0.392166 19.157 1.17321L13.0659 7.26437C12.2848 8.04542 11.0185 8.04542 10.2374 7.26438L4.307 1.33393C3.52595 0.552879 2.25962 0.552881 1.47857 1.33393L1.3338 1.4787C0.552753 2.25975 0.552753 3.52608 1.3338 4.30713L7.26425 10.2376C8.0453 11.0186 8.0453 12.285 7.26425 13.066L1.17309 19.1572C0.392039 19.9382 0.392039 21.2045 1.17309 21.9856L1.26429 22.0768C2.04533 22.8578 3.31166 22.8578 4.09271 22.0768L10.1839 15.9856C10.9649 15.2046 12.2313 15.2046 13.0123 15.9856L18.9427 21.9161C19.7238 22.6971 20.9901 22.6971 21.7712 21.9161L21.9159 21.7713C22.697 20.9903 22.697 19.7239 21.9159 18.9429L15.9855 13.0124C15.2044 12.2314 15.2044 10.9651 15.9855 10.184L22.0767 4.09284C22.8577 3.31179 22.8577 2.04546 22.0767 1.26441L21.9855 1.17321Z" fill="#4292F6"/>
+                        </Svg>
                     </View>
-                    <View style={styles.body}>
+                    
+                    <ScrollView contentContainerStyle={styles.body}>
+                    
                         <ComboBox label={"PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
                         <ComboBox label={"SUB-PERMISSION TYPE"} placeholder={"Select an option"} options={sub_permissions}></ComboBox>
                         <DatePicker label={"From: "} style={styles.date}></DatePicker>
@@ -73,8 +81,11 @@ const BottomSheet = ({ visible, onClose }) => {
                                 selectedBgColor={Color.colorPending}
                             />
                         </View>
-                    </View>
+                        
+                    </ScrollView >
+                    
                 </View>
+                
         </Animated.View>
     );
 };
@@ -97,9 +108,14 @@ const styles = StyleSheet.create({
         justifyContent: "center", // Centra los elementos horizontalmente
     },
     title:{
+        marginLeft: 130,
         fontFamily: "Poppins-Bold", // Fuente en negrita Poppins
         fontSize: 24, // Tamaño de fuente de 24 unidades
         color: "#4292F6", // Color azul
+    },
+    bottomClose:{
+        marginTop: 7,
+        marginLeft: 100,
     },
     btnExit:{
         alignContent: "flex-end", // Alinea el contenido al extremo derecho
