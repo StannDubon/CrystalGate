@@ -16,6 +16,7 @@ import FilterButton from "../components/button/filterButton";
 import PermissionCard from "./cards/permissionCard";
 import DocumentCard from "./cards/documentCard";
 import BottomSheet from "./filter/bottomSheet";
+import BottomSheetDocument from "./filter/bottomSheetSmall";
 import SegmentedControl from "./button/historyButton";
 import fetchData from "./utils/database";
 import Svg, { Path } from "react-native-svg";
@@ -174,7 +175,11 @@ const History = () => {
                 </ScrollView>
 
             </View>
-            <BottomSheet visible={visible} onClose={toggleWidget}/>
+            {selectedIndex === 0 ? (
+                <BottomSheet visible={visible} onClose={toggleWidget} />
+            ) : (
+                <BottomSheetDocument visible={visible} onClose={toggleWidget} />
+            )}
         </View>
     );
 };

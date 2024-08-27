@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         alignItems: "center", // Alineación de los elementos secundarios en el eje principal
         textAlign: "center", // Alineación del texto dentro del SVG (no se usa para SVG)
         marginTop: 8, // Margen superior del SVG dentro del botón
+        marginLeft: 7,
     },
 });
 
