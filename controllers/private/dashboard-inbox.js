@@ -4,10 +4,10 @@ const PERMISOS_API   = 'services/admin/permiso.php';
 const BOX_PERMISOS = document.getElementById('inbox-content'),
     NUMERO_PERMISOS = document.getElementById('inbox-number'),
     BOX_NUMERO_PERMISOS = document.getElementById('inbox-box-number');
+
 document.addEventListener('DOMContentLoaded', async () => {
     
     // Peticiones para solicitar los datos de la base.
-
     FORM = new FormData();
     FORM.append('estado',1);
     await fillPermissions(FORM);
@@ -82,3 +82,21 @@ const fillPermissions = async (form = null) => {
         BOX_PERMISOS.textContent = DATA.error;
     }
 }
+
+
+
+const monthGraphoDeploy = async (id, type) => {
+    const x = [1, 2, 3, 4, 5, 6];
+    const y = [17, 18, 22, 33, 39, 12];
+    const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+
+    if(!y.every(item => item === 0)){
+        document.getElementById("grapho-modal").classList.remove("inactive")
+        graphoModal("Permissions per month");
+        barGraphPredict('chart', x, y, months);
+    } else{
+        document.getElementById("grapho-modal").classList.add("inactive")
+        graphoModal("There are no existing permissions for "+type); 
+    }
+};

@@ -38,21 +38,13 @@ const RegresionLineal = async (x, y, xPredict) => {
     return parseFloat(yPredict);
 }
 
-const PredecirAño = async (x, y) => {
-    const mesesDelAño = 12;
+const PredictData = async (x, y, pred) => {
     const xPredict = [];
-    const datosFaltantes = [];
-    for (let i = x.length + 1; i <= mesesDelAño; i++) {xPredict.push(i);}
+    const filledData = [];
+    for (let i = x.length + 1; i <= pred; i++) {xPredict.push(i);}
     for (let i = 0; i < xPredict.length; i++) {
         const yPred = await RegresionLineal(x, y, xPredict[i]);
-        datosFaltantes.push({ mes: xPredict[i], prediccion: yPred });
+        filledData.push(yPred);
     }
-    return datosFaltantes;
+    return filledData;
 };
-
-const x = [1, 2, 3, 4, 5, 6];
-const y = [17, 18, 22, 33, 39, 12];
-
-PredecirAño(x, y).then(pito => {
-    console.log(pito);
-});
