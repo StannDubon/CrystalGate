@@ -22,7 +22,7 @@ class PermisoHandler
     protected $descripcion = null;
 
     protected $selected_subpermissions;
-    const RUTA_DOCUMENTO = '../documents/permiso/';
+    const RUTA_DOCUMENTO = '../../documents/permiso/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -80,6 +80,16 @@ class PermisoHandler
         $params = array($this->idUsuario, $this->idTipoPermiso, $this->estado, $this->fechaInicio, 
                         $this->fechaFinal, $this->fechaEnvio, $this->documento, $this->descripcion);
         return Database::executeRow($sql, $params);
+    }
+
+    public function readAllByCostumer()
+    {
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND b.id_usuario = ?
+                ORDER BY a.estado';
+        $params = array($this->idUsuario);
+        return Database::getRows($sql, $params);
     }
 
     // Método para leer todos los permisos.

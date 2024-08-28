@@ -56,6 +56,29 @@ const PermissionRequest = () => {
     // Hook de navegación para gestionar la navegación entre pantallas
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
+    // Variables para capturar los datos del formulario
+    const [permissionDescription, setPermissionDescription] = useState("");
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [startTime, setStartTime] = useState(new Date());
+    const [endTime, setEndTime] = useState(new Date());
+    
+    const isDisabledSend =
+        !selectedType ||
+        !selectedSubType ||
+        permissionDescription === "" ||
+        selectedFile == null ||
+        !startDate ||
+        !selectedOption ||
+        (selectedOption == 'Days' ?
+            !endDate
+            :
+            !startTime ||
+            !endTime ||
+            endTime<=startTime
+        ) ;
+
     const loadData = async () =>{
         const result = await fetchData('clasificacion-permiso','readAll');
         if(result.status){
@@ -95,7 +118,6 @@ const PermissionRequest = () => {
         const formData = new FormData();
         formData.append('idTipoPermiso',itemValue);
         const result = await fetchData('tipo-permiso','getLapso',formData);
-        console.log(result);
         if(result.status){
             if(result.dataset.lapso == '1'){
                 setSelectedOption("Day");
@@ -123,24 +145,85 @@ const PermissionRequest = () => {
 
     useEffect(() => {
         loadData();
+        setStartDate(getDateTime());
+        setEndDate(getDateTime());
+        setStartTime(getDateTime());
+        setEndTime(getDateTime());
     },[navigation]);
 
-    // Función para manejar el envío del formulario
-    const handleSend = () => {
-        // Mostrar el modal de éxito
-        setSuccessModalVisible(true);
+    const getDateTime = () => {
+        const date = new Date();
+      
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+      
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      };
 
-        // Ocultar el modal después de 4 segundos y navegar a la pantalla de Dashboard
-        setTimeout(() => {
-            setSuccessModalVisible(false);
-            navigation.navigate('Dashboard');
-        }, 4000); 
+    // Función para manejar el envío del formulario
+    const handleSend = async () => {
+        const formData = new FormData();
+
+        formData.append('idTipoPermiso', selectedSubType);
+        formData.append('descripcionPermiso', permissionDescription);
+        if (selectedOption == "Days") {
+            formData.append('fechaInicio', startDate);
+            formData.append('fechaFinal', endDate);
+        } else if (selectedOption == "Hours") {
+            formData.append('fechaInicio', `${startTime}`);
+            formData.append('fechaFinal', `${endTime}`);
+
+        }
+        formData.append('fechaEnvio',getDateTime());
+        formData.append('estado','1');
+
+        if (selectedFile && selectedFile.assets && selectedFile.assets.length > 0) {
+            formData.append('documentoPermiso', {
+                uri: selectedFile.assets[0].uri,
+                name: selectedFile.assets[0].name,
+                type: selectedFile.assets[0].mimeType
+            });
+        }
+
+        console.log(selectedType);
+        console.log(selectedSubType);
+        console.log(permissionDescription);
+        console.log(startDate);
+        console.log(endDate);
+        console.log(selectedFile);
+        console.log({
+            uri: selectedFile.assets[0].uri,
+            name: selectedFile.assets[0].name,
+            type: selectedFile.assets[0].mimeType
+        });
+        console.log(getDateTime());
+
+        // Enviar los datos al servicio
+        const result = await fetchData('permiso', 'createRow', formData, true);
+
+        // Manejar la respuesta del servicio
+        if (result.status) {
+            // Mostrar el modal de éxito
+            setSuccessModalVisible(true);
+
+            // Ocultar el modal después de 4 segundos y navegar a la pantalla de Dashboard
+            setTimeout(() => {
+                setSuccessModalVisible(false);
+                navigation.navigate('Dashboard');
+            }, 4000);
+        } else {
+            // Manejo de errores
+            Alert.alert("Error", "No se pudo enviar la solicitud");
+        }
     };
 
     // Función para manejar la selección de archivos
     const handleFileSelect = (file) => {
-        // Aquí podrías implementar lógica adicional para manejar el archivo seleccionado
-        console.log("Selected File:", file);
+        setSelectedFile(file);
     };
 
     // Renderizado del componente
@@ -161,7 +244,10 @@ const PermissionRequest = () => {
                             placeholder={"Select an option"} 
                             isDisabled={subTypeDisabled}
                             ></ComboBox>
-                <TextArea label={"Permission description"}></TextArea>
+                <TextArea   label={"Permission description"}
+                            value={permissionDescription}
+                            onChangeText={setPermissionDescription}
+                ></TextArea>
                 <SwitchButton   selectedOption={selectedOption} 
                                 onSelectOption={setSelectedOption} 
                                 disabled1={disabledDay} 
@@ -170,21 +256,34 @@ const PermissionRequest = () => {
                 {
                     selectedOption == "Days" ? 
                     <>
-                        <DatePicker label={"From: "}></DatePicker>
-                        <DatePicker label={"To: "}></DatePicker>
+                        <DatePicker label={"From: "}
+                                    selectedDateTime={startDate}
+                                    onDateChange={setStartDate}></DatePicker>
+                        <DatePicker label={"To: "}
+                                    selectedDateTime={endDate}
+                                    onDateChange={setEndDate}></DatePicker>
                     </>
                     : selectedOption == "Hours" ?
                     <>
-                        <DatePicker label={"Of: "}></DatePicker>
-                        <TimePicker label={"From: "}></TimePicker>
-                        <TimePicker label={"To: "}></TimePicker>
+                        <DatePicker label={"Of: "}
+                                    selectedDateTime={startDate}
+                                    onDateChange={setStartDate}></DatePicker>
+                        <TimePicker label={"From: "}
+                                    date={startDate}
+                                    disabled={false}
+                                    onTimeChange={setStartTime}></TimePicker>
+                        <TimePicker label={"To: "}
+                                    date={startDate}
+                                    disabled={false}
+                                    onTimeChange={setEndTime}></TimePicker>
                     </>
                     :
                     <>
                     </>
                 }
                 <FilePicker onSelectFile={handleFileSelect}></FilePicker>
-                <SendButtonForm onPress={handleSend}></SendButtonForm>
+                <Text style={styles.sectionText}>{(selectedFile == null ? "":selectedFile.assets[0].name)}</Text>
+                <SendButtonForm onPress={handleSend} isDisabled={isDisabledSend}></SendButtonForm>
             </View>
             <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Permission sent successfully"} />
         </View>

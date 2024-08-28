@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
     View,
     ScrollView,
+    TouchableOpacity,
+    Dimensions,
 } from "react-native";
 import { Color } from "../assets/const/color";
 // Importa el componente HeaderSingle para el encabezado
@@ -12,71 +14,172 @@ import HeaderSingle from "../components/header/headerSigle";
 import FilterButton from "../components/button/filterButton";
 // Importa el componente PermissionCard para las tarjetas de permisos
 import PermissionCard from "./cards/permissionCard";
-import NotificationCard from "./cards/notificationCard";
+import DocumentCard from "./cards/documentCard";
 import BottomSheet from "./filter/bottomSheet";
+import BottomSheetDocument from "./filter/bottomSheetSmall";
 import SegmentedControl from "./button/historyButton";
+import fetchData from "./utils/database";
+import Svg, { Path } from "react-native-svg";
+
+const { height } = Dimensions.get('window');
 
 const History = () => {
     // Estado para controlar la visibilidad de la hoja inferior
     const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [permissions, setPermissions] = useState([]);
+    const [documents, setDocuments] = useState([]);
 
-    const permissions = [
-        { id: '1', title: 'Permission 1', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '2', title: 'Permission 2', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '3', title: 'Permission 3', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '4', title: 'Permission 4', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '5', title: 'Permission 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    ];
+    // Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
-    const documents = [
-        { id: '1', title: 'Document 1', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '2', title: 'Document 2', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '3', title: 'Document 3', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '4', title: 'Document 4', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-        { id: '5', title: 'Document 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    ];
+    const getData = async () => {
+        try {
+            // Fetch permisos
+            const permissionsData = await fetchData("permiso", "readAllByCostumer");
+            if (permissionsData.status) {
+                setPermissions(permissionsData.dataset);
+            } else {
+                alert("Error fetching permissions: " + permissionsData.error);
+            }
+
+            // Fetch peticiones (documentos)
+            const documentsData = await fetchData("peticion", "readAllByCostumer");
+            if (documentsData.status) {
+                setDocuments(documentsData.dataset);
+            } else {
+                console.error("Error fetching documents:", documentsData.error);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData(selectedIndex);
+        setVisible(false);
+    }, [selectedIndex]);
 
     // Función para alternar la visibilidad de la hoja inferior
     const toggleWidget = () => {
         setVisible(!visible);
     };
 
-    // Renderizado del componente
+
+    const handlePageChange = (direction) => {
+        if (direction === 'next') {
+            setCurrentPage(prevPage => prevPage + 1);
+        } else {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    };
+
+    const getPaginatedData = (data) => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        return data.slice(startIndex, startIndex + itemsPerPage);
+    };
+
+    const paginatedPermissions = getPaginatedData(permissions);
+    const paginatedDocuments = getPaginatedData(documents);
+
+    const totalItems = selectedIndex === 0 ? permissions.length : documents.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const showPagination = totalItems > itemsPerPage;
+
+
+    // Renderizado del componente    
     return (
-        <View style={styles.container}>
-            <HeaderSingle title={"Your Journey"} subtitle={"History"}/>
-            <SegmentedControl 
+        <View style={[styles.container, {height}]}>
+            <HeaderSingle title={"Your Journey"} subtitle={"History"} />
+            <SegmentedControl
                 options={['Permissions', 'Documents']}
-                onChange={(index) => setSelectedIndex(index)}
+                onChange={(index) => {
+                    setSelectedIndex(index);
+                    setCurrentPage(1); // Reset page number when switching tabs
+                }}
             />
             <View style={styles.filterContainer}>
                 <FilterButton onPress={toggleWidget}></FilterButton>
             </View>
-            <ScrollView contentContainerStyle={styles.permissionContainer}>
-                {selectedIndex === 0 ? (
-                    permissions.map((item) => (
-                        <PermissionCard
-                            key={item.id}
-                            title={item.title}
-                            type={item.type}
-                            dateBegin={item.dateBegin}
-                            dateEnd={item.dateEnd}
-                        />
-                    ))
-                ) : (
-                    documents.map((item) => (
-                        <NotificationCard
-                            key={item.id}
-                            title={item.title}
-                            type={item.type}
-                            dateBegin={item.dateBegin}
-                            dateEnd={item.dateEnd}
-                        />
-                    ))
-                )}
-            </ScrollView>
-            <BottomSheet visible={visible} onClose={toggleWidget} />
+            <View style={styles.scrollViewContainer}>
+                <ScrollView
+                    contentContainerStyle={styles.permissionContainer}
+                >
+                    {selectedIndex === 0 ? (
+                        paginatedPermissions.map((item) => (
+                            <PermissionCard
+                                key={item.id_permiso}
+                                title={item.tipo_permiso}
+                                type={item.estado}
+                                dateBegin={item.fecha_inicio}
+                                dateEnd={item.fecha_final}
+                            />
+                        ))
+                    ) : (
+                        paginatedDocuments.map((item) => (
+                            <DocumentCard
+                                key={item.id_peticion}
+                                title={item.tipo_peticion}
+                                dateSend={item.fecha_envio}
+                                Language={item.idioma}
+                                type={item.modo_entrega}
+                            />
+                        ))
+                    )}
+
+                    {showPagination && (
+                        <View style={styles.paginationContainer}>
+                            <TouchableOpacity
+                                onPress={() => handlePageChange('prev')}
+                                disabled={currentPage === 1}
+                                style={styles.paginationButton}
+                            >
+                                <Svg
+                                    width="17"
+                                    height="25"
+                                    viewBox="0 0 13 20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    style={{ transform: [{ rotate: '180deg' }] }} // Rota el SVG 180 grados
+                                >
+                                    <Path
+                                        d="M1.41373 1.59109C0.632905 2.37215 0.632969 3.63827 1.41388 4.41925L5.5801 8.58585C6.36106 9.36689 6.36106 10.6331 5.5801 11.4141L1.41388 15.5808C0.632969 16.3617 0.632906 17.6279 1.41373 18.4089L1.58983 18.5851C2.37097 19.3664 3.6377 19.3664 4.41878 18.585L11.5867 11.4139C12.3673 10.6329 12.3673 9.36707 11.5867 8.58609L4.41878 1.41504C3.6377 0.633617 2.37097 0.633574 1.58983 1.41494L1.41373 1.59109Z"
+                                        fill="#4292F6"
+                                    />
+                                </Svg>
+                            </TouchableOpacity>
+                            <Text style={styles.pageInfo}>
+                                {currentPage} / {totalPages}
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => handlePageChange('next')}
+                                disabled={currentPage === totalPages}
+                                style={styles.paginationButton}
+                            >
+                                <Svg
+                                    width="17"
+                                    height="25"
+                                    viewBox="0 0 13 20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <Path
+                                        d="M1.41373 1.59109C0.632905 2.37215 0.632969 3.63827 1.41388 4.41925L5.5801 8.58585C6.36106 9.36689 6.36106 10.6331 5.5801 11.4141L1.41388 15.5808C0.632969 16.3617 0.632906 17.6279 1.41373 18.4089L1.58983 18.5851C2.37097 19.3664 3.6377 19.3664 4.41878 18.585L11.5867 11.4139C12.3673 10.6329 12.3673 9.36707 11.5867 8.58609L4.41878 1.41504C3.6377 0.633617 2.37097 0.633574 1.58983 1.41494L1.41373 1.59109Z"
+                                        fill="#4292F6"
+                                    />
+                                </Svg>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </ScrollView>
+
+            </View>
+            {selectedIndex === 0 ? (
+                <BottomSheet visible={visible} onClose={toggleWidget} />
+            ) : (
+                <BottomSheetDocument visible={visible} onClose={toggleWidget} />
+            )}
         </View>
     );
 };
@@ -84,37 +187,38 @@ const History = () => {
 // Estilos del componente
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Ocupa todo el espacio disponible
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: Color.colorBackground, // Color de fondo usando una constante de color
-        marginBottom: 100, // Margen inferior adicional
-    },
-    filterButton:{
-        backgroundColor: "#D9E4FF", // Color de fondo del botón (no parece estar en uso)
-        borderCurve: 3, // Estilo del borde del botón (no es una propiedad válida)
-    },
-    filterContainer:{
-        display: "flex",
-        alignItems: "flex-start", // Alineación de los elementos hacia la izquierda
-    },
-    filterText:{
-        fontSize: 13, // Tamaño de fuente del texto del filtro
-        color: "#4292F6", // Color del texto del filtro
-    },
-    permissionContainer:{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: Color.colorBackground,
-        marginBottom: 150,
     },
-    flatListContainerPermission: {
-        display: "flex",
-        flexDirection: "column",
+    filterContainer: {
+        alignItems: "flex-start",
+        paddingHorizontal: 10,
+        marginBottom: 20,
+    },
+    scrollViewContainer: {
+        flex: 1,  // Asegura que el contenedor del ScrollView ocupe todo el espacio restante
+    },
+    permissionContainer: {
+        flexGrow: 1,
+        justifyContent: 'flex-start',  // Cambiado de 'center' para evitar alineación central si hay pocas tarjetas
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 20, // Espaciado vertical dentro del contenedor de la FlatList
+        paddingBottom: 100,
+        backgroundColor: Color.colorBackground,
+    },
+    paginationContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginTop: 40,
+        backgroundColor: "#D9E4FF",
+        borderRadius: 10,
+    },
+    pageInfo: {
+        fontSize: 16,
+        color: "#4292F6",
+        marginHorizontal: 20,
     },
 });
 

@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS CrystalGate;
+-- DROP DATABASE IF EXISTS CrystalGate;
 CREATE database CrystalGate;
 USE CrystalGate;
 
@@ -207,6 +207,25 @@ INSERT INTO tb_tipos_administradores VALUES(
 /* Tipos de administrador AGREGAR */ 1
 );
 
+
+
+INSERT INTO tb_cargos (cargo, estado) 
+VALUES ('Administrador', 1);
+SELECT * FROM tb_cargos;
+
+INSERT INTO tb_usuarios (id_cargo, nombre, apellido, clave, correo, imagen)
+VALUES (1, 'Nicole', 'Garcia', '$2b$12$.V5Scs4RMnCKowa3kfcgi./xp61bjQzcEeRzC2hTJ9qhLP.Athexe',
+ 'nicole.garcia@example.com','default.png'),-- 12345678
+ (1, 'Hazel', 'Garcia', '$2b$12$QKftwfO76gOlPmvb/R5JgOg4kS8yyk7f5P0EGAGg1PaN.GdjVLALK',
+ 'hazel.garcia@example.com','default.png'); -- 12121212
+ (1, 'Zammi', 'Ramos', '$2b$12$aRPHu4g1txIwzJXw6Y82beRXB2bDkEZIw4xoMLnN24TEPP9FweKHG',
+  'zammi.ramos@example.com', 'default.png'); -- 23456789
+SELECT * FROM tb_usuarios;
+
+
+
+
+
 INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
 ("Medical Leave"),
 ("Permissions"),
@@ -238,4 +257,3 @@ INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, c
 VALUES(1,'test','test','$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG',
 'test@root.com', 'test.png');
 /* CONTRASEÑA: 123123123 */
-

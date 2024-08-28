@@ -55,38 +55,11 @@ const BottomSheet = ({ visible, onClose }) => {
                 <View style={styles.body}>
                     <ScrollView contentContainerStyle={styles.scrollContent}>
                         <View style={styles.topContent}>
-                            <ComboBox label={"PERMISSION TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
-                            <ComboBox label={"SUB-PERMISSION TYPE"} placeholder={"Select an option"} options={sub_permissions}></ComboBox>
-                        </View>
-                        <View style={styles.midContent}>
-                            <DatePicker label={"From: "} style={styles.date}></DatePicker>
-                            <DatePicker label={"To: "} style={styles.date}></DatePicker>
-                        </View>
-                        <View style={styles.btnContainer}>
-                            <StateButton
-                                icon={iconCanceled}
-                                defaultSvgColor={'#4292F6'}
-                                selectedSvgColor={Color.colorBtnIcon3}
-                                defaultBgColor={'transparent'}
-                                selectedBgColor={Color.colorRejected}
-                            />
-                            <StateButton
-                                icon={iconAccepted}
-                                defaultSvgColor={'#4292F6'}
-                                selectedSvgColor={Color.colorBtnIcon3}
-                                defaultBgColor={'transparent'}
-                                selectedBgColor={Color.colorAccepted}
-                            />
-                            <StateButton
-                                icon={iconPending}
-                                defaultSvgColor={'#4292F6'}
-                                selectedSvgColor={Color.colorBtnIcon3}
-                                defaultBgColor={'transparent'}
-                                selectedBgColor={Color.colorPending}
-                            />
-
-                        </View>
-
+                            <ComboBox label={"DOCUMENT TYPE"} placeholder={"Select an option"} options={permissions}></ComboBox>
+                            <ComboBox label={"SEND TYPE"} placeholder={"Select an option"} options={sub_permissions}></ComboBox>
+                            <ComboBox label={"LANGUAGE"} placeholder={"Select an option"} options={permissions}></ComboBox>
+                            <ComboBox label={"DELIVERY CENTER"} placeholder={"Select an option"} options={sub_permissions}></ComboBox>
+                        </View>                       
                     </ScrollView>
                 </View >
 
@@ -98,18 +71,11 @@ const BottomSheet = ({ visible, onClose }) => {
 
 // Estilos para el componente BottomSheet
 const styles = StyleSheet.create({
-    btnContainer: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center", // Centra los elementos horizontalmente
-        marginBottom: 230,
-
-    },
     body: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center", // Centra los elementos verticalmente
-
+        marginBottom: 230,
     },
     topContent: {
         paddingLeft: 10,
