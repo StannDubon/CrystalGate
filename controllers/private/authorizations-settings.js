@@ -140,6 +140,7 @@ const fillAuthorizations = async (form = null) => {
                         <path d="M6.50008 0.916656C5.62925 0.916656 4.91675 1.62916 4.91675 2.49999C4.91675 3.37082 5.62925 4.08332 6.50008 4.08332C7.37091 4.08332 8.08342 3.37082 8.08342 2.49999C8.08342 1.62916 7.37091 0.916656 6.50008 0.916656ZM11.2501 0.916656C10.3792 0.916656 9.66675 1.62916 9.66675 2.49999C9.66675 3.37082 10.3792 4.08332 11.2501 4.08332C12.1209 4.08332 12.8334 3.37082 12.8334 2.49999C12.8334 1.62916 12.1209 0.916656 11.2501 0.916656ZM1.75008 0.916656C0.879248 0.916656 0.166748 1.62916 0.166748 2.49999C0.166748 3.37082 0.879248 4.08332 1.75008 4.08332C2.62091 4.08332 3.33341 3.37082 3.33341 2.49999C3.33341 1.62916 2.62091 0.916656 1.75008 0.916656Z" fill="var(--color-texto-2)"/>
                     </svg>
                     <div class="options">
+                        <span class="option edit" onclick="PermissionPerType(${row.id_clasificacion_permiso}, '${row.clasificacion_permiso}')">Stats</span>
                         <span class="option delete" onclick="openDeleteAuthorization(${row.id_clasificacion_permiso})">Delete</span>
                         <span class="option edit" onclick="openUpdateAuthorization(${row.id_clasificacion_permiso})">Edit</span>
                     </div>
@@ -159,6 +160,48 @@ const fillAuthorizations = async (form = null) => {
         AUTHORIZATION.textContent = DATA_AUTHORIZATION.error;
     }
 }
+
+
+const PermissionPerType = async (id, type) => {
+    const form = new FormData();
+    form.append("idClasificacionPermiso", id);
+    let DATA;
+
+    // Reintenta la petición hasta que se obtengan datos válidos.
+    while (!DATA || !DATA.status) {
+        try {
+            DATA = await fetchData(SUB_AUTHORIZATION_API, 'permissionsPerType', form);
+        } catch (error) {
+            console.log("Error en la petición, reintentando...", error);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo antes de reintentar
+        }
+    }
+
+    // Se declaran los arreglos para guardar los datos a graficar.
+    let name = [];
+    let quantity = [];
+    
+    // Se recorre el conjunto de registros fila por fila a través del objeto row.
+    DATA.dataset.forEach(row => {
+        // Se agregan los datos a los arreglos.
+        name.push(row.tipo);
+        quantity.push(row.cantidad);
+    });
+
+    // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per "+type);
+            pieGraph('chart', name, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no existing permissions for "+type); 
+        }
+
+    }
+};
 
 
 
