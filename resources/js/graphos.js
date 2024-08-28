@@ -17,8 +17,8 @@ const graphoModal = async (title) => {
 // Donde lo saque: https://www.youtube.com/watch?v=4PiiSUxcalg
 
 const RegresionLineal = async (x, y, xPredict) => {
-    if (x.length !== y.length) {throw new Error('Los arrays x e y deben tener la misma longitud.');}
-    if (x.length < 2) {throw new Error('Se necesitan al menos dos puntos para la regresión lineal.');}
+    if (x.length !== y.length) {throw new Error('Both arrays gotta have same lenght');}
+    if (x.length < 2) {throw new Error('Its necessary have at least two numbers in both arrays');}
     let sumX = 0;
     let sumY = 0;
     let sumXY = 0;
