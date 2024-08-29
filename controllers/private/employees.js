@@ -98,6 +98,28 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     }
 };
 
+const PermissionsPerUserGrapho = async () => {
+    DATA = await fetchData('services/admin/permiso.php', 'readPermissionsPerUserGraph');
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.nombre);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per User");
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered permissions"); 
+        }
+
+    }
+};
+
 // Evento para cuando el documento está completamente cargado
 document.addEventListener('DOMContentLoaded', async () => {
     setupModalDiscardButtons();
