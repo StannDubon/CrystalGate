@@ -628,9 +628,35 @@
     gap: 30px;
 }
 
+.content-card-admin-info-grapho-admin-maker{
+    position: absolute;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color:  #888888;
+    z-index: 999;
+    right: 50px;   
+    top: 20px;
+    cursor: pointer;
+}
+
+.content-card-admin-info-grapho-admin-maker:hover{
+    background-color: rgb(221, 221, 221);
+    color:  #575757;
+
+    svg path{
+        fill: #575757;
+    }
+}
 
 
-
+.content-card-admin-info-grapho-admin-maker svg path{
+    fill: #888888;
+}
 
 /* CODIGO PARA CORREGIR LINEA EN CODIGOS APROVADOS Y RECHAZADOS */
 

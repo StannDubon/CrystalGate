@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once('../../helpers/validator.php');
+require_once __DIR__ . ('/../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/clasificacion-permiso-handler.php');
+require_once __DIR__ . ('/../../models/handler/clasificacion-permiso-handler.php');
 
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla CLASIFICACION_PERMISO.
