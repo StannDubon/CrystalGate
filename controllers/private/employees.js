@@ -56,7 +56,7 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     
                 <div class="content-card-admin-info">
                     
-                        <div class="image-container">
+                        <div class="image-container" onclick="readPermissionTypePerUserGrapho(${row.id_usuario}, '${row.nombre} ${row.apellido}')">
                             ${default_image_fixer}
                             <img src="${image_value}" alt="">
                             <div class="info-icon">
@@ -98,6 +98,7 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     }
 };
 
+/* <------------------------------- NON PARAM -------------------------------> */
 const PermissionsPerUserGrapho = async () => {
     DATA = await fetchData('services/admin/permiso.php', 'readPermissionsPerUserGraph');
     let data = [];
@@ -116,7 +117,30 @@ const PermissionsPerUserGrapho = async () => {
             document.getElementById("grapho-modal").classList.add("inactive")
             graphoModal("There are no registered permissions"); 
         }
+    }
+};
 
+/* <---------------------------------- PARAM ----------------------------------> */
+const readPermissionTypePerUserGrapho = async (id, name) => {
+    const FORM = new FormData();
+    FORM.append("idUsuario", id);
+    DATA = await fetchData(EMPLEADO_API, 'readPermissionTypePerUserGrapho', FORM);
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.tipo);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per User: "+name);
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered permissions"); 
+        }
     }
 };
 
