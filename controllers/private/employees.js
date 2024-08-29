@@ -10,6 +10,8 @@ const BOX_EMPLOYEES = document.getElementById('box-employees'); // Contenedor pa
 const SAVE_MODAL_EMPLEADO = document.getElementById('employee-modal'),
     MODAL_TITLE_EMPLEADO = document.getElementById('modal-title-employee');
 
+const BTN_EXPORT = document.getElementById('btnReport');
+let ID_EMPLOYEE = "";    
 // Constantes para establecer los elementos del formulario de guardar
 const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     ID_EMPLEADO = document.getElementById('idUsuario'),
@@ -42,6 +44,7 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
         if (DATA.status) {
             // Se recorre el conjunto de registros fila por fila.
             DATA.dataset.forEach(row => {
+                ID_EMPLOYEE = row.id_usuario;
                 default_image_fixer = ""
                 if(row.imagen == "default.png"){
                     xd = pastelAndContrastColors();
@@ -263,10 +266,25 @@ const openDelete = async (id) => {
         }
     }
 }
+
+
+BTN_EXPORT.addEventListener('click', function(event){
+    
+});
+
 // Funcion para abrir los reportes
 const openReport = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
     const PATH = new URL(`${SERVER_URL}reports/usuarios.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+
+// Funcion para abrir los reportes
+const openUserReport = (id) => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/usuarios.php`);
+    PATH.searchParams.append('idEmpleado', id);
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
