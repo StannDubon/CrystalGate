@@ -300,7 +300,15 @@ class PermisoHandler
                         CURDATE() - INTERVAL (DAYOFWEEK(CURDATE()) - 1) DAY + INTERVAL 6 DAY AS fin_semana
                 )
                 SELECT
-                    DAYNAME(d.dia) AS 'dia',
+                    CASE DAYNAME(d.dia)
+                        WHEN 'Sunday' THEN 1
+                        WHEN 'Monday' THEN 2
+                        WHEN 'Tuesday' THEN 3
+                        WHEN 'Wednesday' THEN 4
+                        WHEN 'Thursday' THEN 5
+                        WHEN 'Friday' THEN 6
+                        WHEN 'Saturday' THEN 7
+                    END AS 'dia',
                     COALESCE(ppd.cantidad_permisos, 0) AS 'cantidad'
                 FROM
                     (
@@ -328,7 +336,15 @@ class PermisoHandler
                 WHERE
                     d.dia <= DATE(CURDATE())
                 ORDER BY
-                    FIELD(DAYNAME(d.dia), 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');";
+                    CASE DAYNAME(d.dia)
+                        WHEN 'Sunday' THEN 1
+                        WHEN 'Monday' THEN 2
+                        WHEN 'Tuesday' THEN 3
+                        WHEN 'Wednesday' THEN 4
+                        WHEN 'Thursday' THEN 5
+                        WHEN 'Friday' THEN 6
+                        WHEN 'Saturday' THEN 7
+                    END;";
         return Database::getRows($sql);
     }
 

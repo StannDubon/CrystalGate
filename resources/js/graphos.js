@@ -45,6 +45,7 @@ const PredictData = async (x, y, pred) => {
     for (let i = 0; i < xPredict.length; i++) {
         const yPred = await RegresionLineal(x, y, xPredict[i]);
         filledData.push(yPred);
+        console.log(yPred)
     }
     return filledData;
 };

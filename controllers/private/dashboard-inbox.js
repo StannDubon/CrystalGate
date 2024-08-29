@@ -85,17 +85,82 @@ const fillPermissions = async (form = null) => {
 
 
 
-const monthGraphoDeploy = async (id, type) => {
-    const x = [1, 2, 3, 4, 5, 6];
-    const y = [17, 18, 22, 22, 12, 12];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthGraphoDeploy = async () => {
 
-    if(!y.every(item => item === 0)){
-        document.getElementById("grapho-modal").classList.remove("inactive")
-        graphoModal("Permissions per month");
-        barGraphPredict('chart', x, y, months);
-    } else{
-        document.getElementById("grapho-modal").classList.add("inactive")
-        graphoModal("There are no existing permissions for "+type); 
+    let DATA;
+    // Reintenta la petición hasta que se obtengan datos válidos.
+    while (!DATA || !DATA.status) {
+        try {
+            DATA = await fetchData(PERMISOS_API, 'readMonthGraph');
+        } catch (error) {
+            console.log("Error en la petición, reintentando...", error);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo antes de reintentar
+        }
+    }
+
+    // Se declaran los arreglos para guardar los datos a graficar.
+    let name = [];
+    let quantity = [];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Se recorre el conjunto de registros fila por fila a través del objeto row.
+    DATA.dataset.forEach(row => {
+        // Se agregan los datos a los arreglos.
+        name.push(row.Mes);
+        quantity.push(row.cantidad);
+    });
+
+    // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per month");
+            barGraphPredict('chart', name, quantity, months);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are not permissions in this month"); 
+        }
+
+    }
+};
+
+const weekGraphoDeploy = async () => {
+
+    let DATA;
+    // Reintenta la petición hasta que se obtengan datos válidos.
+    while (!DATA || !DATA.status) {
+        try {
+            DATA = await fetchData(PERMISOS_API, 'readWeekGraph');
+        } catch (error) {
+            console.log("Error en la petición, reintentando...", error);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo antes de reintentar
+        }
+    }
+
+    // Se declaran los arreglos para guardar los datos a graficar.
+    let name = [];
+    let quantity = [];
+    const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    
+    // Se recorre el conjunto de registros fila por fila a través del objeto row.
+    DATA.dataset.forEach(row => {
+        // Se agregan los datos a los arreglos.
+        name.push(row.dia);
+        quantity.push(row.cantidad);
+    });
+
+    // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per month");
+            barGraphPredict('chart', name, quantity, week);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are not permissions in this week"); 
+        }
+
     }
 };
