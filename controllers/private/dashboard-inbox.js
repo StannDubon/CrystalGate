@@ -87,9 +87,8 @@ const fillPermissions = async (form = null) => {
 
 const monthGraphoDeploy = async (id, type) => {
     const x = [1, 2, 3, 4, 5, 6];
-    const y = [17, 18, 22, 33, 39, 12];
-    const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-
+    const y = [17, 18, 22, 22, 12, 12];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     if(!y.every(item => item === 0)){
         document.getElementById("grapho-modal").classList.remove("inactive")
