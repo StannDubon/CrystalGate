@@ -6,7 +6,7 @@ require_once __DIR__ .  ('/../models/data/usuario-data.php');
 
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 
-//lowcase 
+//VARIABLE lowcase 
 $excel = new Spreadsheet();
 
 // Definir estilo para encabezados
@@ -43,7 +43,7 @@ $styleHeader = [
 
 
 // Definir estilo para datos
-$styleData = [ //camelCase
+$styleData = [ // VARIABLES camelCase
     'borders' => [
         'allBorders' => [
             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -85,7 +85,7 @@ $hojaActiva->setCellValue('E1', 'Rejected Permissions');
 $hojaActiva->getColumnDimension('F')->setWidth(20);
 $hojaActiva->setCellValue('F1', 'Total Permissions');
 
-$usuario = new UsuarioData(); //PascalCase
+$usuario = new UsuarioData(); // CLASE PascalCase
 
 if ($dataPermiso = $usuario->readAllUsers()) {
 
