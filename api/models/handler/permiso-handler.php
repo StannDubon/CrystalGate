@@ -21,6 +21,8 @@ class PermisoHandler
     protected $documento = null;
     protected $descripcion = null;
 
+    protected $arrayEstados = [];
+    protected $arrayIdTipoPermiso = [];
     protected $selected_subpermissions;
     const RUTA_DOCUMENTO = '../../documents/permiso/';
 
@@ -151,21 +153,36 @@ class PermisoHandler
     public function readPermissonReport()
     {
         $sql = 'SELECT p.*,
-                tp.id_clasificacion_permiso,
-                tp.tipo_permiso
+                b.id_usuario,
+                CONCAT(b.nombre, " ", b.apellido) AS employee, 
+                tp.id_clasificacion_permiso AS clasification,
+                tp.tipo_permiso AS "type",
+                p.descripcion_permiso AS "description", 
+                CASE 
+                    WHEN p.estado = 1 THEN "Pending"
+                    WHEN p.estado = 2 THEN "Approved"
+                    WHEN p.estado = 3 THEN "Rejected"
+                END AS estado,
+                CASE 
+                        WHEN tp.lapso = 1 THEN "Day"
+                        WHEN tp.lapso = 2 THEN "Hour"
+                        WHEN tp.lapso = 3 THEN "Day and Hour"
+                END AS lapso
             FROM 
                 tb_permisos p
+            JOIN 
+                tb_usuarios b ON p.id_usuario = b.id_usuario
             JOIN 
                 tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
             WHERE 
                 tp.id_clasificacion_permiso = ?        
                 AND p.id_tipo_permiso IN (?)        
-                AND p.fecha_inicio >= ?
-                AND p.fecha_final <= ? 
+                AND p.fecha_envio >= ?
+                AND p.fecha_envio <= ? 
                 AND p.estado IN (?)
         ';
-        $params = array($this->idClasificacionPermiso,$this->idTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->estado);
-        return Database::getRow($sql, $params);
+        $params = array($this->idClasificacionPermiso,$this->arrayIdTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->arrayEstados);
+        return Database::getRows($sql, $params);
     }
     // Método para leer un permiso específico por su ID.
     public function readOne()

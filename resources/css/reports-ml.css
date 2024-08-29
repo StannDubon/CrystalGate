@@ -3,7 +3,7 @@
 }
 
 /*MAXIMIZADO*/
-.customize.active .customize-type-ml.selected {
+.customize.active .customize-type-ml{
     background-color: var(--color-extra-4);
     padding: 20px;
     margin-left: 40px;
@@ -12,38 +12,42 @@
     font-size: 23px;
     color: var(--color-fondo-5);
     width: 1000px;
-    height: 140px;
     border-radius: 0px 20px 0px 0px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5vh 0;
 }
 
 .type{
+    width: 32%;
     display: flex;
     justify-content: space-between;
 }
 
 .type-img{
+    width: 35px;
+    height: 35px;
     display: none;
 }
-.customize-type-ml.selected .type{
+.customize-type-ml.type{
     width: 45%;
-    height: 60px;
+    height: 100px;
     margin: 5px;
     align-items: center;
     align-content: center;
-    padding: 0 20px;
+    padding: 10px 20px;
     cursor: pointer;
 }
 
-.customize-type-ml.selected .type:hover{
+.customize-type-ml .type:hover{
     background-color: var(--color-extra-2);
     color: var(--color-texto-2);
     border-radius: 10px;
-
+    cursor: pointer;
 }
 
-.customize-type-ml.selected .type.selected{
+.customize-type-ml .type.selected{
     background-color: var(--color-extra-2);
     color: var(--color-texto-2);
     border-radius: 10px;
@@ -54,14 +58,14 @@
 }
 
 @media only screen and (max-width: 600px){
-    .customize.active .customize-type-ml.selected {
+    .customize.active .customize-type-ml{
         margin-left: 0px;
         color: var(--color-fondo-5);
         width: 250px;
         height: 250px;
         border-radius: 0px 0px 0px 0px;
     }
-    .customize-type-ml.selected .type{
+    .customize-type-ml .type{
         width: 80%;
         height: 65px;
         margin: 5px;

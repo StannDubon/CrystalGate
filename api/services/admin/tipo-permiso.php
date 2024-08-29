@@ -74,6 +74,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t permission types registered';
                 }
                 break;
+            case 'readAllByCategorie':
+                if(!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])){
+                    $result['error'] = $TipoPermiso->getDataError();
+                }
+                else if ($result['dataset'] = $TipoPermiso->readAllByCategorie()){
+                    $result['status'] = 1;
+                }
+                else{
+                    $result['error'] = 'Non-existent permission categorie';
+                }
+                break;
             // Caso para leer referencias no vacías.
             case 'readNoEmtyReferences':
                 if($TipoPermiso->validatePermissions('v')){

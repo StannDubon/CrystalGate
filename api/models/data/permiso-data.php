@@ -94,7 +94,7 @@ class PermisoData extends PermisoHandler
     // Método para establecer la fecha de inicio del permiso, validando que sea un formato de fecha y hora válido.
     public function setFechaInicio($value)
     {
-        if (Validator::validateDateTime($value)) {
+        if (Validator::validateDateTime2($value)) {
             $this->fechaInicio = $value;
             return true;
         } else {
@@ -106,7 +106,7 @@ class PermisoData extends PermisoHandler
     // Método para establecer la fecha de finalización del permiso, validando que sea un formato de fecha y hora válido.
     public function setFechaFinal($value)
     {
-        if (Validator::validateDateTime($value)) {
+        if (Validator::validateDateTime2($value)) {
             $this->fechaFinal = $value;
             return true;
         } else {
@@ -187,6 +187,17 @@ class PermisoData extends PermisoHandler
         }
     }
 
+    public function setSelectedSubAuthorization($value)
+    {
+        $this->arrayIdTipoPermiso = $value;
+        return true;
+    }
+
+    public function setSelectedState($value)
+    {
+        $this->arrayEstados = $value;
+        return true;
+    }
     public function setParameters(array $params)
     {
         // Filtrar los valores válidos
@@ -211,7 +222,7 @@ class PermisoData extends PermisoHandler
         return true;
     }
     
-
+    
 
 
     /*
