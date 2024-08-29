@@ -99,6 +99,7 @@ $clasificacion_permiso = new ClasificacionPermisoData();
 $permiso = new PermisoData();
 
 if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $permiso->setIdClasificacionPermiso($_GET['idClasificacionPermiso']) && $permiso->setSelectedSubAuthorization($_GET['idTipoPermiso']) && $permiso->setFechaInicio($_GET['fechaInicio']) && $permiso->setFechaFinal($_GET['fechaFinal']) && $permiso->setSelectedState($_GET['estado'])){
+
     if ($dataPermiso = $permiso->readPermissonReport()) {
 
         $fila = 2;
@@ -142,7 +143,7 @@ if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $permiso->
     
     exit;
 } else{
-    print('No hay datos pa mostrar');
+    print('There is an error, try again.');
 }
 
 

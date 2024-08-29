@@ -142,6 +142,7 @@ BTN_REPORT.addEventListener('click', function(event) {
         const formattedStartDate = formatDateTime(START_DATE.value);
         const formattedFinishDate = formatDateTime(FINISH_DATE.value);
 
+
         openReport(selectedClasi, selectedIdsSub, formattedStartDate, formattedFinishDate, selectedTypes);
         console.log("clasi: " + selectedClasi + " id tipos: "+selectedIdsSub + " fecha de inicio : "+ formattedStartDate + " fecha final: "+formattedFinishDate + " estados: " + selectedTypes);
     } else{
@@ -160,5 +161,6 @@ const openReport = (idClasificacionPermiso,idTipoPermiso,fechaInicio,fechaFinal,
     PATH.searchParams.append('fechaFinal', fechaFinal);
     PATH.searchParams.append('estado', estado);
     // Se abre el reporte en una nueva pestaña.
+    console.log("path: " + PATH);
     window.open(PATH.href);
 }
