@@ -269,7 +269,7 @@ const openDelete = async (id) => {
 
 
 BTN_EXPORT.addEventListener('click', function(event){
-    
+    openUserReport(ID_EMPLOYEE);
 });
 
 // Funcion para abrir los reportes
