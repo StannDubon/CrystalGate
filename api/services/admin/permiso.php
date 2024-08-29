@@ -145,6 +145,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent permission';
                 }
                 break;
+            case 'readPermissionReport':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif (
+                    !$permiso->setIdClasificacionPermiso($_POST[POST_ID_CLASIFICACION]) or
+                    !$permiso->setSelectedSubAuthorization($_POST[POST_ID_TIPO_PERMISO]) or 
+                    !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or 
+                    !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or 
+                    !$permiso->setSelectedState($_POST[POST_ESTADO])
+                ) {
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->readPermissonReport()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Non-existent permission';
+                }
+                break;
             // Caso para leer un registro en particular.
             case 'readOne':
                 if($permiso->validatePermissions('v')){

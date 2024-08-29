@@ -42,8 +42,8 @@
 
 
             <div class="report-filter">
-                <div class="filter-btn">
-                    <span class="filter-text">Filter</span>
+                <!-- <div class="filter-btn">
+                    <span class="filter-text" >Filter</span>
                     <img class="filter-img" src="../resources/svg/Arrow.svg" alt="">
                 </div>
                 <div class="filter-option" id="box-filter-option">
@@ -59,18 +59,21 @@
                     <div class="option">
                         <span class="option-text">Employees</span>
                     </div>
-                </div>
+                </div> -->
+
+                <select name="selectClasificacion" id="selectClasificacion">
+                </select>
             </div>
 
 
             <div class="date">
                 <div class="date-from">
                     <span class="date-text">From:</span>
-                    <input type="date" class="date-select"></input>
+                    <input id="start-date" type="date" class="date-select"></input>
                 </div>
                 <div class="date-to">
                     <span class="date-text">To:</span>
-                    <input type="date" class="date-select"></input>
+                    <input id="finish-date" type="date" class="date-select"></input>
                 </div>
             </div>
 
@@ -81,8 +84,8 @@
                     <img class="customize-img" src="../resources/svg/Arrow.svg" alt="">
                 </div>
                 <!--CUSTOMIZER PERMISSIONS-->
-                <div class="customize-type" id="box-customize-type">
-                    <div class="type">
+                <div class="customize-type-ml" id="box-customize-type">
+                    <!-- <div class="type">
                         <span class="type-text">Medical Appointment</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
                     </div>
@@ -125,7 +128,7 @@
                     <div class="type">
                         <span class="type-text">Other</span>
                         <img class="type-img" src="../resources/svg/check.svg" alt="">
-                    </div>
+                    </div> -->
                 </div>
 
                 <!--CUSTOMIZER MEDICAL LEAVE-->
