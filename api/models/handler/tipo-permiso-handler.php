@@ -118,6 +118,15 @@ class TipoPermisoHandler
         return Database::executeRow($sql, $params);
     }
 
+    // GRAPHOS READER
+
+    public function readPermissionsPerType(){
+        $sql = "SELECT tp.tipo_permiso AS 'tipo', COUNT(p.id_permiso) AS 'cantidad' FROM tb_tipos_permisos tp LEFT JOIN tb_permisos p ON tp.id_tipo_permiso = p.id_tipo_permiso WHERE tp.id_clasificacion_permiso = ? GROUP BY tp.tipo_permiso;";
+        $params = array($this->clasificacion);
+        return Database::getRows($sql, $params);
+    } 
+
+
 
     public function validatePermissions($value)
     {
