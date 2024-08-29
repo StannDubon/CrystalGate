@@ -56,7 +56,17 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     
                 <div class="content-card-admin-info">
                     
+                            <div class="content-card-admin-info-grapho-admin-maker" onclick="readPermissionTypePerUserGrapho(${row.id_usuario}, '${row.nombre} ${row.apellido}')">
+                                <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.0281 0.0507812V9.02266H20C19.5288 4.2936 15.7571 0.521983 11.0281 0.0507812ZM16.0098 18.0497C18.2044 16.4085 19.7132 13.8991 20 11.0278H11.796L16.0098 18.0497Z" fill="white"/>
+                                <path d="M9.02301 10.0252V0.0507812C3.96411 0.55607 0 4.83598 0 10.0252C0 15.5533 4.49747 20.0508 10.0256 20.0508C11.5016 20.0488 12.9587 19.7187 14.2914 19.0843C14.2914 19.0843 9.02501 10.1465 9.02401 10.0302C9.02389 10.0285 9.02356 10.0268 9.02301 10.0252Z" fill="white"/>
+                                </svg>
+
+                                Graphic
+                            </div>
+
                         <div class="image-container" onclick="readPermissionTypePerUserGrapho(${row.id_usuario}, '${row.nombre} ${row.apellido}')">
+
                             ${default_image_fixer}
                             <img src="${image_value}" alt="">
                             <div class="info-icon">
@@ -71,24 +81,21 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
                         <span class="name">${row.nombre} ${row.apellido}</span>
                         <span class="id">Charge: ${row.cargo}</span>
                     </div>
-                </div>
-                <div class="info-admin-container">
-                    <span class="id">ID: ${row.id_usuario}</span>
-                    <span class="name">${row.nombre} ${row.apellido}</span>
-                    <span class="id">Charge: ${row.cargo}</span>
-                </div>
-                <div class="admin-action-button">
-                    <div class="admin-delete-button" onclick="openDelete(${row.id_usuario})">
-                        <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z" fill="white" />
-                        </svg>
-                    </div>
+
+                    <div class="admin-action-button">
+                        <div class="admin-delete-button" onclick="openDelete(${row.id_usuario})">
+                            <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.33333 4H1.55556V14.4C1.55556 14.8243 1.71944 15.2313 2.01117 15.5314C2.30289 15.8314 2.69855 16 3.11111 16H10.8889C11.3014 16 11.6971 15.8314 11.9888 15.5314C12.2806 15.2313 12.4444 14.8243 12.4444 14.4V4H2.33333ZM5.44444 13.6H3.88889V6.4H5.44444V13.6ZM10.1111 13.6H8.55556V6.4H10.1111V13.6ZM10.5918 1.6L9.33333 0H4.66667L3.40822 1.6H0V3.2H14V1.6H10.5918Z" fill="white" />
+                            </svg>
+                        </div>
                     <div class="admin-edit-button" onclick="openUpdate(${row.id_usuario})">
                         <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.39909 0.34587C9.59372 0.154035 9.90631 0.154001 10.101 0.345793L11.8261 2.04534C12.0248 2.24116 12.0248 2.56176 11.8261 2.75762L10.6802 3.88707C10.4856 4.0789 10.173 4.07894 9.97833 3.88715L8.25326 2.1876C8.0545 1.99178 8.05447 1.67118 8.25318 1.47532L9.39909 0.34587ZM0.149348 9.44923C0.0538065 9.54322 0 9.67164 0 9.80566V11.4976C0 11.7737 0.223858 11.9976 0.5 11.9976H2.23278C2.36398 11.9976 2.48991 11.946 2.58343 11.854L8.81839 5.72019C9.01742 5.52439 9.01754 5.20353 8.81865 5.00758L7.09359 3.30805C6.89905 3.11638 6.58671 3.11627 6.39203 3.30779L0.149348 9.44923ZM0 14.899C0 14.6229 0.223858 14.399 0.5 14.399H12.5C12.7761 14.399 13 14.6229 13 14.899V15.5C13 15.7761 12.7761 16 12.5 16H0.5C0.223858 16 0 15.7761 0 15.5V14.899Z" fill="white" />
                         </svg>
                     </div>
                 </div>
+                </div>
+
             </div>
             <!-- FINAL TARJETA -->
             `;
