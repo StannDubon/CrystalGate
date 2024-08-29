@@ -243,4 +243,20 @@ class PeticionHandler
         return Database::executeRow($sql, $params);
     }
 
+    // GRAPHOS
+
+    public function readDocRequestPerUserGrapho()
+    {
+        $sql = "SELECT
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'nombre',
+                    COUNT(p.id_peticion) AS 'cantidad'
+                FROM
+                    tb_usuarios u
+                LEFT JOIN
+                    tb_peticiones p ON u.id_usuario = p.id_usuario
+                GROUP BY
+                    u.id_usuario, u.nombre, u.apellido;";
+        return Database::getRows($sql);
+    }
+
 }

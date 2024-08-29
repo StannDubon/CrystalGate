@@ -253,6 +253,60 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent permission';
                 }
                 break;
+
+
+            // <--------------------------------- GRAPHOS --------------------------------->
+
+            case 'readMonthGraph':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $permiso->readMonthGraph()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
+            case 'readWeekGraph':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $permiso->readWeekGraph()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
+            case 'readPermissionsPerAdminGraph':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $permiso->readPermissionsPerAdminGraph()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
+            case 'readPermissionsPerUserGraph':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $permiso->readPermissionsPerUserGraph()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
+            case 'readPermissionsPerTypeGraph':
+                if($permiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los administradores';
+                } elseif ($result['dataset'] = $permiso->readPermissionsPerTypeGraph()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
             // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';

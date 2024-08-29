@@ -21,6 +21,7 @@
     <!-- DASHBOARD -->
     <link rel="stylesheet" href="../resources/css/dashboard.css">
 
+    <link rel="stylesheet" href="../resources/css/graphos.css">
 
 </head>
 <body id="local-dashboard">
@@ -78,8 +79,8 @@
                     <b>Statistics</b>
 
                     <div class="toggle">
-                        <p id="sort-graph-month" class="selected-statistics-sort">Month</p>
-                        <p id="sort-graph-week">Week</p>
+                        <p id="sort-graph-month" onclick="monthGraphoDeploy()">Month</p>
+                        <p id="sort-graph-week" onclick="weekGraphoDeploy()">Week</p>
                     </div>
                 </div>
             </div>
@@ -87,6 +88,28 @@
         </div>
     </main>
 
+    <!-- ----------------------------------------------------- GRAPHO -------------------------------------------------------->
+
+    <div id="grapho-modal-container">
+        <div id="grapho-modal">
+            <div id="grapho-modal-close-button">
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.7527 0.317764C16.3622 -0.0727602 15.729 -0.0727596 15.3385 0.317765L10.0857 5.57056C9.6952 5.96108 9.06203 5.96108 8.67151 5.57056L3.41872 0.317766C3.02819 -0.0727587 2.39503 -0.0727595 2.0045 0.317765L1.19638 1.12589C0.805854 1.51641 0.805855 2.14958 1.19638 2.5401L6.44917 7.79289C6.8397 8.18342 6.8397 8.81658 6.44917 9.20711L1.19638 14.4599C0.805856 14.8504 0.805855 15.4836 1.19638 15.8741L2.0045 16.6822C2.39503 17.0728 3.02819 17.0728 3.41871 16.6822L8.67151 11.4294C9.06203 11.0389 9.6952 11.0389 10.0857 11.4294L15.3385 16.6822C15.729 17.0728 16.3622 17.0728 16.7527 16.6822L17.5609 15.8741C17.9514 15.4836 17.9514 14.8504 17.5608 14.4599L12.3081 9.20711C11.9175 8.81658 11.9175 8.18342 12.3081 7.79289L17.5608 2.5401C17.9514 2.14958 17.9514 1.51641 17.5608 1.12589L16.7527 0.317764Z" fill="black"/>
+                </svg>                
+            </div>
+
+            <span id="grapho-modal-title"></span>
+
+            <div id="grapho-modal-body">
+                <canvas id="chart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRAPHOS -->
+    <script src="../resources/js/graphos.js"></script>
+    <script type="text/javascript" src="../resources/js/chart.umd.min.js"></script>
+    
     <!-- SWEET ALERTS -->
     <script src="../resources/js/sweetalert.min.js"></script>
 
