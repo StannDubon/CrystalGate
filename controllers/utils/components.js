@@ -176,13 +176,18 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
 *   Retorno: ninguno.
 */
 
-let instance_chart = null;
+//Requerimientos 
+// Espaciado 4 y Uso ;
+// VARIABLES snake_case
+let instance_chart = null; 
 const barGraph = (canvas, xAxis, yAxis, legend, title) => {
     if(instance_chart){
         instance_chart.destroy();
     }
     // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
-    let colors = [];
+
+    // VARIABLE lowcase
+    let colors = []; 
     // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     xAxis.forEach(() => {
         colors.push('#' + (Math.random().toString(16)).substring(2, 8));
@@ -254,7 +259,7 @@ const pieGraph = (canvas, legends, values, title) => {
     });
 }
 
-
+//CONSTANTES camelCase
 const barGraphPredict = async (canvas, xAxis, yAxis, xFinal, legend, title) => {
     if(instance_chart){
         instance_chart.destroy();
