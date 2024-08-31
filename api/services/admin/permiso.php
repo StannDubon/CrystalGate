@@ -307,6 +307,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t permissions registered';
                 }
                 break;
+            case 'readPermissionsPerDateGraph':
+                if (!$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) and
+                    !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL])) {
+                    $result['error'] = 'Usuario incorrecto';
+                } elseif ($result['dataset'] = $permiso->readPermissionsPerDateGraph()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario inexistente';
+                }
+                break;
             // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';

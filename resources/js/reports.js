@@ -42,3 +42,27 @@ custFilter.addEventListener("click", () => cust.classList.toggle("active"));
 // })
 
 
+/* <---------------------------------- PARAM ----------------------------------> */
+const readPermissionsPerDateGraph = async () => {
+
+    const FORM = new FormData();
+    FORM.append("idCargo", id);
+    DATA = await fetchData(CHARGES_API, 'readUsersPerChargesGraphos', FORM);
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.nombre);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per User: "+name);
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered permissions"); 
+        }
+    }
+};

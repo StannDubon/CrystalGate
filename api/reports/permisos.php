@@ -96,8 +96,6 @@ if ($dataPermiso = $permiso->readAllPermissions()) {
 
     $fila = 2;
 
-    var_dump($dataPermiso);
-    exit;
 
     foreach ($dataPermiso as $rows) {
         $hojaActiva->setCellValue('A' . $fila, $rows['id_usuario']);

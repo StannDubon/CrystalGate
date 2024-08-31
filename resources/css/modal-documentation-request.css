@@ -131,3 +131,20 @@ input::placeholder {
 .body-no-scroll {
     overflow: hidden;
   }
+
+
+/* BOTON DE GRAFICA */
+.charge-action-button-graph-maker{
+    margin-left: 30px;
+    background-color: whitesmoke;
+    color: gray;
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.charge-action-button-graph-maker:hover{
+    background-color: rgb(105, 105, 105);
+    color: white;
+}

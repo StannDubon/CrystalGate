@@ -141,6 +141,7 @@ const fillAuthorizations = async (form = null) => {
                     </svg>
                     <div class="options">
                         <span class="option edit" onclick="PermissionPerType(${row.id_clasificacion_permiso}, '${row.clasificacion_permiso}')">Stats</span>
+                        <span class="option edit" onclick="openReport(${row.id_clasificacion_permiso})">Export</span>
                         <span class="option delete" onclick="openDeleteAuthorization(${row.id_clasificacion_permiso})">Delete</span>
                         <span class="option edit" onclick="openUpdateAuthorization(${row.id_clasificacion_permiso})">Edit</span>
                     </div>
@@ -547,4 +548,15 @@ const changeSubAuthorizationStatus = async (id) => {
             sweetAlert(2, DATA.error, false);
         }
     }
+}
+
+
+const openReport = (idClasificacionPermiso) => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/cantidad-permiso-clasificacion.php`);
+    // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+    PATH.searchParams.append('idClasificacionPermiso', idClasificacionPermiso);
+    // Se abre el reporte en una nueva pestaña.
+    console.log("path: " + PATH);
+    window.open(PATH.href);
 }
