@@ -163,6 +163,31 @@ openSettings = () => {
     location.href = "documentation-settings.html"
 }
 
+const DocRequestPerUserGrapho = async () => {
+    DATA = await fetchData('services/admin/peticion.php', 'readDocRequestPerUserGrapho');
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.nombre);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Documentation Requests per User");
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered documentation request"); 
+        }
+
+    }
+};
+
+
+
+
 // Función asincrónica para abrir la información de una solicitud
 const openInfo = async (id) => {
     const FORM = new FormData();

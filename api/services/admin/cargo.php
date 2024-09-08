@@ -115,6 +115,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while editing the charge';
                 }
                 break;
+            case 'readUsersPerChargesGraphos':
+                if (!$Cargo->setId($_POST[POST_ID])) {
+                    $result['error'] = 'Usuario incorrecto';
+                } elseif ($result['dataset'] = $Cargo->readUsersPerChargesGraphos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario inexistente';
+                }
+                break;
             // Caso predeterminado para acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';

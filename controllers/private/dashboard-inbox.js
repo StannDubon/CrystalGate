@@ -155,7 +155,7 @@ const weekGraphoDeploy = async () => {
 
         if(!quantity.every(item => item === 0)){
             document.getElementById("grapho-modal").classList.remove("inactive")
-            graphoModal("Permissions per month");
+            graphoModal("Permissions per week");
             barGraphPredict('chart', name, quantity, week);
         } else{
             document.getElementById("grapho-modal").classList.add("inactive")

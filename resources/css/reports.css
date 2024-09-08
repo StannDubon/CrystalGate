@@ -34,6 +34,17 @@ main {
 
 /*FILTER*/
 
+.select-clasi{
+    background-color: var(--color-extra-2);
+    border-radius: 15px;
+    outline: none;
+    font-size: 20px;
+    color: var(--color-fondo-5);
+    font-weight: 600;
+    padding: 5px;
+}
+
+
 .filter-btn {
     display: flex;
     background-color: var(--color-extra-2);

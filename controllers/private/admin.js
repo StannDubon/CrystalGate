@@ -179,6 +179,29 @@ const fillTable = async (form = null) => {
 const openTypes = () => {
     location.href = 'admin-type.html';
 }
+
+const PermissionsPerAdminGrapho = async () => {
+    DATA = await fetchData('services/admin/permiso.php', 'readPermissionsPerAdminGraph');
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.nombre);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per Admin");
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered permissions"); 
+        }
+
+    }
+};
+
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.

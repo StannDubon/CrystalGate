@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . ('/../libraries/vendor/autoload.php');
-require_once __DIR__ .  ('/../models/data/permiso-data.php');
+require_once __DIR__ .  ('/../models/data/tipo-permiso-data.php');
 require_once __DIR__ .  ('/../models/data/clasificacion-permiso-data.php');
 
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
@@ -60,66 +60,42 @@ $hojaActiva = $excel->getActiveSheet();
 $hojaActiva->getStyle('A1:XFD1048576')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
 
 // Aplicar estilo a los encabezados
-$hojaActiva->getStyle('A1:J1')->applyFromArray($styleHeader);
+$hojaActiva->getStyle('A1:B1')->applyFromArray($styleHeader);
 
 // Desbloquear los encabezados para que se puedan editar
-$hojaActiva->getStyle('A1:J1')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
+$hojaActiva->getStyle('A1:B1')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
 
 // Configurar protección de la hoja
 $hojaActiva->getProtection()->setSheet(true);
 
 // Agregar datos y aplicar protección a celdas específicas
 $hojaActiva->setTitle('Permissions');
-$hojaActiva->getColumnDimension('A')->setWidth(15);
-$hojaActiva->setCellValue('A1', 'Employee ID');
-$hojaActiva->getColumnDimension('B')->setWidth(25);
-$hojaActiva->setCellValue('B1', 'Employee');
-$hojaActiva->getColumnDimension('C')->setWidth(20);
-$hojaActiva->setCellValue('C1', 'Classification');
-$hojaActiva->getColumnDimension('D')->setWidth(30);
-$hojaActiva->setCellValue('D1', 'Permission Type');
-$hojaActiva->getColumnDimension('E')->setWidth(15);
-$hojaActiva->setCellValue('E1', 'Lapse');
-$hojaActiva->getColumnDimension('F')->setWidth(20);
-$hojaActiva->setCellValue('F1', 'Start Date');
-$hojaActiva->getColumnDimension('G')->setWidth(20);
-$hojaActiva->setCellValue('G1', 'Finish Date');
-$hojaActiva->getColumnDimension('H')->setWidth(20);
-$hojaActiva->setCellValue('H1', 'Send Date');
-$hojaActiva->getColumnDimension('I')->setWidth(40);
-$hojaActiva->setCellValue('I1', 'Description');
-$hojaActiva->getColumnDimension('J')->setWidth(10);
-$hojaActiva->setCellValue('J1', 'State');
+$hojaActiva->getColumnDimension('A')->setWidth(30);
+$hojaActiva->setCellValue('A1', 'Permission Type');
+$hojaActiva->getColumnDimension('B')->setWidth(15);
+$hojaActiva->setCellValue('B1', 'Count');
 
 
 
 
 
 $clasificacion_permiso = new ClasificacionPermisoData();
-$permiso = new PermisoData();
+$tipo_permiso = new TipoPermisoData();
 
-if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $permiso->setIdClasificacionPermiso($_GET['idClasificacionPermiso']) && $permiso->setSelectedSubAuthorization($_GET['idTipoPermiso']) && $permiso->setFechaInicio($_GET['fechaInicio']) && $permiso->setFechaFinal($_GET['fechaFinal']) && $permiso->setSelectedState($_GET['estado'])){
+if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $tipo_permiso->setIdClasificacion($_GET['idClasificacionPermiso']) ){
 
-    if ($dataPermiso = $permiso->readPermissonReport()) {
+    if ($dataPermiso = $tipo_permiso->readPermissionsPerType()) {
 
         $fila = 2;
         foreach ($dataPermiso as $rows) {
-            $hojaActiva->setCellValue('A' . $fila, $rows['id_usuario']);
-            $hojaActiva->setCellValue('B' . $fila, $rows['employee']);
-            $hojaActiva->setCellValue('C' . $fila, $rows['clasification']);
-            $hojaActiva->setCellValue('D' . $fila, $rows['type']);
-            $hojaActiva->setCellValue('E' . $fila, $rows['lapso']);
-            $hojaActiva->setCellValue('F' . $fila, $rows['fecha_inicio']);
-            $hojaActiva->setCellValue('G' . $fila, $rows['fecha_final']);
-            $hojaActiva->setCellValue('H' . $fila, $rows['fecha_envio']);
-            $hojaActiva->setCellValue('I' . $fila, $rows['description']);
-            $hojaActiva->setCellValue('J' . $fila, $rows['estado']);
+            $hojaActiva->setCellValue('A' . $fila, $rows['tipo']);
+            $hojaActiva->setCellValue('B' . $fila, $rows['cantidad']);
     
             // Aplicar estilo a cada fila de datos
-            $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($styleData);
+            $hojaActiva->getStyle('A' . $fila . ':B' . $fila)->applyFromArray($styleData);
     
             // Bloquear las celdas de cada fila de datos
-            $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
+            $hojaActiva->getStyle('A' . $fila . ':B' . $fila)->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
     
             $fila++;
         }
@@ -127,13 +103,13 @@ if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $permiso->
     } else {
         $hojaActiva->setCellValue('A2', 'No permissions registered');
         // Aplicar estilo a la fila de "No permissions registered"
-        $hojaActiva->getStyle('A2:J2')->applyFromArray($styleData);
+        $hojaActiva->getStyle('A2:B2')->applyFromArray($styleData);
         // Bloquear la fila de "No permissions registered"
-        $hojaActiva->getStyle('A2:J2')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
+        $hojaActiva->getStyle('A2:B2')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
     }
     
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment;filename="Permissions.xlsx"');
+    header('Content-Disposition: attachment;filename="Permissions count.xlsx"');
     header('Cache-Control: max-age=0');
     
     $writer = IOFactory::createWriter($excel, 'Xlsx');

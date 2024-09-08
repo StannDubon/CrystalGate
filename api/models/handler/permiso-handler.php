@@ -21,8 +21,8 @@ class PermisoHandler
     protected $documento = null;
     protected $descripcion = null;
 
-    protected $arrayEstados = [];
-    protected $arrayIdTipoPermiso = [];
+    protected $arrayEstados = null;
+    protected $arrayIdTipoPermiso = null;
     protected $selected_subpermissions;
     const RUTA_DOCUMENTO = '../../documents/permiso/';
 
@@ -176,12 +176,13 @@ class PermisoHandler
                 tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
             WHERE 
                 tp.id_clasificacion_permiso = ?        
-                AND p.id_tipo_permiso IN (?)        
+                AND p.id_tipo_permiso IN ("'.$this->arrayIdTipoPermiso.'")        
                 AND p.fecha_envio >= ?
                 AND p.fecha_envio <= ? 
-                AND p.estado IN (?)
+                AND p.estado IN ("'.$this->arrayEstados.'")
         ';
-        $params = array($this->idClasificacionPermiso,$this->arrayIdTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->arrayEstados);
+        $params = array($this->idClasificacionPermiso,$this->fechaInicio,$this->fechaFinal);
+
         return Database::getRows($sql, $params);
     }
     // Método para leer un permiso específico por su ID.
@@ -409,6 +410,25 @@ class PermisoHandler
                 GROUP BY
                     c.id_clasificacion_permiso, c.clasificacion_permiso;";
         return Database::getRows($sql);
+    }
+
+    public function readPermissionsPerDateGraph()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'nombre',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                WHERE 
+                    p.fecha_envio BETWEEN ? AND ?
+                GROUP BY 
+                    u.id_usuario
+                ORDER BY 
+                    'cantidad' DESC;";
+        $params = array($this->fechaInicio, $this->fechaFinal);
+        return Database::getRows($sql, $params);
     }
 
     public function validatePermissions($value)

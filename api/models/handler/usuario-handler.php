@@ -191,7 +191,7 @@ class UsuarioHandler
                 GROUP BY
                     tp.id_tipo_permiso, tp.tipo_permiso;";
         $params = array($this->id);
-        return Database::getRow($sql, $params);
+        return Database::getRows($sql, $params);
     }
 
     public function validatePermissions($value)
