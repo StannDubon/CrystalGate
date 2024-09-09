@@ -2,6 +2,7 @@
 
 require_once __DIR__ . ('/../libraries/vendor/autoload.php');
 require_once __DIR__ .  ('/../models/data/permiso-data.php');
+require_once __DIR__ .  ('/../models/data/clasificacion-permiso-data.php');
 
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 
@@ -90,49 +91,59 @@ $hojaActiva->setCellValue('I1', 'Description');
 $hojaActiva->getColumnDimension('J')->setWidth(10);
 $hojaActiva->setCellValue('J1', 'State');
 
+
+
+
+
+$clasificacion_permiso = new ClasificacionPermisoData();
 $permiso = new PermisoData();
 
-if ($dataPermiso = $permiso->readAllPermissions()) {
+if ($clasificacion_permiso->setId($_GET['idClasificacionPermiso']) && $permiso->setIdClasificacionPermiso($_GET['idClasificacionPermiso']) && $permiso->setSelectedSubAuthorization($_GET['idTipoPermiso']) && $permiso->setFechaInicio($_GET['fechaInicio']) && $permiso->setFechaFinal($_GET['fechaFinal']) && $permiso->setSelectedState($_GET['estado'])){
 
-    $fila = 2;
+    if ($dataPermiso = $permiso->readPermissonReport()) {
 
-
-    foreach ($dataPermiso as $rows) {
-        $hojaActiva->setCellValue('A' . $fila, $rows['id_usuario']);
-        $hojaActiva->setCellValue('B' . $fila, $rows['employee']);
-        $hojaActiva->setCellValue('C' . $fila, $rows['clasification']);
-        $hojaActiva->setCellValue('D' . $fila, $rows['type']);
-        $hojaActiva->setCellValue('E' . $fila, $rows['lapso']);
-        $hojaActiva->setCellValue('F' . $fila, $rows['fecha_inicio']);
-        $hojaActiva->setCellValue('G' . $fila, $rows['fecha_final']);
-        $hojaActiva->setCellValue('H' . $fila, $rows['fecha_envio']);
-        $hojaActiva->setCellValue('I' . $fila, $rows['description']);
-        $hojaActiva->setCellValue('J' . $fila, $rows['estado']);
-
-        // Aplicar estilo a cada fila de datos
-        $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($styleData);
-
-        // Bloquear las celdas de cada fila de datos
-        $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
-
-        $fila++;
+        $fila = 2;
+        foreach ($dataPermiso as $rows) {
+            $hojaActiva->setCellValue('A' . $fila, $rows['id_usuario']);
+            $hojaActiva->setCellValue('B' . $fila, $rows['employee']);
+            $hojaActiva->setCellValue('C' . $fila, $rows['clasification']);
+            $hojaActiva->setCellValue('D' . $fila, $rows['type']);
+            $hojaActiva->setCellValue('E' . $fila, $rows['lapso']);
+            $hojaActiva->setCellValue('F' . $fila, $rows['fecha_inicio']);
+            $hojaActiva->setCellValue('G' . $fila, $rows['fecha_final']);
+            $hojaActiva->setCellValue('H' . $fila, $rows['fecha_envio']);
+            $hojaActiva->setCellValue('I' . $fila, $rows['description']);
+            $hojaActiva->setCellValue('J' . $fila, $rows['estado']);
+    
+            // Aplicar estilo a cada fila de datos
+            $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($styleData);
+    
+            // Bloquear las celdas de cada fila de datos
+            $hojaActiva->getStyle('A' . $fila . ':J' . $fila)->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
+    
+            $fila++;
+        }
+    
+    } else {
+        $hojaActiva->setCellValue('A2', 'No permissions registered');
+        // Aplicar estilo a la fila de "No permissions registered"
+        $hojaActiva->getStyle('A2:J2')->applyFromArray($styleData);
+        // Bloquear la fila de "No permissions registered"
+        $hojaActiva->getStyle('A2:J2')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
     }
-
-} else {
-    $hojaActiva->setCellValue('A2', 'No permissions registered');
-    // Aplicar estilo a la fila de "No permissions registered"
-    $hojaActiva->getStyle('A2:J2')->applyFromArray($styleData);
-    // Bloquear la fila de "No permissions registered"
-    $hojaActiva->getStyle('A2:J2')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_PROTECTED);
+    
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="Permissions.xlsx"');
+    header('Cache-Control: max-age=0');
+    
+    $writer = IOFactory::createWriter($excel, 'Xlsx');
+    
+    ob_end_clean();
+    $writer->save('php://output');
+    
+    exit;
+} else{
+    print('There is an error, try again.');
 }
 
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Permissions.xlsx"');
-header('Cache-Control: max-age=0');
 
-$writer = IOFactory::createWriter($excel, 'Xlsx');
-
-ob_end_clean();
-$writer->save('php://output');
-
-exit;

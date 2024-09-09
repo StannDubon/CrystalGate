@@ -52,7 +52,7 @@ class NotificacionData extends NotificacionHandler
     // Método para establecer la fecha de envío, validando que sea un formato de fecha y hora válido.
     public function setFechaEnvio($value)
     {
-        if (Validator::validateDateTime($value)) {
+        if (Validator::validateDateTime2($value)) {
             $this->fechaEnvio = $value;
             return true;
         } else {

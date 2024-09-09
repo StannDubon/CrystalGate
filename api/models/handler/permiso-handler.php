@@ -21,6 +21,8 @@ class PermisoHandler
     protected $documento = null;
     protected $descripcion = null;
 
+    protected $arrayEstados = null;
+    protected $arrayIdTipoPermiso = null;
     protected $selected_subpermissions;
     const RUTA_DOCUMENTO = '../../documents/permiso/';
 
@@ -151,21 +153,37 @@ class PermisoHandler
     public function readPermissonReport()
     {
         $sql = 'SELECT p.*,
-                tp.id_clasificacion_permiso,
-                tp.tipo_permiso
+                b.id_usuario,
+                CONCAT(b.nombre, " ", b.apellido) AS employee, 
+                tp.id_clasificacion_permiso AS clasification,
+                tp.tipo_permiso AS "type",
+                p.descripcion_permiso AS "description", 
+                CASE 
+                    WHEN p.estado = 1 THEN "Pending"
+                    WHEN p.estado = 2 THEN "Approved"
+                    WHEN p.estado = 3 THEN "Rejected"
+                END AS estado,
+                CASE 
+                        WHEN tp.lapso = 1 THEN "Day"
+                        WHEN tp.lapso = 2 THEN "Hour"
+                        WHEN tp.lapso = 3 THEN "Day and Hour"
+                END AS lapso
             FROM 
                 tb_permisos p
+            JOIN 
+                tb_usuarios b ON p.id_usuario = b.id_usuario
             JOIN 
                 tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
             WHERE 
                 tp.id_clasificacion_permiso = ?        
-                AND p.id_tipo_permiso IN (?)        
-                AND p.fecha_inicio >= ?
-                AND p.fecha_final <= ? 
-                AND p.estado IN (?)
+                AND p.id_tipo_permiso IN ("'.$this->arrayIdTipoPermiso.'")        
+                AND p.fecha_envio >= ?
+                AND p.fecha_envio <= ? 
+                AND p.estado IN ("'.$this->arrayEstados.'")
         ';
-        $params = array($this->idClasificacionPermiso,$this->idTipoPermiso,$this->fechaInicio,$this->fechaFinal,$this->estado);
-        return Database::getRow($sql, $params);
+        $params = array($this->idClasificacionPermiso,$this->fechaInicio,$this->fechaFinal);
+
+        return Database::getRows($sql, $params);
     }
     // Método para leer un permiso específico por su ID.
     public function readOne()
@@ -246,6 +264,170 @@ class PermisoHandler
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND tp.id_tipo_permiso = ?';
         $params = array($this->idTipoPermiso);
+        return Database::getRows($sql, $params);
+    }
+
+    // GRAPHOS
+
+    public function readMonthGraph()
+    {
+        $sql = "WITH meses AS (
+                    SELECT 1 AS mes UNION ALL
+                    SELECT 2 UNION ALL
+                    SELECT 3 UNION ALL
+                    SELECT 4 UNION ALL
+                    SELECT 5 UNION ALL
+                    SELECT 6 UNION ALL
+                    SELECT 7 UNION ALL
+                    SELECT 8 UNION ALL
+                    SELECT 9 UNION ALL
+                    SELECT 10 UNION ALL
+                    SELECT 11 UNION ALL
+                    SELECT 12
+                ),
+                permisos_por_mes AS (
+                    SELECT
+                        MONTH(fecha_envio) AS mes,
+                        COUNT(id_permiso) AS cantidad
+                    FROM
+                        tb_permisos
+                    WHERE
+                        YEAR(fecha_envio) = YEAR(CURDATE())
+                    GROUP BY
+                        MONTH(fecha_envio)
+                )
+                SELECT
+                    m.mes AS 'Mes',
+                    COALESCE(ppm.cantidad, 0) AS 'cantidad' -- Aquí está la corrección
+                FROM
+                    meses m
+                LEFT JOIN
+                    permisos_por_mes ppm ON m.mes = ppm.mes
+                WHERE
+                    m.mes <= MONTH(CURDATE())
+                ORDER BY
+                    m.mes;";
+        return Database::getRows($sql);
+    }
+    
+    public function readWeekGraph()
+    {
+        $sql = "WITH semana_actual AS (
+                    SELECT
+                        CURDATE() - INTERVAL (DAYOFWEEK(CURDATE()) - 1) DAY AS inicio_semana,
+                        CURDATE() - INTERVAL (DAYOFWEEK(CURDATE()) - 1) DAY + INTERVAL 6 DAY AS fin_semana
+                )
+                SELECT
+                    CASE DAYNAME(d.dia)
+                        WHEN 'Sunday' THEN 1
+                        WHEN 'Monday' THEN 2
+                        WHEN 'Tuesday' THEN 3
+                        WHEN 'Wednesday' THEN 4
+                        WHEN 'Thursday' THEN 5
+                        WHEN 'Friday' THEN 6
+                        WHEN 'Saturday' THEN 7
+                    END AS 'dia',
+                    COALESCE(ppd.cantidad_permisos, 0) AS 'cantidad'
+                FROM
+                    (
+                        SELECT 
+                            DATE_ADD(sa.inicio_semana, INTERVAL n.n DAY) AS dia
+                        FROM
+                            semana_actual sa
+                        JOIN 
+                            (SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) n
+                        ON DATE_ADD(sa.inicio_semana, INTERVAL n.n DAY) <= sa.fin_semana
+                    ) d
+                LEFT JOIN
+                    (
+                        SELECT
+                            DAYNAME(fecha_envio) AS dia,
+                            COUNT(id_permiso) AS cantidad_permisos
+                        FROM
+                            tb_permisos
+                        WHERE
+                            YEAR(fecha_envio) = YEAR(CURDATE())
+                            AND WEEK(fecha_envio, 1) = WEEK(CURDATE(), 1)
+                        GROUP BY
+                            DAYNAME(fecha_envio)
+                    ) ppd ON DAYNAME(d.dia) = ppd.dia
+                WHERE
+                    d.dia <= DATE(CURDATE())
+                ORDER BY
+                    CASE DAYNAME(d.dia)
+                        WHEN 'Sunday' THEN 1
+                        WHEN 'Monday' THEN 2
+                        WHEN 'Tuesday' THEN 3
+                        WHEN 'Wednesday' THEN 4
+                        WHEN 'Thursday' THEN 5
+                        WHEN 'Friday' THEN 6
+                        WHEN 'Saturday' THEN 7
+                    END;";
+        return Database::getRows($sql);
+    }
+
+    public function readPermissionsPerAdminGraph()
+    {
+        $sql = "SELECT
+                    CONCAT(a.nombre, ' ', a.apellido) AS 'nombre',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM
+                    tb_administradores a
+                LEFT JOIN
+                    tb_notificaciones n ON a.id_administrador = n.id_administrador
+                LEFT JOIN
+                    tb_permisos p ON n.id_permiso = p.id_permiso
+                GROUP BY
+                    a.nombre;";
+        return Database::getRows($sql);
+    }
+
+    public function readPermissionsPerUserGraph()
+    {
+        $sql = "SELECT
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'nombre',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM
+                    tb_usuarios u
+                LEFT JOIN
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                GROUP BY
+                    u.id_usuario, u.nombre, u.apellido;";
+        return Database::getRows($sql);
+    }
+
+    public function readPermissionsPerTypeGraph()
+    {
+        $sql = "SELECT
+                    c.clasificacion_permiso AS 'tipo',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM
+                    tb_clasificaciones_permisos c
+                LEFT JOIN
+                    tb_tipos_permisos tp ON c.id_clasificacion_permiso = tp.id_clasificacion_permiso
+                LEFT JOIN
+                    tb_permisos p ON tp.id_tipo_permiso = p.id_tipo_permiso
+                GROUP BY
+                    c.id_clasificacion_permiso, c.clasificacion_permiso;";
+        return Database::getRows($sql);
+    }
+
+    public function readPermissionsPerDateGraph()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'nombre',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                WHERE 
+                    p.fecha_envio BETWEEN ? AND ?
+                GROUP BY 
+                    u.id_usuario
+                ORDER BY 
+                    'cantidad' DESC;";
+        $params = array($this->fechaInicio, $this->fechaFinal);
         return Database::getRows($sql, $params);
     }
 

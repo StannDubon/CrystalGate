@@ -99,6 +99,7 @@ const fillCharges = async (form = null) => {
                     <span>${row.cargo}</span>
                     <div class="authorization-status-button" style="background-color: ${reqTypeStatusColor};" onclick="changeChargeStatus(${row.id_cargo})"></div>
 
+                    <div class="charge-action-button-graph-maker" onclick="UsersPerChargeGrapho(${row.id_cargo})">Graph</div>
                 </li>
             `;
         });
@@ -107,6 +108,30 @@ const fillCharges = async (form = null) => {
         BOX_CHARGES.textContent = DATA.error;
     }
 }
+
+/* <---------------------------------- PARAM ----------------------------------> */
+const UsersPerChargeGrapho = async (id) => {
+    const FORM = new FormData();
+    FORM.append("idCargo", id);
+    DATA = await fetchData(CHARGES_API, 'readUsersPerChargesGraphos', FORM);
+    let data = [];
+    let quantity = [];
+    DATA.dataset.forEach(row => {
+        data.push(row.nombre);
+        quantity.push(row.cantidad);
+    });
+    if(DATA){
+
+        if(!quantity.every(item => item === 0)){
+            document.getElementById("grapho-modal").classList.remove("inactive")
+            graphoModal("Permissions per User: "+name);
+            pieGraph('chart', data, quantity);
+        } else{
+            document.getElementById("grapho-modal").classList.add("inactive")
+            graphoModal("There are no registered permissions"); 
+        }
+    }
+};
 
 const changeChargeStatus = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.

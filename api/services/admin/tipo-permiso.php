@@ -74,6 +74,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t permission types registered';
                 }
                 break;
+            case 'readAllByCategorie':
+                if(!$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])){
+                    $result['error'] = $TipoPermiso->getDataError();
+                }
+                else if ($result['dataset'] = $TipoPermiso->readAllByCategorie()){
+                    $result['status'] = 1;
+                }
+                else{
+                    $result['error'] = 'Non-existent permission categorie';
+                }
+                break;
             // Caso para leer referencias no vacías.
             case 'readNoEmtyReferences':
                 if($TipoPermiso->validatePermissions('v')){
@@ -149,7 +160,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error occurred while editing the permission type';
                 }
                 break;
-            // Caso por defecto para manejar acciones no disponibles.
+
+            case 'permissionsPerType':
+                if($TipoPermiso->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los tipos de permiso';
+                } elseif (
+                    !$TipoPermiso->setIdClasificacion($_POST[POST_CLASIFICACION])
+                ) {
+                    $result['error'] = $TipoPermiso->getDataError();
+                } elseif ($result['dataset'] = $TipoPermiso->readPermissionsPerType()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permission types registered';
+                }
+                break;            // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';
         }
