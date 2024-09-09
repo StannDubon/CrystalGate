@@ -61,6 +61,13 @@ class UsuarioHandler
         $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
+    // Método para cambiar la contraseña del usuario.
+    public function changePasswordAdmin()
+    {
+        $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
+        $params = array($this->clave, $this->id);
+        return Database::executeRow($sql, $params);
+    }
 
     // Método para leer el perfil del usuario actual.
     public function readProfile()
