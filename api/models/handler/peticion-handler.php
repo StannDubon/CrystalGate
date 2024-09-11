@@ -79,6 +79,22 @@ class PeticionHandler
         return Database::getRows($sql, $params);
     }
 
+    public function searchRowsByCostumer()
+    {
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega
+                FROM tb_peticiones a
+                JOIN tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN tb_tipos_peticiones c ON a.id_tipo_peticion = c.id_tipo_peticion
+                JOIN tb_idiomas d ON a.id_idioma = d.id_idioma
+                JOIN tb_centros_entregas e ON a.id_centro_entrega = e.id_centro_entrega
+                WHERE b.id_usuario = ?
+                AND (a.id_tipo_peticion = ? OR ? IS NULL)
+                AND (a.id_idioma = ? OR ? IS NULL)
+                AND (a.id_centro_entrega = ? OR ? IS NULL)';
+        $params = array($this->idUsuario, $this->idTipoPeticion, $this->idTipoPeticion, $this->idIdioma, $this->idIdioma, $this->idCentroEntrega, $this->idCentroEntrega);
+        return Database::getRows($sql, $params);
+    }
+
     // Método para leer una petición específica por su ID.
     public function readOne()
     {
