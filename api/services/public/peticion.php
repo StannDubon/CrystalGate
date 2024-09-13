@@ -73,15 +73,13 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'searchRowsByCostumer':
-                
                 if (!$peticion->setIdUsuario($_SESSION['idUsuario']) or
                     !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
                     !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
                     !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA])) {
                     $result['error'] = 'Error en los datos de búsqueda';
                 } elseif ($result['dataset'] = $peticion->searchRowsByCostumer()) {
-                    $result['status'] = 1;
-                    
+                    $result['status'] = 1;                   
                 } else {
                     $result['error'] = 'No hay coincidencias';
                 }
@@ -109,7 +107,7 @@ if (isset($_GET['action'])) {
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
                     !$peticion->setTelefono($_POST[POST_TELEFONO]) or
                     !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
-                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
+                    !$peticion->setEmail($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {

@@ -34,9 +34,9 @@ const History = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const [selectedRequestType, setSelectedRequestType] = useState(null);
-    const [selectedLanguage, setSelectedLanguage] = useState(null);
-    const [selectedDeliverCenter, setSelectedDeliverCenter] = useState(null);
+    const [selectedRequestType, setSelectedRequestType] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [selectedDeliverCenter, setSelectedDeliverCenter] = useState('');
 
     const getFilteredData = async () => {
         try {
