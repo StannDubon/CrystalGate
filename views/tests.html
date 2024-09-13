@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="asjda">pito</button>
+</body>
+
+    <!-- CONTROLADORES GENERALES -->
+    <script src="../controllers/utils/components.js"></script>
+    <script src="../controllers/utils/template.js"></script>
+    <script src="../resources/js/swal-custom.js"></script>
+
+<script>
+    document.getElementById("asjda").addEventListener('click', async (event) => {
+    const binaryArray = [0, 1, 0, 1, 1, 0, 1];
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData();
+    FORM.append(`test`, binaryArray);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData("services/admin/tipo-administrador.php", "test", FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+});
+</script>
+</html>
