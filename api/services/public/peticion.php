@@ -73,15 +73,25 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'searchRowsByCostumer':
+                $_POST = Validator::validateForm($_POST);
+                $idTipoPeticion = empty($_POST[POST_ID_TIPO_PETICION]) ? 0 : $_POST[POST_ID_TIPO_PETICION];
+                $idIdioma = empty($_POST[POST_ID_IDIOMA]) ? 0 : $_POST[POST_ID_IDIOMA];
+                $idCentroEntrega = empty($_POST[POST_ID_CENTRO_ENTREGA]) ? 0 : $_POST[POST_ID_CENTRO_ENTREGA];
+                //$result['message'] = 'Empezo';
                 if (!$peticion->setIdUsuario($_SESSION['idUsuario']) or
-                    !$peticion->setIdTipoPeticion($_POST[POST_ID_TIPO_PETICION]) or
-                    !$peticion->setIdIdioma($_POST[POST_ID_IDIOMA]) or
-                    !$peticion->setIdCentroEntrega($_POST[POST_ID_CENTRO_ENTREGA])) {
+                    !$peticion->setIdTipoPeticion($idTipoPeticion) or
+                    !$peticion->setIdIdioma($idIdioma) or
+                    !$peticion->setIdCentroEntrega($idCentroEntrega)
+                    ) {
                     $result['error'] = 'Error en los datos de búsqueda';
-                } elseif ($result['dataset'] = $peticion->searchRowsByCostumer()) {
-                    $result['status'] = 1;                   
+                    //$result['message'] = 'Tumbo aqui';
+                } elseif ($result['dataset'] = $peticion->searchRowsByCostumer()
+                ) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Filtrando ' . count($result['dataset']) . ' peticiones';
                 } else {
                     $result['error'] = 'No hay coincidencias';
+                    $result['message'] = 'La carlitos';
                 }
                 break;
             case 'readOne':
