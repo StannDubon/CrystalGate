@@ -44,7 +44,7 @@ const History = () => {
             formData.append('idTipoPeticion', selectedRequestType);
             formData.append('idIdioma', selectedLanguage);
             formData.append('idCentroEntrega',selectedDeliverCenter);
-            console.log(formData);
+            //console.log(formData);
             
             const filteredData = await fetchData("peticion", "searchRowsByCostumer", formData);
 
@@ -68,7 +68,7 @@ const History = () => {
                 alert("Error fetching permissions: " + permissionsData.error);
             }
 
-            // Fetch peticiones (documentos)
+            /* Fetch peticiones (documentos)*/
             const documentsData = await fetchData("peticion", "readAllByCostumer");
             if (documentsData.status) {
                 setDocuments(documentsData.dataset);

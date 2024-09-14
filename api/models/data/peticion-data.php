@@ -45,37 +45,28 @@ class PeticionData extends PeticionHandler
     // Método para establecer el ID del tipo de petición, validando que sea un número natural.
     public function setIdTipoPeticion($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+
             $this->idTipoPeticion = $value;
             return true;
-        } else {
-            $this->data_error = 'The identificator of the type of petition is incorrect';
-            return false;
-        }
+
     }
 
     // Método para establecer el ID del idioma, validando que sea un número natural.
     public function setIdIdioma($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+
             $this->idIdioma = $value;
             return true;
-        } else {
-            $this->data_error = 'The identificator of the language is incorrect';
-            return false;
-        }
+
     }
 
     // Método para establecer el ID del centro de entrega, validando que sea un número natural.
     public function setIdCentroEntrega($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+
             $this->idCentroEntrega = $value;
             return true;
-        } else {
-            $this->data_error = 'The identificator of the delivery center is incorrect';
-            return false;
-        }
+
     }
 
     // Método para establecer la fecha de envío de la petición, validando que sea un formato de fecha y hora válido.
