@@ -6,13 +6,9 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../../assets/const/color";
 
 // Definición del componente funcional StateButton
-const StateButton = ({ icon, defaultSvgColor, selectedSvgColor, defaultBgColor, selectedBgColor }) => {
-    const [isSelected, setIsSelected] = useState(false);
-
-    // Función para manejar el evento de presionar el botón
+const StateButton = ({ icon, defaultSvgColor, selectedSvgColor, defaultBgColor, selectedBgColor, onSelect, stateValue, isSelected }) => {
     const handlePress = () => {
-        // Cambia el estado de isSelected al contrario del estado actual
-        setIsSelected(!isSelected);
+        onSelect(stateValue); // Llama a la función onSelect pasada como prop
     };
 
     // Renderizado del componente

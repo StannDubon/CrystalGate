@@ -80,7 +80,7 @@ if (isset($_GET['action'])) {
                 //$result['message'] = 'Empezo';
                 if (!$peticion->setIdUsuario($_SESSION['idUsuario']) or
                     !$peticion->setIdTipoPeticion($idTipoPeticion) or
-                    !$peticion->setIdIdioma($idIdioma) or
+                    !$peticion->setIdIdioma($idIdioma) or   
                     !$peticion->setIdCentroEntrega($idCentroEntrega)
                     ) {
                     $result['error'] = 'Error en los datos de búsqueda';

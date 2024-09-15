@@ -15,8 +15,7 @@ import fetchData from "../utils/database";
 
 const { height } = Dimensions.get('window');
 
-const BottomSheet = ({ visible, onClose }) => {
-
+const BottomSheet = ({ visible, onClose, onFilterChange }) => {
     // Opciones para las listas desplegables
     const [resquestsType,setRequestsType] = useState([]);
     const [subRequestsType, setSubRequestsType] = useState([]);
@@ -24,7 +23,7 @@ const BottomSheet = ({ visible, onClose }) => {
     const [subTypeDisabled, setSubTypeDisabled] = useState(true);
     //valores de combo box
     const [selectedType, setSelectedType] = useState("");
-    const [selectedSubType, setSelectedSubType] = useState("");
+    const [selectedSubType, setSelectedSubType] = useState(0);
     // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
     const navigation = useNavigation();
     const [selectedOption, setSelectedOption] = useState('');
@@ -39,6 +38,24 @@ const BottomSheet = ({ visible, onClose }) => {
     const iconAccepted = "M12.5374 18.6576C11.752 19.4661 10.4539 19.4661 9.6685 18.6576L4.76982 13.6156C3.98437 12.8072 2.68636 12.8072 1.90091 13.6156L1.35406 14.1785C0.599999 14.9546 0.599998 16.1897 1.35406 16.9658L9.6685 25.5236C10.4539 26.332 11.752 26.332 12.5374 25.5236L32.6459 4.82664C33.4 4.05052 33.4 2.81541 32.6459 2.03929L32.0991 1.47643C31.3136 0.667998 30.0156 0.667998 29.2302 1.47643L12.5374 18.6576Z";
     const iconPending = "M15.5024 2.77477C7.71207 2.77477 1.1291 9.46735 1.1291 17.3874C1.1291 25.3074 7.71207 32 15.5024 32C23.2943 32 29.8757 25.3074 29.8757 17.3874C29.8757 9.46735 23.2943 2.77477 15.5024 2.77477ZM23.4876 17.3874C23.4876 18.2841 22.7606 19.011 21.8639 19.011H15.9054C14.8008 19.011 13.9054 18.1156 13.9054 17.011V10.8663C13.9054 9.98429 14.6204 9.26927 15.5024 9.26927C16.3844 9.26927 17.0994 9.98428 17.0994 10.8663V13.7638C17.0994 14.8683 17.9949 15.7638 19.0994 15.7638H21.8639C22.7606 15.7638 23.4876 16.4907 23.4876 17.3874ZM29.8912 6.0021C29.2613 6.6448 28.2269 6.64657 27.5947 6.00604L25.0506 3.42809C24.4331 2.80243 24.4314 1.79723 25.0467 1.16945C25.6766 0.526748 26.711 0.524973 27.3432 1.16551L29.8874 3.74346C30.5048 4.36912 30.5065 5.37432 29.8912 6.0021ZM3.62747 1.17391C4.25742 0.531327 5.29163 0.529369 5.92401 1.16956C6.54219 1.79537 6.5441 2.80136 5.92829 3.42951L3.40986 5.99843C2.7796 6.64134 1.74477 6.64293 1.11252 6.00197C0.495099 5.37604 0.49355 4.37067 1.10904 3.74284L3.62747 1.17391Z";
 
+    // La fecha actual
+    const currentDate = new Date();
+
+    const [selectedStatePending, setSelectedStatePending] = useState(1);
+    const [selectedStateAccepted, setSelectedStateAccepted] = useState(2);
+    const [selectedStateRejected, setSelectedStateRejected] = useState(3);
+
+    // Calcula la fecha 50 años atrás y 50 años adelante
+    const startDateInit = new Date(currentDate);
+    startDateInit.setFullYear(startDateInit.getFullYear() - 50);
+    const formattedStartDate = startDateInit.toISOString().slice(0, 19).replace('T', ' ');
+
+    const endDateInit = new Date(currentDate);
+    endDateInit.setFullYear(endDateInit.getFullYear() + 50);
+    const formattedEndDate = endDateInit.toISOString().slice(0, 19).replace('T', ' ');
+
+    const [startDate, setStartDate] = useState(formattedStartDate);
+    const [endDate, setEndDate] = useState(formattedEndDate);
 
     const loadData = async () =>{
         const result = await fetchData('clasificacion-permiso','readAll');
@@ -103,6 +120,34 @@ const BottomSheet = ({ visible, onClose }) => {
         }
     }, [visible]);
 
+    useEffect(() => { 
+        // Call onFiltersChange whenever a filter value changes 
+        onFilterChange( selectedSubType, startDate, endDate, selectedStatePending, selectedStateAccepted, selectedStateRejected );
+        console.log("DESDE BOTTOMSHEET PERMISSION ID " + selectedSubType + " FECHAS: " + startDate, endDate + " STATES: " + selectedStatePending, selectedStateAccepted, selectedStateRejected );
+    }, [selectedSubType, startDate, endDate, selectedStatePending, selectedStateAccepted, selectedStateRejected]);
+
+    // Función para actualizar fecha de forma controlada
+    const handleStartDateChange = (date) => {
+        setStartDate(date); // Actualiza solo si cambia la fecha
+    };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+    };
+      
+    const handleStateSelection = (state) => {
+        if (state === 1) {
+            setSelectedStatePending(prevState => prevState === 1 ? 0 : 1);
+        }
+        if (state === 2) {
+            setSelectedStateAccepted(prevState => prevState === 2 ? 0 : 2);
+        }
+        if (state === 3) {
+            setSelectedStateRejected(prevState => prevState === 3 ? 0 : 3);
+        }
+    };
+
+
     // Renderizado condicional basado en la visibilidad
     return (visible &&
         <Animated.View style={[styles.container, { transform: [{ translateY }] }]} >
@@ -122,17 +167,17 @@ const BottomSheet = ({ visible, onClose }) => {
                         <View style={styles.topContent}>
                             <ComboBox label={"PERMISSION TYPE"} options={resquestsType} 
                             selectedValue={selectedType}
-                            placeholder={"Select an option"} 
+                            placeholder={"All"}
                             onValueChange={changeCategorie}></ComboBox>
                             <ComboBox label={"SUB-PERMISSION TYPE"}options={subRequestsType} 
                             selectedValue={selectedSubType}
                             onValueChange={changeSubCategorie}
-                            placeholder={"Select an option"} 
+                            placeholder={"All"} 
                             isDisabled={subTypeDisabled}></ComboBox>
                         </View>
                         <View style={styles.midContent}>
-                            <DatePicker label={"From: "} style={styles.date}></DatePicker>
-                            <DatePicker label={"To: "} style={styles.date}></DatePicker>
+                            <DatePicker label={"From: "} selectedDateTime={startDate} onDateTimeChange={handleStartDateChange} style={styles.date}></DatePicker>
+                            <DatePicker label={"To: "} selectedDateTime={endDate} onDateTimeChange={handleEndDateChange} style={styles.date}></DatePicker>
                         </View>
                         <View style={styles.btnContainer}>
                             <StateButton
@@ -141,6 +186,9 @@ const BottomSheet = ({ visible, onClose }) => {
                                 selectedSvgColor={Color.colorBtnIcon3}
                                 defaultBgColor={'transparent'}
                                 selectedBgColor={Color.colorRejected}
+                                onSelect={handleStateSelection}
+                                stateValue={3}
+                                isSelected={selectedStateRejected === 3}
                             />
                             <StateButton
                                 icon={iconAccepted}
@@ -148,6 +196,9 @@ const BottomSheet = ({ visible, onClose }) => {
                                 selectedSvgColor={Color.colorBtnIcon3}
                                 defaultBgColor={'transparent'}
                                 selectedBgColor={Color.colorAccepted}
+                                onSelect={handleStateSelection}
+                                stateValue={2}
+                                isSelected={selectedStateAccepted === 2}
                             />
                             <StateButton
                                 icon={iconPending}
@@ -155,6 +206,9 @@ const BottomSheet = ({ visible, onClose }) => {
                                 selectedSvgColor={Color.colorBtnIcon3}
                                 defaultBgColor={'transparent'}
                                 selectedBgColor={Color.colorPending}
+                                onSelect={handleStateSelection}
+                                stateValue={1}
+                                isSelected={selectedStatePending === 1}
                             />
 
                         </View>
