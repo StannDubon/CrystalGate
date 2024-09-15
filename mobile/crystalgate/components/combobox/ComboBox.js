@@ -21,7 +21,7 @@ const ComboBox = ({ options, placeholder, onValueChange, label, selectedValue, i
                     style={styles.picker}
                     enabled={!isDisabled}
                 >
-                    <Picker.Item label={placeholder} value="" />
+                    <Picker.Item label={placeholder} value='0' />
                     {options.map((option, index) => (
                         <Picker.Item
                             key={index}

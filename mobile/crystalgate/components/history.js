@@ -53,7 +53,7 @@ const History = () => {
             formData.append('idTipoPeticion', selectedRequestType);
             formData.append('idIdioma', selectedLanguage);
             formData.append('idCentroEntrega',selectedDeliverCenter);
-            //console.log(formData);
+            console.log(formData);
             
             const filteredData = await fetchData("peticion", "searchRowsByCostumer", formData);
 
@@ -76,7 +76,7 @@ const History = () => {
             formData.append('estadoPendiente', selectedStatePending);
             formData.append('estadoAceptado', selectedStateAccepted);  // Corregido
             formData.append('estadoRechazado', selectedStateRejected);
-            console.log(formData);
+            //console.log(formData);
     
             const filteredData2 = await fetchData("permiso", "searchRowsByCostumer", formData);
     
