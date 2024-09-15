@@ -28,7 +28,7 @@ const fetchData = async (service, action, data = null, file = false) => {
         //const textResponse = await response.text();
         //console.log('Response Text:', textResponse);
         const result = await response.json(); // Parsear la respuesta como JSON
-        //console.log(url);
+        console.log(url);
         return result; // Devolver el JSON de la respuesta
     } catch (error) {
         console.error('Fetch error:', error);
