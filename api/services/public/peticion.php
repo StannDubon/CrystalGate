@@ -72,6 +72,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen peticions registrados';
                 }
                 break;
+            case 'searchRowsByCostumer':
+                $_POST = Validator::validateForm($_POST);
+                $idTipoPeticion = empty($_POST[POST_ID_TIPO_PETICION]) ? 0 : $_POST[POST_ID_TIPO_PETICION];
+                $idIdioma = empty($_POST[POST_ID_IDIOMA]) ? 0 : $_POST[POST_ID_IDIOMA];
+                $idCentroEntrega = empty($_POST[POST_ID_CENTRO_ENTREGA]) ? 0 : $_POST[POST_ID_CENTRO_ENTREGA];
+                //$result['message'] = 'Empezo';
+                if (!$peticion->setIdUsuario($_SESSION['idUsuario']) or
+                    !$peticion->setIdTipoPeticion($idTipoPeticion) or
+                    !$peticion->setIdIdioma($idIdioma) or   
+                    !$peticion->setIdCentroEntrega($idCentroEntrega)
+                    ) {
+                    $result['error'] = 'Error en los datos de búsqueda';
+                    //$result['message'] = 'Tumbo aqui';
+                } elseif ($result['dataset'] = $peticion->searchRowsByCostumer()
+                ) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Filtrando ' . count($result['dataset']) . ' peticiones';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                    $result['message'] = 'La carlitos';
+                }
+                break;
             case 'readOne':
                 if (!$peticion->setId($_POST[POST_ID])) {
                     $result['error'] = 'peticion incorrecto';
@@ -95,7 +117,7 @@ if (isset($_GET['action'])) {
                     !$peticion->setModoEntrega($_POST[POST_MODO_ENTREGA]) or
                     !$peticion->setTelefono($_POST[POST_TELEFONO]) or
                     !$peticion->setNombre($_POST[POST_NOMBRE_ENTREGA]) or
-                    !$peticion->setEmial($_POST[POST_EMAIL_ENTREGA])
+                    !$peticion->setEmail($_POST[POST_EMAIL_ENTREGA])
                 ) {
                     $result['error'] = $peticion->getDataError();
                 } elseif ($peticion->updateRow()) {

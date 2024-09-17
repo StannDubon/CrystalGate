@@ -43,6 +43,12 @@ class Validator
         return self::$search_error;
     }
 
+    public static function isBinary($value)
+    {
+        // Verificar si el valor es 0 o 1 como string o número
+        return ($value === '0' || $value === '1' || $value === 0 || $value === 1);
+    }
+
     /*
     *   Método para sanear todos los campos de un formulario (quitar los espacios en blanco al principio y al final).
     *   Parámetros: $fields (arreglo con los campos del formulario).
