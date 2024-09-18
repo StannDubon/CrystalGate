@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once __DIR__ . ('/../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_tipos_permisos.
@@ -117,6 +117,15 @@ class TipoPermisoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    // GRAPHOS READER
+
+    public function readPermissionsPerType(){
+        $sql = "SELECT tp.tipo_permiso AS 'tipo', COUNT(p.id_permiso) AS 'cantidad' FROM tb_tipos_permisos tp LEFT JOIN tb_permisos p ON tp.id_tipo_permiso = p.id_tipo_permiso WHERE tp.id_clasificacion_permiso = ? GROUP BY tp.tipo_permiso;";
+        $params = array($this->clasificacion);
+        return Database::getRows($sql, $params);
+    } 
+
 
 
     public function validatePermissions($value)

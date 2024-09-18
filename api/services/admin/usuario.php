@@ -141,6 +141,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
+            case 'readPermissionTypePerUserGrapho':
+                if($usuario->validatePermissions('v')){
+                    $result['error'] = 'No tiene permisos para leer los usuarios';
+                } elseif (!$usuario->setId($_POST[POST_ID])) {
+                    $result['error'] = 'Usuario incorrecto';
+                } elseif ($result['dataset'] = $usuario->readPermissionTypePerUserGrapho()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario inexistente';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

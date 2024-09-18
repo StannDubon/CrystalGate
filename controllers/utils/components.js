@@ -175,15 +175,27 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
 *   Parámetros: canvas (identificador de la etiqueta canvas), xAxis (datos para el eje X), yAxis (datos para el eje Y), legend (etiqueta para los datos) y title (título del gráfico).
 *   Retorno: ninguno.
 */
+
+//Requerimientos 
+// Espaciado 4 y Uso ;
+// VARIABLES snake_case
+let instance_chart = null; 
 const barGraph = (canvas, xAxis, yAxis, legend, title) => {
+    if(instance_chart){
+        instance_chart.destroy();
+    }
     // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
-    let colors = [];
+
+    // VARIABLE lowcase
+    let colors = []; 
     // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     xAxis.forEach(() => {
         colors.push('#' + (Math.random().toString(16)).substring(2, 8));
     });
+
+    const ctx = document.getElementById(canvas).getContext('2d');
     // Se crea una instancia para generar el gráfico con los datos recibidos.
-    new Chart(document.getElementById(canvas), {
+    instance_chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: xAxis,
@@ -194,6 +206,7 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             }]
         },
         options: {
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
@@ -214,6 +227,9 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
 *   Retorno: ninguno.
 */
 const pieGraph = (canvas, legends, values, title) => {
+    if(instance_chart){
+        instance_chart.destroy();
+    }
     // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
     // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
@@ -221,7 +237,8 @@ const pieGraph = (canvas, legends, values, title) => {
         colors.push('#' + (Math.random().toString(16)).substring(2, 8));
     });
     // Se crea una instancia para generar el gráfico con los datos recibidos.
-    new Chart(document.getElementById(canvas), {
+    const ctx = document.getElementById(canvas).getContext('2d');
+    instance_chart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: legends,
@@ -231,6 +248,7 @@ const pieGraph = (canvas, legends, values, title) => {
             }]
         },
         options: {
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
@@ -239,6 +257,77 @@ const pieGraph = (canvas, legends, values, title) => {
             }
         }
     });
+}
+
+//CONSTANTES camelCase
+const barGraphPredict = async (canvas, xAxis, yAxis, xFinal, legend, title) => {
+    if(instance_chart){
+        instance_chart.destroy();
+    }
+    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
+    let colors = [];
+    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
+    xAxis.forEach(() => {
+        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
+    });
+    
+    const predictions = await PredictData(xAxis, yAxis, xFinal.length);
+    const predictionsPrinter = new Array(xAxis.length).fill(0);
+
+    // Verificar si todos los valores en predictionsPrinter son 0
+    const allZero = predictionsPrinter.every(value => value === 0);
+    
+    if (allZero) {
+        // Añadir predictions a predictionsPrinter
+        predictionsPrinter.push(...predictions);
+    }
+
+    const ctx = document.getElementById(canvas).getContext('2d');
+    // Se crea una instancia para generar el gráfico con los datos recibidos.
+    instance_chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: xFinal,
+            datasets: [{
+                label: legend,
+                data: yAxis,
+                backgroundColor: '#3782F6',
+                // Ajusta el ancho de las barras y el espacio entre categorías
+                barPercentage: 2,
+                categoryPercentage: 0.5
+            },
+            {
+                label: legend,
+                data: predictionsPrinter,
+                backgroundColor: '#8FBBFF',
+                // Ajusta el ancho de las barras y el espacio entre categorías
+                barPercentage: 2,
+                categoryPercentage: 0.5
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                legend: {
+                    display: false
+                }
+            },
+            // Configuración para el eje x para que las barras no se superpongan
+            scales: {
+                x: {
+                    stacked: false // Asegúrate de que las barras no se apilen
+                },
+                y: {
+                    stacked: false // Asegúrate de que las barras no se apilen
+                }
+            }
+        }
+    });
+    
 }
 
 /*

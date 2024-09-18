@@ -190,6 +190,26 @@ class UsuarioHandler
         return $result['count'] > 0;
     }
 
+
+    // GRAPHOS
+
+    public function readPermissionTypePerUserGrapho()
+    {
+        $sql = "SELECT
+                    tp.tipo_permiso AS 'tipo',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM
+                    tb_permisos p
+                INNER JOIN
+                    tb_tipos_permisos tp ON p.id_tipo_permiso = tp.id_tipo_permiso
+                WHERE
+                    p.id_usuario = ?
+                GROUP BY
+                    tp.id_tipo_permiso, tp.tipo_permiso;";
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
     public function validatePermissions($value)
     {
         $pass_data = [

@@ -13,6 +13,7 @@ class TipoAdministradorHandler
     protected $id = null;
     protected $tipo = null;
     protected $estado = null;
+    protected $permisos = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).

@@ -82,4 +82,28 @@ class CargoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params); // Ejecuta la consulta para eliminar un cargo.
     }
+
+    //GRAPHOS
+
+    public function readUsersPerChargesGraphos()
+    {
+        $sql = "SELECT 
+                    CONCAT(u.nombre, ' ', u.apellido) AS 'nombre',
+                    COUNT(p.id_permiso) AS 'cantidad'
+                FROM 
+                    tb_usuarios u
+                LEFT JOIN 
+                    tb_permisos p ON u.id_usuario = p.id_usuario
+                JOIN 
+                    tb_cargos c ON u.id_cargo = c.id_cargo
+                WHERE 
+                    c.id_cargo = ?
+                GROUP BY 
+                    u.id_usuario
+                ORDER BY 
+                    'Cantidad de Permisos' DESC;";
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
 }

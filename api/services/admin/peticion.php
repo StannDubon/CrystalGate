@@ -142,6 +142,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error occurred while deleting the petition';
                 }
                 break;
+            // Caso para leer todos los registros.
+            case 'readDocRequestPerUserGrapho':
+                if ($result['dataset'] = $peticion->readDocRequestPerUserGrapho()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t registered petitions';
+                }
+                break;
             // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';
