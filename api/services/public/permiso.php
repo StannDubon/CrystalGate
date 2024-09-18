@@ -176,14 +176,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen peticions registrados';
                 }
                 break;
-                case 'readAll':
-                    if ($result['dataset'] = $permiso->readAll()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
-                    } else {
-                        $result['error'] = 'There aren´t permissions registered';
-                    }
-                    break;
+            case 'readAllByCostumerPending':
+                if (!$permiso->setIdUsuario($_SESSION['idUsuario'])) {
+                    $result['error'] = 'user not found';
+                }
+                else if ($result['dataset'] = $permiso->readAllByCostumerPending()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen peticions registrados';
+                }
+                break;
             // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';
