@@ -46,13 +46,13 @@ class PermisoData extends PermisoHandler
     // Método para establecer el ID del tipo de permiso, validando que sea un número natural.
     public function setIdTipoPermiso($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        /*if (Validator::validateNaturalNumber($value)) {*/
             $this->idTipoPermiso = $value;
             return true;
-        } else {
+        /*} else {
             $this->data_error = 'The identificator of the type of permission is incorrect';
             return false;
-        }
+        }*/
     }
 
     // Método para establecer el ID de la clasificación de permiso, validando que sea un número natural.
@@ -70,25 +70,41 @@ class PermisoData extends PermisoHandler
     // Método para establecer el estado del permiso, validando que sea un número natural.
     public function setEstado($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        /*if (Validator::validateNaturalNumber($value)) {*/
             $this->estado = $value;
             return true;
-        } else {
+        /*} else {
             $this->data_error = 'The identificator of the state of permission is incorrect';
             return false;
-        }
+        }*/
+    }
+
+    public function setEstadoPendiente($value)
+    {
+        $this->estadoPendiente = $value;
+        return true;
+    }
+    public function setEstadoAcceptado($value)
+    {
+        $this->estadoAcceptado = $value;
+        return true;
+    }
+    public function setEstadoRechazado($value)
+    {
+        $this->estadoRechazado = $value;
+        return true;
     }
 
     
     public function setSelectedSubPermissions($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        /*if (Validator::validateNaturalNumber($value)) {*/
             $this->estado = $value;
             return true;
-        } else {
+        /*} else {
             $this->data_error = 'The identificator of the state of permission is incorrect';
             return false;
-        }
+        }*/
     }
 
     // Método para establecer la fecha de inicio del permiso, validando que sea un formato de fecha y hora válido.

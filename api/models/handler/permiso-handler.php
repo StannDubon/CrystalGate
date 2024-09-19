@@ -21,6 +21,10 @@ class PermisoHandler
     protected $documento = null;
     protected $descripcion = null;
 
+    protected $estadoPendiente = null;
+    protected $estadoAcceptado = null;
+    protected $estadoRechazado = null;
+
     protected $arrayEstados = null;
     protected $arrayIdTipoPermiso = null;
     protected $selected_subpermissions;
@@ -90,6 +94,33 @@ class PermisoHandler
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND b.id_usuario = ?
                 ORDER BY a.estado';
+        $params = array($this->idUsuario);
+        return Database::getRows($sql, $params);
+    }
+
+    public function searchRowsByCostumer()
+    {
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, 
+                a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a
+                JOIN tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN tb_tipos_permisos tp ON a.id_tipo_permiso = tp.id_tipo_permiso
+                WHERE a.id_usuario = ?
+                AND (a.id_tipo_permiso = ? OR ? = 0)
+                AND (a.fecha_inicio BETWEEN ? AND ?)
+                AND a.estado IN (SELECT estado FROM tb_permisos WHERE estado IN (?, ?, ?))
+                ORDER BY a.estado';
+        $params = array($this->idUsuario, $this->idTipoPermiso, $this->idTipoPermiso, $this->fechaInicio, $this->fechaFinal, $this->estadoPendiente, 
+                        $this->estadoAcceptado, $this->estadoRechazado);
+        return Database::getRows($sql, $params);
+    }
+
+    public function readAllByCostumerPending()
+    {
+        $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
+                WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND b.id_usuario = ?
+                AND a.estado = 1';
         $params = array($this->idUsuario);
         return Database::getRows($sql, $params);
     }

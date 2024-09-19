@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -11,6 +11,7 @@ import { Color } from "../assets/const/color";
 import HeaderSingle from "./header/headerSigle";
 import NotificationCard from "./cards/notificationCard";
 import PermissionCard from "./cards/permissionCard";
+import fetchData from "./utils/database";
 
 const Dashboard = () => {
 
@@ -22,13 +23,28 @@ const Dashboard = () => {
     { id: '5', title: 'Notification 5', type: 2, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
   ];
 
-  const permissions = [
-    { id: '1', title: 'Permission 1', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    { id: '2', title: 'Permission 2', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    { id: '3', title: 'Permission 3', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    { id: '4', title: 'Permission 4', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-    { id: '5', title: 'Permission 5', type: 3, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
-  ];
+  const [permissions,setPermissions] = useState([]);
+
+    const getData = async () => {
+        try {           
+                // Fetch permisos
+                const permissionsData = await fetchData("permiso", "readAllByCostumerPending");
+                console.log(permissionsData);
+                if (permissionsData.status) {
+                    setPermissions(permissionsData.dataset);
+                } else {
+                    alert("Error fetching permissions: " + permissionsData.error);
+                }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+
 
   const renderNotification = ({ item }) => (
     <NotificationCard title={item.title} type={item.type} dateBegin={item.dateBegin} dateEnd={item.dateEnd}/>
@@ -87,11 +103,11 @@ const Dashboard = () => {
                 <ScrollView contentContainerStyle={styles.permissionContainer}>
                 {permissions.map((item) => (
                     <PermissionCard
-                        key={item.id}
-                        title={item.title}
-                        type={item.type}
-                        dateBegin={item.dateBegin}
-                        dateEnd={item.dateEnd}
+                        key={item.id_permiso}
+                        title={item.tipo_permiso}
+                        type={item.estado}
+                        dateBegin={item.fecha_inicio}
+                        dateEnd={item.fecha_final}
                     />
                 ))}
             </ScrollView>

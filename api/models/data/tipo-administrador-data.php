@@ -65,6 +65,26 @@ class TipoAdministradorData extends TipoAdministradorHandler
         }
     }
 
+    public function setPermissions($value)
+    {
+        // Validar si el valor es binario (0 o 1)
+        if (Validator::isBinary($value)) {
+            // Convertir cadenas 'true' y 'false' a booleanos
+            if (is_string($value)) {
+                $value = ($value === '1'); // Convertir '1' a true, '0' a false
+            } elseif (is_numeric($value)) {
+                $value = (int) $value === 1;
+            }
+    
+            // Asignar el valor validado a $this->estado
+            $this->permisos = $value;
+            return true;
+        } else {
+            $this->data_error = 'The value must be binary (0 or 1).';
+            return false;
+        }
+    }
+
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */

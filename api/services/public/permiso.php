@@ -13,6 +13,10 @@ const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DOCUMENTO = "documentoPermiso";
 const POST_DESCRIPCION = "descripcionPermiso";
 
+const POST_ESTADO_PENDIENTE = "estadoPendiente";
+const POST_ESTADO_ACCEPTADO = "estadoAceptado";
+const POST_ESTADO_RECHAZADO = "estadoRechazado";
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se establecen los parámetros para la sesión.
@@ -173,17 +177,50 @@ if (isset($_GET['action'])) {
                 else if ($result['dataset'] = $permiso->readAllByCostumer()) {
                     $result['status'] = 1;
                 } else {
+                    $result['error'] = 'No existen permisos registrados';
+                }
+                break;
+            case 'searchRowsByCostumer':
+                $_POST = Validator::validateForm($_POST);
+                $idTipoPermiso = empty($_POST[POST_ID_TIPO_PERMISO]) ? 0 : $_POST[POST_ID_TIPO_PERMISO];
+                $estadoPendiente = empty($_POST[POST_ESTADO_PENDIENTE]) ? 0 : $_POST[POST_ESTADO_PENDIENTE];
+                $estadoAcceptado = empty($_POST[POST_ESTADO_ACCEPTADO]) ? 0 : $_POST[POST_ESTADO_ACCEPTADO];
+                $estadoRechazado = empty($_POST[POST_ESTADO_RECHAZADO]) ? 0 : $_POST[POST_ESTADO_RECHAZADO];
+                if (!$permiso->setIdUsuario($_SESSION['idUsuario']) or 
+                    !$permiso->setIdTipoPermiso($idTipoPermiso) or 
+                    !$permiso->setFechaInicio($_POST[POST_FECHA_INICIO]) or
+                    !$permiso->setFechaFinal($_POST[POST_FECHA_FINAL]) or
+                    !$permiso->setEstadoPendiente($estadoPendiente) or 
+                    !$permiso->setEstadoAcceptado($estadoAcceptado) or 
+                    !$permiso->setEstadoRechazado($estadoRechazado)
+                ) {
+                    $result['error'] = 'Error en los datos de búsqueda de permisos';
+                }
+                else if ($result['dataset'] = $permiso->searchRowsByCostumer()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Filtrando ' . count($result['dataset']) . ' peticiones';
+                } else {
+                    $result['error'] = 'No existen permisos registrados para filtrar';
+                }
+                break;
+            case 'readAllByCostumerPending':
+                if (!$permiso->setIdUsuario($_SESSION['idUsuario'])) {
+                    $result['error'] = 'user not found';
+                }
+                else if ($result['dataset'] = $permiso->readAllByCostumerPending()) {
+                    $result['status'] = 1;
+                } else {
                     $result['error'] = 'No existen peticions registrados';
                 }
                 break;
-                case 'readAll':
-                    if ($result['dataset'] = $permiso->readAll()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
-                    } else {
-                        $result['error'] = 'There aren´t permissions registered';
-                    }
-                    break;
+            case 'readAll':
+                if ($result['dataset'] = $permiso->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions registered';
+                }
+                break;
             // Caso por defecto para manejar acciones no disponibles.
             default:
                 $result['error'] = 'Action not available in the session';

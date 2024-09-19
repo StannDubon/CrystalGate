@@ -15,8 +15,8 @@ import FilterButton from "../components/button/filterButton";
 // Importa el componente PermissionCard para las tarjetas de permisos
 import PermissionCard from "./cards/permissionCard";
 import DocumentCard from "./cards/documentCard";
-import BottomSheet from "./filter/bottomSheet";
-import BottomSheetDocument from "./filter/bottomSheetSmall";
+import BottomSheet from "./filter/bottomSheetPermission";
+import BottomSheetDocument from "./filter/bottomSheetDocument";
 import SegmentedControl from "./button/historyButton";
 import fetchData from "./utils/database";
 import Svg, { Path } from "react-native-svg";
@@ -29,10 +29,67 @@ const History = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [permissions, setPermissions] = useState([]);
     const [documents, setDocuments] = useState([]);
-
+    
     // Paginación
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    //Para Documents
+    const [selectedRequestType, setSelectedRequestType] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [selectedDeliverCenter, setSelectedDeliverCenter] = useState('');
+
+    //Para Permisos
+    const [selectedSubType, setSelectedSubType] = useState('');
+    const [selectedStatePending, setSelectedStatePending] = useState('');
+    const [selectedStateAccepted, setSelectedStateAccepted] = useState('');
+    const [selectedStateRejected, setSelectedStateRejected] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
+    const getFilteredData = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('idTipoPeticion', selectedRequestType);
+            formData.append('idIdioma', selectedLanguage);
+            formData.append('idCentroEntrega',selectedDeliverCenter);
+            console.log(formData);
+            
+            const filteredData = await fetchData("peticion", "searchRowsByCostumer", formData);
+
+            if (filteredData.status) {
+                setDocuments(filteredData.dataset);  // Actualiza los datos filtrados
+            } else {
+                console.error("Error fetching filtered data:", filteredData.error);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const getFilteredDataPermission = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('idTipoPermiso', selectedSubType);
+            formData.append('fechaInicio', startDate);
+            formData.append('fechaFinal', endDate);
+            formData.append('estadoPendiente', selectedStatePending);
+            formData.append('estadoAceptado', selectedStateAccepted);  // Corregido
+            formData.append('estadoRechazado', selectedStateRejected);
+            //console.log(formData);
+    
+            const filteredData2 = await fetchData("permiso", "searchRowsByCostumer", formData);
+    
+            if (filteredData2.status) {
+                setPermissions(filteredData2.dataset);  // Actualiza permisos, no documentos
+            } else {
+                console.error("Error fetching filtered data:", filteredData2.error);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+    
 
     const getData = async () => {
         try {
@@ -44,7 +101,7 @@ const History = () => {
                 alert("Error fetching permissions: " + permissionsData.error);
             }
 
-            // Fetch peticiones (documentos)
+            /* Fetch peticiones (documentos)*/
             const documentsData = await fetchData("peticion", "readAllByCostumer");
             if (documentsData.status) {
                 setDocuments(documentsData.dataset);
@@ -55,6 +112,18 @@ const History = () => {
             console.error("Error fetching data:", error);
         }
     };
+
+    useEffect(() => {
+        if (selectedRequestType || selectedLanguage || selectedDeliverCenter) {
+            getFilteredData();  // Llama a la función cuando cambian los filtros
+        }
+    }, [selectedRequestType, selectedLanguage, selectedDeliverCenter]);
+
+    useEffect(() => {
+        if(selectedSubType || startDate || endDate || selectedStatePending || selectedStateAccepted || selectedStateRejected){
+            getFilteredDataPermission();
+        }
+    }, [selectedSubType, startDate, endDate, selectedStatePending, selectedStateAccepted, selectedStateRejected]);
 
     useEffect(() => {
         getData(selectedIndex);
@@ -123,7 +192,7 @@ const History = () => {
                                 title={item.tipo_peticion}
                                 dateSend={item.fecha_envio}
                                 Language={item.idioma}
-                                type={item.modo_entrega}
+                                type={item.centro_entrega}
                             />
                         ))
                     )}
@@ -176,9 +245,22 @@ const History = () => {
 
             </View>
             {selectedIndex === 0 ? (
-                <BottomSheet visible={visible} onClose={toggleWidget} />
+                <BottomSheet visible={visible} onClose={toggleWidget} onFilterChange={(type, inicio, final, pending, accepted, rejected) => {
+                    // >>>>>>>>>>>> Aquí se reciben los valores seleccionados del BottomSheet
+                    setSelectedSubType(type);
+                    setStartDate(inicio);
+                    setEndDate(final);
+                    setSelectedStatePending(pending);
+                    setSelectedStateAccepted(accepted);
+                    setSelectedStateRejected(rejected);
+                }}/>
             ) : (
-                <BottomSheetDocument visible={visible} onClose={toggleWidget} />
+                <BottomSheetDocument visible={visible} onClose={toggleWidget} onFilterChange={(type, language, center) => {
+                    // >>>>>>>>>>>> Aquí se reciben los valores seleccionados del BottomSheet
+                    setSelectedRequestType(type);
+                    setSelectedLanguage(language);
+                    setSelectedDeliverCenter(center);
+                }}/>
             )}
         </View>
     );

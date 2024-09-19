@@ -1,5 +1,5 @@
 
-const BASE_URL = "http://192.168.0.171/CrystalGate/api/services/public";
+const BASE_URL = "http://192.168.113.34/CrystalGate/api/services/public";
 
 
 const fetchData = async (service, action, data = null, file = false) => {
@@ -28,6 +28,7 @@ const fetchData = async (service, action, data = null, file = false) => {
         //const textResponse = await response.text();
         //console.log('Response Text:', textResponse);
         const result = await response.json(); // Parsear la respuesta como JSON
+        //console.log(url);
         return result; // Devolver el JSON de la respuesta
     } catch (error) {
         console.error('Fetch error:', error);
