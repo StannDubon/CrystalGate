@@ -203,6 +203,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen permisos registrados para filtrar';
                 }
                 break;
+            case 'readAllByCostumerPending':
+                if (!$permiso->setIdUsuario($_SESSION['idUsuario'])) {
+                    $result['error'] = 'user not found';
+                }
+                else if ($result['dataset'] = $permiso->readAllByCostumerPending()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen peticions registrados';
+                }
+                break;
             case 'readAll':
                 if ($result['dataset'] = $permiso->readAll()) {
                     $result['status'] = 1;

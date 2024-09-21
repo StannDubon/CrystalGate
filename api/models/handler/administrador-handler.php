@@ -230,7 +230,6 @@ class AdministradorHandler
         $result = Database::getRow($sql, $params);
     
         return $result['count'] > 0;
-
     }
 
     public function validatePermissions($value)
