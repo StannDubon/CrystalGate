@@ -141,6 +141,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
+            case 'changePasswordAdmin':
+                $_POST = Validator::validateForm($_POST);
+                if ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$usuario->setId($_POST[POST_ID]) or
+                        !$usuario->setClave($_POST[POST_CLAVE_NUEVA])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->changePasswordAdmin()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                }
+                break;
             case 'readPermissionTypePerUserGrapho':
                 if($usuario->validatePermissions('v')){
                     $result['error'] = 'No tiene permisos para leer los usuarios';

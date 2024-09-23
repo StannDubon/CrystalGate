@@ -75,6 +75,19 @@
   gap: 20px;
 }
 
+.main-modal-content .change-password {
+  padding: 10px 10px;
+  background-color: var(--color-extra-9);
+  border-radius: 5px;
+  border: none;
+  color: var(--color-fondo-1);
+}
+
+.main-modal-content .change-password:hover {
+  background-color: var(--color-extra-8);
+  cursor: pointer;
+}
+
 .main-modal-content.request {
   flex-direction: row;
   flex-wrap: wrap;

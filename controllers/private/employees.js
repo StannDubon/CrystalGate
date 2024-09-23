@@ -9,6 +9,12 @@ const BOX_EMPLOYEES = document.getElementById('box-employees'); // Contenedor pa
 // Constantes para establecer los elementos del componente Modal
 const SAVE_MODAL_EMPLEADO = document.getElementById('employee-modal'),
     MODAL_TITLE_EMPLEADO = document.getElementById('modal-title-employee');
+// Constantes para establecer los elementos del componente Modal de actualizar
+const SAVE_MODAL_EMPLEADO_U = document.getElementById('employee-modal-update'),
+    MODAL_TITLE_EMPLEADO_U = document.getElementById('modal-title-employee-update');
+// Constantes para establecer los elementos del componente Modal de actualizar
+const SAVE_MODAL_PASSWORD = document.getElementById('employee-modal-change-password'),
+    MODAL_TITLE_PASSWORD = document.getElementById('modal-title-employee-change-password');
 
 const BTN_EXPORT = document.getElementById('btnReport');
 let ID_EMPLOYEE = "";    
@@ -20,6 +26,19 @@ const SAVE_FORM_EMPLEADO = document.getElementById('employee-form'),
     CORREO_EMPLEADO = document.getElementById('correoUsuario'),
     CLAVE_EMPLEADO = document.getElementById('claveUsuario'),
     CONFIRMAR_CLAVE_EMPLEADO = document.getElementById('confirmarClave');
+// Constantes para establecer los elementos del formulario de actualizar
+const UPDATE_FORM_EMPLEADO = document.getElementById('employee-form-update'),
+    ID_EMPLEADO_U = document.getElementById('idUsuarioUpdate'),
+    NOMBRE_EMPLEADO_U = document.getElementById('nombreUsuarioUpdate'),
+    APELLIDO_EMPLEADO_U = document.getElementById('apellidoUsuarioUpdate'),
+    CORREO_EMPLEADO_U = document.getElementById('correoUsuarioUpdate'),
+    CLAVE_EMPLEADO_U = document.getElementById('claveUsuarioUpdate'),
+    CONFIRMAR_CLAVE_EMPLEADO_U = document.getElementById('confirmarClaveUpdate');
+// Constantes para establecer los elementos del formulario de cambio de contraseña
+const SAVE_FORM_PASSWORD = document.getElementById('employee-form-change-password'),
+    ID_EMPLEADO_PASSWORD = document.getElementById('idUsuarioCambio'),
+    CLAVE_EMPLEADO_PASSWORD = document.getElementById('claveUsuarioCambio'),
+    CONFIRMAR_CLAVE_EMPLEADO_PASSWORD = document.getElementById('confirmarClaveCambio');
 
     const pastelAndContrastColors = () => {
         // Genera un color pastel
@@ -210,6 +229,51 @@ SAVE_FORM_EMPLEADO.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
+// Evento para cuando se envía el formulario de actualizar
+UPDATE_FORM_EMPLEADO.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario
+    event.preventDefault();
+    // Se verifica la acción a realizar
+    (ID_EMPLEADO_U.value) ? action = 'updateRow' : action = 'createRow';
+    // Constante tipo objeto con los datos del formulario
+    const FORM = new FormData(UPDATE_FORM_EMPLEADO);
+    // Petición para guardar los datos del formulario
+    const DATA = await fetchData(EMPLEADO_API, action, FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
+    if (DATA.status) {
+        // Se cierra la caja de diálogo
+        SAVE_MODAL_EMPLEADO_U.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
+        // Se muestra un mensaje de éxito
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la lista para visualizar los cambios
+        await fillEmployees();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+// Evento para cuando se envía el formulario de cambio de contraseña
+SAVE_FORM_PASSWORD.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario
+    event.preventDefault();
+    // Constante tipo objeto con los datos del formulario
+    const FORM = new FormData(SAVE_FORM_PASSWORD);
+    // Petición para guardar los datos del formulario
+    const DATA = await fetchData(EMPLEADO_API, 'changePasswordAdmin', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
+    if (DATA.status) {
+        // Se cierra la caja de diálogo
+        SAVE_MODAL_PASSWORD.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
+        // Se muestra un mensaje de éxito
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la lista para visualizar los cambios
+        await fillEmployees();
+        ID_EMPLOYEE = "";
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
 
 // Función para abrir la página de cargos
 const openCharges = () => {
@@ -233,19 +297,39 @@ const openUpdate = async (id) => {
     FORM.append('idUsuario', id);
     const DATA = await fetchData(EMPLEADO_API, 'readOne', FORM);
     if (DATA.status) {
-        SAVE_MODAL_EMPLEADO.classList.add('show');
+        SAVE_MODAL_EMPLEADO_U.classList.add('show');
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
-        SAVE_MODAL_EMPLEADO.style.marginTop = window.scrollY + 'px';
-        MODAL_TITLE_EMPLEADO.textContent = 'Update Employee';
-        SAVE_FORM_EMPLEADO.reset();
+        SAVE_MODAL_EMPLEADO_U.style.marginTop = window.scrollY + 'px';
+        MODAL_TITLE_EMPLEADO_U.textContent = 'Update Employee';
+        UPDATE_FORM_EMPLEADO.reset();
         const ROW = DATA.dataset;
         console.log(ROW);
-        ID_EMPLEADO.value = ROW.id_usuario;
-        NOMBRE_EMPLEADO.value = ROW.nombre;
-        APELLIDO_EMPLEADO.value = ROW.apellido;
-        CORREO_EMPLEADO.value = ROW.correo;
-        fillSelect(CARGO_API, 'readAll', 'idCargo', ROW.cargo);
+        ID_EMPLEADO_U.value = ROW.id_usuario;
+        NOMBRE_EMPLEADO_U.value = ROW.nombre;
+        APELLIDO_EMPLEADO_U.value = ROW.apellido;
+        CORREO_EMPLEADO_U.value = ROW.correo;
+        fillSelect(CARGO_API, 'readAll', 'idCargoUpdate', ROW.cargo);
+        ID_EMPLOYEE = ROW.id_usuario;
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
+// Función para abrir el formulario de cambio de contraseña del empleado
+const openPassword = async () => {
+    const FORM = new FormData(); 
+    FORM.append('idUsuario', ID_EMPLOYEE);
+    const DATA = await fetchData(EMPLEADO_API, 'readOne', FORM);
+    if (DATA.status) {
+        SAVE_MODAL_PASSWORD.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_PASSWORD.style.marginTop = window.scrollY + 'px';
+        MODAL_TITLE_PASSWORD.textContent = 'Change Password';
+        SAVE_FORM_PASSWORD.reset();
+        const ROW = DATA.dataset;
+        ID_EMPLEADO_PASSWORD.value = ROW.id_usuario;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -266,6 +350,7 @@ const openDelete = async (id) => {
         }
     }
 }
+
 
 
 BTN_EXPORT.addEventListener('click', function(event){
