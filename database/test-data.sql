@@ -7,11 +7,13 @@ INSERT INTO tb_cargos (cargo) VALUES
 
 
 INSERT INTO tb_usuarios (id_cargo, nombre, apellido, clave, correo) VALUES
-(1, 'John', 'Doe', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'john.doe@example.com'),
-(2, 'Jane', 'Smith', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'jane.smith@example.com'),
-(3, 'Alice', 'Johnson', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'alice.johnson@example.com'),
-(4, 'Bob', 'Brown', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'bob.brown@example.com'),
-(5, 'Charlie', 'Davis', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDd', 'charlie.davis@example.com');
+(1, 'John', 'Doe', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG', 'john.doe@example.com'),
+(2, 'Jane', 'Smith', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG', 'jane.smith@example.com'),
+(3, 'Alice', 'Johnson', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG', 'alice.johnson@example.com'),
+(4, 'Bob', 'Brown', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG', 'bob.brown@example.com'),
+(5, 'Charlie', 'Davis', '$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG', 'charlie.davis@example.com');
+
+/* CONTRASEÑA USUARIOS: 123123123 */
 
 INSERT INTO tb_permisos (id_usuario, id_tipo_permiso, fecha_inicio, fecha_final, fecha_envio, documento_permiso, descripcion_permiso, estado) VALUES
 (1, 1, '2024-07-01 08:00:00', '2024-07-10 17:00:00', '2024-06-25 09:00:00', 'doc_12345.pdf', 'Family emergency', '1'),
@@ -34,34 +36,6 @@ INSERT INTO tb_centros_entregas(centro_entrega) VALUES
 ('Center 1'),
 ('Center 2'),
 ('Center 3');
-
-INSERT INTO tb_clasificaciones_permisos(clasificacion_permiso) VALUES
-("Medical Leave"),
-("Permissions"),
-("Vacation Request");
-
-INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
-(1, "ISSS", "3"),
-(1, "Service of Public Health", "3"),
-(1, "Service of Private Health", "3");
-
-INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
-(2, "Medical Appointment", "3"),
-(2, "Emergency Appointment", "3"),
-(2, "Family Emergency", "3"),
-(2, "Bereavement Leave", "3"),
-(2, "Marriage Leave", "3"),
-(2, "Paternity Leave", "3"),
-(2, "Personal Process", "3"),
-(2, "Court Date", "3"),
-(2, "Breastfeeding", "3"),
-(2, "Personal Day", "3"),
-(2, "Other", "3");
-
-INSERT INTO tb_tipos_permisos(id_clasificacion_permiso, tipo_permiso, lapso) VALUES
-(3, "Vacations", "3");
-
-
 
 -- 7 de agosto de 2024
 INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio, nombre_entrega, email_entrega) VALUES
