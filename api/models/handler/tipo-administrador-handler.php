@@ -53,8 +53,16 @@ class TipoAdministradorHandler
     // Método para crear un nuevo tipo de administrador.
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_tipos_administradores(tipo_administrador, estado) VALUES(?, ?)';
-        $params = array($this->tipo, $this->estado);
+        $sql = 'INSERT INTO tb_tipos_administradores(tipo_administrador, estado, permisos, documentacion, empleados_view, empleados_update, empleados_delete, empleados_add,
+                administradores_view, administradores_update, administradores_delete, administradores_add, autorizaciones_view, autorizaciones_update, autorizaciones_delete,
+                autorizaciones_add, tipo_administrador_view, tipo_administrador_update, tipo_administrador_delete, tipo_administrador_add)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->tipo, $this->estado,
+
+        $this->permisos, $this->documentacion, $this->empleados_view, $this->empleados_update, $this->empleados_delete,
+        $this->empleados_add, $this->administradores_view, $this->administradores_update, $this->administradores_delete, $this->administradores_add,
+        $this->autorizaciones_view, $this->autorizaciones_update, $this->autorizaciones_delete, $this->autorizaciones_add, $this->tipo_administrador_view,
+        $this->tipo_administrador_update, $this->tipo_administrador_delete, $this->tipo_administrador_add);
         return Database::executeRow($sql, $params);
     }
 

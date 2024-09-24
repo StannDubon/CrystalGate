@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoAdministrador");
     // Petición para solicitar los datos de la base.
     fillTypes();
-    
+    showPermissions();
     
 });
 
@@ -82,6 +82,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 closeModal = () => {
     SAVE_MODAL.classList.remove('show');
     document.body.classList.remove('body-no-scroll');
+    showPermissions();
 }
 // Funcion para cargar los datos de la base
 const fillTypes = async (form = null) => {
@@ -175,8 +176,6 @@ const showPermissions = async () => {
     }
 }
 
-showPermissions();
-
 
 // Método del evento para cuando se envía el formulario de guardar .
 SAVE_FORM.addEventListener('submit', async (event) => {
@@ -237,6 +236,7 @@ const openUpdate = async (id) => {
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
+
         SAVE_MODAL.classList.add('show');
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
@@ -246,6 +246,26 @@ const openUpdate = async (id) => {
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
+
+        document.getElementById(PERMISOS_ARRAY[0].key).checked = ROW.permisos
+        document.getElementById(PERMISOS_ARRAY[1].key).checked = ROW.documentacion
+        document.getElementById(PERMISOS_ARRAY[2].key).checked = ROW.empleados_view
+        document.getElementById(PERMISOS_ARRAY[3].key).checked = ROW.empleados_update
+        document.getElementById(PERMISOS_ARRAY[4].key).checked = ROW.empleados_delete
+        document.getElementById(PERMISOS_ARRAY[5].key).checked = ROW.empleados_add
+        document.getElementById(PERMISOS_ARRAY[6].key).checked = ROW.administradores_view
+        document.getElementById(PERMISOS_ARRAY[7].key).checked = ROW.administradores_update
+        document.getElementById(PERMISOS_ARRAY[8].key).checked = ROW.administradores_delete
+        document.getElementById(PERMISOS_ARRAY[9].key).checked = ROW.administradores_add
+        document.getElementById(PERMISOS_ARRAY[10].key).checked = ROW.autorizaciones_view
+        document.getElementById(PERMISOS_ARRAY[11].key).checked = ROW.autorizaciones_update
+        document.getElementById(PERMISOS_ARRAY[12].key).checked = ROW.autorizaciones_delete
+        document.getElementById(PERMISOS_ARRAY[13].key).checked = ROW.autorizaciones_add
+        document.getElementById(PERMISOS_ARRAY[14].key).checked = ROW.tipo_administrador_view
+        document.getElementById(PERMISOS_ARRAY[15].key).checked = ROW.tipo_administrador_update
+        document.getElementById(PERMISOS_ARRAY[16].key).checked = ROW.tipo_administrador_delete
+        document.getElementById(PERMISOS_ARRAY[17].key).checked = ROW.tipo_administrador_add
+
         ID_TIPO_ADMIN.value = ROW.id_tipo_administrador;
         TIPO_ADMIN.value = ROW.tipo_administrador;
         ESTADO_TIPO_ADMIN.value = ROW.estado;
