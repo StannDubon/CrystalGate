@@ -55,7 +55,6 @@ const DocumentationDetail = ({ route }) => {
             <ScrollView
                 contentContainerStyle={styles.formContainer}
             >
-
                 <InputText label={"REQUEST TYPE"} disabled={true} placeholder={document.tipo_peticion} />
                 <InputText label={"SEND BY"} disabled={true} placeholder={document.estado === 1 ? "Virtual" : "In-person"} />
                 <InputText label={"DOCUMENT LANGUAGE"} disabled={true} placeholder={document.idioma} />

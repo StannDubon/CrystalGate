@@ -11,7 +11,7 @@ import { Color } from "../../assets/const/color";
 
 
 // Definición del componente funcional DatePicker
-const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = false}) => {
+const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = false, minDate, maxDate }) => {
     // Estado local para almacenar la fecha seleccionada y controlar la visibilidad del DatePicker
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
@@ -24,11 +24,17 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
     }, [selectedDateTime]);
 
     // Calcula las fechas mínima y máxima
-    const minimumDate = new Date();
-    minimumDate.setDate(minimumDate.getDate() + 1); // Un día después de la fecha actual
+    const minimumDate = minDate ? new Date(minDate) : (() => {
+        const defaultMinDate = new Date();
+        defaultMinDate.setDate(defaultMinDate.getDate() + 1);
+        return defaultMinDate;
+    })();
 
-    const maximumDate = new Date();
-    maximumDate.setMonth(maximumDate.getMonth() + 3); // Tres meses después de la fecha actual
+    const maximumDate = maxDate ? new Date(maxDate) : (() => {
+        const defaultMaxDate = new Date();
+        defaultMaxDate.setMonth(defaultMaxDate.getMonth() + 3);
+        return defaultMaxDate;
+    })();
 
     // Función para manejar el cambio de fecha seleccionada en el DatePicker
     const onChange = (event, selectedDateTime) => {
