@@ -23,9 +23,22 @@ const TimePicker = ({ label, date, onTimeChange, disabled }) => {
         setShow(!show);
         if(selectedTime && event.type == 'set'){
             const currentTime = selectedTime || time;
-            const updatedTime = new Date(date); 
-            updatedTime.setHours(currentTime.getHours());
-            updatedTime.setMinutes(currentTime.getMinutes());
+            const updatedTime = new Date(date);
+
+            // Restringe las horas seleccionables entre 7 AM y 5 PM
+            if (currentTime.getHours() < 7) {
+                let hours = 7;
+                updatedTime.setHours(hours);
+                updatedTime.setMinutes(0);
+            } else if (currentTime.getHours() > 17) {
+                let hours = 17;
+                updatedTime.setHours(hours);
+                updatedTime.setMinutes(0);
+            }
+            else{
+                updatedTime.setHours(currentTime.getHours());
+                updatedTime.setMinutes(currentTime.getMinutes());
+            } 
             setShow(Platform.OS === "ios");
             setTime(updatedTime);
             onTimeChange && onTimeChange(updatedTime);

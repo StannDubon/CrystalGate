@@ -61,6 +61,13 @@ class UsuarioHandler
         $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
+    // Método para cambiar la contraseña del usuario.
+    public function changePasswordAdmin()
+    {
+        $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
+        $params = array($this->clave, $this->id);
+        return Database::executeRow($sql, $params);
+    }
 
     // Método para leer el perfil del usuario actual.
     public function readProfile()
@@ -172,6 +179,22 @@ class UsuarioHandler
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    public function changePasswordFromEmail()
+    {
+        $sql = 'UPDATE tb_clientes c SET c.clave_cliente = ? WHERE c.email_cliente = ?';
+        $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyExistingEmail()
+    {
+        $sql = 'SELECT COUNT(*) as count FROM tb_clientes a WHERE a.email_cliente = ?';
+        $params = array($this->correo);
+        $result = Database::getRow($sql, $params);
+    
+        return $result['count'] > 0;
     }
 
 

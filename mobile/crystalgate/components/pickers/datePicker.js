@@ -23,6 +23,13 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
         }
     }, [selectedDateTime]);
 
+    // Calcula las fechas mínima y máxima
+    const minimumDate = new Date();
+    minimumDate.setDate(minimumDate.getDate() + 1); // Un día después de la fecha actual
+
+    const maximumDate = new Date();
+    maximumDate.setMonth(maximumDate.getMonth() + 3); // Tres meses después de la fecha actual
+
     // Función para manejar el cambio de fecha seleccionada en el DatePicker
     const onChange = (event, selectedDateTime) => {
         
@@ -67,6 +74,8 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
                     mode="date"
                     display="default"
                     onChange={onChange}
+                    minimumDate={minimumDate}
+                    maximumDate={maximumDate}
                 />
             )}
         </View>

@@ -235,7 +235,15 @@ main{
     border-bottom-right-radius: 10px;
 }
 
-
+.main-row-1 .col3 {
+    width: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--color-texto-2);
+    font-size: var( --small-text-size);
+}
 /* DATE ESPECIFIED */
 
 .permission-date{

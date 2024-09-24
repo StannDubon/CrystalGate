@@ -11,9 +11,11 @@ const NOMBRE_EMPLEADO = document.getElementById('employee-name'),
 // Constantes para establecer los elementos de los modals
 const MODAL_TITLE_DESC = document.getElementById('modal-title-description'),
 MODAL_DESC = document.getElementById('description-text'),
-MODAL_REASON = document.getElementById('descripcion-modal');
+MODAL_REASON = document.getElementById('descripcion-modal')
+MODAL_IFRAME = document.getElementById('iframe');
 // Constante para establecer la modal del permiso.
 const DESCRIPTION_MODAL = document.getElementById('modal-description'),
+    IFRAME_MODAL = document.getElementById('modal-iframe'),
     REJECT_MODAL = document.getElementById('modal-reject');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM_REJECT = document.getElementById('reject-form');
@@ -82,7 +84,7 @@ fillRequest = async(FORM) => {
                                             fill="white" />
                                     </svg>
                                 </div>
-                                <p class="file-name">${DOCUMENTO_NOMBRE}</p>
+                                <p class="file-name">Attached file</p>
             `
         }else if(DOCUMENTO_EXTENSION === 'docx'){
             BOX_DOCUMENTO.classList.add('view-doc');
@@ -125,7 +127,10 @@ fillRequest = async(FORM) => {
                 <div class="col2 approved">
                     <p>APPROVED</p>
                 </div>
-                <p>Modified by ${ADMIN}</p>
+                <div class="col3">
+                    <p class="modified">Modified by ${ADMIN}</p>
+                </div>
+                
             `
         } else if(ESTADO == 3){
             BOX_ESTADO.classList.add('main-row-1');
@@ -143,7 +148,9 @@ fillRequest = async(FORM) => {
                 <div class="col2 rejected">
                     <p>REJECTED</p>
                 </div>
-                <p>Modified by ${ADMIN}</p>
+                <div class="col3">
+                    <p class="modified">Modified by ${ADMIN}</p>
+                </div>
             `
         }
         setVariables(startDate);
@@ -235,6 +242,9 @@ closeModal = () =>{
         document.body.classList.remove('body-no-scroll');
     }else if( REJECT_MODAL.classList.contains('show') ){
         REJECT_MODAL.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
+    }else if( IFRAME_MODAL.classList.contains('show') ){
+        IFRAME_MODAL.classList.remove('show');
         document.body.classList.remove('body-no-scroll');
     }
 }
@@ -338,19 +348,10 @@ openFile = async(filename) => {
     const filePath = SERVER_URL + 'documents/permiso/' + filename; 
 
     try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = filename; 
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
+        IFRAME_MODAL.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        MODAL_IFRAME.src = filePath;
+        console.log(MODAL_IFRAME.src);
     } catch (error) {
         sweetAlert(2, 'There was a problem finding the file', false);
     }
