@@ -9,6 +9,7 @@ import Login from "./components/login";
 import PasswordRecovery from "./components/password-recovery";
 import Verification from "./components/verification";
 import NewPassword from "./components/new-password";
+import DocumentationDetail from "./components/documentation-detail";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ export default function App() {
           <Stack.Screen name="Verification" component={Verification} options={{ headerShown: false }} />
           <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
           <Stack.Screen name="Navigation" component={Navigation} options={{ headerShown: false }} />
+          <Stack.Screen name="DocumentationDetail" component={DocumentationDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

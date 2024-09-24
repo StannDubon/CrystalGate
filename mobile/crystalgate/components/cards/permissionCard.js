@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Svg, { Path } from "react-native-svg";
 
-const PermissionCard = ({title, type, dateBegin, timeBegin, dateEnd, timeEnd}) => {
+const PermissionCard = ({title, type, dateBegin, timeBegin, dateEnd, timeEnd, onPress}) => {
     const [colorCard, setColorCard] = useState("#8DDA8C");
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const PermissionCard = ({title, type, dateBegin, timeBegin, dateEnd, timeEnd}) =
 
 
     return (
-      <View style={[styles.card]}>
+      <TouchableOpacity onPress={onPress} style={[styles.card]}>
         <View style={[styles.cardHeader, { backgroundColor: colorCard }]}>
             <Text style={styles.cardTitle}>{title}</Text>
         </View>
@@ -53,7 +53,7 @@ const PermissionCard = ({title, type, dateBegin, timeBegin, dateEnd, timeEnd}) =
                 </View>
             </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
 };
 
