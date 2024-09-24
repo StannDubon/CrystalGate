@@ -132,13 +132,33 @@
                             name="idTipoAdministrador"></select>
                         <input type="email" placeholder="Email" name="correoAdministrador" id="correoAdministrador"
                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
-                        <input type="password" placeholder="Password" name="claveAdministrador" id="claveAdministrador" maxlength="100"
-                            minlength="8" required>
-                        <input type="password" placeholder="Confirm Password" name="confirmarClave" id="confirmarClave" maxlength="100"
-                            minlength="8" required>
-
+                        <button id="change-password" class="change-password" type="button" onclick="openPassword()">Change Password</button>
                     </div>
                     <!-- Botones del modal -->
+                    <div class="footer-modal-content">
+                        <button class="custom-modal-button-discard" type="reset">Discard</button>
+                        <button class="custom-modal-button-save" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="administrator-modal-change-password" class="custom-modal-container">
+        <div class="custom-modal-container-fixer">
+            <div class="box-content">
+                <div class="tittle-modal-content" id="modal-title-administrator-change-password"></div>
+                <form id="administrator-form-change-password">
+
+                    <input type="text" id="idAdministradorCambio" name="idAdministrador" hidden>
+                    <div class="main-modal-content">
+
+                        <input type="password" placeholder="Password" name="claveNueva" id="claveAdministradorCambio"
+                            maxlength="100" minlength="8" required>
+                        <input type="password" placeholder="Confirm Password" name="confirmarClave" maxlength="100"
+                            minlength="8" id="confirmarClave" required>
+
+                    </div>
                     <div class="footer-modal-content">
                         <button class="custom-modal-button-discard" type="button">Discard</button>
                         <button class="custom-modal-button-save" type="submit">Save</button>
