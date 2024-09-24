@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Svg, { Path } from "react-native-svg";
 
-const DocumentCard = ({title, dateSend, Language, type}) => {
+const DocumentCard = ({title, dateSend, Language, type, onPress}) => {
     // Split dateSend to remove time
     const [dateOnly] = dateSend.split(' ');
-
-
-
+    
     return (
-      <View style={[styles.card]}>
+      <TouchableOpacity onPress={onPress} style={[styles.card]}>
         <View style={[styles.cardHeader, { backgroundColor: "#3452D3"}]}>
             <Text style={styles.cardTitle}>{title}</Text>
         </View>
@@ -24,7 +22,7 @@ const DocumentCard = ({title, dateSend, Language, type}) => {
                 </View>
             </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
 };
 

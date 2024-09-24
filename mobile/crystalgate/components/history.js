@@ -20,10 +20,12 @@ import BottomSheetDocument from "./filter/bottomSheetDocument";
 import SegmentedControl from "./button/historyButton";
 import fetchData from "./utils/database";
 import Svg, { Path } from "react-native-svg";
+import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('window');
 
 const History = () => {
+    const navigation = useNavigation();
     // Estado para controlar la visibilidad de la hoja inferior
     const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -53,7 +55,7 @@ const History = () => {
             formData.append('idTipoPeticion', selectedRequestType);
             formData.append('idIdioma', selectedLanguage);
             formData.append('idCentroEntrega',selectedDeliverCenter);
-            console.log(formData);
+            //console.log(formData);
             
             const filteredData = await fetchData("peticion", "searchRowsByCostumer", formData);
 
@@ -183,6 +185,7 @@ const History = () => {
                                 type={item.estado}
                                 dateBegin={item.fecha_inicio}
                                 dateEnd={item.fecha_final}
+                                onPress={() => navigation.navigate('CreatePermission', { id: item.id_permiso })}
                             />
                         ))
                     ) : (
@@ -193,6 +196,7 @@ const History = () => {
                                 dateSend={item.fecha_envio}
                                 Language={item.idioma}
                                 type={item.centro_entrega}
+                                onPress={() => navigation.navigate('DocumentationDetail', { id: item.id_peticion })}
                             />
                         ))
                     )}

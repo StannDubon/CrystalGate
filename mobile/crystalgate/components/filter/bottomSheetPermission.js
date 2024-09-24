@@ -123,7 +123,7 @@ const BottomSheet = ({ visible, onClose, onFilterChange }) => {
     useEffect(() => { 
         // Call onFiltersChange whenever a filter value changes 
         onFilterChange( selectedSubType, startDate, endDate, selectedStatePending, selectedStateAccepted, selectedStateRejected );
-        console.log("DESDE BOTTOMSHEET PERMISSION ID " + selectedSubType + " FECHAS: " + startDate, endDate + " STATES: " + selectedStatePending, selectedStateAccepted, selectedStateRejected );
+        //console.log("DESDE BOTTOMSHEET PERMISSION ID " + selectedSubType + " FECHAS: " + startDate, endDate + " STATES: " + selectedStatePending, selectedStateAccepted, selectedStateRejected );
     }, [selectedSubType, startDate, endDate, selectedStatePending, selectedStateAccepted, selectedStateRejected]);
 
     // Función para actualizar fecha de forma controlada

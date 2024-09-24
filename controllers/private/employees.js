@@ -12,7 +12,7 @@ const SAVE_MODAL_EMPLEADO = document.getElementById('employee-modal'),
 // Constantes para establecer los elementos del componente Modal de actualizar
 const SAVE_MODAL_EMPLEADO_U = document.getElementById('employee-modal-update'),
     MODAL_TITLE_EMPLEADO_U = document.getElementById('modal-title-employee-update');
-// Constantes para establecer los elementos del componente Modal de actualizar
+// Constantes para establecer los elementos del componente Modal de actualizar contraseña
 const SAVE_MODAL_PASSWORD = document.getElementById('employee-modal-change-password'),
     MODAL_TITLE_PASSWORD = document.getElementById('modal-title-employee-change-password');
 
