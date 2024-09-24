@@ -16,6 +16,31 @@ const SAVE_FORM = document.getElementById('save-form-types'),
     TIPO_ADMIN = document.getElementById('tipoAdministrador'),
     ESTADO_TIPO_ADMIN = document.getElementById('estadoTipoAdministrador');
 
+const ADMIN_PERMISSIONS = document.getElementById('admin-permissions-selector');
+
+const PERMISOS_ARRAY = [
+    { name: 'Permissions', key: 'permisos', value: false },
+    { name: 'Documentation', key: 'documentacion', value: false },
+    { name: 'View employees', key: 'empleados_view', value: false },
+    { name: 'Update employees', key: 'empleados_update', value: false },
+    { name: 'Delete employees', key: 'empleados_delete', value: false },
+    { name: 'Add employees', key: 'empleados_add', value: false },
+    { name: 'View administrators', key: 'administradores_view', value: false },
+    { name: 'Update administrators', key: 'administradores_update', value: false },
+    { name: 'Delete administrators', key: 'administradores_delete', value: false },
+    { name: 'Add administrators', key: 'administradores_add', value: false },
+    { name: 'View authorizations', key: 'autorizaciones_view', value: false },
+    { name: 'Update authorizations', key: 'autorizaciones_update', value: false },
+    { name: 'Delete authorizations', key: 'autorizaciones_delete', value: false },
+    { name: 'Add authorizations', key: 'autorizaciones_add', value: false },
+    { name: 'View admin types', key: 'tipo_administrador_view', value: false },
+    { name: 'Update admin types', key: 'tipo_administrador_update', value: false },
+    { name: 'Delete admin types', key: 'tipo_administrador_delete', value: false },
+    { name: 'Add admin types', key: 'tipo_administrador_add', value: false }
+];
+
+
+
 
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -25,6 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoAdministrador");
     // Petición para solicitar los datos de la base.
     fillTypes();
+    
     
 });
 
@@ -128,6 +154,30 @@ const changeChargeStatus = async (id) => {
     }
 }
 
+const showPermissions = async () => {
+    
+    for (let i = 0; i < PERMISOS_ARRAY.length; i++) {
+        const permiso = PERMISOS_ARRAY[i];
+        
+        // Crear un elemento div para cada permiso
+        const permisoDiv = document.createElement('div');
+        
+        // Generar el HTML con el checkbox y la etiqueta
+        permisoDiv.innerHTML = `
+            <label>
+                <input type="checkbox" id="${permiso.key}" ${permiso.value ? 'checked' : ''}>
+                ${permiso.name}
+            </label>
+        `;       
+        
+        // Agregar el div al contenedor
+        ADMIN_PERMISSIONS.appendChild(permisoDiv);
+    }
+}
+
+showPermissions();
+
+
 // Método del evento para cuando se envía el formulario de guardar .
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -136,6 +186,11 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     (ID_TIPO_ADMIN.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
+    for (let i = 0; i < PERMISOS_ARRAY.length; i++) {
+        const permiso = PERMISOS_ARRAY[i];
+        FORM.append(permiso.key, document.getElementById(permiso.key).checked ? '1' : '0');
+    }
+    
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(TYPES_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.

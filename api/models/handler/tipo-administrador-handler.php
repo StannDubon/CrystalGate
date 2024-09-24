@@ -13,7 +13,29 @@ class TipoAdministradorHandler
     protected $id = null;
     protected $tipo = null;
     protected $estado = null;
-    protected $permisos = null;
+
+    protected $permisos = false;
+    protected $documentacion = false;
+
+    protected $empleados_view = false;
+    protected $empleados_update = false;
+    protected $empleados_delete = false;
+    protected $empleados_add = false;
+
+    protected $administradores_view = false;
+    protected $administradores_update = false;
+    protected $administradores_delete = false;
+    protected $administradores_add = false;
+
+    protected $autorizaciones_view = false;
+    protected $autorizaciones_update = false;
+    protected $autorizaciones_delete = false;
+    protected $autorizaciones_add = false;
+
+    protected $tipo_administrador_view = false;
+    protected $tipo_administrador_update = false;
+    protected $tipo_administrador_delete = false;
+    protected $tipo_administrador_add = false;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -57,10 +79,41 @@ class TipoAdministradorHandler
     // Método para actualizar un tipo de administrador.
     public function updateRow()
     {
-        $sql = 'UPDATE tb_tipos_administradores
-                SET tipo_administrador = ?, estado = ?
-                WHERE id_tipo_administrador = ?';
-        $params = array($this->tipo, $this->estado, $this->id);
+        $sql = "UPDATE tb_tipos_administradores
+                SET tipo_administrador = ?, estado = ?,
+
+                permisos = ?,
+                documentacion = ?,
+                
+                empleados_view = ?,
+                empleados_update = ?,
+                empleados_delete = ?,
+                empleados_add = ?,
+
+                administradores_view = ?,
+                administradores_update = ?,
+                administradores_delete = ?,
+                administradores_add = ?,
+
+                autorizaciones_view = ?,
+                autorizaciones_update = ?,
+                autorizaciones_delete = ?,
+                autorizaciones_add = ?,
+
+                tipo_administrador_view = ?,
+                tipo_administrador_update = ?,
+                tipo_administrador_delete = ?,
+                tipo_administrador_add = ?
+
+                WHERE id_tipo_administrador = ?";
+        $params = array($this->tipo, $this->estado,
+
+        $this->permisos, $this->documentacion, $this->empleados_view, $this->empleados_update, $this->empleados_delete,
+        $this->empleados_add, $this->administradores_view, $this->administradores_update, $this->administradores_delete, $this->administradores_add,
+        $this->autorizaciones_view, $this->autorizaciones_update, $this->autorizaciones_delete, $this->autorizaciones_add, $this->tipo_administrador_view,
+        $this->tipo_administrador_update, $this->tipo_administrador_delete, $this->tipo_administrador_add
+
+        ,$this->id);
         return Database::executeRow($sql, $params);
     }
 
