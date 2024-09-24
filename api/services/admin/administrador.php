@@ -203,6 +203,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'An error ocurred while changing the password';
                 }
                 break;
+            case 'changePasswordAdmin':
+                $_POST = Validator::validateForm($_POST);
+                if ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$administrador->setId($_POST[POST_ID]) or
+                        !$administrador->setClave($_POST[POST_CLAVE_NUEVA])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->changePasswordAdmin()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                }
+                break;
             default:
                 $result['error'] = 'Action not available in the session';
         }

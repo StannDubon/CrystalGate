@@ -62,6 +62,13 @@ class AdministradorHandler
         $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params); // Ejecuta la consulta para actualizar la contraseña.
     }
+    // Método para cambiar la contraseña de un administrador.
+    public function changePasswordAdmin()
+    {
+        $sql = 'UPDATE tb_administradores SET clave = ? WHERE id_administrador = ?';
+        $params = array($this->clave,$this->id);
+        return Database::executeRow($sql, $params); // Ejecuta la consulta para actualizar la contraseña.
+    }
 
     // Método para leer el perfil del administrador actualmente autenticado.
     public function readProfile()

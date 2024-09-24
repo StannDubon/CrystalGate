@@ -4,10 +4,13 @@ const ADMINISTRATOR_API = 'services/admin/administrador.php',
 const SEARCH_FORM = document.getElementById('search-form'),
     SEARCH_INPUT = document.getElementById('search-input');
 const ADMINISTRATOR = document.getElementById('admin-main-cards-container');
-
+const BTN_CHANGE_PASSWORD = document.getElementById('change-password')
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL_ADMINISTRATOR = document.getElementById('administrator-modal'),
     MODAL_TITLE_ADMINISTRATOR = document.getElementById('modal-title-administrator');
+// Constantes para establecer los elementos del componente Modal de actualizar
+const SAVE_MODAL_PASSWORD = document.getElementById('administrator-modal-change-password'),
+    MODAL_TITLE_PASSWORD = document.getElementById('modal-title-administrator-change-password');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM_ADMINISTRATOR = document.getElementById('administrator-form'),
 
@@ -17,6 +20,11 @@ const SAVE_FORM_ADMINISTRATOR = document.getElementById('administrator-form'),
     CORREO_ADMINISTRATOR = document.getElementById('correoAdministrador'),
     CLAVE_ADMINISTRATOR = document.getElementById('claveAdministrador'),
     CONFIRMAR_CLAVE_ADMINISTRATOR = document.getElementById('confirmarClave');
+// Constantes para establecer los elementos del formulario de cambio de contraseña
+const SAVE_FORM_PASSWORD = document.getElementById('administrator-form-change-password'),
+    ID_ADMINISTRATOR_PASSWORD = document.getElementById('idAdministradorCambio'),
+    CLAVE_ADMINISTRATOR_PASSWORD = document.getElementById('claveAdministradorCambio'),
+    CONFIRMAR_CLAVE_ADMINISTRATOR_PASSWORD = document.getElementById('confirmarClaveCambio');
 
     const pastelAndContrastColors = () => {
         // Genera un color pastel
@@ -28,7 +36,8 @@ const SAVE_FORM_ADMINISTRATOR = document.getElementById('administrator-form'),
     
         return [pastelColor, contrastColor];
     };
-    
+
+let ID_ADMINISTRADOR = "";    
 document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
     setupModalDiscardButtons();
@@ -86,10 +95,40 @@ SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
         sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la lista para visualizar los cambios.
         await fillTable();
+        BTN_CHANGE_PASSWORD.classList.remove('none');
     } else {
         sweetAlert(2, DATA.error, false);
     }
 });
+
+SAVE_FORM_ADMINISTRATOR.addEventListener('reset', async (event) => {
+    BTN_CHANGE_PASSWORD.classList.remove('none');
+});
+
+// Evento para cuando se envía el formulario de cambio de contraseña
+SAVE_FORM_PASSWORD.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario
+    event.preventDefault();
+    // Constante tipo objeto con los datos del formulario
+    const FORM = new FormData(SAVE_FORM_PASSWORD);
+    // Petición para guardar los datos del formulario
+    const DATA = await fetchData(ADMINISTRATOR_API, 'changePasswordAdmin', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
+    if (DATA.status) {
+        // Se cierra la caja de diálogo
+        SAVE_MODAL_PASSWORD.classList.remove('show');
+        document.body.classList.remove('body-no-scroll');
+        // Se muestra un mensaje de éxito
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la lista para visualizar los cambios
+        await fillEmployees();
+        ID_ADMINISTRADOR = "";
+        
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
 // Funcion para cargar los datos de la base
 const fillTable = async (form = null) => {
     ADMINISTRATOR.innerHTML = '';
@@ -215,6 +254,7 @@ const openCreate = () => {
     MODAL_TITLE_ADMINISTRATOR.textContent = 'Add An Administrator';
     SAVE_FORM_ADMINISTRATOR.reset();
     fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador');
+    BTN_CHANGE_PASSWORD.classList.add('none');
 }
 /*
 *   Función para preparar el formulario al momento de actualizar un registro.
@@ -230,7 +270,7 @@ const openUpdate = async (id) => {
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
         SAVE_MODAL_ADMINISTRATOR.style.marginTop = window.scrollY + 'px';
-        MODAL_TITLE_ADMINISTRATOR.textContent = 'Update authorization';
+        MODAL_TITLE_ADMINISTRATOR.textContent = 'Update administrator';
         SAVE_FORM_ADMINISTRATOR.reset();
 
         const ROW = DATA.dataset;
@@ -240,10 +280,32 @@ const openUpdate = async (id) => {
         APELLIDO_ADMINISTRATOR.value = ROW.apellido;
         CORREO_ADMINISTRATOR.value = ROW.correo;
         fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador', ROW.id_tipo_administrador);
+
+        ID_ADMINISTRADOR = ROW.id_administrador;
     } else {
         sweetAlert(2, DATA.error, false);
     }
 }
+
+// Función para abrir el formulario de cambio de contraseña del administrador
+const openPassword = async () => {
+    const FORM = new FormData(); 
+    FORM.append('idAdministrador', ID_ADMINISTRADOR);
+    const DATA = await fetchData(ADMINISTRATOR_API, 'readOne', FORM);
+    if (DATA.status) {
+        SAVE_MODAL_PASSWORD.classList.add('show');
+        document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
+        // Ajustar la posición del modal para que esté visible en la pantalla
+        SAVE_MODAL_PASSWORD.style.marginTop = window.scrollY + 'px';
+        MODAL_TITLE_PASSWORD.textContent = 'Change Password';
+        SAVE_FORM_PASSWORD.reset();
+        const ROW = DATA.dataset;
+        ID_ADMINISTRATOR_PASSWORD.value = ROW.id_administrador;
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
 /*
 *   Función asíncrona para eliminar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
