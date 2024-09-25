@@ -16,6 +16,31 @@ const SAVE_FORM = document.getElementById('save-form-types'),
     TIPO_ADMIN = document.getElementById('tipoAdministrador'),
     ESTADO_TIPO_ADMIN = document.getElementById('estadoTipoAdministrador');
 
+const ADMIN_PERMISSIONS = document.getElementById('admin-permissions-selector');
+
+const PERMISOS_ARRAY = [
+    { name: 'Permissions', key: 'permisos', value: false },
+    { name: 'Documentation', key: 'documentacion', value: false },
+    { name: 'View employees', key: 'empleados_view', value: false },
+    { name: 'Update employees', key: 'empleados_update', value: false },
+    { name: 'Delete employees', key: 'empleados_delete', value: false },
+    { name: 'Add employees', key: 'empleados_add', value: false },
+    { name: 'View administrators', key: 'administradores_view', value: false },
+    { name: 'Update administrators', key: 'administradores_update', value: false },
+    { name: 'Delete administrators', key: 'administradores_delete', value: false },
+    { name: 'Add administrators', key: 'administradores_add', value: false },
+    { name: 'View authorizations', key: 'autorizaciones_view', value: false },
+    { name: 'Update authorizations', key: 'autorizaciones_update', value: false },
+    { name: 'Delete authorizations', key: 'autorizaciones_delete', value: false },
+    { name: 'Add authorizations', key: 'autorizaciones_add', value: false },
+    { name: 'View admin types', key: 'tipo_administrador_view', value: false },
+    { name: 'Update admin types', key: 'tipo_administrador_update', value: false },
+    { name: 'Delete admin types', key: 'tipo_administrador_delete', value: false },
+    { name: 'Add admin types', key: 'tipo_administrador_add', value: false }
+];
+
+
+
 
 // Método manejador de eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -25,6 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadStatusSelectorJs('swal-custom-status-chooser-req-type', "estadoTipoAdministrador");
     // Petición para solicitar los datos de la base.
     fillTypes();
+    showPermissions();
     
 });
 
@@ -56,6 +82,7 @@ SEARCH_INPUT.addEventListener('input', (event) => {
 closeModal = () => {
     SAVE_MODAL.classList.remove('show');
     document.body.classList.remove('body-no-scroll');
+    showPermissions();
 }
 // Funcion para cargar los datos de la base
 const fillTypes = async (form = null) => {
@@ -128,6 +155,28 @@ const changeChargeStatus = async (id) => {
     }
 }
 
+const showPermissions = async () => {
+    
+    for (let i = 0; i < PERMISOS_ARRAY.length; i++) {
+        const permiso = PERMISOS_ARRAY[i];
+        
+        // Crear un elemento div para cada permiso
+        const permisoDiv = document.createElement('div');
+        
+        // Generar el HTML con el checkbox y la etiqueta
+        permisoDiv.innerHTML = `
+            <label>
+                <input type="checkbox" id="${permiso.key}" ${permiso.value ? 'checked' : ''}>
+                ${permiso.name}
+            </label>
+        `;       
+        
+        // Agregar el div al contenedor
+        ADMIN_PERMISSIONS.appendChild(permisoDiv);
+    }
+}
+
+
 // Método del evento para cuando se envía el formulario de guardar .
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -136,6 +185,11 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     (ID_TIPO_ADMIN.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
+    for (let i = 0; i < PERMISOS_ARRAY.length; i++) {
+        const permiso = PERMISOS_ARRAY[i];
+        FORM.append(permiso.key, document.getElementById(permiso.key).checked ? '1' : '0');
+    }
+    
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(TYPES_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -182,6 +236,7 @@ const openUpdate = async (id) => {
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
+
         SAVE_MODAL.classList.add('show');
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
@@ -191,6 +246,26 @@ const openUpdate = async (id) => {
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
+
+        document.getElementById(PERMISOS_ARRAY[0].key).checked = ROW.permisos
+        document.getElementById(PERMISOS_ARRAY[1].key).checked = ROW.documentacion
+        document.getElementById(PERMISOS_ARRAY[2].key).checked = ROW.empleados_view
+        document.getElementById(PERMISOS_ARRAY[3].key).checked = ROW.empleados_update
+        document.getElementById(PERMISOS_ARRAY[4].key).checked = ROW.empleados_delete
+        document.getElementById(PERMISOS_ARRAY[5].key).checked = ROW.empleados_add
+        document.getElementById(PERMISOS_ARRAY[6].key).checked = ROW.administradores_view
+        document.getElementById(PERMISOS_ARRAY[7].key).checked = ROW.administradores_update
+        document.getElementById(PERMISOS_ARRAY[8].key).checked = ROW.administradores_delete
+        document.getElementById(PERMISOS_ARRAY[9].key).checked = ROW.administradores_add
+        document.getElementById(PERMISOS_ARRAY[10].key).checked = ROW.autorizaciones_view
+        document.getElementById(PERMISOS_ARRAY[11].key).checked = ROW.autorizaciones_update
+        document.getElementById(PERMISOS_ARRAY[12].key).checked = ROW.autorizaciones_delete
+        document.getElementById(PERMISOS_ARRAY[13].key).checked = ROW.autorizaciones_add
+        document.getElementById(PERMISOS_ARRAY[14].key).checked = ROW.tipo_administrador_view
+        document.getElementById(PERMISOS_ARRAY[15].key).checked = ROW.tipo_administrador_update
+        document.getElementById(PERMISOS_ARRAY[16].key).checked = ROW.tipo_administrador_delete
+        document.getElementById(PERMISOS_ARRAY[17].key).checked = ROW.tipo_administrador_add
+
         ID_TIPO_ADMIN.value = ROW.id_tipo_administrador;
         TIPO_ADMIN.value = ROW.tipo_administrador;
         ESTADO_TIPO_ADMIN.value = ROW.estado;

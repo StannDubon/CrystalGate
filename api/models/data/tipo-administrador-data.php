@@ -65,24 +65,121 @@ class TipoAdministradorData extends TipoAdministradorHandler
         }
     }
 
-    public function setPermissions($value)
+    // Método genérico para establecer valores booleanos.
+    private function setBooleanValue(&$property, $value, $propertyName)
     {
-        // Validar si el valor es binario (0 o 1)
-        if (Validator::isBinary($value)) {
-            // Convertir cadenas 'true' y 'false' a booleanos
-            if (is_string($value)) {
-                $value = ($value === '1'); // Convertir '1' a true, '0' a false
-            } elseif (is_numeric($value)) {
-                $value = (int) $value === 1;
-            }
-    
-            // Asignar el valor validado a $this->estado
-            $this->permisos = $value;
+        if (Validator::validateBoolean($value)) {
+            $property = $this->convertToBoolean($value);
             return true;
         } else {
-            $this->data_error = 'The value must be binary (0 or 1).';
+            $this->data_error = "The value for $propertyName has to be a boolean (true/false or 1/0)";
             return false;
         }
+    }
+
+    // Métodos para establecer los permisos de empleados.
+    public function setPermisos($value)
+    {
+        return $this->setBooleanValue($this->permisos, $value, 'permisos');
+    }
+
+    public function setDocumentacion($value)
+    {
+        return $this->setBooleanValue($this->documentacion, $value, 'empleados_view');
+    }
+
+    public function setEmpleadosView($value)
+    {
+        return $this->setBooleanValue($this->empleados_view, $value, 'empleados_view');
+    }
+
+    public function setEmpleadosUpdate($value)
+    {
+        return $this->setBooleanValue($this->empleados_update, $value, 'empleados_update');
+    }
+
+    public function setEmpleadosDelete($value)
+    {
+        return $this->setBooleanValue($this->empleados_delete, $value, 'empleados_delete');
+    }
+
+    public function setEmpleadosAdd($value)
+    {
+        return $this->setBooleanValue($this->empleados_add, $value, 'empleados_add');
+    }
+
+    // Métodos para establecer los permisos de administradores.
+    public function setAdministradoresView($value)
+    {
+        return $this->setBooleanValue($this->administradores_view, $value, 'administradores_view');
+    }
+
+    public function setAdministradoresUpdate($value)
+    {
+        return $this->setBooleanValue($this->administradores_update, $value, 'administradores_update');
+    }
+
+    public function setAdministradoresDelete($value)
+    {
+        return $this->setBooleanValue($this->administradores_delete, $value, 'administradores_delete');
+    }
+
+    public function setAdministradoresAdd($value)
+    {
+        return $this->setBooleanValue($this->administradores_add, $value, 'administradores_add');
+    }
+
+    // Métodos para establecer los permisos de autorizaciones.
+    public function setAutorizacionesView($value)
+    {
+        return $this->setBooleanValue($this->autorizaciones_view, $value, 'autorizaciones_view');
+    }
+
+    public function setAutorizacionesUpdate($value)
+    {
+        return $this->setBooleanValue($this->autorizaciones_update, $value, 'autorizaciones_update');
+    }
+
+    public function setAutorizacionesDelete($value)
+    {
+        return $this->setBooleanValue($this->autorizaciones_delete, $value, 'autorizaciones_delete');
+    }
+
+    public function setAutorizacionesAdd($value)
+    {
+        return $this->setBooleanValue($this->autorizaciones_add, $value, 'autorizaciones_add');
+    }
+
+    // Métodos para establecer los permisos de tipo administrador.
+    public function setTipoAdministradorView($value)
+    {
+        return $this->setBooleanValue($this->tipo_administrador_view, $value, 'tipo_administrador_view');
+    }
+
+    public function setTipoAdministradorUpdate($value)
+    {
+        return $this->setBooleanValue($this->tipo_administrador_update, $value, 'tipo_administrador_update');
+    }
+
+    public function setTipoAdministradorDelete($value)
+    {
+        return $this->setBooleanValue($this->tipo_administrador_delete, $value, 'tipo_administrador_delete');
+    }
+
+    public function setTipoAdministradorAdd($value)
+    {
+        return $this->setBooleanValue($this->tipo_administrador_add, $value, 'tipo_administrador_add');
+    }
+
+    // Método auxiliar para convertir valores a booleanos.
+    private function convertToBoolean($value)
+    {
+        if (is_string($value)) {
+            return ($value === 'true' || $value === '1');
+        } elseif (is_numeric($value)) {
+            return (int) $value === 1;
+        }
+        return (bool) $value;
     }
 
     /*
