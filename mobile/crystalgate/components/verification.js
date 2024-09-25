@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
     View,
     SafeAreaView,
+    Alert
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 // Componente de entrada para el código de verificación
@@ -17,16 +18,41 @@ import BackgroundImage from "../components/background/background-mountain";
 // Hook para la navegación entre pantallas
 import { useNavigation } from '@react-navigation/native';
 
+import fetchData from './utils/database';
 // Requiere la imagen de fondo
 const fondo = require("../assets/img/background/background.png");
 
-const Verification = () => {
-    const [number, onChangeText] = React.useState("");
+const Verification = ({ route }) => {
+    const { token } = route.params;
+    const [codigo, setCodigo] = useState("");
+
     const navigation = useNavigation();
 
-    const handleSend = () => {
-        // Función para manejar el envío a la pantalla NewPassword
-        navigation.navigate('NewPassword');
+    const handleSend = async () => {
+        try {
+            // Creamos un FormData con el token y el código de verificación.
+            const form = new FormData();
+            form.append("token", token);
+            form.append("codigoSecretoContraseña", codigo);
+            
+            // Hacemos una solicitud usando fetchData para validar el código de verificación y recibir una respuesta.
+            const DATA = await fetchData("cliente", "emailPasswordValidator", form);
+            // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos el código, mostramos una alerta y navegamos a la siguiente pantalla.
+            if (DATA.status) {
+              setCodigo("");
+              Alert.alert("Éxito", "Verificación Correcta");
+              const tokenV = DATA.dataset;
+              navigation.replace("NewPassword", { tokenV });
+            } else {
+              // En caso de error, mostramos un mensaje de error en una alerta.
+              console.log(DATA);
+              Alert.alert("Error sesión", DATA.error);
+            }
+          } catch (error) {
+            // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
+            console.error(error, "Error desde Catch");
+            Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+          }
     };
     const handleBack = () => {
         // Función para manejar el envío a la pantalla PasswordRecovery
@@ -47,7 +73,7 @@ const Verification = () => {
                     </Text>
                     <View style={styles.form}>
                         <SafeAreaView>
-                            <CheckInputForm onChangeText={onChangeText} value={number} placeholder="Code"/>
+                            <CheckInputForm onChangeText={setCodigo} value={codigo} placeholder="Code"/>
                         </SafeAreaView>
 
                         <SendButton onPress={handleSend} />

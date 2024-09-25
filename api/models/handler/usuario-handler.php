@@ -183,14 +183,14 @@ class UsuarioHandler
 
     public function changePasswordFromEmail()
     {
-        $sql = 'UPDATE tb_clientes c SET c.clave_cliente = ? WHERE c.email_cliente = ?';
+        $sql = 'UPDATE tb_usuarios c SET c.clave = ? WHERE c.correo = ?';
         $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
         return Database::executeRow($sql, $params);
     }
 
     public function verifyExistingEmail()
     {
-        $sql = 'SELECT COUNT(*) as count FROM tb_clientes a WHERE a.email_cliente = ?';
+        $sql = 'SELECT COUNT(*) as count FROM tb_usuarios a WHERE a.correo = ?';
         $params = array($this->correo);
         $result = Database::getRow($sql, $params);
     
