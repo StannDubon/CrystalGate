@@ -54,6 +54,14 @@ const BottomSheet = ({ visible, onClose, onFilterChange }) => {
     endDateInit.setFullYear(endDateInit.getFullYear() + 50);
     const formattedEndDate = endDateInit.toISOString().slice(0, 19).replace('T', ' ');
 
+    // Establecer minDate como 50 años atrás
+    const minDate = new Date();
+    minDate.setFullYear(currentDate.getFullYear() - 50);
+
+    // Establecer maxDate como 50 años adelante
+    const maxDate = new Date();
+    maxDate.setFullYear(currentDate.getFullYear() + 50);
+
     const [startDate, setStartDate] = useState(formattedStartDate);
     const [endDate, setEndDate] = useState(formattedEndDate);
 
@@ -176,8 +184,8 @@ const BottomSheet = ({ visible, onClose, onFilterChange }) => {
                             isDisabled={subTypeDisabled}></ComboBox>
                         </View>
                         <View style={styles.midContent}>
-                            <DatePicker label={"From: "} selectedDateTime={startDate} onDateTimeChange={handleStartDateChange} style={styles.date}></DatePicker>
-                            <DatePicker label={"To: "} selectedDateTime={endDate} onDateTimeChange={handleEndDateChange} style={styles.date}></DatePicker>
+                            <DatePicker label={"From: "} selectedDateTime={startDate} onDateTimeChange={handleStartDateChange} minDate={minDate} maxDate={maxDate}  style={styles.date}></DatePicker>
+                            <DatePicker label={"To: "} selectedDateTime={endDate} onDateTimeChange={handleEndDateChange} minDate={minDate} maxDate={maxDate}  style={styles.date}></DatePicker>
                         </View>
                         <View style={styles.btnContainer}>
                             <StateButton
