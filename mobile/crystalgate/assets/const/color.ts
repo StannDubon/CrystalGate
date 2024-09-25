@@ -14,6 +14,7 @@ export const Color = {
     colorBtnIcon2: "#3F91FD",
     colorBtnIcon3: "#FFFFFF",
     colorBtnUqload: "#CECECE",
+    colorBtnClose: "#64759D",
     // COLORES DE FUENTESS
     colorfont1: "#4292F6",
     colorfont2: "#66A0E9",

@@ -7,10 +7,9 @@ import {
 } from "react-native";
 import { Color } from "../assets/const/color";
 import HeaderForms from "./header/headerForms";
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import InputText from "./input/InputText";
-import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
+import Banner from "./banner/banner-state";
 import fetchData from './utils/database';
 
 const DocumentationDetail = ({ route }) => {
@@ -65,6 +64,7 @@ const DocumentationDetail = ({ route }) => {
                 <TextArea label={"ADDRESS"} disabled={true} placeholder={document.direccion} />
                 <InputText label={"SHIPPING DATE"} disabled={true} placeholder={fecha} />
                 <InputText label={"SHIPPING TIME"} disabled={true} placeholder={hora} />
+                <Banner state={document.estado} description={document.motivo}/>
             </ScrollView>
         </View>
     );
