@@ -24,6 +24,43 @@ class AdministradorHandler
      *  Métodos para gestionar la cuenta del administrador.
      */
 
+         public function changeTempPassword()
+    {
+        $sql = 'UPDATE tb_administrador
+                SET contraseña_administrador = ?
+                WHERE id_administrador = ?';
+        $params = array($this->clave, $_SESSION['tempChanger']['id']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function clearValidator()
+    {
+        $sql = 'CALL clear_past_validators();';
+        return Database::executeSingleRow($sql);
+    }
+
+    public function setValidator($email)
+    {
+        $sql = 'CALL update_validatorcount(?);';
+        $params = array($email);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function getValidator($email){
+        $sql = 'SELECT validator AS date FROM tb_administrador WHERE email_administrador=?';
+        $params = array($email);
+        $result = Database::getRow($sql, $params);
+        return $result['date'] != null;
+    }
+
+      public function validatePassword()
+    {
+        $sql = 'SELECT verificar_cambio_contraseña(?) AS date;';
+        $params = array($_SESSION['tempChanger']['id']);
+        $result = Database::getRow($sql, $params);
+        return $result['date'] == 1;
+    }
+
     // Método para verificar el usuario mediante correo y contraseña.
     public function checkUser($email, $password)
     {

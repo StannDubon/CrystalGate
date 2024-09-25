@@ -161,7 +161,10 @@ CREATE TABLE
         clave VARCHAR(275) NOT NULL,
         correo VARCHAR(75) NOT NULL UNIQUE,
         imagen VARCHAR(75) DEFAULT 'default.png',
-
+		   validator DATETIME,
+        validatorcount INT DEFAULT 0,
+        cambio_contraseña DATETIME DEFAULT (NOW() + INTERVAL 90 DAY),
+        2fa BOOLEAN,	
         CONSTRAINT fk_administrador_tipo FOREIGN KEY (id_tipo_administrador) REFERENCES tb_tipos_administradores(id_tipo_administrador)
     );
     
@@ -243,3 +246,95 @@ INSERT INTO tb_administradores(id_tipo_administrador, nombre, apellido, clave, c
 VALUES(1,'test','test','$2y$10$fJZIRCJZMXXF8cRBMdDMDOjESQb63xBiWAK1jrXEscJDdLKyYHlgG',
 'test@root.com', 'test.png');
 /* CONTRASEÑA: 123123123 */
+
+
+DELIMITER $$
+
+CREATE PROCEDURE set_validator(
+    p_email_administrador VARCHAR(100)
+)
+BEGIN
+    DECLARE v_current_datetime DATETIME;
+    SET v_current_datetime = NOW();
+    UPDATE tb_administradores
+    SET validator = DATE_ADD(v_current_datetime, INTERVAL 1 DAY)
+    WHERE correo = p_email_administrador; -- Cambié 'email_administrador' a 'correo'
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE update_validator_count(
+    p_email_administrador VARCHAR(100)
+)
+BEGIN
+    DECLARE v_current_validatorcount INT;
+
+    -- Obtener el valor actual de validatorcount
+    SELECT COALESCE(validatorcount, 0) INTO v_current_validatorcount
+    FROM tb_administradores  -- Corregido a 'tb_administradores'
+    WHERE correo = p_email_administrador;  -- Corregido a 'correo'
+
+    -- Incrementar validatorcount
+    SET v_current_validatorcount = v_current_validatorcount + 1;
+
+    -- Actualizar el valor en la tabla
+    UPDATE tb_administradores  -- Corregido a 'tb_administradores'
+    SET validatorcount = v_current_validatorcount
+    WHERE correo = p_email_administrador;  -- Corregido a 'correo'
+
+    -- Llamar a set_validator si es necesario
+    IF v_current_validatorcount >= 3 THEN
+        CALL set_validator(p_email_administrador);
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$ 
+
+CREATE PROCEDURE clear_past_validators()
+BEGIN
+    UPDATE tb_administradores  -- Cambié 'tb_administrador' a 'tb_administradores'
+    SET validator = NULL,
+        validatorcount = 0
+    WHERE validator <= NOW();
+END $$
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE FUNCTION verificar_cambio_contraseña(id INT)
+RETURNS INT
+BEGIN
+    DECLARE fecha_cambio DATETIME;
+
+    SELECT cambio_contraseña INTO fecha_cambio
+    FROM tb_administradores  -- Cambié 'tb_administrador' a 'tb_administradores'
+    WHERE id_administrador = id;  -- Asegúrate de que este campo exista en tu tabla
+
+    IF fecha_cambio <= NOW() THEN
+        RETURN 1;  -- Contraseña necesita ser cambiada
+    ELSE
+        RETURN 0;  -- Contraseña está actualizada
+    END IF;
+END //
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER tr_update_cambio_contraseña
+BEFORE UPDATE ON tb_administradores  -- Cambié 'tb_administrador' a 'tb_administradores'
+FOR EACH ROW
+BEGIN
+    IF NEW.clave <> OLD.clave THEN  -- Cambié 'contraseña_administrador' a 'clave'
+        SET NEW.cambio_contraseña = NOW() + INTERVAL 90 DAY;
+    END IF;
+END $$
+
+DELIMITER ;
