@@ -33,16 +33,19 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
-    // Definir el tiempo máximo de inactividad en segundos 
-    $maxInactivity = 300;
+    // Tiempo límite de inactividad en segundos
+    $inactiveLimit = 300; // Set inactivity limit in seconds
 
-    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $maxInactivity) {
-        // Si ha pasado más del tiempo permitido desde la última actividad, destruir la sesión
-        session_unset();
-        session_destroy();
+    // Verifica y actualiza el tiempo de actividad
+    if (!isset($_SESSION['last_activity'])) {
+        $_SESSION['last_activity'] = time(); // Initialize last activity time
+    } else if (time() - $_SESSION['last_activity'] > $inactiveLimit) {
+        session_unset(); // Limpia la sesión
+        session_destroy(); // Destruye la sesión
+        echo "La sesión ha sido destruida por inactividad.";
     }
-
-    // Actualizar el tiempo de la última actividad
+    
+    // Actualiza el tiempo de actividad
     $_SESSION['last_activity'] = time();
 
     // Se instancia la clase correspondiente.
