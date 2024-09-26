@@ -17,6 +17,7 @@ class AdministradorHandler
     protected $correo = null;
     protected $clave = null;
     protected $imagen = null;
+    protected $auf = null;
 
     const RUTA_IMAGEN = '../../images/admin/';
 
@@ -80,11 +81,14 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
-
-
-
-
-
+    public function change2Auf()
+    {
+        $sql = 'UPDATE tb_administradores
+                SET 2fa = ?
+                WHERE id_administrador = ?';
+        $params = array($this->auf, $_SESSION['idAdministrador']);
+        return Database::executeRow($sql, $params); // Ejecuta la consulta para actualizar la contraseña.
+    }
 
     public function validateUser($email, $password)
     {
