@@ -32,6 +32,7 @@ import TimePicker from "./pickers/timePicker";
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
 import fetchData from "./utils/database";
+import { useFocusEffect } from '@react-navigation/native';
 
 const PermissionRequest = () => {
 
@@ -64,6 +65,33 @@ const PermissionRequest = () => {
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     
+    useFocusEffect(
+        React.useCallback(() => {
+            // Esta función se ejecutará cada vez que el componente esté enfocado
+            loadData(); // Llamar a tu función para cargar datos
+    
+            // Restablecer los valores del formulario y otros estados
+            setSelectedType("");
+            setSelectedSubType("");
+            setPermissionDescription("");
+            setSelectedFile(null);
+            setStartDate(new Date());
+            setEndDate(new Date());
+            setStartTime(new Date());
+            setEndTime(new Date());
+            setSelectedOption("");
+            setSubTypeDisabled(true);
+            setDisabledDay(true);
+            setDisabledHour(true);
+    
+            // Limpiar cuando el componente pierde el enfoque
+            return () => {
+                // Opcional: puedes agregar lógica de limpieza aquí si es necesario
+            };
+        }, [])
+    );
+    
+
     const isDisabledSend =
         !selectedType ||
         !selectedSubType ||
@@ -189,18 +217,7 @@ const PermissionRequest = () => {
             });
         }
 
-        console.log(selectedType);
-        console.log(selectedSubType);
-        console.log(permissionDescription);
-        console.log(startDate);
-        console.log(endDate);
-        console.log(selectedFile);
-        console.log({
-            uri: selectedFile.assets[0].uri,
-            name: selectedFile.assets[0].name,
-            type: selectedFile.assets[0].mimeType
-        });
-        console.log(getDateTime());
+        console.log(formData.getAll("documentoPermiso"));
 
         // Enviar los datos al servicio
         const result = await fetchData('permiso', 'createRow', formData, true);

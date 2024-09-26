@@ -107,6 +107,17 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
+    public function setAuf($value)
+    {
+        if (Validator::validateBoolean($value)) {
+            $this->auf = $value;
+            return true;
+        } else {
+            $this->data_error = 'The value of 2auf is incorrect';
+            return false;
+        }
+    }
+
 
     // Método para obtener el nombre de archivo de imagen del administrador.
     public function setFilename()

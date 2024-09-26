@@ -4,7 +4,8 @@ import {
     Text,
     View,
     FlatList,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
@@ -25,6 +26,8 @@ const Dashboard = () => {
 
   const [permissions,setPermissions] = useState([]);
 
+  const [refreshing, setRefreshing] = useState(false); // Estado para el refresco
+
     const getData = async () => {
         try {           
                 // Fetch permisos
@@ -43,6 +46,13 @@ const Dashboard = () => {
     useEffect(() => {
         getData();
     }, []);
+
+     // Función de refresco
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Refrescar los datos
+    setRefreshing(false);
+  };
 
 
 
@@ -100,7 +110,11 @@ const Dashboard = () => {
                     </Svg>
                     <Text style={styles.textSection}>PENDING</Text>
                 </View>
-                <ScrollView contentContainerStyle={styles.permissionContainer}>
+                <ScrollView contentContainerStyle={styles.permissionContainer}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                >
                 {permissions.map((item) => (
                     <PermissionCard
                         key={item.id_permiso}
