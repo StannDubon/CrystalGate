@@ -33,6 +33,18 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
+    // Definir el tiempo máximo de inactividad en segundos 
+    $maxInactivity = 300;
+
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $maxInactivity) {
+        // Si ha pasado más del tiempo permitido desde la última actividad, destruir la sesión
+        session_unset();
+        session_destroy();
+    }
+
+    // Actualizar el tiempo de la última actividad
+    $_SESSION['last_activity'] = time();
+
     // Se instancia la clase correspondiente.
     $administrador = new AdministradorData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
