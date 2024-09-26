@@ -7,22 +7,19 @@ import {
     Clipboard,
     Alert,
 } from "react-native";
-// Importación de Svg y Path desde react-native-svg, para usar archivos svg
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
-// Botón para cambiar la contraseña en el perfil del usuario
-import ChangePassButton from "../components/button/button-change-pass";
-// Encabezado único para la pantalla de perfil
 import HeaderSingle from "../components/header/headerSigle";
 import { useNavigation } from '@react-navigation/native';
-// Botón para cerrar sesión en la aplicación
 import LogOutButton from "./button/logOutButton";
 import AlertModal from './modal/alertModal';
 import fetchData from "./utils/database";
+// Botón para cambiar la contraseña en el perfil del usuario
+import ChangePassButton from "../components/button/button-change-pass";
 
 const Profile = () => {
-    const [email,setEmail] = useState("");
-    const [iniciales,setIniciales] = useState("");
+    const [email, setEmail] = useState("");
+    const [iniciales, setIniciales] = useState("");
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [cargo, setCargo] = useState("");
@@ -30,56 +27,78 @@ const Profile = () => {
     const navigation = useNavigation();
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
-    const getUser = async () =>{
-        const result = await fetchData('cliente','readOne');
-        if(result.status){
+    const getUser = async () => {
+        const result = await fetchData('cliente', 'readOne');
+        if (result.status) {
             setEmail(result.dataset.correo);
             setApellido(result.dataset.apellido);
             setNombre(result.dataset.nombre);
             setCargo(result.dataset.cargo);
-            setIniciales(result.dataset.nombre[0]+result.dataset.apellido[0]);
+            setIniciales(result.dataset.nombre[0] + result.dataset.apellido[0]);
             setId(result.dataset.id_usuario);
         }
     }
 
     useEffect(() => {
         getUser();
-    },[navigation]);
+    }, [navigation]);
 
     const copyToClipboard = (text) => {
         Clipboard.setString(text);
     };
 
-    const fetchCopiedText = async () => {
-        const text = await Clipboard.getString();
-        setCopiedText(text);
-    };
-
-    const handleRecovery = () => {
-        // Función para manejar el envío
-        navigation.navigate('Verification');
-    };
     const handleLogOut = async () => {
         let action = "logOut";
         try {
-          const result = await fetchData('cliente', action);
-          console.log(result);
-          if (result.status == 1) {
-            setSuccessModalVisible(true);
-            setTimeout(() => {
-              setSuccessModalVisible(false);
-              navigation.navigate('Login');
-            }, 3000);
-          } 
+            const result = await fetchData('cliente', action);
+            console.log(result);
+            if (result.status == 1) {
+                setSuccessModalVisible(true);
+                setTimeout(() => {
+                    setSuccessModalVisible(false);
+                    // Navegar a la pantalla de carga
+                    navigation.navigate('LoadingScreen');
+                    // Mostrar la pantalla de carga durante 5 segundos
+                    setTimeout(() => {
+                        // Redirigir a la pantalla de Login después de 5 segundos
+                        navigation.navigate('Login');
+                    }, 5000);
+                }, 3000);
+            }
         } catch (error) {
-          console.error("Error: ", error);
+            console.error("Error: ", error);
         }
-      };
+    };
 
-    // Renderizado del componente
+    const handleRecovery = async () => {
+
+        try {
+            // Creamos un FormData con el correo electrónico del usuario.
+            const form = new FormData();
+            form.append("correoUsuario", email);
+            
+            // Hacemos una solicitud usando fetchData para enviar el correo electrónico y recibir una respuesta.
+            const DATA = await fetchData("cliente", "emailPasswordSender", form);
+            // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos el correo, mostramos una alerta y navegamos a la siguiente pantalla.
+            if (DATA.status) {
+              Alert.alert("Éxito", "Un código de verificación ha sido enviado a su correo electrónico");
+              const token = DATA.dataset;
+              navigation.replace("Verification", { token });
+            } else {
+              // En caso de error, mostramos un mensaje de error en una alerta.
+              console.log(DATA);
+              Alert.alert("Error sesión", DATA.error);
+            }
+          } catch (error) {
+            // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
+            console.error(error, "Error desde Catch");
+            Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+          }
+    };
+
     return (
         <View style={styles.container}>
-            <HeaderSingle title={"Profile"}/>
+            <HeaderSingle title={"Profile"} />
             <View style={styles.body}>
                 <View style={styles.topContrast}>
                     <View style={styles.circle}>
@@ -118,8 +137,8 @@ const Profile = () => {
                     <Text style={styles.charge}>{cargo}</Text>
 
                     <View style={styles.ContentButton}>
-                    <LogOutButton onPress={handleLogOut}></LogOutButton>
-                    <ChangePassButton onPress={handleRecovery}/>
+                        <ChangePassButton onPress={handleRecovery}/>
+                        <LogOutButton onPress={handleLogOut} />
                     </View>
                 </View>
             </View>
@@ -128,105 +147,100 @@ const Profile = () => {
     );
 };
 
-// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
         fontFamily: "Poppins-Regular",
-        flex: 1, // Flex 1 para ocupar todo el espacio disponible
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        backgroundColor: Color.colorBackground, // Color de fondo definido en la constante Color
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: Color.colorBackground,
     },
-
-    body:{
+    body: {
         width: "100%",
         backgroundColor: "red"
     },
-
-
     topContrast: {
-        display: "flex", // Mostrar como contenedor flexible
-        backgroundColor: Color.colorContrast, // Color de contraste definido en la constante Color
-        width: 390, // Ancho del contenedor
-        height: 110, // Altura del contenedor
-        justifyContent: "center", // Centrar verticalmente los elementos hijos
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        display: "flex",
+        backgroundColor: Color.colorContrast,
+        width: 390,
+        height: 110,
+        justifyContent: "center",
+        alignItems: "center",
     },
     circle: {
-        width: 150, // Ancho del círculo
-        height: 150, // Altura del círculo
-        borderRadius: 100, // Radio de borde para hacerlo circular
-        backgroundColor: "#dcdcdc", // Color de fondo del círculo
-        justifyContent: "center", // Centrar verticalmente los elementos hijos
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
-        marginTop: 110, // Margen superior para ajustar la posición
+        width: 150,
+        height: 150,
+        borderRadius: 100,
+        backgroundColor: "#dcdcdc",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 110,
     },
     initials: {
-        color: "#4285F4", // Color del texto de las iniciales
-        fontSize: 48, // Tamaño de fuente de las iniciales
-        fontWeight: "bold", // Peso de la fuente para las iniciales
+        color: "#4285F4",
+        fontSize: 48,
+        fontWeight: "bold",
     },
     content: {
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        width: 390, // Ancho del contenedor
-        height: 110, // Altura del contenedor
-        justifyContent: "center", // Centrar verticalmente los elementos hijos
-        marginTop: 240, // Margen superior para ajustar la posición
+        display: "flex",
+        flexDirection: "column",
+        width: 390,
+        height: 110,
+        justifyContent: "center",
+        marginTop: 240,
     },
     name: {
-        fontSize: 24, // Tamaño de fuente para el nombre
-        fontWeight: "bold", // Peso de la fuente para el nombre
-        color: "#4285F4", // Color del texto del nombre
-        textAlign: "center", // Alineación del texto al centro
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#4285F4",
+        textAlign: "center",
     },
     id: {
-        fontSize: 16, // Tamaño de fuente para el ID
-        color: "#777777", // Color del texto del ID
-        textAlign: "center", // Alineación del texto al centro
-        marginBottom: 20, // Margen inferior para ajustar la posición
+        fontSize: 16,
+        color: "#777777",
+        textAlign: "center",
+        marginBottom: 20,
     },
     label: {
-        fontSize: 16, // Tamaño de fuente para las etiquetas
-        fontWeight: "bold", // Peso de la fuente para las etiquetas
-        color: "#777777", // Color del texto de las etiquetas
-        marginTop: 20, // Margen superior para ajustar la posición
-        textAlign: "left", // Alineación del texto a la izquierda
-        marginHorizontal: 40, // Margen horizontal para ajustar la posición
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#777777",
+        marginTop: 20,
+        textAlign: "left",
+        marginHorizontal: 40,
     },
     row: {
-        display: "flex", // Mostrar como contenedor flexible
-        justifyContent: "space-between", // Espacio entre elementos distribuidos uniformemente
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
-        marginTop: 10, // Margen superior para ajustar la posición
-        marginHorizontal: 40, // Margen horizontal para ajustar la posición
-        flexDirection: "row", // Dirección de los elementos en fila
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: 10,
+        marginHorizontal: 40,
+        flexDirection: "row",
     },
     email: {
-        fontSize: 16, // Tamaño de fuente para el correo electrónico
-        color: "#4285F4", // Color del texto del correo electrónico
-        textAlign: "left", // Alineación del texto a la izquierda
-        flexDirection: "row", // Dirección de los elementos en fila
-        width: 280, // Ancho del correo electrónico
+        fontSize: 16,
+        color: "#4285F4",
+        textAlign: "left",
+        flexDirection: "row",
+        width: 280,
     },
     svg: {
-        marginRight: 10, // Margen derecho para ajustar la posición del icono SVG
+        marginRight: 10,
     },
     charge: {
-        fontSize: 16, // Tamaño de fuente para el cargo
-        color: "#4285F4", // Color del texto del cargo
-        marginTop: 10, // Margen superior para ajustar la posición
-        textAlign: "left", // Alineación del texto a la izquierda
-        marginLeft: 40, // Margen izquierdo para ajustar la posición
+        fontSize: 16,
+        color: "#4285F4",
+        marginTop: 10,
+        textAlign: "left",
+        marginLeft: 40,
     },
-    ContentButton:{
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "row", // Dirección de los elementos en fila
-        justifyContent: "space-around", // Espacio entre elementos distribuidos uniformemente
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
-        paddingHorizontal: 30, // Relleno horizontal para ajustar la posición
+    ContentButton: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        paddingHorizontal: 30,
     },
 });
 
-// Exporta el componente Profile como el predeterminado
 export default Profile;
