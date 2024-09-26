@@ -29,7 +29,7 @@ const Dashboard = () => {
         try {           
                 // Fetch permisos
                 const permissionsData = await fetchData("permiso", "readAllByCostumerPending");
-                console.log(permissionsData);
+                //console.log(permissionsData);
                 if (permissionsData.status) {
                     setPermissions(permissionsData.dataset);
                 } else {

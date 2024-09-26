@@ -7,6 +7,27 @@ const POST_ID = "idTipoAdministrador";
 const POST_TIPO = "tipoAdministrador";
 const POST_ESTADO = "estadoTipoAdministrador";
 
+$permisos = [
+    'permisos',
+    'documentacion',
+    'empleados_view',
+    'empleados_update',
+    'empleados_delete',
+    'empleados_add',
+    'administradores_view',
+    'administradores_update',
+    'administradores_delete',
+    'administradores_add',
+    'autorizaciones_view',
+    'autorizaciones_update',
+    'autorizaciones_delete',
+    'autorizaciones_add',
+    'tipo_administrador_view',
+    'tipo_administrador_update',
+    'tipo_administrador_delete',
+    'tipo_administrador_add'
+];
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se establecen los parámetros para la sesión.
@@ -50,7 +71,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No tiene permisos para agregar un tipo administrador';
                 } elseif (
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
-                    !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
+                    !$TipoAdministrador->setEstado($_POST[POST_ESTADO]) or
+                    
+                    !$TipoAdministrador->setPermisos($_POST[$permisos[0]]) or
+                    !$TipoAdministrador->setDocumentacion($_POST[$permisos[1]]) or
+                    !$TipoAdministrador->setEmpleadosView($_POST[$permisos[2]]) or
+                    !$TipoAdministrador->setEmpleadosUpdate($_POST[$permisos[3]]) or
+                    !$TipoAdministrador->setEmpleadosDelete($_POST[$permisos[4]]) or
+                    !$TipoAdministrador->setEmpleadosAdd($_POST[$permisos[5]]) or
+                    !$TipoAdministrador->setAdministradoresView($_POST[$permisos[6]]) or
+                    !$TipoAdministrador->setAdministradoresUpdate($_POST[$permisos[7]]) or
+                    !$TipoAdministrador->setAdministradoresDelete($_POST[$permisos[8]]) or
+                    !$TipoAdministrador->setAdministradoresAdd($_POST[$permisos[9]]) or
+                    !$TipoAdministrador->setAutorizacionesView($_POST[$permisos[10]]) or
+                    !$TipoAdministrador->setAutorizacionesUpdate($_POST[$permisos[11]]) or
+                    !$TipoAdministrador->setAutorizacionesDelete($_POST[$permisos[12]]) or
+                    !$TipoAdministrador->setAutorizacionesAdd($_POST[$permisos[13]]) or
+                    !$TipoAdministrador->setTipoAdministradorView($_POST[$permisos[14]]) or
+                    !$TipoAdministrador->setTipoAdministradorUpdate($_POST[$permisos[15]]) or
+                    !$TipoAdministrador->setTipoAdministradorDelete($_POST[$permisos[16]]) or
+                    !$TipoAdministrador->setTipoAdministradorAdd($_POST[$permisos[17]])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($TipoAdministrador->createRow()) {
@@ -91,7 +131,26 @@ if (isset($_GET['action'])) {
                 } elseif (
                     !$TipoAdministrador->setId($_POST[POST_ID]) or
                     !$TipoAdministrador->setTipo($_POST[POST_TIPO]) or
-                    !$TipoAdministrador->setEstado($_POST[POST_ESTADO])
+                    !$TipoAdministrador->setEstado($_POST[POST_ESTADO]) or
+                    
+                    !$TipoAdministrador->setPermisos($_POST[$permisos[0]]) or
+                    !$TipoAdministrador->setDocumentacion($_POST[$permisos[1]]) or
+                    !$TipoAdministrador->setEmpleadosView($_POST[$permisos[2]]) or
+                    !$TipoAdministrador->setEmpleadosUpdate($_POST[$permisos[3]]) or
+                    !$TipoAdministrador->setEmpleadosDelete($_POST[$permisos[4]]) or
+                    !$TipoAdministrador->setEmpleadosAdd($_POST[$permisos[5]]) or
+                    !$TipoAdministrador->setAdministradoresView($_POST[$permisos[6]]) or
+                    !$TipoAdministrador->setAdministradoresUpdate($_POST[$permisos[7]]) or
+                    !$TipoAdministrador->setAdministradoresDelete($_POST[$permisos[8]]) or
+                    !$TipoAdministrador->setAdministradoresAdd($_POST[$permisos[9]]) or
+                    !$TipoAdministrador->setAutorizacionesView($_POST[$permisos[10]]) or
+                    !$TipoAdministrador->setAutorizacionesUpdate($_POST[$permisos[11]]) or
+                    !$TipoAdministrador->setAutorizacionesDelete($_POST[$permisos[12]]) or
+                    !$TipoAdministrador->setAutorizacionesAdd($_POST[$permisos[13]]) or
+                    !$TipoAdministrador->setTipoAdministradorView($_POST[$permisos[14]]) or
+                    !$TipoAdministrador->setTipoAdministradorUpdate($_POST[$permisos[15]]) or
+                    !$TipoAdministrador->setTipoAdministradorDelete($_POST[$permisos[16]]) or
+                    !$TipoAdministrador->setTipoAdministradorAdd($_POST[$permisos[17]])
                 ) {
                     $result['error'] = $TipoAdministrador->getDataError();
                 } elseif ($TipoAdministrador->updateRow()) {

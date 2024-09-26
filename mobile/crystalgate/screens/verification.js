@@ -4,12 +4,13 @@ import React from "react";
 import Verification from "../components/verification";
 
 // Definición del componente funcional verification
-export default function verification() {
+export default function verification({ route }) {
     return (
         // Devuelve un componente ScrollView como contenedor principal
         // Este archivo se encarga de inicializar el componente, promoviendo una estructura organizada, reutilizable y fácil de mantener para la interfaz
         <View style={styles.container}>
-            <Verification />
+            <Verification 
+            route={route}/>
         </View>
     );
 }

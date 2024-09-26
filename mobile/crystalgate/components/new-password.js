@@ -7,7 +7,8 @@ import {
     SafeAreaView,
     KeyboardAvoidingView,
     ScrollView,
-    Platform
+    Platform,
+    Alert
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import BackButton from "../components/button/button-back";
@@ -19,20 +20,56 @@ import BackLogInButton from "./button/button-backLG";
 import { useNavigation } from '@react-navigation/native';
 import SuccessModal from "./modal/alertModal";
 
+import fetchData from './utils/database';
 const fondo = require("../assets/img/background/background.png");
 
-const NewPassword = () => {
+const NewPassword = ({ route }) => {
     const [text, onChangeText] = React.useState("");
     const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
     const navigation = useNavigation();
 
-    const handleSendRes = () => {
-        setSuccessModalVisible(true);
-        setTimeout(() => {
-            setSuccessModalVisible(false);
-            navigation.navigate('Login');
-        }, 4000);
-    };
+    const { tokenV } = route.params;
+    const [npassword, setNpassword] = useState("");
+    const [cnpassword, setCNpassword] = useState("");
+
+    const handlerChangePassword = async () => {
+        try {
+          // Creamos un FormData con el tokenV, nueva contraseña y confirmación de nueva contraseña.
+          const form = new FormData();
+          form.append("token", tokenV);
+          form.append("claveNueva", npassword);
+          form.append("confirmarClave", cnpassword);
+          
+          // Hacemos una solicitud usando fetchData para cambiar la contraseña y recibir una respuesta.
+          const DATA = await fetchData("cliente", "changePasswordByEmail", form);
+          // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos las contraseñas, mostramos una alerta y navegamos a la pantalla de inicio de sesión.
+          if (DATA.status) {
+            setNpassword("");
+            setCNpassword("");
+            Alert.alert("Éxito", "La contraseña se ha cambiado correctamente");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+              });
+          } else {
+            // En caso de error, mostramos un mensaje de error en una alerta.
+            console.log(DATA);
+            Alert.alert("Error sesión", DATA.error);
+    
+            // Si el error es debido a que el tiempo para cambiar la contraseña ha expirado, navegamos de vuelta a la pantalla de inicio de sesión.
+            if(DATA.error == "El tiempo para cambiar su contraseña ha expirado"){
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }],
+                  });
+            }
+          }
+        } catch (error) {
+          // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
+          console.error(error, "Error desde Catch");
+          Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+        }
+      };
 
     const handleSendLog = () => {
         navigation.navigate('Login');
@@ -55,13 +92,13 @@ const NewPassword = () => {
                         </Text>
                         <View style={styles.form}>
                             <SafeAreaView>
-                                <NewInputForm onChangeText={onChangeText} value={text} placeholder="New Password" />
+                                <NewInputForm onChangeText={setNpassword} value={npassword} placeholder="New Password" />
                             </SafeAreaView>
                             <SafeAreaView>
-                                <PasswordInputForm onChangeText={onChangeText} value={text} placeholder="Confirm Password" />
+                                <PasswordInputForm onChangeText={setCNpassword} value={cnpassword} placeholder="Confirm Password" />
                             </SafeAreaView>
                             <View style={styles.ContentButton}>
-                                <ResetButton onPress={handleSendRes} />
+                                <ResetButton onPress={handlerChangePassword} />
                             </View>
                             <View style={styles.ContentButton}>
                                 <BackLogInButton onPress={handleSendLog} />

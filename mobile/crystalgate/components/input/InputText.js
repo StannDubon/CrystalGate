@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TextInput, Text, View } from "react-native";
 
 // Definición del componente funcional InputText que recibe props onChangeText, value y label
-const InputText = ({ onChangeText, value, label }) => {
+const InputText = ({ onChangeText, value, label, disabled, placeholder }) => {
     // Renderizado del componente
     return (
         <View style={styles.contenedor}>
@@ -12,6 +12,9 @@ const InputText = ({ onChangeText, value, label }) => {
                     style={styles.input}
                     onChangeText={onChangeText}
                     value={value}
+                    editable={!disabled}
+                    placeholder={disabled ? placeholder : ''}
+                    placeholderTextColor="#4292F6"
                 />
             </View>
         </View>
@@ -52,7 +55,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,                        // Relleno izquierdo de 15 unidades
         alignContent: "flex-end",               // Alinea el contenido del TextInput hacia el extremo inferior
         width: 290,                             // Ancho del TextInput
-        height: 40,                             // Altura del TextInput
+        height: 40, 
+        marginTop: 5,                            // Altura del TextInput
     },
     inputLabel: {
         color: "#98ADE3",                       // Color de texto de la etiqueta

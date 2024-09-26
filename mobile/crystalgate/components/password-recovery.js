@@ -5,6 +5,7 @@ import {
     View,
     TouchableOpacity,
     SafeAreaView,
+    Alert
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 // Importa el componente EmailInputForm
@@ -18,6 +19,8 @@ import BackgroundImage from "../components/background/background-mountain";
 // Importa el hook useNavigation
 import { useNavigation } from '@react-navigation/native';
 
+import fetchData from './utils/database';
+
 // Requiere la imagen de fondo
 const fondo = require("../assets/img/background/background.png");
 
@@ -27,10 +30,32 @@ const PasswordRecovery = () => {
     // Hook de navegación
     const navigation = useNavigation();
 
-    const handleSend = () => {
-        // Navega a la pantalla de verificación
-        navigation.navigate('Verification');
-    };
+    const handleSend = async () => {
+        try {
+          // Creamos un FormData con el correo electrónico del usuario.
+          const form = new FormData();
+          form.append("correoUsuario", text);
+          
+          // Hacemos una solicitud usando fetchData para enviar el correo electrónico y recibir una respuesta.
+          const DATA = await fetchData("cliente", "emailPasswordSender", form);
+          // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos el correo, mostramos una alerta y navegamos a la siguiente pantalla.
+          if (DATA.status) {
+            onChangeText("");
+            Alert.alert("Éxito", "Un código de verificación ha sido enviado a su correo electrónico");
+            const token = DATA.dataset;
+            navigation.replace("Verification", { token });
+          } else {
+            // En caso de error, mostramos un mensaje de error en una alerta.
+            console.log(DATA);
+            Alert.alert("Error sesión", DATA.error);
+          }
+        } catch (error) {
+          // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
+          console.error(error, "Error desde Catch");
+          Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+        }
+      };
+
     const handleBack = () => {
         // Navega a la pantalla de inicio de sesión
         navigation.navigate('Login');

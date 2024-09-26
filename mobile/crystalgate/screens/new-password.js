@@ -4,12 +4,13 @@ import React from "react";
 import NewPassword from "../components/new-password";
 
 // Definición del componente funcional newpassword
-export default function newpassword() {
+export default function newpassword({ route }) {
     return (
         // Devuelve un componente ScrollView como contenedor principal
         // Este archivo se encarga de inicializar el componente, promoviendo una estructura organizada, reutilizable y fácil de mantener para la interfaz
         <View style={styles.container}>
-            <NewPassword />
+            <NewPassword 
+            route={route}/>
         </View>
     );
 }
