@@ -172,20 +172,20 @@
                     <div class="main-modal-content">
 
                         <input type="file" id="imagenUsuario" name="imagenUsuario" accept="image/*">
-                        <input type="text" placeholder="Name" name="nombreUsuario" id="nombreUsuario" maxlength="50"
+                        <input type="text" autocomplete="off" placeholder="Name" name="nombreUsuario" id="nombreUsuario" maxlength="50"
                             minlength="2" pattern="[A-Za-z\s]{2,50}"
                             title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
                             required>
-                        <input type="text" placeholder="Last Name" name="apellidoUsuario" id="apellidoUsuario"
+                        <input type="text" autocomplete="off" placeholder="Last Name" name="apellidoUsuario" id="apellidoUsuario"
                             maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
                             title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
                             required>
                         <select class="swal-custom-select" id="idCargo" name="idCargo"></select>
                         <input type="email" placeholder="Email" name="correoUsuario" id="correoUsuario"
                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
-                        <input type="password" placeholder="Password" name="claveUsuario" id="claveUsuario"
+                        <input type="password" autocomplete="off" placeholder="Password" name="claveUsuario" id="claveUsuario"
                             maxlength="100" minlength="8" required>
-                        <input type="password" placeholder="Confirm Password" name="confirmarClave" maxlength="100"
+                        <input type="password" autocomplete="off" placeholder="Confirm Password" name="confirmarClave" maxlength="100"
                             minlength="8" id="confirmarClave" required>
 
                     </div>
@@ -210,14 +210,14 @@
                         <input type="file" id="imagenUsuarioUpdate" name="imagenUsuario" accept="image/*">
                         <input type="text" placeholder="Name" name="nombreUsuario" id="nombreUsuarioUpdate" maxlength="50"
                             minlength="2" pattern="[A-Za-z\s]{2,50}"
-                            title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
+                            title="Only letters and spaces allowed, between 2 and 50 characters." autocomplete="off" inputmode="text"
                             required>
-                        <input type="text" placeholder="Last Name" name="apellidoUsuario" id="apellidoUsuarioUpdate"
+                        <input type="text" placeholder="Last Name" name="apellidoUsuario" autocomplete="off" id="apellidoUsuarioUpdate"
                             maxlength="50" minlength="2" pattern="[A-Za-z\s]{2,50}"
                             title="Only letters and spaces allowed, between 2 and 50 characters." inputmode="text"
                             required>
                         <select class="swal-custom-select" id="idCargoUpdate" name="idCargo"></select>
-                        <input type="email" placeholder="Email" name="correoUsuario" id="correoUsuarioUpdate"
+                        <input type="email" placeholder="Email" name="correoUsuario" autocomplete="off" id="correoUsuarioUpdate"
                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
                         <button class="change-password" type="button" onclick="openPassword()">Change Password</button>
                     </div>
