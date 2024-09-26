@@ -1,9 +1,16 @@
 // Constante para establecer la ruta de la api
 const ADMIN_API = 'services/admin/administrador.php';
 // Contantes para obtener los formularios de registro e inicio de sesión
-const SIGNUP_FORM = document.getElementById('signupForm');
-const LOGIN_FORM = document.getElementById('loginForm');
+const LOGIN_VALIDATOR_FORM = document.getElementById('loginValidatorForm');
+const LOGIN_CONFIRM = document.getElementById('confirm_code');
 
+const SIGNUP_FORM = document.getElementById('signupForm');
+const CHANGE_PASSWORD = document.getElementById('change_password');
+
+const LOADING_SCREEN = document.getElementById('loading-screen');
+
+var token_2fa = '';
+var token_passchange = '';
 
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
@@ -11,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (DATA.session) {
         location.href = 'dashboard.html';
     } else if (DATA.status) {
-        LOGIN_FORM.classList.remove('hide');
+        LOGIN_VALIDATOR_FORM.classList.remove('hide');
         sweetAlert(4, DATA.message, true);
     } else {
         SIGNUP_FORM.classList.remove('hide');
@@ -20,18 +27,86 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Evento para cuando se envía el formulario de guardar
-LOGIN_FORM.addEventListener('submit', async (event) => {
+LOGIN_VALIDATOR_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+    LOADING_SCREEN.classList.remove('hide')
     // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(LOGIN_FORM);
+    const FORM = new FormData(LOGIN_VALIDATOR_FORM);
+    // Petición para iniciar sesión.
+    const DATA = await fetchData(ADMIN_API, 'logInValidator', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+
+        sweetAlert(1, DATA.message, true);
+        LOADING_SCREEN.classList.add('hide')
+
+        if(DATA.dataset[0] == "authenticated"){
+            window.location.href = "dashboard.html"
+        } else if(DATA.dataset[0] == "passchange"){
+            token_passchange = DATA.dataset[1];
+            LOGIN_VALIDATOR_FORM.classList.add('hide');
+            CHANGE_PASSWORD.classList.remove('hide');
+        } else{
+            token_2fa = DATA.dataset[1];
+            LOGIN_VALIDATOR_FORM.classList.add('hide');
+            LOGIN_CONFIRM.classList.remove('hide');
+        }
+
+    } else {
+        sweetAlert(2, DATA.error, false);
+        LOADING_SCREEN.classList.add('hide')
+    }
+});
+
+LOGIN_CONFIRM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    LOADING_SCREEN.classList.remove('hide')
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(LOGIN_CONFIRM);
+    FORM.append('token', token_2fa);
     // Petición para iniciar sesión.
     const DATA = await fetchData(ADMIN_API, 'logIn', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        sweetAlert(1, DATA.message, true, 'dashboard.html');
+        sweetAlert(1, DATA.message, true);
+        LOADING_SCREEN.classList.add('hide')
+        if(DATA.dataset[0] == "authenticated"){
+            sweetAlert(1, DATA.message, true, 'dashboard.html');
+        } else if(DATA.dataset[0] == "passchange"){
+            token_passchange = DATA.dataset[1];
+            LOGIN_CONFIRM.classList.add('hide');
+            CHANGE_PASSWORD.classList.remove('hide');
+        }
+
     } else {
         sweetAlert(2, DATA.error, false);
+        LOADING_SCREEN.classList.add('hide')
+    }
+});
+
+CHANGE_PASSWORD.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    LOADING_SCREEN.classList.remove('hide')
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(CHANGE_PASSWORD);
+    FORM.append('token', token_passchange);
+    // Petición para iniciar sesión.
+    const DATA = await fetchData(ADMIN_API, 'passwordChanger', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        sweetAlert(1, DATA.message, true);
+        if(DATA.dataset[0] == "authenticated"){
+            sweetAlert(1, DATA.message, true, 'dashboard.html');
+        } else{
+            sweetAlert(1, DATA.error, true);
+        }
+
+    } else {
+        sweetAlert(2, DATA.error, false);
+        LOADING_SCREEN.classList.add('hide')
     }
 });
 

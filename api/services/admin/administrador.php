@@ -33,6 +33,21 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
 
+    // Tiempo límite de inactividad en segundos
+    $inactiveLimit = 300; // Set inactivity limit in seconds
+
+    // Verifica y actualiza el tiempo de actividad
+    if (!isset($_SESSION['last_activity'])) {
+        $_SESSION['last_activity'] = time(); // Initialize last activity time
+    } else if (time() - $_SESSION['last_activity'] > $inactiveLimit) {
+        session_unset(); // Limpia la sesión
+        session_destroy(); // Destruye la sesión
+        echo "La sesión ha sido destruida por inactividad.";
+    }
+    
+    // Actualiza el tiempo de actividad
+    $_SESSION['last_activity'] = time();
+
     // Se instancia la clase correspondiente.
     $administrador = new AdministradorData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
@@ -70,6 +85,7 @@ if (isset($_GET['action'])) {
                         $administrador->unsetValidator();
                         $result['status'] = 1;
                         $result['message'] = 'Contraseña cambiada correctamente';
+                        $result['dataset'] = ['authenticated'];
                     } else {
                         $result['error'] = "Error al iniciar sesión, intente nuevamente";
                     }
@@ -424,17 +440,18 @@ if (isset($_GET['action'])) {
     
                         $result['status'] = 1;
                         $result['message'] = 'Correct authentication';
-                        $result['dataset'] = $token;
+                        $result['dataset'] = ['2fa' ,$token];
                     } else{
                         if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==1) {
                             $administrador->unsetValidator();
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta';
+                            $result['dataset'] = ['authenticated'];
                         } elseif ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==2) {
                             $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
-                            $result['dataset'] = $_SESSION['90_days_password_changer'];
+                            $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
                         } else{
                             $result['error'] = "Ocurrio un error inesperado";
                         }
@@ -463,11 +480,12 @@ if (isset($_GET['action'])) {
                     $administrador->unsetValidator();
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
+                    $result['dataset'] = ['authenticated'];
                 } elseif ($administrador->checkUser($_SESSION['login_validator']['email'], $_SESSION['login_validator']['password'])==2) {
                     $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
-                    $result['dataset'] = $_SESSION['90_days_password_changer'];
+                    $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
                 } else{
                     $result['error'] = 'Credenciales incorrectas';
                 }
