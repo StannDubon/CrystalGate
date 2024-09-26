@@ -164,7 +164,7 @@ CREATE TABLE
 		   validator DATETIME,
         validatorcount INT DEFAULT 0,
         cambio_contraseña DATETIME DEFAULT (NOW() + INTERVAL 90 DAY),
-        2fa BOOLEAN,	
+        2fa BOOLEAN DEFAULT (0),	
         CONSTRAINT fk_administrador_tipo FOREIGN KEY (id_tipo_administrador) REFERENCES tb_tipos_administradores(id_tipo_administrador)
     );
     
@@ -286,7 +286,7 @@ BEGIN
 		    WHERE correo = p_email_administrador;  -- Corregido a 'correo'
     END IF;
     -- Llamar a set_validator si es necesario
-    IF v_current_validatorcount = 4 THEN
+    IF v_current_validatorcount = 3 THEN
         CALL set_validator(p_email_administrador);
     END IF;
 END $$

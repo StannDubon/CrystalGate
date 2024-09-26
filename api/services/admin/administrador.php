@@ -70,6 +70,7 @@ if (isset($_GET['action'])) {
                         $administrador->unsetValidator();
                         $result['status'] = 1;
                         $result['message'] = 'Contraseña cambiada correctamente';
+                        $result['dataset'] = ['authenticated'];
                     } else {
                         $result['error'] = "Error al iniciar sesión, intente nuevamente";
                     }
@@ -424,17 +425,18 @@ if (isset($_GET['action'])) {
     
                         $result['status'] = 1;
                         $result['message'] = 'Correct authentication';
-                        $result['dataset'] = $token;
+                        $result['dataset'] = ['2fa' ,$token];
                     } else{
                         if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==1) {
                             $administrador->unsetValidator();
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta';
+                            $result['dataset'] = ['authenticated'];
                         } elseif ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==2) {
                             $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
-                            $result['dataset'] = $_SESSION['90_days_password_changer'];
+                            $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
                         } else{
                             $result['error'] = "Ocurrio un error inesperado";
                         }
@@ -463,11 +465,12 @@ if (isset($_GET['action'])) {
                     $administrador->unsetValidator();
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
+                    $result['dataset'] = ['authenticated'];
                 } elseif ($administrador->checkUser($_SESSION['login_validator']['email'], $_SESSION['login_validator']['password'])==2) {
                     $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
-                    $result['dataset'] = $_SESSION['90_days_password_changer'];
+                    $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
                 } else{
                     $result['error'] = 'Credenciales incorrectas';
                 }
