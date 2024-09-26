@@ -351,12 +351,6 @@ const openDelete = async (id) => {
     }
 }
 
-
-
-BTN_EXPORT.addEventListener('click', function(event){
-    openUserReport(ID_EMPLOYEE);
-});
-
 // Funcion para abrir los reportes
 const openReport = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
