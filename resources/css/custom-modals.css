@@ -83,9 +83,10 @@
   color: var(--color-fondo-1);
 }
 
-.main-modal-content .change-password.none{
+.main-modal-content .none{
   display: none;
 }
+
 
 .main-modal-content .change-password:hover {
   background-color: var(--color-extra-8);
