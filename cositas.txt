@@ -2,10 +2,7 @@ Puntos faltantes
 
 Web
 
--Obligar cambio de contraseña 90 dias
--Desactivar autocompletado
--Controlador de errores: 403, 404
--Bloquear intentos fallidos maximo 3
--Segundo factor de autentificacion
 -Cerrar sesión por inactividad
 -Encriptar base
+-Desactivar autocompletado
+-Controlador de errores: 403, 404

@@ -36,7 +36,7 @@ const SAVE_FORM_PASSWORD = document.getElementById('administrator-form-change-pa
     
         return [pastelColor, contrastColor];
     };
-
+let administrador = "";
 let ID_ADMINISTRADOR = "";    
 document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
@@ -86,23 +86,30 @@ SAVE_FORM_ADMINISTRATOR.addEventListener('submit', async (event) => {
     const FORM = new FormData(SAVE_FORM_ADMINISTRATOR);
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(ADMINISTRATOR_API, action, FORM);
+    
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL_ADMINISTRATOR.classList.remove('show');
         document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
+        administrador =  NOMBRE_ADMINISTRATOR.value + " " + APELLIDO_ADMINISTRATOR.value;
+        sweetAlert(1, "Administrator " + administrador +" was successfully processed.", true);
         // Se carga nuevamente la lista para visualizar los cambios.
         await fillTable();
         BTN_CHANGE_PASSWORD.classList.remove('none');
+        adminisrador = "";
     } else {
         sweetAlert(2, DATA.error, false);
     }
+
+   
 });
 
 SAVE_FORM_ADMINISTRATOR.addEventListener('reset', async (event) => {
     BTN_CHANGE_PASSWORD.classList.remove('none');
+    CLAVE_ADMINISTRATOR.classList.remove('none');
+    CONFIRMAR_CLAVE_ADMINISTRATOR.classList.remove('none');
 });
 
 // Evento para cuando se envía el formulario de cambio de contraseña
@@ -262,10 +269,13 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
+    
     const FORM = new FormData();
     FORM.append('idAdministrador', id);
     const DATA = await fetchData(ADMINISTRATOR_API, 'readOne', FORM);
+    
     if (DATA.status) {
+        
         SAVE_MODAL_ADMINISTRATOR.classList.add('show');
         document.body.classList.add('body-no-scroll'); // Evitar el scroll en el cuerpo de la página
         // Ajustar la posición del modal para que esté visible en la pantalla
@@ -282,6 +292,8 @@ const openUpdate = async (id) => {
         fillSelect(ADMINISTRATOR_TYPE_API, 'readAll', 'selectIdTipoAdministrador', ROW.id_tipo_administrador);
 
         ID_ADMINISTRADOR = ROW.id_administrador;
+
+
     } else {
         sweetAlert(2, DATA.error, false);
     }

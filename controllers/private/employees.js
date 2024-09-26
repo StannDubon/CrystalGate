@@ -40,16 +40,18 @@ const SAVE_FORM_PASSWORD = document.getElementById('employee-form-change-passwor
     CLAVE_EMPLEADO_PASSWORD = document.getElementById('claveUsuarioCambio'),
     CONFIRMAR_CLAVE_EMPLEADO_PASSWORD = document.getElementById('confirmarClaveCambio');
 
-    const pastelAndContrastColors = () => {
-        // Genera un color pastel
-        const hue = Math.random() * 360; // El matiz es el mismo para ambos colores
-        const pastelColor = `hsl(${hue}, 100%, 87.5%)`;
-    
-        // Calcula un color con el mismo matiz pero más oscuro
-        const contrastColor = `hsl(${hue}, 100%, 50%)`; // Puedes ajustar el valor de luminosidad para más contraste
-    
-        return [pastelColor, contrastColor];
-    };
+let empleado = "";
+
+const pastelAndContrastColors = () => {
+    // Genera un color pastel
+    const hue = Math.random() * 360; // El matiz es el mismo para ambos colores
+    const pastelColor = `hsl(${hue}, 100%, 87.5%)`;
+
+    // Calcula un color con el mismo matiz pero más oscuro
+    const contrastColor = `hsl(${hue}, 100%, 50%)`; // Puedes ajustar el valor de luminosidad para más contraste
+
+    return [pastelColor, contrastColor];
+};
     
     
 
@@ -222,9 +224,11 @@ SAVE_FORM_EMPLEADO.addEventListener('submit', async (event) => {
         SAVE_MODAL_EMPLEADO.classList.remove('show');
         document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito
-        sweetAlert(1, DATA.message, true);
+        empleado =  NOMBRE_EMPLEADO.value + " " + APELLIDO_EMPLEADO.value;
+        sweetAlert(1, "Employee " + empleado +" was successfully created.", true);
         // Se carga nuevamente la lista para visualizar los cambios
         await fillEmployees();
+        empleado = "";
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -245,9 +249,11 @@ UPDATE_FORM_EMPLEADO.addEventListener('submit', async (event) => {
         SAVE_MODAL_EMPLEADO_U.classList.remove('show');
         document.body.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito
-        sweetAlert(1, DATA.message, true);
+        empleado =  NOMBRE_EMPLEADO_U.value + " " + APELLIDO_EMPLEADO_U.value;
+        sweetAlert(1, "Employee " + empleado +" was successfully modified.", true);
         // Se carga nuevamente la lista para visualizar los cambios
         await fillEmployees();
+        empleado = "";
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -350,12 +356,6 @@ const openDelete = async (id) => {
         }
     }
 }
-
-
-
-BTN_EXPORT.addEventListener('click', function(event){
-    openUserReport(ID_EMPLOYEE);
-});
 
 // Funcion para abrir los reportes
 const openReport = () => {
