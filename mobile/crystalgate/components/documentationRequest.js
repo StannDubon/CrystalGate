@@ -21,8 +21,8 @@ const DocumentationRequest = () => {
     const [requestsType, setRequestsType] = useState([]);
     const [deliverCenters, setDeliverCenters] = useState([]);
     const [sendBy, setSendBy] = useState([
-        { identifier: true, value: 'presencial' },
-        { identifier: false, value: 'virtual' }
+        { identifier: 1, value: 'presencial' },
+        { identifier: 0, value: 'virtual' }
     ]);
     const [languages, setLanguages] = useState([]);
     const [name, setName] = useState("");
@@ -71,11 +71,11 @@ const DocumentationRequest = () => {
         formData.append('idTipoPeticion', selectedRequestType);
         formData.append('modoEntrega', selectedSendBy);
         formData.append('idIdioma', selectedLanguage);
-        formData.append('EstadoPeticion','1');
+        formData.append('EstadoPeticion',1);
         formData.append('fechaEnvio',getDateTime());
         formData.append('idCentroEntrega',selectedDeliverCenter);
 
-        
+        console.log(formData);
         const result = await fetchData('peticion','createRow',formData);
         
         if(result.status){

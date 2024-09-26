@@ -1,6 +1,7 @@
 <?php
 // Se incluye la clase del modelo.
 require_once('../../models/data/usuario-data.php');
+require_once('../../helpers/email.php');
 
 const POST_ID = "idUsuario";
 const POST_NOMBRE = "nombreUsuario";

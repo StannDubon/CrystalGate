@@ -37,6 +37,61 @@ if (isset($_GET['action'])) {
     $administrador = new AdministradorData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null, 'fileStatus' => null);
+
+    if(isset($_SESSION['tempChanger'])){
+        if ($_SESSION['tempChanger']['expiration_time'] <= time() or !$administrador->validatePassword()){
+            unset($_SESSION['tempChanger']);
+            unset($_SESSION['90_days_password_changer']);
+        }
+    }
+
+    if(isset($_SESSION['tempChanger'])){
+
+        switch ($_GET['action']) {
+            case 'passwordChanger':
+                $_POST = Validator::validateForm($_POST);
+                if(!$administrador->validatePassword()){
+                    $result['error'] = 'No es tiempo para cambiar su contraseña aún';
+                } elseif (!isset($_POST['token'])) {
+                    $result['error'] = "El token no fue proporcionado";
+                } elseif ($_SESSION['90_days_password_changer'] != $_POST["token"]) {
+                    $result['error'] = 'El token es invalido';
+                } elseif (!$administrador->setClave($_POST[POST_CLAVE_NUEVA])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST[POST_CLAVE_NUEVA] != $_POST[POST_CLAVE_CONFIRMAR]) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$administrador->changeTempPassword()) {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                } else {
+
+                    $xd = $administrador->checkUser($_SESSION['tempChanger']['email'], $_POST[POST_CLAVE_NUEVA]);
+                    if ($xd == 1) {
+                        unset($_SESSION['90_days_password_changer']);
+                        $administrador->unsetValidator();
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña cambiada correctamente';
+                        $result['dataset'] = ['authenticated'];
+                    } else {
+                        $result['error'] = "Error al iniciar sesión, intente nuevamente";
+                    }
+                }
+                break;
+            case 'logInValidator':
+                $_POST = Validator::validateForm($_POST);
+                $administrador->clearValidator();
+                if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==2) {
+                    $result['dataset'] = $_SESSION['90_days_password_changer'];
+                } elseif($administrador->setValidator($_POST[POST_CORREO])) {
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
+            default:
+                $result['error'] = 'Obligatorio cambiar de contraseña antes de realizar una acción';
+        }
+
+
+    } else{
+
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idAdministrador'])) {
         $result['session'] = 1;
@@ -232,16 +287,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'You need to create an administrator to start';
                 }
                 break;
-            // Metodo para iniciar sesión
-            case 'logIn':
-                $_POST = Validator::validateForm($_POST);
-                if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Correct authentication';
-                } else {
-                    $result['error'] = 'Wrong credentials';
-                }
-                break;
             case 'firstUsage':
                 $_POST = Validator::validateForm($_POST);
                 if ($administrador->countAll()['num_rows'] !== "0") {
@@ -349,10 +394,91 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
+            // Metodo para iniciar sesión
+            case 'logInValidator':
+                $_POST = Validator::validateForm($_POST);
+                if (!$administrador->setCorreo($_POST[POST_CORREO])) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif (!$administrador->verifyExistingEmail()) {
+                    $result['error'] = "El correo indicado no existe";
+                } elseif(!$administrador->clearValidator()){
+                    $result['error'] = "Ocurrio un error!";
+                } elseif ($administrador->getValidator($_POST[POST_CORREO])) {
+                    $result['error'] = "Su cuenta se ha suspendido temporalmente";
+                } elseif ($administrador->validateUser($_POST[POST_CORREO], $_POST[POST_CLAVE])) {
+
+                    if($administrador->get2fa($_POST[POST_CORREO])){
+                        $secrete_code = mt_rand(10000000, 99999999);
+                        $token = Validator::generateRandomString(64);
+                
+                        // Almacenar código y token en sesión con tiempo de expiración
+                        $_SESSION['login_validator'] = [
+                            'code' => $secrete_code,
+                            'token' => $token,
+                            'email' => $_POST[POST_CORREO],
+                            'password' => $_POST[POST_CLAVE],
+                            'expiration_time' => time() + (60 * 5)
+                        ];
+                
+                        // Enviar correo de verificación
+                        sendVerificationEmail($_POST[POST_CORREO], $secrete_code);
+    
+                        $result['status'] = 1;
+                        $result['message'] = 'Correct authentication';
+                        $result['dataset'] = ['2fa' ,$token];
+                    } else{
+                        if ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==1) {
+                            $administrador->unsetValidator();
+                            $result['status'] = 1;
+                            $result['message'] = 'Autenticación correcta';
+                            $result['dataset'] = ['authenticated'];
+                        } elseif ($administrador->checkUser($_POST[POST_CORREO], $_POST[POST_CLAVE])==2) {
+                            $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
+                            $result['status'] = 1;
+                            $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
+                            $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
+                        } else{
+                            $result['error'] = "Ocurrio un error inesperado";
+                        }
+                    }
+                    
+                } elseif($administrador->setValidator($_POST[POST_CORREO])) {
+                    $result['error'] = 'Wrong credentials';
+                }
+                break;
+
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                $administrador->clearValidator();
+                if(!isset($_SESSION['login_validator'])){
+                    $result['error'] = 'Debe de iniciar sesión primero';
+                } elseif ($_SESSION['login_validator']['expiration_time'] <= time()){
+                    $result['message'] = "El código ha expirado.";
+                    unset($_SESSION['login_validator']);
+                } elseif($_SESSION['login_validator']['token'] != $_POST['token']){
+                    $result['error'] = 'Token incorrecto';
+                } elseif($_SESSION['login_validator']['code'] != $_POST['code']){
+                    $result['error'] = 'Codigo incorrecto';
+                } elseif($administrador->getValidator($_SESSION['login_validator']['email'])){
+                    $result['error'] = 'Su cuenta se ha suspendido temporalmente';
+                } elseif ($administrador->checkUser($_SESSION['login_validator']['email'], $_SESSION['login_validator']['password'])==1) {
+                    $administrador->unsetValidator();
+                    $result['status'] = 1;
+                    $result['message'] = 'Autenticación correcta';
+                    $result['dataset'] = ['authenticated'];
+                } elseif ($administrador->checkUser($_SESSION['login_validator']['email'], $_SESSION['login_validator']['password'])==2) {
+                    $_SESSION['90_days_password_changer'] = Validator::generateRandomString(64);
+                    $result['status'] = 1;
+                    $result['message'] = 'Autenticación correcta, cambio de contraseña requerido';
+                    $result['dataset'] = ['passchange', $_SESSION['90_days_password_changer']];
+                } else{
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
-    }
+    }}
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.

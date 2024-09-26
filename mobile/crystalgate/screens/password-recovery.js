@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text } from "react-native";
 import React from "react";
+
 // Importación del componente PasswordRecovery desde la carpeta '../components'
 import PasswordRecovery from "../components/password-recovery";
 

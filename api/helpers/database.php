@@ -33,6 +33,22 @@ class Database
         }
     }
 
+    public static function executeSingleRow($query)
+    {
+        try {
+            // Se crea la conexión mediante la clase PDO con el controlador para MariaDB.
+            self::$connection = new PDO('mysql:host=' . SERVER . ';dbname=' . DATABASE, USERNAME, PASSWORD);
+            // Se prepara la sentencia SQL.
+            self::$statement = self::$connection->prepare($query);
+            // Se ejecuta la sentencia preparada y se retorna el resultado.
+            return self::$statement->execute();
+        } catch (PDOException $error) {
+            // Se obtiene el código y el mensaje de la excepción para establecer un error personalizado.
+            self::setException($error->getCode(), $error->getMessage());
+            return false;
+        }
+    }
+
     /*
      *   Método para obtener el valor de la llave primaria del último registro insertado.
      *   Parámetros: $query (sentencia SQL) y $values (arreglo con los valores para la sentencia SQL).
@@ -53,12 +69,43 @@ class Database
      *   Parámetros: $query (sentencia SQL) y $values (arreglo opcional con los valores para la sentencia SQL).
      *   Retorno: arreglo asociativo del registro si la sentencia SQL se ejecuta satisfactoriamente o false en caso contrario.
      */
-    public static function getRow($query, $values = null)
-    {
-        if (self::executeRow($query, $values)) {
-            return self::$statement->fetch(PDO::FETCH_ASSOC);
+    public static function getRow($query, $values = null, $decryptColumns = null) {
+        if($decryptColumns != null){
+            if (self::executeRow($query, $values)) {
+                // Obtener el resultado
+                $row = self::$statement->fetch(PDO::FETCH_ASSOC);
+                
+                if ($row) {
+                    // Obtener el número de columnas
+                    $columnCount = self::$statement->columnCount();
+                    $columnNames = [];
+        
+                    // Iterar sobre las columnas para obtener sus nombres
+                    for ($i = 0; $i < $columnCount; $i++) {
+                        $columnMeta = self::$statement->getColumnMeta($i);
+                        $columnNames[] = $columnMeta['name']; // Guardar el nombre de la columna
+                    }
+        
+                    // Decrypt values if column names are in the decrypt array
+                    foreach ($decryptColumns as $index) {
+                        if (isset($row[$columnNames[$index]])) {
+                            // Decrypt the value in the specific column
+                            $row[$columnNames[$index]] = Encryption::decrypt($row[$columnNames[$index]]);
+                        }
+                    }
+                    return $row; // Retornar la fila desencriptada
+                } else {
+                    return false; // No se encontró ninguna fila
+                }
+            } else {
+                return false; // Error al ejecutar la consulta
+            }
         } else {
-            return false;
+            if (self::executeRow($query, $values)) {
+                return self::$statement->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
         }
     }
 
@@ -67,12 +114,42 @@ class Database
      *   Parámetros: $query (sentencia SQL) y $values (arreglo opcional con los valores para la sentencia SQL).
      *   Retorno: arreglo asociativo de los registros si la sentencia SQL se ejecuta satisfactoriamente o false en caso contrario.
      */
-    public static function getRows($query, $values = null)
-    {
-        if (self::executeRow($query, $values)) {
-            return self::$statement->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false;
+    public static function getRows($query, $values = null, $decryptColumns = null) {
+        if($decryptColumns != null){
+            if (self::executeRow($query, $values)) {
+                // Obtener los resultados
+                $rows = self::$statement->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Obtener el número de columnas
+                $columnCount = self::$statement->columnCount();
+                $columnNames = [];
+                
+                // Iterar sobre las columnas para obtener sus nombres
+                for ($i = 0; $i < $columnCount; $i++) {
+                    $columnMeta = self::$statement->getColumnMeta($i);
+                    $columnNames[] = $columnMeta['name']; // Guardar el nombre de la columna
+                }
+        
+                // Decrypt values if column names are in the decrypt array
+                foreach ($rows as &$row) { // Use reference to modify the original row
+                    foreach ($decryptColumns as $index) {
+                        if (isset($row[$columnNames[$index]])) {
+                            // Decrypt the value in the specific column
+                            $row[$columnNames[$index]] = Encryption::decrypt($row[$columnNames[$index]]);
+                        }
+                    }
+                }
+        
+                return $rows; // Retornar las filas como estaba originalmente
+            } else {
+                return false;
+            }
+        } else{
+            if (self::executeRow($query, $values)) {
+                return self::$statement->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
         }
     }
 
