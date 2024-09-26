@@ -26,13 +26,13 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
     // Calcula las fechas mínima y máxima
     const minimumDate = minDate ? new Date(minDate) : (() => {
         const defaultMinDate = new Date();
-        defaultMinDate.setDate(defaultMinDate.getDate() + 1);
+        defaultMinDate.setMonth(defaultMinDate.getMonth() - 3);
         return defaultMinDate;
     })();
 
     const maximumDate = maxDate ? new Date(maxDate) : (() => {
         const defaultMaxDate = new Date();
-        defaultMaxDate.setMonth(defaultMaxDate.getMonth() + 3);
+        defaultMaxDate.setMonth(defaultMaxDate.getMonth() + 4);
         return defaultMaxDate;
     })();
 
