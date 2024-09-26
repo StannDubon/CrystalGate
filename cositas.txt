@@ -1,8 +1,0 @@
-Puntos faltantes
-
-Web
-
--Cerrar sesión por inactividad
--Encriptar base
--Desactivar autocompletado
--Controlador de errores: 403, 404

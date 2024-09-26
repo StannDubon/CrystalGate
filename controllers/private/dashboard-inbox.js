@@ -26,7 +26,8 @@ const fillPermissions = async (form = null) => {
     if(DATA.dataset.length != 0){
         NUMERO_PERMISOS.textContent = DATA.dataset.length;
     }else{
-        NUMERO_PERMISOS.textContent = '0';
+        NUMERO_PERMISOS.textContent = '';
+        BOX_NUMERO_PERMISOS.classList.add('none');
     }
 
     if (DATA.status) {
