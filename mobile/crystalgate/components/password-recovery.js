@@ -1,130 +1,223 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    SafeAreaView,
-    Alert
+    Clipboard,
+    Alert,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-// Importa el componente EmailInputForm
-import EmailInputForm from "../components/input/input-email";
-// Importa el componente SendButton
-import SendButton from "../components/button/button-send";
-// Importa el componente BackButton
-import BackButton from "../components/button/button-back";
-// Importa el componente BackgroundImage (ajusta la ruta si es necesario)
-import BackgroundImage from "../components/background/background-mountain";
-// Importa el hook useNavigation
+import { Color } from "../assets/const/color";
+import ChangePassButton from "../components/button/button-change-pass";
+import HeaderSingle from "../components/header/headerSigle";
 import { useNavigation } from '@react-navigation/native';
+import LogOutButton from "./button/logOutButton";
+import AlertModal from './modal/alertModal';
+import fetchData from "./utils/database";
 
-import fetchData from './utils/database';
-
-// Requiere la imagen de fondo
-const fondo = require("../assets/img/background/background.png");
-
-const PasswordRecovery = () => {
-    // Estado para manejar el texto del formulario
-    const [text, onChangeText] = React.useState("");
-    // Hook de navegación
+const Profile = () => {
+    const [email, setEmail] = useState("");
+    const [iniciales, setIniciales] = useState("");
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [cargo, setCargo] = useState("");
+    const [id, setId] = useState("");
     const navigation = useNavigation();
+    const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
-    const handleSend = async () => {
-        try {
-          // Creamos un FormData con el correo electrónico del usuario.
-          const form = new FormData();
-          form.append("correoUsuario", text);
-          
-          // Hacemos una solicitud usando fetchData para enviar el correo electrónico y recibir una respuesta.
-          const DATA = await fetchData("cliente", "emailPasswordSender", form);
-          // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos el correo, mostramos una alerta y navegamos a la siguiente pantalla.
-          if (DATA.status) {
-            onChangeText("");
-            Alert.alert("Éxito", "Un código de verificación ha sido enviado a su correo electrónico");
-            const token = DATA.dataset;
-            navigation.replace("Verification", { token });
-          } else {
-            // En caso de error, mostramos un mensaje de error en una alerta.
-            console.log(DATA);
-            Alert.alert("Error sesión", DATA.error);
-          }
-        } catch (error) {
-          // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
-          console.error(error, "Error desde Catch");
-          Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+    const getUser = async () => {
+        const result = await fetchData('cliente', 'readOne');
+        if (result.status) {
+            setEmail(result.dataset.correo);
+            setApellido(result.dataset.apellido);
+            setNombre(result.dataset.nombre);
+            setCargo(result.dataset.cargo);
+            setIniciales(result.dataset.nombre[0] + result.dataset.apellido[0]);
+            setId(result.dataset.id_usuario);
         }
-      };
+    }
 
-    const handleBack = () => {
-        // Navega a la pantalla de inicio de sesión
-        navigation.navigate('Login');
+    useEffect(() => {
+        getUser();
+    }, [navigation]);
+
+    const copyToClipboard = (text) => {
+        Clipboard.setString(text);
     };
 
-    // Renderizado del componente
+    const handleRecovery = () => {
+        navigation.navigate('PasswordRecovery');  // Cambié a PasswordRecovery
+    };
+
+    const handleLogOut = async () => {
+        let action = "logOut";
+        try {
+            const result = await fetchData('cliente', action);
+            console.log(result);
+            if (result.status == 1) {
+                setSuccessModalVisible(true);
+                setTimeout(() => {
+                    setSuccessModalVisible(false);
+                    // Navegar a la pantalla de carga
+                    navigation.navigate('LoadingScreen');
+                    // Mostrar la pantalla de carga durante 5 segundos
+                    setTimeout(() => {
+                        // Redirigir a la pantalla de Login después de 5 segundos
+                        navigation.navigate('Login');
+                    }, 5000);
+                }, 3000);
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <BackgroundImage source={fondo}>
-                <View style={styles.header}>
-                <BackButton onPress={handleBack} />
-                </View>
-                <View style={styles.content}>
-                    <Text style={styles.title}>Your email</Text>
-                    <Text style={styles.subTitle}>
-                        Enter the email of the account that you want to recover the password
-                    </Text>
-                    <View style={styles.form}>
-                        <SafeAreaView>
-                            <EmailInputForm onChangeText={onChangeText} value={text} placeholder="Email"/>
-                        </SafeAreaView>
-
-                        <SendButton onPress={handleSend} />
+            <HeaderSingle title={"Profile"} />
+            <View style={styles.body}>
+                <View style={styles.topContrast}>
+                    <View style={styles.circle}>
+                        <Text style={styles.initials}>{iniciales}</Text>
                     </View>
                 </View>
-            </BackgroundImage>
+                <View style={styles.content}>
+                    <Text style={styles.name}>{nombre + " " + apellido}</Text>
+                    <Text style={styles.id}>ID: {id}</Text>
+                    <Text style={styles.label}>EMAIL</Text>
+                    <TouchableOpacity
+                        style={styles.row}
+                        onPress={() => copyToClipboard(email)}
+                    >
+                        <Text style={styles.email}>{email}</Text>
+                        <Svg
+                            style={styles.svg}
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <Path
+                                d="M18 0H8C7.46957 0 6.96086 0.210714 6.58579 0.585786C6.21071 0.960859 6 1.46957 6 2V4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V14H18C18.5304 14 19.0391 13.7893 19.4142 13.4142C19.7893 13.0391 20 12.5304 20 12V2C20 1.46957 19.7893 0.960859 19.4142 0.585786C19.0391 0.210714 18.5304 0 18 0Z"
+                                fill="#4292F6"
+                            />
+                            <Path
+                                d="M2 20H12C13.103 20 14 19.103 14 18V8C14 6.897 13.103 6 12 6H2C0.897 6 0 6.897 0 8V18C0 19.103 0.897 20 2 20ZM4 10H10V12H4V10ZM4 14H10V16H4V14Z"
+                                fill="#4292F6"
+                            />
+                        </Svg>
+                    </TouchableOpacity>
+
+                    <Text style={styles.label}>CHARGE</Text>
+                    <Text style={styles.charge}>{cargo}</Text>
+
+                    <View style={styles.ContentButton}>
+                        <LogOutButton onPress={handleLogOut} />
+                        <ChangePassButton onPress={handleRecovery} /> {/* Cambié a handleRecovery */}
+                    </View>
+                </View>
+            </View>
+            <AlertModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Log Out successfully"} />
         </View>
     );
 };
 
-// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Hace que el contenedor ocupe todo el espacio disponible
+        fontFamily: "Poppins-Regular",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: Color.colorBackground,
     },
-    header: {
-        flex: 0.6, // Ocupa el 60% del espacio del contenedor padre
-        justifyContent: "flex-start", // Alinea el contenido al principio del eje principal
-        alignItems: "flex-start", // Alinea el contenido al principio del eje transversal
-        marginTop: 35, // Añade un margen superior de 35
-        marginLeft: 20, // Añade un margen izquierdo de 20
+    body: {
+        width: "100%",
+        backgroundColor: "red"
+    },
+    topContrast: {
+        display: "flex",
+        backgroundColor: Color.colorContrast,
+        width: 390,
+        height: 110,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    circle: {
+        width: 150,
+        height: 150,
+        borderRadius: 100,
+        backgroundColor: "#dcdcdc",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 110,
+    },
+    initials: {
+        color: "#4285F4",
+        fontSize: 48,
+        fontWeight: "bold",
     },
     content: {
-        flex: 1, // Hace que el contenedor ocupe todo el espacio disponible
+        display: "flex",
+        flexDirection: "column",
+        width: 390,
+        height: 110,
+        justifyContent: "center",
+        marginTop: 240,
     },
-    title: {
-        fontFamily: "Poppins-Bold", // Establece la familia de fuentes
-        fontSize: 32, // Establece el tamaño de la fuente
-        fontWeight: "bold", // Establece el peso de la fuente
-        color: "#4292F6", // Establece el color del texto
-        textAlign: "right", // Alinea el texto a la derecha
-        marginRight: 20, // Añade un margen derecho de 20
+    name: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#4285F4",
+        textAlign: "center",
     },
-    subTitle: {
-        fontFamily: "Poppins-Regular", // Establece la familia de fuentes
-        fontSize: 20, // Establece el tamaño de la fuente
-        fontWeight: "Medium", // Establece el peso de la fuente
-        color: "#66A0E9", // Establece el color del texto
-        textAlign: "right", // Alinea el texto a la derecha
-        marginRight: 20, // Añade un margen derecho de 20
-        marginLeft: 20, // Añade un margen izquierdo de 20
-        marginTop: 10, // Añade un margen superior de 10
+    id: {
+        fontSize: 16,
+        color: "#777777",
+        textAlign: "center",
+        marginBottom: 20,
     },
-    form: {
-        flex: 1, // Hace que el contenedor ocupe todo el espacio disponible
-        justifyContent: "center", // Centra el contenido en el eje principal
-        alignItems: "center", // Centra el contenido en el eje transversal
+    label: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#777777",
+        marginTop: 20,
+        textAlign: "left",
+        marginHorizontal: 40,
+    },
+    row: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: 10,
+        marginHorizontal: 40,
+        flexDirection: "row",
+    },
+    email: {
+        fontSize: 16,
+        color: "#4285F4",
+        textAlign: "left",
+        flexDirection: "row",
+        width: 280,
+    },
+    svg: {
+        marginRight: 10,
+    },
+    charge: {
+        fontSize: 16,
+        color: "#4285F4",
+        marginTop: 10,
+        textAlign: "left",
+        marginLeft: 40,
+    },
+    ContentButton: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        paddingHorizontal: 30,
     },
 });
 
-// Exporta el componente PasswordRecovery como el predeterminado
-export default PasswordRecovery;
+export default Profile;
