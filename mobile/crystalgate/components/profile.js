@@ -14,6 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 import LogOutButton from "./button/logOutButton";
 import AlertModal from './modal/alertModal';
 import fetchData from "./utils/database";
+// Botón para cambiar la contraseña en el perfil del usuario
+import ChangePassButton from "../components/button/button-change-pass";
 
 const Profile = () => {
     const [email, setEmail] = useState("");
@@ -68,6 +70,32 @@ const Profile = () => {
         }
     };
 
+    const handleRecovery = async () => {
+
+        try {
+            // Creamos un FormData con el correo electrónico del usuario.
+            const form = new FormData();
+            form.append("correoUsuario", email);
+            
+            // Hacemos una solicitud usando fetchData para enviar el correo electrónico y recibir una respuesta.
+            const DATA = await fetchData("cliente", "emailPasswordSender", form);
+            // Si la solicitud es exitosa (DATA.status es verdadero), limpiamos el correo, mostramos una alerta y navegamos a la siguiente pantalla.
+            if (DATA.status) {
+              Alert.alert("Éxito", "Un código de verificación ha sido enviado a su correo electrónico");
+              const token = DATA.dataset;
+              navigation.replace("Verification", { token });
+            } else {
+              // En caso de error, mostramos un mensaje de error en una alerta.
+              console.log(DATA);
+              Alert.alert("Error sesión", DATA.error);
+            }
+          } catch (error) {
+            // Capturamos y manejamos errores que puedan ocurrir durante la solicitud.
+            console.error(error, "Error desde Catch");
+            Alert.alert("Error", "Ocurrió un error al iniciar sesión");
+          }
+    };
+
     return (
         <View style={styles.container}>
             <HeaderSingle title={"Profile"} />
@@ -109,6 +137,7 @@ const Profile = () => {
                     <Text style={styles.charge}>{cargo}</Text>
 
                     <View style={styles.ContentButton}>
+                        <ChangePassButton onPress={handleRecovery}/>
                         <LogOutButton onPress={handleLogOut} />
                     </View>
                 </View>
