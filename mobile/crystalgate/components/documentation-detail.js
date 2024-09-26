@@ -61,7 +61,7 @@ const DocumentationDetail = ({ route }) => {
                 <InputText label={"YOUR NAME"} disabled={true} placeholder={`${document.nombre} ${document.apellido}`} />
                 <InputText label={"EMAIL"} disabled={true} placeholder={document.correo} />
                 <InputText label={"PHONE NUMBER"} disabled={true} placeholder={document.telefono_contacto} />
-                <TextArea label={"ADDRESS"} disabled={true} placeholder={document.direccion} />
+                <TextArea label={"ADDRESS TO"} disabled={true} placeholder={document.direccion} />
                 <InputText label={"SHIPPING DATE"} disabled={true} placeholder={fecha} />
                 <InputText label={"SHIPPING TIME"} disabled={true} placeholder={hora} />
                 <Banner state={document.estado} description={document.motivo}/>

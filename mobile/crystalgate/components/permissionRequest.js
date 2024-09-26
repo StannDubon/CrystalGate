@@ -217,18 +217,7 @@ const PermissionRequest = () => {
             });
         }
 
-        console.log(selectedType);
-        console.log(selectedSubType);
-        console.log(permissionDescription);
-        console.log(startDate);
-        console.log(endDate);
-        console.log(selectedFile);
-        console.log({
-            uri: selectedFile.assets[0].uri,
-            name: selectedFile.assets[0].name,
-            type: selectedFile.assets[0].mimeType
-        });
-        console.log(getDateTime());
+        console.log(formData.getAll("documentoPermiso"));
 
         // Enviar los datos al servicio
         const result = await fetchData('permiso', 'createRow', formData, true);
