@@ -276,16 +276,17 @@ BEGIN
     FROM tb_administradores  -- Corregido a 'tb_administradores'
     WHERE correo = p_email_administrador;  -- Corregido a 'correo'
 
-    -- Incrementar validatorcount
-    SET v_current_validatorcount = v_current_validatorcount + 1;
-
-    -- Actualizar el valor en la tabla
-    UPDATE tb_administradores  -- Corregido a 'tb_administradores'
-    SET validatorcount = v_current_validatorcount
-    WHERE correo = p_email_administrador;  -- Corregido a 'correo'
-
+    IF v_current_validatorcount <= 3 THEN
+        	-- Incrementar validatorcount
+    		SET v_current_validatorcount = v_current_validatorcount + 1;
+    		
+    		-- Actualizar el valor en la tabla
+		    UPDATE tb_administradores  -- Corregido a 'tb_administradores'
+		    SET validatorcount = v_current_validatorcount
+		    WHERE correo = p_email_administrador;  -- Corregido a 'correo'
+    END IF;
     -- Llamar a set_validator si es necesario
-    IF v_current_validatorcount >= 3 THEN
+    IF v_current_validatorcount = 4 THEN
         CALL set_validator(p_email_administrador);
     END IF;
 END $$
@@ -335,6 +336,18 @@ BEGIN
     IF NEW.clave <> OLD.clave THEN  -- Cambié 'contraseña_administrador' a 'clave'
         SET NEW.cambio_contraseña = NOW() + INTERVAL 90 DAY;
     END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$ 
+
+CREATE PROCEDURE clear_validator(IN id INT)
+BEGIN
+    UPDATE tb_administradores  -- Cambié 'tb_administrador' a 'tb_administradores'
+    SET validator = NULL,
+        validatorcount = 0
+    WHERE id_administrador = id;
 END $$
 
 DELIMITER ;

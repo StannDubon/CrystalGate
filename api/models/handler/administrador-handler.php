@@ -24,41 +24,79 @@ class AdministradorHandler
      *  Métodos para gestionar la cuenta del administrador.
      */
 
-         public function changeTempPassword()
-    {
-        $sql = 'UPDATE tb_administrador
-                SET contraseña_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->clave, $_SESSION['tempChanger']['id']);
-        return Database::executeRow($sql, $params);
-    }
-
+    // Metodo para desbloquear usuarios bloqueados por intentos fallidos maximos
     public function clearValidator()
     {
         $sql = 'CALL clear_past_validators();';
         return Database::executeSingleRow($sql);
     }
 
+    // Metodo para registrar un nuevo intento fallido
     public function setValidator($email)
     {
-        $sql = 'CALL update_validatorcount(?);';
+        $sql = 'CALL update_validator_count(?);';
         $params = array($email);
         return Database::executeRow($sql, $params);
     }
 
-    public function getValidator($email){
-        $sql = 'SELECT validator AS date FROM tb_administrador WHERE email_administrador=?';
-        $params = array($email);
-        $result = Database::getRow($sql, $params);
-        return $result['date'] != null;
+    // Metodo para formatear los intentos de login, una vez iniciado sesión
+    public function unsetValidator(){
+        $sql = 'CALL clear_validator(?);';
+        $params = array($_SESSION['idAdministrador']);
+        return Database::executeRow($sql, $params);
     }
 
-      public function validatePassword()
+    // Metodo para verificar si el usuario ya supero los intentos maximos
+    public function getValidator($email){
+        $sql = "SELECT IF(validator IS NULL OR validator = '', 0, 1) AS value FROM tb_administradores WHERE correo = ?;";
+        $params = array($email);
+        $result = Database::getRow($sql, $params);
+        return $result['value'] == 1;
+    }
+
+    // Metodo para verificar si el usuario ya supero los intentos maximos
+    public function get2fa($email){
+        $sql = "SELECT 2fa AS value FROM tb_administradores WHERE correo = ?;";
+        $params = array($email);
+        $result = Database::getRow($sql, $params);
+        return $result['value'] == 1;
+    }
+
+    // Metodo para validar cambio de contraseña despues de 90 dias
+    public function validatePassword()
     {
-        $sql = 'SELECT verificar_cambio_contraseña(?) AS date;';
+        $sql = 'SELECT verificar_cambio_contraseña(?) AS value;';
         $params = array($_SESSION['tempChanger']['id']);
         $result = Database::getRow($sql, $params);
-        return $result['date'] == 1;
+        return $result['value'] == 1;
+    }
+
+    public function changeTempPassword()
+    {
+        $sql = 'UPDATE tb_administradores
+                SET clave = ?
+                WHERE id_administrador = ?';
+        $params = array($this->clave, $_SESSION['tempChanger']['id']);
+        return Database::executeRow($sql, $params);
+    }
+
+
+
+
+
+
+
+    public function validateUser($email, $password)
+    {
+        $sql = 'SELECT id_administrador, correo, clave FROM tb_administradores WHERE correo = ?';
+        $params = array($email);
+        if (!($data = Database::getRow($sql, $params))) {
+            return false; // Si no se encuentra el usuario, devuelve falso.
+        } elseif (password_verify($password, $data['clave'])) {
+            return true; // Si la contraseña verifica correctamente, devuelve verdadero.
+        } else {
+            return false; // Si la contraseña no verifica correctamente, devuelve falso.
+        }
     }
 
     // Método para verificar el usuario mediante correo y contraseña.
@@ -68,15 +106,36 @@ class AdministradorHandler
         $params = array($email);
         // Se intenta obtener los datos del usuario a partir del correo.
         if (!($data = Database::getRow($sql, $params))) {
-            return false; // Si no se encuentra el usuario, devuelve falso.
+            return 0; // Si no se encuentra el usuario, devuelve falso.
         } elseif (password_verify($password, $data['clave'])) {
-            $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['correoAdministrador'] = $data['correo'];
-            return true; // Si la contraseña verifica correctamente, devuelve verdadero.
+
+            $sql = 'SELECT verificar_cambio_contraseña(?) AS value;';
+            $params = array($data['id_administrador']);
+            $result = Database::getRow($sql, $params);
+
+            if($result['value'] == 0){
+                $_SESSION['idAdministrador'] = $data['id_administrador'];
+                $_SESSION['correoAdministrador'] =  $data['correo'];
+                return 1;
+            } else{
+                $_SESSION['tempChanger'] = [
+                    'id' => $data['id_administrador'],
+                    'email' => $data['correo'],
+                    'expiration_time' => time() + (60 * 15) # (x*y) y=minutos de vida 
+                ];
+                return 2;
+            }
         } else {
             return false; // Si la contraseña no verifica correctamente, devuelve falso.
         }
     }
+
+
+
+
+
+
+
 
     // Método para verificar si la contraseña actual coincide para el administrador actualmente autenticado.
     public function checkPassword($password)
