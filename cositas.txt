@@ -2,11 +2,6 @@ Puntos faltantes
 
 Web
 
--Bloquear intentos fallidos maximo 3
--Segundo factor de autentificacion
--Obligar cambio de contraseña 90 dias
-
-
 -Cerrar sesión por inactividad
 -Encriptar base
 -Desactivar autocompletado
