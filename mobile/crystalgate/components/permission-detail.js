@@ -13,6 +13,7 @@ import * as FileSystem from 'expo-file-system';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as Sharing from 'expo-sharing';
 import { Color } from "../assets/const/color";
+import { Path } from "./utils/path";
 import HeaderForms from "./header/headerForms";
 import InputText from "./input/InputText";
 import TextArea from "./input/textArea";
@@ -85,7 +86,7 @@ const PermissionDetail = ({ route }) => {
 
     const downloadAndOpenPDF = async () => {
         try {
-            const uri = `http://192.168.0.171/CrystalGate/api/documents/permiso/${document.documento_permiso}`;
+            const uri = `${Path.ruta}api/documents/permiso/${document.documento_permiso}`;
             const fileUri = FileSystem.documentDirectory + document.documento_permiso;
         
             // Descargar el archivo PDF
@@ -129,7 +130,6 @@ const PermissionDetail = ({ route }) => {
                     </>
                 )}
                 <InputText label={"END TIME"} disabled={true} placeholder={horaFinal} />
-                <InputText label={"DOCUMENT"} disabled={true} placeholder={document.documento_permiso} />
                 <Text style={styles.downloadText}>DOCUMENT</Text>
                 <TouchableOpacity onPress={downloadAndOpenPDF}>
                     <Text style={styles.sectionText}>{document.documento_permiso}

@@ -1,5 +1,5 @@
-
-const BASE_URL = "http://192.168.0.171/CrystalGate/api/services/public";
+import { Path } from "./path";
+const BASE_URL = `${Path.ruta}api/services/public`;
 
 
 const fetchData = async (service, action, data = null, file = false) => {
