@@ -226,6 +226,19 @@ class PermisoHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readOneAndDescription()
+    {
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.tipo_permiso, c.lapso, d.clasificacion_permiso, a.estado, n.descripcion
+                FROM tb_permisos a
+                JOIN tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN tb_tipos_permisos c ON a.id_tipo_permiso = c.id_tipo_permiso
+                JOIN tb_clasificaciones_permisos d ON c.id_clasificacion_permiso = d.id_clasificacion_permiso
+                LEFT JOIN tb_notificaciones n ON a.id_permiso = n.id_permiso
+                WHERE a.id_permiso = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
     // Método para leer todos los permisos pendientes.
     public function readAllPendings()
     {

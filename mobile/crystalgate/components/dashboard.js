@@ -13,8 +13,11 @@ import HeaderSingle from "./header/headerSigle";
 import NotificationCard from "./cards/notificationCard";
 import PermissionCard from "./cards/permissionCard";
 import fetchData from "./utils/database";
+import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = () => {
+
+    const navigation = useNavigation();
 
   const data = [
     { id: '1', title: 'Notification 1', type: 1, dateBegin: "31-12-2024", dateEnd: "31-12-2024"},
@@ -122,6 +125,7 @@ const Dashboard = () => {
                         type={item.estado}
                         dateBegin={item.fecha_inicio}
                         dateEnd={item.fecha_final}
+                        onPress={() => navigation.navigate('PermissionDetail', { id: item.id_permiso })}
                     />
                 ))}
             </ScrollView>
