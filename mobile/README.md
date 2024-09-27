@@ -22,20 +22,34 @@ npm run android
 
 DEPENDENCIAS DEL PROYECTO
 
-npm install @react-navigation/native
-
-npm install @react-navigation/bottom-tabs
-
-npm install react-native-svg
-
-npm install react-native-svg-transformer --save
-
-npm install react-native-animatable
-
-npx react-native-asset 
-
-npm install @react-navigation/native-stack
-
-npm install @react-native-community/datetimepicker
-
-npm install lottie-react-native
+"name": "crystalgate",
+      "version": "1.0.0",
+      "dependencies": {
+        "@react-native-community/datetimepicker": "^8.0.1",
+        "@react-native-picker/picker": "2.7.5",
+        "@react-navigation/bottom-tabs": "^6.5.20",
+        "@react-navigation/native": "^6.1.17",
+        "@react-navigation/native-stack": "^6.9.26",
+        "@types/react": "~18.2.79",
+        "expo": "~51.0.14",
+        "expo-app-loading": "^2.1.1",
+        "expo-document-picker": "~12.0.2",
+        "expo-file-system": "^17.0.1",
+        "expo-font": "~12.0.7",
+        "expo-intent-launcher": "^11.0.1",
+        "expo-media-library": "^16.0.5",
+        "expo-permissions": "^14.4.0",
+        "expo-sharing": "^12.0.1",
+        "expo-splash-screen": "~0.27.5",
+        "expo-status-bar": "~1.12.1",
+        "lottie-ios": "^4.4.3",
+        "lottie-react-native": "^6.7.2",
+        "react": "18.2.0",
+        "react-native": "0.74.2",
+        "react-native-animatable": "^1.4.0",
+        "react-native-reanimated": "~3.10.1",
+        "react-native-safe-area-context": "4.10.1",
+        "react-native-screens": "3.31.1",
+        "react-native-svg": "15.2.0",
+        "react-native-svg-transformer": "^1.4.0",
+        "typescript": "~5.3.3"
