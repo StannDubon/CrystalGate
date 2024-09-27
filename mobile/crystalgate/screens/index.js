@@ -17,6 +17,7 @@ import Verification from "./verification";
 // Importación del componente NewPassword desde el archivo './new-password'
 import NewPassword from "./new-password";
 import DocumentationDetail from "./documentation-detail"
+import PermissionDetail from "./permissionDetail"
 
 // Exportación de todos los componentes importados para su uso en la navegación
 export {
@@ -30,4 +31,5 @@ export {
     Verification,
     NewPassword,
     DocumentationDetail,
+    PermissionDetail,
 }

@@ -1,193 +1,174 @@
-/*import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     StyleSheet,
     Text,
     View,
+    ScrollView,
     TouchableOpacity,
-    Clipboard,
     Alert,
-    Button,
+    Linking, 
+    Platform,
 } from "react-native";
-// Importación del archivo de constantes de colores
+import * as FileSystem from 'expo-file-system';
+import * as IntentLauncher from 'expo-intent-launcher';
+import * as Sharing from 'expo-sharing';
 import { Color } from "../assets/const/color";
-// Encabezado para formularios en la aplicación
+import { Path } from "./utils/path";
 import HeaderForms from "./header/headerForms";
-// Hook para la navegación entre pantallas
-import { useNavigation } from '@react-navigation/native';
-// Componente de entrada de texto genérico
 import InputText from "./input/InputText";
-// Componente de cuadro combinado para selección
-import ComboBox from "./combobox/ComboBox";
-// Botón para enviar formularios
-import SendButtonForm from "./button/button-send-form";
-// Área de texto para formularios
 import TextArea from "./input/textArea";
-// Botón de interruptor para selección
-import SwitchButton from "./button/switchButton";
-// Selector de fecha para formularios
-import DatePicker from "./pickers/datePicker";
-// Selector de tiempo para formularios
-import TimePicker from "./pickers/timePicker";
-// Selector de archivo para formularios
-import FilePicker from "./pickers/filePicker";
-import SuccessModal from "./modal/alertModal";
-import fetchData from "./utils/database";
-import { useFocusEffect } from '@react-navigation/native';
+import Banner from "./banner/banner-state";
+import fetchData from './utils/database';
 
-const PermissionDetail = () => {
+const PermissionDetail = ({ route }) => {
+    const { id } = route.params;
 
-    // Opciones para las listas desplegables
-    const [resquestsType,setRequestsType] = useState([]);
-
-    //valores de combo box
-    const [selectedType, setSelectedType] = useState("");
-    const [selectedSubType, setSelectedSubType] = useState("");
+    const [document, setDocument] = useState([]);
+    const [fecha, setFecha] = useState('');
+    const [hora, setHora] = useState('');
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [horaInicio, setHoraInicio] = useState('');
+    const [fechaFinal, setFechaFinal] = useState('');
+    const [horaFinal, setHoraFinal] = useState('');
+    const [showEndDate, setShowEndDate] = useState(true); // Nuevo estado para controlar la visibilidad de la fecha final
+    const [startDateLabel, setStartDateLabel] = useState("START DATE"); // Nuevo estado para cambiar el label de la fecha de inicio
 
 
-    // Estado para manejar la opción seleccionada y la visibilidad del modal de éxito
-    const navigation = useNavigation();
-    const [selectedOption, setSelectedOption] = useState('');
+    const getDocument = async () => {
+        try {
+            //console.log(id);
+            const form = new FormData();
+            form.append("idPermiso", id);
+            const DATA = await fetchData("permiso", "readOneAndDescription", form);
 
-    // Variables para capturar los datos del formulario
-    const [permissionDescription, setPermissionDescription] = useState("");
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    
-    useFocusEffect(
-        React.useCallback(() => {
-            // Esta función se ejecutará cada vez que el componente esté enfocado
-            loadData(); // Llamar a tu función para cargar datos
-    
-            // Restablecer los valores del formulario y otros estados
-            setSelectedType("");
-            setSelectedSubType("");
-            setPermissionDescription("");
-            setSelectedFile(null);
-            setStartDate(new Date());
-            setEndDate(new Date());
-            setStartTime(new Date());
-            setEndTime(new Date());
-            setSelectedOption("");
-            setSubTypeDisabled(true);
-            setDisabledDay(true);
-            setDisabledHour(true);
-    
-            // Limpiar cuando el componente pierde el enfoque
-            return () => {
-                // Opcional: puedes agregar lógica de limpieza aquí si es necesario
-            };
-        }, [])
-    );
-    
-    const loadData = async () =>{
-        const result = await fetchData('clasificacion-permiso','readAll');
-        if(result.status){
-            let requestTypes = [];
-            result.dataset.map((item) => {
-                requestTypes.push({identifier: item.id_clasificacion_permiso, value: item.clasificacion_permiso});
-            });
-            setRequestsType(requestTypes);
+            if (DATA.status) {
+                setDocument(DATA.dataset);
+            } else {
+                alert("Error fetching document request: " + DATA.error);
+            }
+        } catch (error) {
+            console.error("Error fetching request:", error);
         }
-    }
-
-    
+    };
     useEffect(() => {
-        loadData();
-    },[navigation]);
+        getDocument();
+    }, [id]);
 
-    // Función para manejar la selección de archivos
-    const handleFileSelect = (file) => {
-        setSelectedFile(file);
+    // Establecer fecha y hora una vez que el documento se haya actualizado
+    useEffect(() => {
+        if (document.fecha_envio) {
+            const [newFecha, newHora] = document.fecha_envio.split(' ');
+            setFecha(newFecha);
+            setHora(newHora);
+        }
+        if (document.fecha_inicio) {
+            const [newFechaInicio, newHoraInicio] = document.fecha_inicio.split(' ');
+            setFechaInicio(newFechaInicio);
+            setHoraInicio(newHoraInicio);
+        }
+        if (document.fecha_final) {
+            const [newFechaFinal, newHoraFinal] = document.fecha_final.split(' ');
+            setFechaFinal(newFechaFinal);
+            setHoraFinal(newHoraFinal);
+        }
+    }, [document]);
+
+    // Verificar si la fecha de inicio y la fecha final son iguales
+    useEffect(() => {
+        if (fechaInicio === fechaFinal) {
+            setShowEndDate(false); // Ocultar la fecha final
+            setStartDateLabel("DATE"); // Cambiar el label de fecha inicio a DATE
+        } else {
+            setShowEndDate(true); // Mostrar la fecha final si son diferentes
+            setStartDateLabel("START DATE"); // Mantener el label de fecha inicio como START DATE
+        }
+    }, [fechaInicio, fechaFinal]);
+
+    const downloadAndOpenPDF = async () => {
+        try {
+            const uri = `${Path.ruta}api/documents/permiso/${document.documento_permiso}`;
+            const fileUri = FileSystem.documentDirectory + document.documento_permiso;
+        
+            // Descargar el archivo PDF
+            const { uri: localUri } = await FileSystem.downloadAsync(uri, fileUri);
+            Alert.alert('Descarga completada', `Archivo descargado a: ${localUri}`);
+        
+            // Abrir el archivo dependiendo de la plataforma
+            if (Platform.OS === 'android') {
+              // Android: Usa IntentLauncher para abrir el archivo con una app compatible
+              const cts = await FileSystem.getContentUriAsync(localUri);
+              IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+                data: cts,
+                flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+                type: 'application/pdf',
+              });
+            } else if (Platform.OS === 'ios') {
+              // iOS: Usa Linking para abrir el archivo
+              await Linking.openURL(localUri);
+            }
+          } catch (error) {
+            Alert.alert('Error', 'Hubo un problema al descargar o abrir el archivo.');
+            console.error(error);
+          }
     };
 
-    // Renderizado del componente
     return (
+
         <View style={styles.container}>
-            <HeaderForms title={"Permission Request"} href={'Dashboard'}/>
-            <View style={styles.formContainer}>
-                <Text style={styles.sectionText}>Details</Text>
-                <ComboBox   label={"Permission Type"} 
-                            options={resquestsType} 
-                            selectedValue={selectedType}
-                            placeholder={"Select an option"} 
-                            onValueChange={changeCategorie}
-                            isDisabled={true}
-                            />
-                <ComboBox   label={"Sub-Permission Type"} 
-                            options={subRequestsType} 
-                            selectedValue={selectedSubType}
-                            onValueChange={changeSubCategorie}
-                            placeholder={"Select an option"} 
-                            isDisabled={true}
-                            ></ComboBox>
-                <TextArea   label={"Permission description"}
-                            value={permissionDescription}
-                            onChangeText={setPermissionDescription}
-                            isDisabled={true}
-                ></TextArea>
-                <Text style={styles.sectionText}>DATE</Text>
-                {
-                    selectedOption == "Days" ? 
+            <HeaderForms title={"Documentation Detail"} href={'History'} />
+            <ScrollView
+                contentContainerStyle={styles.formContainer}
+            >
+                <InputText label={"PERMISSION TYPE"} disabled={true} placeholder={document.clasificacion_permiso} />
+                <InputText label={"SUB-PERMISSION TYPE"} disabled={true} placeholder={document.tipo_permiso} />
+                <TextArea label={"DESCRIPTION"} disabled={true} placeholder={document.descripcion_permiso} />
+                <InputText label={startDateLabel} disabled={true} placeholder={fechaInicio} />
+                <InputText label={"START TIME"} disabled={true} placeholder={horaInicio} />
+                {showEndDate && (
                     <>
-                        <DatePicker label={"From: "}
-                                    selectedDateTime={startDate}
-                                    onDateChange={setStartDate}></DatePicker>
-                        <DatePicker label={"To: "}
-                                    selectedDateTime={endDate}
-                                    onDateChange={setEndDate}></DatePicker>
+                        <InputText label={"END DATE"} disabled={true} placeholder={fechaFinal} />
                     </>
-                    : selectedOption == "Hours" ?
-                    <>
-                        <DatePicker label={"Of: "}
-                                    selectedDateTime={startDate}
-                                    onDateChange={setStartDate}></DatePicker>
-                        <TimePicker label={"From: "}
-                                    date={startDate}
-                                    disabled={false}
-                                    onTimeChange={setStartTime}></TimePicker>
-                        <TimePicker label={"To: "}
-                                    date={startDate}
-                                    disabled={false}
-                                    onTimeChange={setEndTime}></TimePicker>
-                    </>
-                    :
-                    <>
-                    </>
-                }
-                <FilePicker onSelectFile={handleFileSelect}></FilePicker>
-                <Text style={styles.sectionText}>{(selectedFile == null ? "":selectedFile.assets[0].name)}</Text>
-            </View>
+                )}
+                <InputText label={"END TIME"} disabled={true} placeholder={horaFinal} />
+                <Text style={styles.downloadText}>DOCUMENT</Text>
+                <TouchableOpacity onPress={downloadAndOpenPDF}>
+                    <Text style={styles.sectionText}>{document.documento_permiso}
+                    </Text>
+                </TouchableOpacity>
+                <InputText label={"SHIPPING DATE"} disabled={true} placeholder={fecha} />
+                <InputText label={"SHIPPING TIME"} disabled={true} placeholder={hora} />
+                <Banner state={document.estado} description={document.descripcion} />
+            </ScrollView>
         </View>
     );
 };
 
-// Definición de los estilos usando StyleSheet
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Flex 1 para ocupar todo el espacio disponible
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        backgroundColor: Color.colorBackground, // Color de fondo definido en la constante Color
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: Color.colorBackground,
     },
     formContainer: {
-        paddingBottom: 200, // Espacio adicional en la parte inferior para evitar que los elementos finales se superpongan con el teclado
-        flex: 1, // Flex 1 para que ocupe todo el espacio vertical disponible
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "column", // Dirección de los elementos en columna
-        justifyContent: "center", // Centrar verticalmente los elementos hijos
-        alignItems: "center", // Centrar horizontalmente los elementos hijos
+        paddingBottom: 70,
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
     },
-    sectionText:{
-        display: "flex", // Mostrar como contenedor flexible
-        alignSelf: "flex-start", // Alinear el texto al inicio del contenedor
-        paddingLeft: 30, // Espacio de relleno a la izquierda
+    downloadText: {
+        paddingTop: 20,  
+        marginLeft:-260,
+        color: "#98ADE3",
+    },
+    sectionText: {
         fontFamily: "Poppins-Regular", // Fuente de texto
-        color: "#98ADE3", // Color del texto
+        color: "#4292F6", // Color del texto
         paddingTop: 20, // Espacio adicional en la parte superior
+        marginLeft:-150,
     },
 });
 
-// Exporta el componente PermissionRequest como el predeterminado
 export default PermissionDetail;
-*/

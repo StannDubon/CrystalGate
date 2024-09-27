@@ -127,6 +127,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Non-existent permission';
                 }
                 break;
+            // Caso para leer un registro en particular con descripción.
+            case 'readOneAndDescription':
+                if (!$permiso->setId($_POST[POST_ID])) {
+                    $result['error'] = 'permiso incorrecto';
+                } elseif ($result['dataset'] = $permiso->readOneAndDescription()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Non-existent permission';
+                }
+                break;
             // Caso para actualizar un registro.
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
