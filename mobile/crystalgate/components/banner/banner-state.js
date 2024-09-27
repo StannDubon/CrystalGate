@@ -36,7 +36,7 @@ const Banner = ({ state, description }) => {
                 </Svg>
             ),
             title: 'Rejected',
-            description: 'The request has been rejected.',
+            description: description || 'The request has been rejected.',
         },
     };
 

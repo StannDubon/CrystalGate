@@ -210,7 +210,7 @@ const History = () => {
                                 type={item.estado}
                                 dateBegin={item.fecha_inicio}
                                 dateEnd={item.fecha_final}
-                                onPress={() => navigation.navigate('CreatePermission', { id: item.id_permiso })}
+                                onPress={() => navigation.navigate('PermissionDetail', { id: item.id_permiso })}
                             />
                         ))
                     ) : (
