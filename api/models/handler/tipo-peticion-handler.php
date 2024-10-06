@@ -44,6 +44,15 @@ class TipoPeticionHandler
         return Database::getRows($sql);
     }
 
+    public function readAllMobile()
+    {
+        $sql = 'SELECT *
+                FROM tb_tipos_peticiones
+                WHERE estado = 1
+                ORDER BY tipo_peticion';
+        return Database::getRows($sql);
+    }
+
     // Método para leer un tipo de petición específico por su ID.
     public function readOne()
     {
