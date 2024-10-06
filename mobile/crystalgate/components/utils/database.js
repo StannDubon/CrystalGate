@@ -1,5 +1,5 @@
-import { Path } from "./path";
-const BASE_URL = `${Path.ruta}api/services/public`;
+
+const BASE_URL = `http://192.168.162.34/CrystalGate/api/services/public`;
 
 
 const fetchData = async (service, action, data = null, file = false) => {
@@ -31,8 +31,8 @@ const fetchData = async (service, action, data = null, file = false) => {
         //console.log(url);
         return result; // Devolver el JSON de la respuesta
     } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+         // Retornar un valor o mensaje que te ayude a identificar errores en el frontend
+         return { status: false, message: error.message };
     }
 };
 

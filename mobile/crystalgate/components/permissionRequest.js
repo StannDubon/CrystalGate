@@ -32,7 +32,6 @@ import TimePicker from "./pickers/timePicker";
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
 import fetchData from "./utils/database";
-import { useFocusEffect } from '@react-navigation/native';
 
 const PermissionRequest = () => {
 
@@ -65,7 +64,7 @@ const PermissionRequest = () => {
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     
-    useFocusEffect(
+    /*useFocusEffect(
         React.useCallback(() => {
             // Esta función se ejecutará cada vez que el componente esté enfocado
             loadData(); // Llamar a tu función para cargar datos
@@ -89,7 +88,7 @@ const PermissionRequest = () => {
                 // Opcional: puedes agregar lógica de limpieza aquí si es necesario
             };
         }, [])
-    );
+    );*/
     
 
     const isDisabledSend =
@@ -199,6 +198,8 @@ const PermissionRequest = () => {
         formData.append('idTipoPermiso', selectedSubType);
         formData.append('descripcionPermiso', permissionDescription);
         if (selectedOption == "Days") {
+            console.log(startDate);
+            console.log(endDate);
             formData.append('fechaInicio', startDate);
             formData.append('fechaFinal', endDate);
         } else if (selectedOption == "Hours") {
@@ -217,8 +218,6 @@ const PermissionRequest = () => {
             });
         }
 
-        console.log(formData.getAll("documentoPermiso"));
-
         // Enviar los datos al servicio
         const result = await fetchData('permiso', 'createRow', formData, true);
 
@@ -234,7 +233,7 @@ const PermissionRequest = () => {
             }, 4000);
         } else {
             // Manejo de errores
-            Alert.alert("Error", "No se pudo enviar la solicitud");
+            Alert.alert("Warning", "You're sending the permission request");
         }
     };
 

@@ -24,25 +24,23 @@ const TimePicker = ({ label, date, onTimeChange, disabled }) => {
         if(selectedTime && event.type == 'set'){
             const currentTime = selectedTime || time;
             const updatedTime = new Date(date);
-
-            // Restringe las horas seleccionables entre 7 AM y 5 PM
-            if (currentTime.getHours() < 7) {
-                let hours = 7;
-                updatedTime.setHours(hours);
-                updatedTime.setMinutes(0);
-            } else if (currentTime.getHours() > 17) {
-                let hours = 17;
-                updatedTime.setHours(hours);
-                updatedTime.setMinutes(0);
-            }
-            else{
-                updatedTime.setHours(currentTime.getHours());
-                updatedTime.setMinutes(currentTime.getMinutes());
-            } 
+            updatedTime.setHours(currentTime.getHours());
+            updatedTime.setMinutes(currentTime.getMinutes());
             setShow(Platform.OS === "ios");
             setTime(updatedTime);
-            onTimeChange && onTimeChange(updatedTime);
+            onTimeChange && onTimeChange(formatDateTime(updatedTime));
         }
+    };
+
+    const formatDateTime = (dateTime) => {
+        const year = dateTime.getFullYear();
+        const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+        const day = String(dateTime.getDate()).padStart(2, '0');
+        const hours = String(dateTime.getHours()).padStart(2, '0');
+        const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+        const seconds = String(dateTime.getSeconds()).padStart(2, '0');
+    
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
     // Función para mostrar el selector de tiempo
