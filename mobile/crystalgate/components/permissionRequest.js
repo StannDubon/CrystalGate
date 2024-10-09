@@ -64,6 +64,33 @@ const PermissionRequest = () => {
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     
+    /*useFocusEffect(
+        React.useCallback(() => {
+            // Esta función se ejecutará cada vez que el componente esté enfocado
+            loadData(); // Llamar a tu función para cargar datos
+    
+            // Restablecer los valores del formulario y otros estados
+            setSelectedType("");
+            setSelectedSubType("");
+            setPermissionDescription("");
+            setSelectedFile(null);
+            setStartDate(new Date());
+            setEndDate(new Date());
+            setStartTime(new Date());
+            setEndTime(new Date());
+            setSelectedOption("");
+            setSubTypeDisabled(true);
+            setDisabledDay(true);
+            setDisabledHour(true);
+    
+            // Limpiar cuando el componente pierde el enfoque
+            return () => {
+                // Opcional: puedes agregar lógica de limpieza aquí si es necesario
+            };
+        }, [])
+    );*/
+    
+
     const isDisabledSend =
         !selectedType ||
         !selectedSubType ||
@@ -171,6 +198,8 @@ const PermissionRequest = () => {
         formData.append('idTipoPermiso', selectedSubType);
         formData.append('descripcionPermiso', permissionDescription);
         if (selectedOption == "Days") {
+            console.log(startDate);
+            console.log(endDate);
             formData.append('fechaInicio', startDate);
             formData.append('fechaFinal', endDate);
         } else if (selectedOption == "Hours") {
@@ -189,19 +218,6 @@ const PermissionRequest = () => {
             });
         }
 
-        console.log(selectedType);
-        console.log(selectedSubType);
-        console.log(permissionDescription);
-        console.log(startDate);
-        console.log(endDate);
-        console.log(selectedFile);
-        console.log({
-            uri: selectedFile.assets[0].uri,
-            name: selectedFile.assets[0].name,
-            type: selectedFile.assets[0].mimeType
-        });
-        console.log(getDateTime());
-
         // Enviar los datos al servicio
         const result = await fetchData('permiso', 'createRow', formData, true);
 
@@ -217,7 +233,7 @@ const PermissionRequest = () => {
             }, 4000);
         } else {
             // Manejo de errores
-            Alert.alert("Error", "No se pudo enviar la solicitud");
+            Alert.alert("Warning", "You're sending the permission request");
         }
     };
 

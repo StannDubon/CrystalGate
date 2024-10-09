@@ -103,6 +103,10 @@ main *{
     align-items: end;
 }
 
+.dash-inbox-alert.none{
+    display: none;
+}
+
 .dash-inbox-alert p {
     width: 20px;
     height: 20px;

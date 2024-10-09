@@ -19,7 +19,6 @@ import fetchData from './utils/database';
 
 const DocumentationRequest = () => {
     const [requestsType, setRequestsType] = useState([]);
-    const [deliverCenters, setDeliverCenters] = useState([]);
     const [sendBy, setSendBy] = useState([
         { identifier: 1, value: 'presencial' },
         { identifier: 0, value: 'virtual' }
@@ -73,7 +72,7 @@ const DocumentationRequest = () => {
         formData.append('idIdioma', selectedLanguage);
         formData.append('EstadoPeticion',1);
         formData.append('fechaEnvio',getDateTime());
-        formData.append('idCentroEntrega',selectedDeliverCenter);
+        formData.append('idCentroEntrega',1);
 
         console.log(formData);
         const result = await fetchData('peticion','createRow',formData);
@@ -111,15 +110,6 @@ const DocumentationRequest = () => {
                 });
                 setLanguages(langArray);
             }
-
-            const centersResult = await fetchData('centro-entrega','readAll');
-            if(centersResult.status){
-                let centerArray = [];
-                centersResult.dataset.map((item) =>{
-                    centerArray.push({ identifier: item.id_centro_entrega, value: item.centro_entrega });
-                });
-                setDeliverCenters(centerArray);
-            }
         } catch (error) {
             console.error("Error fetching data: ", error);
         }
@@ -139,7 +129,6 @@ const DocumentationRequest = () => {
         setSelectedRequestType("");
         setSelectedSendBy("");
         setSelectedLanguage("");
-        setSelectedDeliverCenter("");
     };
 
     useFocusEffect(
@@ -161,8 +150,7 @@ const DocumentationRequest = () => {
         !address ||
         !selectedRequestType ||
         !selectedSendBy ||
-        !selectedLanguage ||
-        !selectedDeliverCenter;
+        !selectedLanguage;
 
     return (
         <View style={styles.container}>
@@ -197,18 +185,10 @@ const DocumentationRequest = () => {
                     onValueChange={setSelectedLanguage}
                     isDisabled={false}
                 />
-                <ComboBox
-                    label={"DELIVERY CENTER"}
-                    options={deliverCenters}
-                    placeholder={"Select an option"}
-                    selectedValue={selectedDeliverCenter}
-                    onValueChange={setSelectedDeliverCenter}
-                    isDisabled={false}
-                />
                 <InputText label={"YOUR NAME"} value={name} onChangeText={setName} />
                 <InputText label={"EMAIL"} value={email} onChangeText={setEmail} />
                 <InputText label={"PHONE NUMBER"} value={phone} onChangeText={setPhone} />
-                <TextArea label={"ADDRESS"} value={address} onChangeText={setAddress} />
+                <TextArea label={"ADDRESS TO"} value={address} onChangeText={setAddress} />
                 <SendButtonForm onPress={handleSend} isDisabled={isDisabled} />
             </ScrollView>
             <WelcomeModal visible={isModalVisible} onClose={handleCloseModal} title={"Documentation Request"} content={modalContent} />

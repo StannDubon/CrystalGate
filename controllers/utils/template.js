@@ -28,6 +28,7 @@ const loadTemplate = async () => {
   const DATA = await fetchData(USER_API, "getUser");
   // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
   if (DATA.session) {
+    console.log("hola ajdkflas");
     if (location.pathname.endsWith("index.html")) {
       location.href = "dashboard.html";
     }
@@ -377,7 +378,7 @@ const loadTemplate = async () => {
   } else {
     // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.
     if (!location.pathname.endsWith("change-password.html") && !location.pathname.endsWith("index.html")) {
-      location.href = "index.html";
+      sweetAlert(3, "Session expired", false, "index.html");
     }
   }
 };

@@ -44,6 +44,15 @@ class ClasificacionPermisoHandler
         return Database::getRows($sql); // Obtiene y devuelve todos los registros de clasificaciones de permisos.
     }
 
+    public function readAllMobile()
+    {
+        $sql = 'SELECT *
+                FROM tb_clasificaciones_permisos
+                WHERE estado = 1
+                ORDER BY clasificacion_permiso'; // Ordena los resultados por clasificación de permiso.
+        return Database::getRows($sql); // Obtiene y devuelve todos los registros de clasificaciones de permisos.
+    }
+
     // Método para leer un registro específico de clasificación de permiso.
     public function readOne()
     {

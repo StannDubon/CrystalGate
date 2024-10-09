@@ -6,6 +6,7 @@ import {
     ScrollView,
     TouchableOpacity,
     Dimensions,
+    RefreshControl
 } from "react-native";
 import { Color } from "../assets/const/color";
 // Importa el componente HeaderSingle para el encabezado
@@ -49,6 +50,23 @@ const History = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
+    //Para recargar
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const onRefresh = async () => {
+        setIsRefreshing(true);  // Activar la animación de actualización
+    
+        try {
+            // Aquí llamas a tu función para obtener los datos
+            await getData();
+        } catch (error) {
+            console.error("Error refreshing data:", error);
+        } finally {
+            setIsRefreshing(false);  // Detener la animación de actualización
+        }
+    };
+    
+
     const getFilteredData = async () => {
         try {
             const formData = new FormData();
@@ -62,7 +80,8 @@ const History = () => {
             if (filteredData.status) {
                 setDocuments(filteredData.dataset);  // Actualiza los datos filtrados
             } else {
-                console.error("Error fetching filtered data:", filteredData.error);
+                setDocuments([]);
+
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -85,7 +104,7 @@ const History = () => {
             if (filteredData2.status) {
                 setPermissions(filteredData2.dataset);  // Actualiza permisos, no documentos
             } else {
-                console.error("Error fetching filtered data:", filteredData2.error);
+                setPermissions([]);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -108,7 +127,7 @@ const History = () => {
             if (documentsData.status) {
                 setDocuments(documentsData.dataset);
             } else {
-                console.error("Error fetching documents:", documentsData.error);
+                setDocuments([]);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -176,6 +195,12 @@ const History = () => {
             <View style={styles.scrollViewContainer}>
                 <ScrollView
                     contentContainerStyle={styles.permissionContainer}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={onRefresh}  // Llama a la función de actualización cuando se hace scroll hacia arriba
+                        />
+                    }
                 >
                     {selectedIndex === 0 ? (
                         paginatedPermissions.map((item) => (
@@ -185,7 +210,7 @@ const History = () => {
                                 type={item.estado}
                                 dateBegin={item.fecha_inicio}
                                 dateEnd={item.fecha_final}
-                                onPress={() => navigation.navigate('CreatePermission', { id: item.id_permiso })}
+                                onPress={() => navigation.navigate('PermissionDetail', { id: item.id_permiso })}
                             />
                         ))
                     ) : (

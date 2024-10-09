@@ -39,7 +39,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $ClasificacionPermiso->readAll()) {
+                if ($result['dataset'] = $ClasificacionPermiso->readAllMobile()) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
