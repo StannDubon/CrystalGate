@@ -106,3 +106,29 @@ INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_ent
 INSERT INTO tb_peticiones(id_usuario, id_tipo_peticion, id_idioma, id_centro_entrega, direccion, modo_entrega, telefono_contacto, estado, fecha_envio, nombre_entrega, email_entrega) VALUES
 (3, 3, 3, 3, '2424 Cedar St', TRUE, '555-2349', 3, '2024-08-20 13:55:00', 'Yara Brown', 'yara.brown@example.com'),
 (4, 1, 1, 1, '2525 Maple St', FALSE, '555-6783', 3, '2024-08-20 15:40:00', 'Zane Carter', 'zane.carter@example.com');
+
+INSERT INTO `tb_permisos` (`id_usuario`, `id_tipo_permiso`, `fecha_inicio`, `fecha_final`, `fecha_envio`, `documento_permiso`, `descripcion_permiso`, `estado`) VALUES
+(1, 1, '2024-10-05 09:00:00', '2024-10-05 10:00:00', '2024-10-01 12:00:00', 'med_appoint_doc.pdf', 'Cita médica', '1'),
+(2, 2, '2024-10-07 14:00:00', '2024-10-07 16:00:00', '2024-10-02 15:00:00', 'emerg_appoint_doc.pdf', 'Cita médica de emergencia', '1'),
+(3, 3, '2024-10-08 08:00:00', '2024-10-08 12:00:00', '2024-10-04 09:00:00', 'family_emerg_doc.pdf', 'Emergencia familiar', '1'),
+(4, 4, '2024-10-10 09:00:00', '2024-10-10 18:00:00', '2024-10-05 11:00:00', 'bereavement_doc.pdf', 'Permiso por duelo', '2'),
+(5, 5, '2024-10-12 09:00:00', '2024-10-12 18:00:00', '2024-10-06 10:00:00', 'marriage_doc.pdf', 'Permiso por matrimonio', '2'),
+(1, 6, '2024-10-15 09:00:00', '2024-10-15 18:00:00', '2024-10-10 12:00:00', 'paternity_doc.pdf', 'Permiso de paternidad', '1'),
+(2, 7, '2024-10-20 09:00:00', '2024-10-20 12:00:00', '2024-10-15 14:00:00', 'personal_proc_doc.pdf', 'Proceso personal', '1'),
+(3, 8, '2024-10-22 08:00:00', '2024-10-22 11:00:00', '2024-10-18 09:00:00', 'court_date_doc.pdf', 'Fecha en corte', '1'),
+(4, 9, '2024-10-25 12:00:00', '2024-10-25 13:00:00', '2024-10-20 09:00:00', 'breastfeeding_doc.pdf', 'Permiso de lactancia', '2'),
+(5, 10, '2024-10-28 09:00:00', '2024-10-28 17:00:00', '2024-10-25 10:00:00', 'personal_day_doc.pdf', 'Día personal', '1'),
+(1, 11, '2024-10-30 09:00:00', '2024-10-30 17:00:00', '2024-10-25 09:00:00', 'other_doc.pdf', 'Otro tipo de permiso', '2');
+
+SELECT * FROM tb_permisos
+
+SELECT * FROM tb_tipos_permisos WHERE tipo_permiso = 'Vacations';
+
+SELECT * FROM tb_permisos WHERE id_tipo_permiso = (SELECT id_tipo_permiso FROM tb_tipos_permisos WHERE tipo_permiso = 'Vacations');
+
+INSERT INTO `tb_permisos` (`id_usuario`, `id_tipo_permiso`, `fecha_inicio`, `fecha_final`, `fecha_envio`, `documento_permiso`, `descripcion_permiso`, `estado`) VALUES
+(1, 15, '2024-11-01 09:00:00', '2024-11-15 18:00:00', '2024-10-20 12:00:00', 'vacations_doc_1.pdf', 'Vacaciones anuales', '1'),
+(2, 15, '2024-12-01 09:00:00', '2024-12-10 18:00:00', '2024-10-25 14:00:00', 'vacations_doc_2.pdf', 'Vacaciones de fin de año', '1'),
+(3, 15, '2024-10-20 09:00:00', '2024-10-30 18:00:00', '2024-10-01 09:00:00', 'vacations_doc_3.pdf', 'Vacaciones por antigüedad', '2'),
+(4, 15, '2024-11-05 09:00:00', '2024-11-20 18:00:00', '2024-10-10 10:00:00', 'vacations_doc_4.pdf', 'Vacaciones en familia', '1'),
+(5, 15, '2024-12-15 09:00:00', '2024-12-25 18:00:00', '2024-10-15 11:00:00', 'vacations_doc_5.pdf', 'Vacaciones por festividades', '2');

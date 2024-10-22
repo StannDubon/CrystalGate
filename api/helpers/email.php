@@ -10,46 +10,100 @@ function sendVerificationEmail($to, $random) {
     // Construir el cuerpo del correo
     $body = '
     <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Verificación de correo electrónico</title>
-        <style>
-            /* Estilos generales */
-            body {
-                font-family: Arial, sans-serif;
-                line-height: 1.6;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }
-            .container {
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: #ffffff;
-                padding: 20px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-            }
-            h1 {
-                color: #333333;
-            }
-            p {
-                margin-bottom: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Verificación de correo electrónico</h1>
-            <p>Hola,</p>
-            <p>Gracias por registrarte. Tu código de verificación es: <strong>' . $random . '</strong></p>
-            <p>Utiliza este código para cambiar tu contraseña.</p>
-            <p>Atentamente,</p>
-            <p>El equipo de verificación</p>
-        </div>
-    </body>
-    </html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background-color: #4a8af7;
+            width: 100%;
+            height: 30px;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4a8af7;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #666666;
+            font-size: 18px;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .code {
+            font-size: 36px;
+            font-weight: bold;
+            color: #4a8af7;
+            background-color: #e7f0ff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: inline-block;
+            letter-spacing: 2px;
+            margin-top: 30px;
+        }
+
+        .highlight {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333333;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px dashed #e0e0e0;
+            margin: 40px 0;
+            width: 80%;
+        }
+
+        .goodbye {
+            font-size: 20px;
+            font-weight: 300;
+            color: #4a8af7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Verification</h1>
+        <p>Hi <span class="highlight">Climber</span>,</p>
+        <p>Thanks for registering! Your verification code is:</p>
+        <p class="code">' . $random . '</p>
+        <p>Please use this code to verify your email and change your password.</p>
+        <hr>
+        <p class="goodbye">If you didn’t request this email, please contact us</p>
+    </div>
+</body>
+</html>
+
     ';
 
     // Llamar a la función para enviar el correo electrónico

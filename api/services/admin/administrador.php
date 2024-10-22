@@ -42,7 +42,6 @@ if (isset($_GET['action'])) {
     } else if (time() - $_SESSION['last_activity'] > $inactiveLimit) {
         session_unset(); // Limpia la sesión
         session_destroy(); // Destruye la sesión
-        echo "La sesión ha sido destruida por inactividad.";
     }
     
     // Actualiza el tiempo de actividad

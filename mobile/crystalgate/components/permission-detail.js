@@ -36,7 +36,7 @@ const PermissionDetail = ({ route }) => {
 
     const getDocument = async () => {
         try {
-            //console.log(id);
+            console.log(id);
             const form = new FormData();
             form.append("idPermiso", id);
             const DATA = await fetchData("permiso", "readOneAndDescription", form);

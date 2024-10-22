@@ -1,3 +1,3 @@
 export const Path = {
-    ruta: "http://crystalgate.website/CrystalGate/"
+    ruta: "http://192.168.42.34/CrystalGate/"
 }
