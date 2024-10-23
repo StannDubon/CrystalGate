@@ -74,7 +74,7 @@ class PeticionHandler
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_peticion = c.id_tipo_peticion 
                 AND a.id_idioma = d.id_idioma AND a.id_centro_entrega = e.id_centro_entrega 
                 AND b.id_usuario = ?
-                ORDER BY a.fecha_envio';
+                ORDER BY a.fecha_envio DESC';
         $params = array($this->idUsuario);
         return Database::getRows($sql, $params);
     }
@@ -90,7 +90,8 @@ class PeticionHandler
                 WHERE b.id_usuario = ?
                 AND (a.id_tipo_peticion LIKE ? OR ? = 0)
                 AND (a.id_idioma LIKE ? OR ? = 0)
-                AND (a.id_centro_entrega LIKE ? OR ? = 0)';
+                AND (a.id_centro_entrega LIKE ? OR ? = 0)
+                ORDER BY a.fecha_envio DESC';
         $params = array($this->idUsuario, $this->idTipoPeticion, $this->idTipoPeticion, $this->idIdioma, $this->idIdioma, $this->idCentroEntrega, $this->idCentroEntrega);
         //$params = array($this->idUsuario, $value, $value, $value, $value, $value, $value);       
         return Database::getRows($sql, $params);
