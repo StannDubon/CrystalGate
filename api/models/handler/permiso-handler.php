@@ -93,7 +93,7 @@ class PermisoHandler
         $sql = 'SELECT a.id_permiso, b.nombre, b.apellido, b.id_usuario, tp.tipo_permiso, tp.lapso, a.fecha_inicio, a.fecha_final, a.fecha_envio, a.documento_permiso, a.descripcion_permiso, a.estado
                 FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos tp
                 WHERE a.id_usuario = b.id_usuario AND a.id_tipo_permiso = tp.id_tipo_permiso AND b.id_usuario = ?
-                ORDER BY a.estado';
+                ORDER BY a.estado ASC, a.fecha_envio DESC';
         $params = array($this->idUsuario);
         return Database::getRows($sql, $params);
     }
@@ -109,7 +109,7 @@ class PermisoHandler
                 AND (a.id_tipo_permiso = ? OR ? = 0)
                 AND (a.fecha_inicio BETWEEN ? AND ?)
                 AND a.estado IN (SELECT estado FROM tb_permisos WHERE estado IN (?, ?, ?))
-                ORDER BY a.estado';
+                ORDER BY a.estado ASC, a.fecha_envio DESC';
         $params = array($this->idUsuario, $this->idTipoPermiso, $this->idTipoPermiso, $this->fechaInicio, $this->fechaFinal, $this->estadoPendiente, 
                         $this->estadoAcceptado, $this->estadoRechazado);
         return Database::getRows($sql, $params);

@@ -39,14 +39,14 @@ const Banner = ({ state, description }) => {
             description: description || 'The request has been rejected.',
         },
         4: {
-            backgroundColor: Color.colorRejected,  // Color gris para rechazado
+            backgroundColor: Color.colorBtnAction,  // Color gris para rechazado
             icon: (
                 <Svg width="34" height="27" viewBox="-5 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Path d="M1 1L14 14M1 14L14 1" stroke="#ffffff" strokeWidth="2.3" />
                 </Svg>
             ),
-            title: 'Rejected',
-            description: 'Ready for pick up.',
+            title: 'Ready',
+            description: 'Your document is ready for pick-up. Feel free to come and collect it!',
         },
     };
 

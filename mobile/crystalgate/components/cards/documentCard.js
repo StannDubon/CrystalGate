@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EEEEEE"
   },
   cardHeader:{
-    width: 305,
+    width: 301,
     height: 30,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
