@@ -122,10 +122,6 @@ INSERT INTO `tb_permisos` (`id_usuario`, `id_tipo_permiso`, `fecha_inicio`, `fec
 
 SELECT * FROM tb_permisos
 
-SELECT * FROM tb_tipos_permisos WHERE tipo_permiso = 'Vacations';
-
-SELECT * FROM tb_permisos WHERE id_tipo_permiso = (SELECT id_tipo_permiso FROM tb_tipos_permisos WHERE tipo_permiso = 'Vacations');
-
 INSERT INTO `tb_permisos` (`id_usuario`, `id_tipo_permiso`, `fecha_inicio`, `fecha_final`, `fecha_envio`, `documento_permiso`, `descripcion_permiso`, `estado`) VALUES
 (1, 15, '2024-11-01 09:00:00', '2024-11-15 18:00:00', '2024-10-20 12:00:00', 'vacations_doc_1.pdf', 'Vacaciones anuales', '1'),
 (2, 15, '2024-12-01 09:00:00', '2024-12-10 18:00:00', '2024-10-25 14:00:00', 'vacations_doc_2.pdf', 'Vacaciones de fin de año', '1'),

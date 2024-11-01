@@ -239,6 +239,56 @@
 
 }
 
+/* READY TO PICK UP CARDS MODIFICATIONS */
+
+.readytopickup-permission
+.content-card-general-col3{
+    background-color: var(--color-extra-9);
+    height: 100%;
+    border-radius: 0px 8px 8px 0px;
+}
+
+.readytopickup-permission
+.content-card-general-col3 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-texto-1);
+    font-weight: var(--bold-text-weight);
+}
+
+@media only screen and (max-width: 1000px){
+
+    .readytopickup-permission{
+        height: calc(140px + 10px);
+    }
+
+    .readytopickup-permission
+    .content-card-general-col3{
+        display:flex;
+        background-color: var(--color-extra-9);
+        width: 100%;
+        height: 10px;
+        border-radius: 0px 0px 8px 8px;
+    }
+    
+    .readytopickup-permission
+    .content-card-general-col3 p{
+        visibility: hidden;
+    }
+    
+    .readytopickup-permission
+    .content-card-general-col2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-texto-1);
+        font-weight: var(--bold-text-weight);
+        border-radius: 0%;
+    }
+
+}
+
 
 
 

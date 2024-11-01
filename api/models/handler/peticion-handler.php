@@ -31,15 +31,50 @@ class PeticionHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = "SELECT a.*, b.nombre, b.apellido, b.id_usuario, c.tipo_peticion, d.idioma, e.centro_entrega, b.correo
-                FROM tb_peticiones a, tb_usuarios b, tb_tipos_peticiones c, tb_idiomas d, tb_centros_entregas e
-                WHERE a.id_usuario = b.id_usuario
-                  AND a.id_tipo_peticion = c.id_tipo_peticion 
-                  AND a.id_idioma = d.id_idioma 
-                  AND a.id_centro_entrega = e.id_centro_entrega
-                  AND (b.nombre LIKE ? OR b.apellido LIKE ? OR b.id_usuario LIKE ? OR c.tipo_peticion LIKE ? OR d.idioma LIKE ? OR e.centro_entrega LIKE ? OR b.correo LIKE ? OR CONCAT(b.nombre, ' ', b.apellido) LIKE ?)
+        $sql = "SELECT 
+                    a.*, 
+                    b.nombre, 
+                    b.apellido, 
+                    b.id_usuario, 
+                    c.tipo_peticion, 
+                    d.idioma, 
+                    e.centro_entrega, 
+                    b.correo,
+                    CASE 
+                        WHEN a.estado = 1 THEN 'pending'
+                        WHEN a.estado = 2 THEN 'approved'
+                        WHEN a.estado = 3 THEN 'rejected'
+                        WHEN a.estado = 4 THEN 'ready to pick up'
+                    END AS estado_texto
+                FROM 
+                    tb_peticiones a
+                JOIN 
+                    tb_usuarios b ON a.id_usuario = b.id_usuario
+                JOIN 
+                    tb_tipos_peticiones c ON a.id_tipo_peticion = c.id_tipo_peticion
+                JOIN 
+                    tb_idiomas d ON a.id_idioma = d.id_idioma
+                JOIN 
+                    tb_centros_entregas e ON a.id_centro_entrega = e.id_centro_entrega
+                WHERE 
+                    (b.nombre LIKE ? 
+                    OR b.apellido LIKE ? 
+                    OR b.id_usuario LIKE ? 
+                    OR c.tipo_peticion LIKE ? 
+                    OR d.idioma LIKE ? 
+                    OR e.centro_entrega LIKE ? 
+                    OR b.correo LIKE ? 
+                    OR CONCAT(b.nombre, ' ', b.apellido) LIKE ?)
+                    OR (
+                        (a.estado = 1 AND 'pending' LIKE ?)
+                        OR (a.estado = 2 AND 'approved' LIKE ?)
+                        OR (a.estado = 3 AND 'rejected' LIKE ?)
+                        OR (a.estado = 4 AND 'ready to pick up' LIKE ?)
+                    )
+                ORDER BY 
+                    a.estado
                 ";
-        $params = array($value, $value, $value, $value, $value, $value, $value, $value);
+        $params = array($value, $value, $value, $value, $value, $value, $value, $value, $value, $value, $value, $value);
         return Database::getRows($sql, $params);
     }
 

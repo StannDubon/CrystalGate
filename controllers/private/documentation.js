@@ -10,6 +10,7 @@ const REQUEST_HEADER_TITLE = document.getElementById("main-header-request-main-t
 const PETICION_INFO_MODAL = document.getElementById("modal-info");
 
 const PETICION_INFO_MODAL_ID = document.getElementById('peticion-info-modal-id');
+const PETICION_INFO_MODAL_BTN_MODIFY = document.getElementById('peticion-info-modal-btn-modify');
 const PETICION_INFO_MODAL_DIRECCION = document.getElementById('peticion-info-modal-direccion');
 const PETICION_INFO_MODAL_TELEFONO = document.getElementById('peticion-info-modal-telefono');
 const PETICION_INFO_MODAL_NOMBRE = document.getElementById('peticion-info-modal-nombre');
@@ -20,6 +21,8 @@ const PETICION_INFO_MODAL_IDIOMA = document.getElementById('peticion-info-modal-
 const PETICION_INFO_MODAL_CENTRO_ENTREGA = document.getElementById('peticion-info-modal-centro-entrega');
 const PETICION_INFO_MODAL_CORREO = document.getElementById('peticion-info-modal-correo');
 const PETICION_INFO_MODAL_MODO_ENTREGA = document.getElementById('peticion-info-modal-modo-entrega');
+
+let ID = '';
 
 // Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,7 +80,7 @@ const fillTable = async (form = null) => {
                     <div class="content-card-general card-fixer-history temp-info">
                         <div class="content-card-general-col1"  onclick="openInfo(${row.id_peticion})">
                             <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
-                            <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                            <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.email_entrega}</b></p>
 
                         </div>
     
@@ -111,7 +114,7 @@ const fillTable = async (form = null) => {
                 <div class="content-card-general approved-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
                     <div class="content-card-general-col1">
                         <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
-                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.email_entrega}</b></p>
 
                     </div>
 
@@ -134,7 +137,7 @@ const fillTable = async (form = null) => {
                 <div class="content-card-general rejected-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
                     <div class="content-card-general-col1">
                         <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
-                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.correo}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.email_entrega}</b></p>
                     </div>
 
                     <div class="content-card-general-col2">
@@ -145,6 +148,28 @@ const fillTable = async (form = null) => {
                     </div>
                     <div class="content-card-general-col3">
                         <p>REJECTED</p>
+                    </div>
+                </div>
+                <!-- FINAL TARJETA -->
+                `;
+                } else if (ESTADO == 4){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+                <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                <div class="content-card-general readytopickup-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
+                    <div class="content-card-general-col1">
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.email_entrega}</b></p>
+                    </div>
+
+                    <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name" hidden>Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>READY TO PICK UP</p>
                     </div>
                 </div>
                 <!-- FINAL TARJETA -->
@@ -205,6 +230,14 @@ const openInfo = async (id) => {
         }
 
 
+        if(ROW.estado == 2){
+            PETICION_INFO_MODAL_BTN_MODIFY.classList.add('show');
+            ID = ROW.id_peticion;
+        }else{
+            PETICION_INFO_MODAL_BTN_MODIFY.classList.remove('show');
+            ID = '';
+        }
+
         PETICION_INFO_MODAL_ID.value = ROW.id_peticion;
         PETICION_INFO_MODAL_DIRECCION.textContent =  ROW.direccion;
         PETICION_INFO_MODAL_TELEFONO.textContent =  ROW.telefono_contacto;
@@ -223,6 +256,33 @@ const openInfo = async (id) => {
         sweetAlert(2, DATA.error, false); // Mostrar alerta si la solicitud falla
     }
 };
+
+const openReady = async() => {
+
+    let id = ID;
+
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to leave the request ready to pick up?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',4);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+
+            const RESPONSE = await confirmActionSuccess('Request has been set up ready to pick up successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
 
 const openAccept = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
