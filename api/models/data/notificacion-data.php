@@ -49,6 +49,17 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer el ID del permiso, validando que sea un número natural.
+    public function setIdPeticion($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->idPeticion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Método para establecer la fecha de envío, validando que sea un formato de fecha y hora válido.
     public function setFechaEnvio($value)
     {
@@ -71,6 +82,27 @@ class NotificacionData extends NotificacionHandler
         }
     }
 
+    // Método para establecer la descripción, validando que sea una cadena de texto válida.
+    public function setTitle($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->title = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Método para establecer la descripción, validando que sea una cadena de texto válida.
+    public function setToken($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->token = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /*
      *  Métodos para obtener el valor de los atributos adicionales.

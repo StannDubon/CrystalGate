@@ -2,6 +2,8 @@
 // Se incluye la clase para trabajar con la base de datos.
 require_once('../../helpers/database.php');
 
+require_once('../../helpers/notification.php');
+
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla tb_notificaciones.
  */
@@ -13,8 +15,13 @@ class NotificacionHandler
     protected $id = null;
     protected $idAdministrador = null;
     protected $idPermiso = null;
+    protected $idPeticion = null;
     protected $fechaEnvio = null;
     protected $descripcion = null;
+
+    //atributos funcionales
+    protected $token = null;
+    protected $title = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -89,6 +96,10 @@ class NotificacionHandler
                 WHERE id_notificacion = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params); // Ejecuta la consulta para eliminar una notificación.
+    }
+
+    public function sendNotification(){
+        enviarNotificacionPush($this->token,$this->title,$this->descripcion);
     }
 }
 ?>

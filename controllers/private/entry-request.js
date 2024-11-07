@@ -1,6 +1,7 @@
 //Constante para establecer la ruta de la API
 const PERMISO_API = 'services/admin/permiso.php',
     NOTIFICACION_API = 'services/admin/notificacion.php';
+    GESTOR_NOTIFICACION_API = 'services/admin/gestor-notificacion.php';
 //Constantes para establecer los elementos donde se mostrará la información del empleado
 const NOMBRE_EMPLEADO = document.getElementById('employee-name'),
     CORREO_EMPLEADO = document.getElementById('employee-email'),
@@ -24,6 +25,9 @@ const BOX_DOCUMENTO = document.getElementById('box-document'),
     BOX_ESTADO = document.getElementById('estado-utilities');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
+
+let idUsuario = null;
+
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
 // Petición para obtener los datos del usuario que ha iniciado sesión.
@@ -44,6 +48,8 @@ fillRequest = async(FORM) => {
 
         // Se inicializan los campos del formulario con los datos del usuario que ha iniciado sesión.
         const ROW = DATA.dataset;
+
+        idUsuario = ROW.id_usuario;
 
         startDate = new Date(ROW.fecha_inicio.split(' ')[0] + 'T00:00:00');
         endDate = new Date(ROW.fecha_final.split(' ')[0] + 'T00:00:00');
@@ -159,6 +165,18 @@ fillRequest = async(FORM) => {
         sweetAlert(2, DATA.error, null);
     }
 }
+
+const sendNotifications = async (id, type) =>{
+    const FORM = new FormData();
+    FORM.append('idUsuario',id);
+    const DATA = await fetchData(GESTOR_NOTIFICACION_API,'readAllByUser',FORM);
+    if(DATA.status){
+        DATA.dataset.forEach(element => {
+            
+        });
+    }
+}
+
 //Funcion para aceptar un permiso
 const acceptPermission = async () => {
     const FORM = new FormData();
@@ -200,31 +218,29 @@ const openAccept = async () => {
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         const FORM = new FormData();
-        const now = new Date();
-        
-        // Obtener la fecha y hora en formato ISO
-        const isoString = now.toISOString();
-
-        // Extraer la parte de la fecha y la hora
-        const datePart = isoString.slice(0, 10); // "YYYY-MM-DD"
-        const timePart = isoString.slice(11, 19); // "HH:MM:SS"
-
-        // Combinar la fecha y la hora en el formato deseado
-        const formattedDateTime = `${datePart} ${timePart}`;
-        
-        
-        FORM.append('idPermiso', PARAMS.get('id'));
-        FORM.append('descripcion','Permission accepted');
-        FORM.append('fechaEnvio', formattedDateTime);
+        FORM.append('idUsuario',idUsuario);
 
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
+        const DATA = await fetchData(GESTOR_NOTIFICACION_API, 'readAllByUser', FORM);
         
         
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if ( DATA.status) {
             // Se acepta el permiso
             acceptPermission();
+
+            const RESULT = DATA.dataset;
+
+            for(let i = 0; i<RESULT.length; i++){
+                const formData = new FormData;
+                formData.append('title','Permission Accepted');
+                formData.append('descripcino','Your permission was accepted by HR');
+                formData.append('token',RESULT[i].token);
+
+                await fetchData(NOTIFICACION_API,'sendNotification',formData);
+            }
+
+
             const RESPONSE = await confirmActionSuccess('Permission approved successfully');
             if(RESPONSE){
                 //Se recarga la página
@@ -276,26 +292,11 @@ const openReject = () => {
 SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-        const now = new Date();
-        
-        // Obtener la fecha y hora en formato ISO
-        const isoString = now.toISOString();
-
-        // Extraer la parte de la fecha y la hora
-        const datePart = isoString.slice(0, 10); // "YYYY-MM-DD"
-        const timePart = isoString.slice(11, 19); // "HH:MM:SS"
-
-        // Combinar la fecha y la hora en el formato deseado
-        const formattedDateTime = `${datePart} ${timePart}`;
-        
-        
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SAVE_FORM_REJECT);
-    FORM.append('idPermiso', PARAMS.get('id'));
-    FORM.append('fechaEnvio', formattedDateTime);
+    const FORM = new FormData();
+    FORM.append('idUsuario', idUsuario);
 
     // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(NOTIFICACION_API, 'createRow', FORM);
+    const DATA = await fetchData(GESTOR_NOTIFICACION_API, 'readAllByUser', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
@@ -303,12 +304,21 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
         REJECT_MODAL.classList.remove('body-no-scroll');
         // Se muestra un mensaje de éxito.
         rejectPermission();
+
+        const RESULT = DATA.dataset;
+
+        for(let i = 0; i<RESULT.length; i++){
+            const formData = new FormData;
+            formData.append('title','Permission Accepted');
+            formData.append('descripcino','Your permission was accepted by HR');
+            formData.append('token',RESULT[i].token);
+            await fetchData(NOTIFICACION_API,'sendNotification',formData);
+        }
+
         const RESPONSE = await confirmActionSuccess('Permission rejected successfully');
         if(RESPONSE){
             //Se recarga la página
             location.reload();
-            // Se acepta el permiso
-            
         }
         
     } else {

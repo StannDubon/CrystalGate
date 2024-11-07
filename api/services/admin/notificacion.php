@@ -7,6 +7,8 @@ const POST_ADMINISTRADOR_ID = "idAdministrador";
 const POST_PERMISO_ID = "idPermiso";
 const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DESCRIPCION = "descripcion";
+const POST_TITLE = "title";
+const POST_TOKEN = "token";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -113,6 +115,23 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Notification deleted succesfully';
                 } else {
                     $result['error'] = 'An error ocurred while deleting the notification';
+                }
+                break;
+
+            case 'sendNotification':
+                if(
+                    !$Notificacion->setTitle($_POST[POST_TITLE]) ||
+                    !$Notificacion->setToken($_POST[POST_TOKEN]) ||
+                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])  
+                ){
+                    $result['error'] = $Notificacion->getDataError();
+                }
+                else if ($Notificacion->sendNotification()){
+                    $result['status'] = 1;
+                    $result['message'] = "Notification sent succesfully";
+                }
+                else{
+                    $result['error'] = "There was a problem while sending the notification";
                 }
                 break;
             // Caso predeterminado.

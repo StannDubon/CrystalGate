@@ -12,12 +12,39 @@ import NewPassword from "./components/new-password";
 import DocumentationDetail from "./components/documentation-detail";
 import PermissionDetail from "./components/permission-detail";
 import LoadingScreen from "./components/loading-screen";
+import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('¡Se necesitan permisos para las notificaciones!');
+        return;
+      }
+    })();
+  }, []);
+
+  const getToken = async () => {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token); // Guarda este token en tu servidor para enviar notificaciones
+  };
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+
+
   let [fontsLoaded] = useFonts({
     'Poppins-Regular': require('./assets/fonts/Regular.ttf'),
     'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),

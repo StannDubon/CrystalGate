@@ -90,6 +90,16 @@ CREATE TABLE
 
         CONSTRAINT fk_usuario_cargo FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id_cargo)
     );
+    
+CREATE TABLE
+	 tb_gestores_notificaciones(
+		  id_gestor_notificacion PRIMARY KEY AUTO_INCREMENT,
+		  id_usuario INT NOT NULL,
+		  token VARCHAR(MAX) NOT NULL UNIQUE,
+		  estado BOOL NOT NULL DEFAULT TRUE,
+		  
+		  CONSTRAINT fk_notificacion_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario)
+	 );
 
 CREATE TABLE
     tb_peticiones (
@@ -173,12 +183,14 @@ CREATE TABLE
         id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
         id_administrador INT,
         id_permiso INT,
+        id_peticion INT,
         /* NOT ID'S */
         fecha_envio DATETIME NOT NULL,
         descripcion VARCHAR(300),
 
         CONSTRAINT fk_notificacion_administrador FOREIGN KEY (id_administrador) REFERENCES tb_administradores(id_administrador),
-        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
+        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso),
+        CONSTRAINT fk_notificacion_peticion FOREIGN KEY (id_peticion) REFERENCES tb_peticiones(id_peticion)
     );
 
 INSERT INTO tb_tipos_administradores VALUES(
@@ -351,3 +363,40 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER trg_after_update_estado_permiso
+AFTER UPDATE ON tb_permisos
+FOR EACH ROW
+BEGIN
+    -- Verifica si el estado ha cambiado
+    IF OLD.estado <> NEW.estado THEN
+        -- Inserta una notificación para cada token asociado al usuario del permiso
+        INSERT INTO tb_notificaciones (id_usuario, id_permiso, descripcion, fecha_envio)
+        SELECT NEW.id_usuario, NEW.id_permiso, CONCAT('El estado de tu permiso ha cambiado a ', NEW.estado), NOW()
+        FROM tb_gestores_notificaciones
+        WHERE tb_gestores_notificaciones.id_usuario = NEW.id_usuario AND tb_gestores_notificaciones.estado = TRUE;
+    END IF;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER trg_after_update_estado_peticion
+AFTER UPDATE ON tb_peticiones
+FOR EACH ROW
+BEGIN
+    -- Verifica si el estado ha cambiado
+    IF OLD.estado <> NEW.estado THEN
+        -- Inserta una notificación para cada token asociado al usuario de la petición
+        INSERT INTO tb_notificaciones (id_usuario, id_peticion, descripcion, fecha_envio)
+        SELECT NEW.id_usuario, NEW.id_peticion, CONCAT('El estado de tu petición ha cambiado a ', NEW.estado), NOW()
+        FROM tb_gestores_notificaciones
+        WHERE tb_gestores_notificaciones.id_usuario = NEW.id_usuario AND tb_gestores_notificaciones.estado = TRUE;
+    END IF;
+END //
+
+DELIMITER ;
+
