@@ -8,7 +8,7 @@ const POST_PERMISO_ID = "idPermiso";
 const POST_PETICION_ID = "idPeticion";
 const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DESCRIPCION = "descripcion";
-const POST_TIPO_NOTIFICACION = "tipo_notificacion";
+const POST_TIPO_NOTIFICACION = "tipoNotificacion";
 const POST_TITLE = "title";
 const POST_TOKEN = "token";
 

@@ -185,6 +185,7 @@ CREATE TABLE
         id_permiso INT,
         id_peticion INT,
         /* NOT ID'S */
+        tipo_notificacion ENUM('1','2','3','4') DEFAULT '1', /*1 = Informative; 2 = Accepted; 3 = Declined; 4 = Ready to pickup*/
         fecha_envio DATETIME NOT NULL,
         descripcion VARCHAR(300),
 

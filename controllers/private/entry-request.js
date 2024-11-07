@@ -186,7 +186,7 @@ const acceptPermission = async () => {
         const DATA = await fetchData(PERMISO_API, 'updateState', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-
+            
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -256,8 +256,9 @@ const openAccept = async () => {
             formData.append('fechaEnvio',getCurrentDateTime());
             formData.append('idPermiso',PARAMS.get('id'));
             formData.append('descripcion','Your permission was accepted');
+            formData.append('tipoNotificacion', '2');
 
-            await fetchData('notificacion.php','createRow',formData);
+            await fetchData(NOTIFICACION_API,'createRow',formData);
 
             const RESPONSE = await confirmActionSuccess('Permission approved successfully');
             if(RESPONSE){
@@ -337,7 +338,8 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
         formData.append('fechaEnvio',getCurrentDateTime());
         formData.append('idPermiso',PARAMS.get('id'));
         formData.append('descripcion', document.getElementById('descripcion-modal').value);
-        await fetchData('notificacion.php','createRow',formData);
+        formData.append('tipoNotificacion', '3');
+        await fetchData(NOTIFICACION_API,'createRow',formData);
 
         const RESPONSE = await confirmActionSuccess('Permission rejected successfully');
         if(RESPONSE){
