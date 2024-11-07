@@ -119,17 +119,31 @@
 .custom-modal-button-save {
   background-color: var(--color-approved);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .custom-modal-button-discard {
   background-color: var(--color-extra-3);
   transition: all 0.3s ease;
   cursor: pointer;
 }
+.custom-modal-button-modify{
+  background-color: var(--color-extra-9);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: none;
+}
+
+.custom-modal-button-modify.show{
+  display: flex;
+}
 .custom-modal-button-save:hover {
   background-color: var(--primary-hover-green);
 }
 .custom-modal-button-discard:hover {
   background-color: var(--color-texto-4);
+}
+.custom-modal-button-modify:hover {
+  background-color: var(--primary-hover-blue);
 }
 
 

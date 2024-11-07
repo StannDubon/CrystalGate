@@ -1,4 +1,5 @@
-const REQUEST_API = 'services/admin/peticion.php'; // Endpoint de la API para solicitudes
+const REQUEST_API = 'services/admin/peticion.php';
+const NOTIFICACION_API = 'services/admin/notificacion.php'; // Endpoint de la API para solicitudes
 
 const SEARCH_FORM = document.getElementById("searchForm"); // Elemento del formulario de búsqueda
 const SEARCH_INPUT = document.getElementById("searchInput"); // Elemento de entrada de búsqueda
@@ -10,6 +11,7 @@ const REQUEST_HEADER_TITLE = document.getElementById("main-header-request-main-t
 const PETICION_INFO_MODAL = document.getElementById("modal-info");
 
 const PETICION_INFO_MODAL_ID = document.getElementById('peticion-info-modal-id');
+const PETICION_INFO_MODAL_BTN_MODIFY = document.getElementById('peticion-info-modal-btn-modify');
 const PETICION_INFO_MODAL_DIRECCION = document.getElementById('peticion-info-modal-direccion');
 const PETICION_INFO_MODAL_TELEFONO = document.getElementById('peticion-info-modal-telefono');
 const PETICION_INFO_MODAL_NOMBRE = document.getElementById('peticion-info-modal-nombre');
@@ -20,6 +22,19 @@ const PETICION_INFO_MODAL_IDIOMA = document.getElementById('peticion-info-modal-
 const PETICION_INFO_MODAL_CENTRO_ENTREGA = document.getElementById('peticion-info-modal-centro-entrega');
 const PETICION_INFO_MODAL_CORREO = document.getElementById('peticion-info-modal-correo');
 const PETICION_INFO_MODAL_MODO_ENTREGA = document.getElementById('peticion-info-modal-modo-entrega');
+
+function getCurrentDateTime() {
+    const now = new Date();
+  
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Meses de 0-11
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }  
 
 // Evento que se ejecuta cuando el contenido del documento ha sido cargado
 document.addEventListener('DOMContentLoaded', () => {
@@ -149,6 +164,28 @@ const fillTable = async (form = null) => {
                 </div>
                 <!-- FINAL TARJETA -->
                 `;
+                }  else if (ESTADO == 4){
+                    REQUEST_MAIN_CONTAINER.innerHTML += `
+                <!-- INICIO TARJETA -->
+                <p class="content-card-history-administrator-name">${row.tipo_peticion}</p>
+                <div class="content-card-general readytopickup-permission card-fixer-history temp-info" onclick="openInfo(${row.id_peticion})">
+                    <div class="content-card-general-col1">
+                        <p class="content-card-general-name">Name: <b class="content-card-general-reason">${row.nombre} ${row.apellido}</b></p>
+                        <p class="content-card-general-name">Email: <b class="content-card-general-reason">${row.email_entrega}</b></p>
+                    </div>
+
+                    <div class="content-card-general-col2">
+                        <p class="content-card-general-name">Contact Number: <b class="content-card-general-reason">${row.telefono_contacto}</b></p>
+                        <p class="content-card-general-name">Document Language: <b class="content-card-general-reason">${row.idioma}</b></p>
+                        <p class="content-card-general-name">Location: <b class="content-card-general-reason">${row.centro_entrega}</b></p>
+                        <p class="content-card-general-name" hidden>Send Type: <b class="content-card-general-reason">${SEND_TYPE}</b></p>
+                    </div>
+                    <div class="content-card-general-col3">
+                        <p>READY TO PICK UP</p>
+                    </div>
+                </div>
+                <!-- FINAL TARJETA -->
+                `;
                 }
 
                 
@@ -204,6 +241,14 @@ const openInfo = async (id) => {
             SEND_TYPE = 'Printed';
         }
 
+        if(ROW.estado == 2){
+            PETICION_INFO_MODAL_BTN_MODIFY.classList.add('show');
+            ID = ROW.id_peticion;
+        }else{
+            PETICION_INFO_MODAL_BTN_MODIFY.classList.remove('show');
+            ID = '';
+        }
+
 
         PETICION_INFO_MODAL_ID.value = ROW.id_peticion;
         PETICION_INFO_MODAL_DIRECCION.textContent =  ROW.direccion;
@@ -224,6 +269,42 @@ const openInfo = async (id) => {
     }
 };
 
+const openReady = async() => {
+
+    let id = ID;
+
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('Do you want to leave the request ready to pick up?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        const FORM = new FormData();
+        FORM.append('idPeticion',id);
+        FORM.append('EstadoPeticion',4);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if ( DATA.status) {
+
+            const formData = new FormData();
+            formData.append('fechaEnvio',getCurrentDateTime());
+            formData.append('idPeticion',id);
+            formData.append('descripcion','Your document request is ready to pick up');
+            formData.append('tipoNotificacion', '4');
+
+            await fetchData(NOTIFICACION_API,'createRow',formData);
+
+
+            const RESPONSE = await confirmActionSuccess('Request has been set up ready to pick up successfully');
+            if(RESPONSE){
+                //Se recarga la página
+                location.reload();
+            }
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
 const openAccept = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('Do you want to accept the petition?');
@@ -234,8 +315,18 @@ const openAccept = async (id) => {
         FORM.append('EstadoPeticion',2);
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
+
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if ( DATA.status) {
+
+            const formData = new FormData();
+            formData.append('fechaEnvio',getCurrentDateTime());
+            formData.append('idPeticion',id);
+            formData.append('descripcion','Your document request was accepted, we will let you know when it is ready to pick up');
+            formData.append('tipoNotificacion', '2');
+
+            await fetchData(NOTIFICACION_API,'createRow',formData);
+
 
             const RESPONSE = await confirmActionSuccess('Petition accepted successfully');
             if(RESPONSE){
@@ -260,7 +351,13 @@ const openReject = async (id) => {
         const DATA = await fetchData(REQUEST_API, 'updateState', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if ( DATA.status) {
+            const formData = new FormData();
+            formData.append('fechaEnvio',getCurrentDateTime());
+            formData.append('idPeticion',id);
+            formData.append('descripcion','Your document request was rejected');
+            formData.append('tipoNotificacion', '3');
 
+            await fetchData(NOTIFICACION_API,'createRow',formData);
             const RESPONSE = await confirmActionSuccess('Petition rejected successfully');
             if(RESPONSE){
                 //Se recarga la página
