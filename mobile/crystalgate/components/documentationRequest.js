@@ -10,6 +10,7 @@ import { Color } from "../assets/const/color";
 import HeaderForms from "./header/headerForms";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import InputText from "./input/InputText";
+import InputPhone from "./input/input-phone";
 import ComboBox from "./combobox/ComboBox";
 import SendButtonForm from "./button/button-send-form";
 import TextArea from "./input/textArea";
@@ -187,7 +188,7 @@ const DocumentationRequest = () => {
                 />
                 <InputText label={"YOUR NAME"} value={name} onChangeText={setName} />
                 <InputText label={"EMAIL"} value={email} onChangeText={setEmail} />
-                <InputText label={"PHONE NUMBER"} value={phone} onChangeText={setPhone} />
+                <InputPhone label={"PHONE NUMBER"} value={phone} onChangeText={setPhone} />
                 <TextArea label={"ADDRESS TO"} value={address} onChangeText={setAddress} />
                 <SendButtonForm onPress={handleSend} isDisabled={isDisabled} />
             </ScrollView>

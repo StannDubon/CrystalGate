@@ -79,8 +79,10 @@ const History = () => {
 
             if (filteredData.status) {
                 setDocuments(filteredData.dataset);  // Actualiza los datos filtrados
+                setCurrentPage(1);
             } else {
                 setDocuments([]);
+                setCurrentPage(1);
 
             }
         } catch (error) {
@@ -103,8 +105,10 @@ const History = () => {
     
             if (filteredData2.status) {
                 setPermissions(filteredData2.dataset);  // Actualiza permisos, no documentos
+                setCurrentPage(1);
             } else {
                 setPermissions([]);
+                setCurrentPage(1);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -122,12 +126,14 @@ const History = () => {
                 alert("Error fetching permissions: " + permissionsData.error);
             }
 
-            /* Fetch peticiones (documentos)*/
+            // Fetch peticiones (documentos)
             const documentsData = await fetchData("peticion", "readAllByCostumer");
             if (documentsData.status) {
                 setDocuments(documentsData.dataset);
+                setCurrentPage(1);
             } else {
                 setDocuments([]);
+                setCurrentPage(1);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
