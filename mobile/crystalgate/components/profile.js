@@ -54,8 +54,8 @@ const Profile = () => {
             console.log(result);
             if (result.status == 1) {
                 const formData = new FormData();
-                formData.append('token',localStorage.getItem('tokenNotification'));
-                await fetchData('gestor-notificacion.php','changeState',formData);
+                //formData.append('token',localStorage.getItem('tokenNotification'));
+                //await fetchData('gestor-notificacion.php','changeState',formData);
                 setSuccessModalVisible(true);
                 setTimeout(() => {
                     setSuccessModalVisible(false);

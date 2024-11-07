@@ -5,6 +5,7 @@ import {
     View,
     ScrollView,
     RefreshControl,
+    TouchableOpacity,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
@@ -16,17 +17,26 @@ import { useNavigation } from '@react-navigation/native';
 const Dashboard = () => {
     const navigation = useNavigation();
     const [permissions, setPermissions] = useState([]);
-    const [refreshing, setRefreshing] = useState(false); // Estado para el refresco
+    const [notifications, setNotifications] = useState([]); // Estado de notificaciones
+    const [refreshing, setRefreshing] = useState(false);
 
     const getData = async () => {
         try {           
-            // Fetch permisos
             const permissionsData = await fetchData("permiso", "readAllByCostumerPending");
             if (permissionsData.status) {
                 setPermissions(permissionsData.dataset);
             } else {
-                alert("You don't have pending permissions ");
+                setPermissions([]);
             }
+
+            // Obtener notificaciones (ejemplo de fetchData)
+            const notificationsData = await fetchData("notificacion", "readAllByUser");
+            if (notificationsData.status) {
+                setNotifications(notificationsData.dataset);
+            } else {
+                setNotifications([]);
+            }
+
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -36,18 +46,58 @@ const Dashboard = () => {
         getData();
     }, []);
 
-    // Función de refresco
     const onRefresh = async () => {
         setRefreshing(true);
-        await getData(); // Refrescar los datos
+        await getData();
         setRefreshing(false);
     };
+
+    const firstFiveNotifications = notifications.slice(0, 5);
 
     return (
         <View style={styles.container}>
             <HeaderSingle title={"Hey Climber!"} subtitle={"Dashboard"} />
-            <View style={styles.dasboardContainer}>
-                <View style={styles.sectionContainer}>
+            
+            {/* Sección de Notificaciones */}
+            <View style={styles.sectionContainer}>
+                <View style={styles.sectionLeft}>
+                    <Svg    width="30"
+                            height="30"
+                            fill="#98ADE3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            style={styles.iconFile}
+                            >
+                    <Path d="M12 23a2 2 0 0 0 2-2H10A2 2 0 0 0 12 23zM4 19H20a1 1 0 0 0 .707-1.707L19 15.586V10a7.006 7.006 0 0 0-6-6.92V2a1 1 0 0 0-2 0V3.08A7.006 7.006 0 0 0 5 10v5.586L3.293 17.293A1 1 0 0 0 4 19zm2.707-2.293A1 1 0 0 0 7 16V10a5 5 0 0 1 10 0v6a1 1 0 0 0 .293.707l.293.293H6.414z"
+                    fill="#98ADE3"/>
+                    </Svg>
+                    <Text style={styles.textSection}>Notifications</Text>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('AllNotifications')}>
+                    <Text style={styles.seeAllText}>See All</Text>
+                </TouchableOpacity>
+            </View>
+
+            {notifications.length === 0 ? (
+                <Text style={styles.noNotificationsText}>
+                    You don't have any notifications
+                </Text>
+            ) : (
+                <ScrollView 
+                    horizontal
+                    contentContainerStyle={styles.notificationsContainer}
+                    style={styles.notificationsScrollView}
+                    showsHorizontalScrollIndicator={false}>
+                    {notifications.map((notification) => (
+                        <Text key={notification.id} style={styles.notificationItem}>
+                            {notification.message}
+                        </Text>
+                    ))}
+                </ScrollView>
+            )}
+
+            {/* Sección de Permisos */}
+            <View style={styles.sectionContainer}>
+                <View style={styles.sectionLeft}>
                     <Svg
                         width="30"
                         height="30"
@@ -62,13 +112,19 @@ const Dashboard = () => {
                     </Svg>
                     <Text style={styles.textSection}>PENDING</Text>
                 </View>
-                <ScrollView
-                    contentContainerStyle={styles.permissionContainer}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                    }
-                >
-                    {permissions.map((item) => (
+            </View>
+            <ScrollView
+                contentContainerStyle={styles.permissionContainer}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
+                {permissions.length === 0 ? (
+                    <Text style={styles.noPermissionsText}>
+                        You don't have pending permissions
+                    </Text>
+                ) : (
+                    permissions.map((item) => (
                         <PermissionCard
                             key={item.id_permiso}
                             title={item.tipo_permiso}
@@ -77,9 +133,9 @@ const Dashboard = () => {
                             dateEnd={item.fecha_final}
                             onPress={() => navigation.navigate('PermissionDetail', { id: item.id_permiso })}
                         />
-                    ))}
-                </ScrollView>
-            </View>
+                    ))
+                )}
+            </ScrollView>
         </View>
     );
 };
@@ -90,23 +146,69 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         backgroundColor: Color.colorBackground,
     },
-    dasboardContainer: {
-        margin: 20,
-        flexDirection: "column",
-    },  
     sectionContainer: {
         marginTop: 20,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        marginBottom: 20,
+    },
+    sectionLeft: {
         flexDirection: "row",
         alignItems: "center",
     },
     textSection: {
         color: "#98ADE3",
-        marginLeft: 20,
+        marginLeft: 10,
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    seeAllText: {
+        color: "#98ADE3",
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+    iconBell: {
+        marginRight: 10,
+    },
+    notificationsContainer: {
+        flexDirection: "row", // Colocar las notificaciones en fila
+        paddingHorizontal: 20,
+    },
+    notificationsScrollView: {
+        marginLeft: 20, // Desplazar el ScrollView a la derecha
+    },
+    noNotificationsText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: "#98ADE3",
+        textAlign: 'center',
+        marginTop: 10,
+        marginBottom: 20,
     },
     permissionContainer: {
         alignItems: 'center',
         backgroundColor: Color.colorBackground,
-        paddingBottom: 100, // Añade un espacio inferior para evitar que quede muy ajustado al final
+        paddingBottom: 100,
+    },
+    noPermissionsText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: "#98ADE3",
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    notificationItem: {
+        backgroundColor: "#f0f0f0",
+        marginRight: 15,
+        padding: 10,
+        borderRadius: 8,
+        width: 120,
+    },
+    notificationText: {
+        fontSize: 12,
+        color: "#333",
     },
 });
 

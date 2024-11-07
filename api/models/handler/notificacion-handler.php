@@ -63,7 +63,8 @@ class NotificacionHandler
     {
         $sql = 'SELECT a.id_notificacion, a.tipo_notificacion, b.id_administrador, c.id_permiso, e.id_peticion, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, a.fecha_envio, a.descripcion, c.id_usuario, c.fecha_inicio, c.fecha_final, c.estado, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado
                 FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d, tb_peticiones e
-                WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario AND d.id_usuario = ?';
+                WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario AND d.id_usuario = ?
+                ORDER BY a.fecha_envio DESC';
         $params = array($this->idUsuario);
         return Database::getRows($sql,$params); // Obtiene y devuelve todas las notificaciones.
     }
