@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Modal, Text, Button } from 'react-native';
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, Rect } from "react-native-svg";
 import { Color } from "../../assets/const/color";
 
 const Banner = ({ state, description }) => {
@@ -41,8 +41,9 @@ const Banner = ({ state, description }) => {
         4: {
             backgroundColor: Color.colorBtnAction,  // Color gris para rechazado
             icon: (
-                <Svg width="34" height="27" viewBox="-5 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <Path d="M1 1L14 14M1 14L14 1" stroke="#ffffff" strokeWidth="2.3" />
+                <Svg width="37" height="19" viewBox="0 0 37 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path d="M8.91539 1.73898C8.68287 1.77292 8.33078 1.86628 8.12483 1.94266C7.34756 2.2312 0.491609 5.65977 0.338811 5.8295C0 6.22837 0 6.16896 0 11.8465C0 16.7093 0.00664336 17.1591 0.119581 17.4306C0.279021 17.838 0.617833 18.1095 0.963287 18.1095C1.1493 18.1095 2.21888 17.6937 4.11888 16.8705C5.7 16.1916 7.22133 15.5806 7.50036 15.5042C8.18462 15.3344 9.4535 15.3344 10.1843 15.5127C10.9748 15.7079 11.3535 15.8861 13.6322 17.1845C14.7018 17.7955 15.8046 18.3726 16.0769 18.4745C16.7346 18.7121 18.0832 18.7291 18.7343 18.4999C18.9734 18.4151 20.5878 17.6004 22.3217 16.6923C33.1238 11.0233 33.3829 10.8875 33.5955 10.6159C34.4392 9.58904 33.5351 7.71352 32.3792 7.73049C32.1201 7.73049 30.6531 8.32455 25.5045 10.5565C21.844 12.152 18.8738 13.6456 18.6346 13.6965C18.143 13.7984 17.5318 13.705 17.0136 13.4504C16.6084 13.2552 10.3969 8.08692 10.1178 7.71351C9.99826 7.55227 9.88532 7.29767 9.85875 7.11946C9.79896 6.70361 9.98497 6.11804 10.2441 5.88042C10.4899 5.65128 11.0147 5.5749 11.2339 5.71917C11.3203 5.77858 12.8018 7.00913 14.529 8.44336C16.5685 10.1492 17.8273 10.6117 18 10.6626C18.465 10.7899 19.5769 10.1039 19.9025 9.6626C20.4073 8.99216 20.414 8.30758 19.9025 7.73049C19.7563 7.56925 13.5315 2.35001 13 1.94266C12.6191 1.65071 11.1413 1.5 10.5 1.5C9.85875 1.5 9.51994 1.63714 8.91539 1.73898Z" fill="white" />
+                    <Rect x="18" width="19" height="4" rx="2" fill="white" />
                 </Svg>
             ),
             title: 'Ready',
@@ -118,41 +119,41 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
-      modalView: {
+    },
+    modalView: {
         width: 300,
         padding: 20,
         backgroundColor: Color.colorHeader,
         borderRadius: 10,
         alignItems: 'center',
-      },
-      modalTitle: {
+    },
+    modalTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
-      },
-      modalDescription: {
+    },
+    modalDescription: {
         fontSize: 16,
         marginBottom: 20,
-      },
-      buttom: {
+    },
+    buttom: {
         width: 300,
         height: 50,
         backgroundColor: Color.colorBtnClose,
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
-        marginBottom:-20,
+        marginBottom: -20,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-        
-      },
-      modalClose: {
+
+    },
+    modalClose: {
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
         color: Color.colorfont4,
-      },
+    },
 });
 
 export default Banner;
