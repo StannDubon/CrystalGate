@@ -1,29 +1,20 @@
 // DatePicker.js
 import React, { useState, useEffect } from "react";
-import { View, Button, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
-// Import DateTimePicker de @react-native-community/datetimepicker
+import { View, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-// Import Svg de react-native-svg, para agregar archivos svg
 import Svg, { Path } from "react-native-svg";
-// Import Color de const, para usar las constantes de colores
 import { Color } from "../../assets/const/color";
+import { format } from "date-fns";
 
-
-
-// Definición del componente funcional DatePicker
-const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = false, minDate, maxDate }) => {
-    // Estado local para almacenar la fecha seleccionada y controlar la visibilidad del DatePicker
-    const [date, setDate] = useState(new Date());
+const DatePicker = ({ label, selectedDateTime, onDateChange, disabled = false, minDate, maxDate }) => {
+    const [date, setDate] = useState(selectedDateTime ? new Date(selectedDateTime) : new Date());
     const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('date');
+    const [mode, setMode] = useState("date");
 
     useEffect(() => {
-        if (selectedDateTime) {
-            setDate(new Date(selectedDateTime));
-        }
+        setDate(new Date(selectedDateTime));
     }, [selectedDateTime]);
 
-    // Calcula las fechas mínima y máxima
     const minimumDate = minDate ? new Date(minDate) : (() => {
         const defaultMinDate = new Date();
         defaultMinDate.setMonth(defaultMinDate.getMonth() - 3);
@@ -36,25 +27,20 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
         return defaultMaxDate;
     })();
 
-    // Función para manejar el cambio de fecha seleccionada en el DatePicker
-    const onChange = (event, selectedDateTime) => {
-        
-        setShow(!show);
-        if(event.type == 'set' && selectedDateTime){
-            const currentDate = selectedDateTime || date;
-            setShow(Platform.OS === "ios");
-            setDate(currentDate);
-            onDateTimeChange(currentDate.toISOString().replace('T', ' ').substring(0, 19)); // Formato YYYY-MM-DD HH:mm:ss
+    const showDatePicker = () => {
+        setShow(true);
+        setMode("date");
+    };
+
+    const onChange = (event, selectedDate) => {
+        setShow(Platform.OS === "ios");
+        if (selectedDate) {
+            const formattedDate = format(selectedDate, "yyyy-MM-dd HH:mm:ss");
+            setDate(selectedDate);
+            onDateChange(formattedDate); // Cambia el estado y envía la fecha formateada
         }
     };
 
-    // Función para mostrar el DatePicker
-    const showMode = (currentMode) => {
-        setShow(true); // Mostrar el DatePicker al establecer show en true
-        setMode(currentMode);
-    };
-
-    // Renderizado del componente DatePicker
     return (
         <View style={styles.container}>
             <View style={styles.txtContainer}>
@@ -62,11 +48,11 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
             </View>
             <TouchableOpacity
                 style={[styles.dateContainer, disabled && styles.disabledContainer]}
-                onPress={showMode}
+                onPress={showDatePicker}
                 disabled={disabled}
             >
                 <View style={styles.labelContainer}>
-                    <Text style={styles.dateText}>{date.toDateString()}</Text>
+                    <Text style={styles.dateText}>{format(date, "yyyy-MM-dd")}</Text>
                 </View>
                 <View style={styles.btnDate}>
                     <Svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +63,7 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
             {show && (
                 <DateTimePicker
                     value={date}
-                    mode="date"
+                    mode={mode}
                     display="default"
                     onChange={onChange}
                     minimumDate={minimumDate}
@@ -88,7 +74,6 @@ const DatePicker = ({ label, selectedDateTime, onDateTimeChange, disabled = fals
     );
 };
 
-// Estilos del componente utilizando StyleSheet.create
 const styles = StyleSheet.create({
     labelContainer: {
         width: 170,
@@ -138,5 +123,4 @@ const styles = StyleSheet.create({
     },
 });
 
-// Exporta el componente DatePicker por defecto
 export default DatePicker;

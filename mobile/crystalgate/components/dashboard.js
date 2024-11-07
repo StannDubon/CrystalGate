@@ -32,6 +32,7 @@ const Dashboard = () => {
 
             // Obtener notificaciones (ejemplo de fetchData)
             const notificationsData = await fetchData("notificacion", "readAllByUser");
+            console.log(notificationsData);
             if (notificationsData.status) {
                 setNotifications(notificationsData.dataset);
             } else {
@@ -93,6 +94,12 @@ const Dashboard = () => {
                             type={notification.tipo_notificacion}
                             message={notification.descripcion}
                             datetime={notification.fecha_envio}
+                            id={notification.detalles}
+                            onPress={
+                                notification.tipo_notificacion === "1" || notification.tipo_notificacion === "2"?
+                                () => navigation.navigate('PermissionDetail', { id: notification.detalles }) :
+                                () => navigation.navigate('DocumentationDetail', { id: notification.detalles })
+                            }
                         ></NotificationCard>
                     ))}
                 </ScrollView>

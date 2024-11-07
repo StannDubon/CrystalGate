@@ -19,6 +19,7 @@ import InputText from "./input/InputText";
 import TextArea from "./input/textArea";
 import Banner from "./banner/banner-state";
 import fetchData from './utils/database';
+import { PermissionsAndroid} from 'react-native';
 
 const PermissionDetail = ({ route }) => {
     const { id } = route.params;
@@ -84,6 +85,47 @@ const PermissionDetail = ({ route }) => {
         }
     }, [fechaInicio, fechaFinal]);
 
+    async function downloadFileFromApi() {
+        console.log("entra");
+        try {
+            // Solicitar permiso para acceder al almacenamiento en Android
+            if (Platform.OS === 'android') {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: "Permiso de almacenamiento",
+                        message: "La aplicación necesita acceso al almacenamiento para descargar archivos.",
+                        buttonNeutral: "Preguntar luego",
+                        buttonNegative: "Cancelar",
+                        buttonPositive: "Aceptar"
+                    }
+                );
+    
+                if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                    Alert.alert("Permiso denegado", "No se puede descargar el archivo sin permiso de almacenamiento.");
+                    return;
+                }
+            }
+    
+            // Definir la ruta de descarga del archivo
+            const downloadDest = `${RNFS.DocumentDirectoryPath}/${document.documento_permiso}`;
+    
+            // Descargar el archivo desde la API
+            const downloadResult = await RNFS.downloadFile({
+                fromUrl: `${Path.ruta}api/documents/permiso/${document.documento_permiso}`,
+                toFile: downloadDest,
+            }).promise;
+    
+            if (downloadResult.statusCode === 200) {
+                Alert.alert("Descarga exitosa", `El archivo se descargó en: ${downloadDest}`);
+            } else {
+                Alert.alert("Error en la descarga", "No se pudo descargar el archivo.");
+            }
+        } catch (error) {
+            Alert.alert("Error", `Hubo un error al descargar el archivo: ${error.message}`);
+        }
+    }
+
     const downloadAndOpenPDF = async () => {
         try {
             const uri = `${Path.ruta}api/documents/permiso/${document.documento_permiso}`;
@@ -115,7 +157,7 @@ const PermissionDetail = ({ route }) => {
     return (
 
         <View style={styles.container}>
-            <HeaderForms title={"Documentation Detail"} href={'History'} />
+            <HeaderForms title={"Permission Detail"} href={'History'} />
             <ScrollView
                 contentContainerStyle={styles.formContainer}
             >
@@ -131,8 +173,8 @@ const PermissionDetail = ({ route }) => {
                 )}
                 <InputText label={"END TIME"} disabled={true} placeholder={horaFinal} />
                 <Text style={styles.downloadText}>DOCUMENT</Text>
-                <TouchableOpacity onPress={downloadAndOpenPDF}>
-                    <Text style={styles.sectionText}>{document.documento_permiso}
+                <TouchableOpacity onPress={downloadFileFromApi}>
+                    <Text style={styles.sectionText}> ARCHIVO ENVIADO
                     </Text>
                 </TouchableOpacity>
                 <InputText label={"SHIPPING DATE"} disabled={true} placeholder={fecha} />

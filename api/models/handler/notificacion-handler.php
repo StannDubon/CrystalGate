@@ -61,10 +61,12 @@ class NotificacionHandler
         CASE
             WHEN n.id_permiso IS NOT NULL THEN
                 -- Si hay un permiso, mostramos información de permisos
-                p.id_permiso
+                p.id_permiso AS id_permiso,
+                p.estado AS estado_permiso
             ELSE
                 -- Si no hay permiso, mostramos información de peticiones
-                pe.id_peticion
+                pe.id_peticion AS id_peticion,
+                pe.direccion AS direccion
         END 
         FROM 
             tb_notificaciones n
@@ -94,7 +96,7 @@ class NotificacionHandler
                     ELSE
                         -- Si no hay permiso, mostramos información de peticiones
                         pe.id_peticion
-                END 
+                END AS detalles
                 FROM 
                     tb_notificaciones n
                 LEFT JOIN 

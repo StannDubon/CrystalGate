@@ -289,7 +289,7 @@ const openReady = async() => {
             formData.append('fechaEnvio',getCurrentDateTime());
             formData.append('idPeticion',id);
             formData.append('descripcion','Your document request is ready to pick up');
-            formData.append('tipoNotificacion', '4');
+            formData.append('tipoNotificacion', '5');
 
             await fetchData(NOTIFICACION_API,'createRow',formData);
 
@@ -323,7 +323,7 @@ const openAccept = async (id) => {
             formData.append('fechaEnvio',getCurrentDateTime());
             formData.append('idPeticion',id);
             formData.append('descripcion','Your document request was accepted, we will let you know when it is ready to pick up');
-            formData.append('tipoNotificacion', '2');
+            formData.append('tipoNotificacion', '3');
 
             await fetchData(NOTIFICACION_API,'createRow',formData);
 
@@ -355,7 +355,7 @@ const openReject = async (id) => {
             formData.append('fechaEnvio',getCurrentDateTime());
             formData.append('idPeticion',id);
             formData.append('descripcion','Your document request was rejected');
-            formData.append('tipoNotificacion', '3');
+            formData.append('tipoNotificacion', '4');
 
             await fetchData(NOTIFICACION_API,'createRow',formData);
             const RESPONSE = await confirmActionSuccess('Petition rejected successfully');

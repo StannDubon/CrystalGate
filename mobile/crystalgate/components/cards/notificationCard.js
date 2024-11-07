@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import Svg, { Path } from "react-native-svg"; // Si es necesario usar iconos SVG
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import Svg, { Path} from "react-native-svg"; // Si es necesario usar iconos SVG
 
 const NotificationCard = ({
     message,
     type = 1, // 1: positivo, 2: negativo
     datetime,
+    id,
+    onPress,
 }) => {
     const [colorCard, setColorCard] = useState("#8DDA8C"); // Color por defecto
 
     useEffect(() => {
-        if (type === 1) {
+        if (type === "1" || type === "3" || type == "5") {
             setColorCard("#8DDA8C"); // Verde para notificaciones positivas
-        } else {
+        } else if(type === "2" || type == "4"){
             setColorCard("#F54C60"); // Rojo para notificaciones negativas
         }
-    }, [type]);
+
+    }, [type, id]);
 
     // Formato para el datetime (si es necesario formatear el datetime, puedes usar librerías como moment.js o date-fns)
     const formattedDateTime = new Date(datetime).toLocaleString();
 
     return (
-        <View style={[styles.card, { backgroundColor: colorCard }]}>
+        <TouchableOpacity style={[styles.card, { backgroundColor: colorCard }]} onPress={onPress}>
             <View style={styles.cardBody}>
-                <Text style={styles.cardText}>{message}</Text>
+                <Text style={styles.cardText}  numberOfLines={3} ellipsizeMode="tail">{message}</Text>
                 <View style={styles.datetimeContainer}>
                     <Svg
                         width="27"
@@ -40,7 +43,7 @@ const NotificationCard = ({
                     <Text style={styles.cardText}>{formattedDateTime}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

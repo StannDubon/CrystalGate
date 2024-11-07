@@ -1,94 +1,67 @@
 // TimePicker.js
 import React, { useState, useEffect } from "react";
 import { View, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
-// Importación del componente DateTimePicker de react-native-community/datetimepicker
 import DateTimePicker from "@react-native-community/datetimepicker";
-// Importación de Svg y Path desde react-native-svg
 import Svg, { Path } from "react-native-svg";
-// Importación del archivo de constantes de colores
 import { Color } from "../../assets/const/color";
+import { format } from "date-fns";
 
-// Componente funcional TimePicker que recibe la propiedad label
-const TimePicker = ({ label, date, onTimeChange, disabled }) => {
-    // Estado para almacenar la hora seleccionada y mostrar el selector de tiempo
-    const [time, setTime] = useState(date instanceof Date ? date : new Date());
+const TimePicker = ({ label, selectedTime, onTimeChange, disabled = false }) => {
+    const [time, setTime] = useState(() => {
+        // Si no hay tiempo seleccionado, inicializamos con la hora actual.
+        const initialTime = selectedTime ? new Date(selectedTime) : new Date();
+        return new Date(initialTime.setSeconds(0, 0)); // Eliminar los segundos y milisegundos para precisión
+    });
     const [show, setShow] = useState(false);
+    const [mode, setMode] = useState("time");
 
     useEffect(() => {
-        setTime(date instanceof Date ? date : new Date());
-    }, [date]);
+        if (selectedTime) {
+            setTime(new Date(selectedTime));
+        }
+    }, [selectedTime]);
 
-    // Función para manejar el cambio en la hora seleccionada
+    const showTimePicker = () => {
+        setShow(true);
+        setMode("time");
+    };
+
     const onChange = (event, selectedTime) => {
-        setShow(!show);
-        if(selectedTime && event.type == 'set'){
-            const currentTime = selectedTime || time;
-            const updatedTime = new Date(date);
-            updatedTime.setHours(currentTime.getHours());
-            updatedTime.setMinutes(currentTime.getMinutes());
-            setShow(Platform.OS === "ios");
+        setShow(Platform.OS === "ios");
+        if (selectedTime) {
+            const updatedTime = new Date(selectedTime);
+            updatedTime.setSeconds(0, 0); // Establecer segundos y milisegundos a cero
+            const formattedTime = format(updatedTime, "HH:mm:ss");
             setTime(updatedTime);
-            onTimeChange && onTimeChange(formatDateTime(updatedTime));
+            onTimeChange(formattedTime); // Enviar la hora formateada
         }
     };
 
-    const formatDateTime = (dateTime) => {
-        const year = dateTime.getFullYear();
-        const month = String(dateTime.getMonth() + 1).padStart(2, '0');
-        const day = String(dateTime.getDate()).padStart(2, '0');
-        const hours = String(dateTime.getHours()).padStart(2, '0');
-        const minutes = String(dateTime.getMinutes()).padStart(2, '0');
-        const seconds = String(dateTime.getSeconds()).padStart(2, '0');
-    
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    };
+    const formatTimeDisplay = (time) => format(time, "HH:mm");
 
-    // Función para mostrar el selector de tiempo
-    const showMode = () => {
-        if (!disabled) {
-            setShow(true);
-        }
-    };
-
-    // Formatear la hora manualmente
-    const formatTime = (time) => {
-        if (!(time instanceof Date)) {
-            time = new Date(time);
-        }
-        const hours = time.getHours().toString().padStart(2, '0');
-        const minutes = time.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
-    };
-
-    // Renderizado del componente
     return (
         <View style={styles.container}>
             <View style={styles.txtContainer}>
                 <Text style={styles.label}>{label}</Text>
             </View>
-            <TouchableOpacity style={[styles.timeContainer, disabled && styles.disabledContainer]} onPress={showMode}>
+            <TouchableOpacity
+                style={[styles.timeContainer, disabled && styles.disabledContainer]}
+                onPress={showTimePicker}
+                disabled={disabled}
+            >
                 <View style={styles.labelContainer}>
-                    <Text style={styles.timeText}>{formatTime(time)}</Text>
+                    <Text style={styles.timeText}>{formatTimeDisplay(time)}</Text>
                 </View>
                 <View style={styles.btnTime}>
-                    <Svg
-                        width="20"
-                        height="20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <Path
-                            d="M9 0C4.122 0 0 4.122 0 9C0 13.878 4.122 18 9 18C13.879 18 18 13.878 18 9C18 4.122 13.879 0 9 0ZM14 10H8V4H10V8H14V10Z"
-                            fill="#4292F6"
-                        />
+                    <Svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Path d="M9 0C4.122 0 0 4.122 0 9C0 13.878 4.122 18 9 18C13.879 18 18 13.878 18 9C18 4.122 13.879 0 9 0ZM14 10H8V4H10V8H14V10Z" fill="#4292F6" />
                     </Svg>
                 </View>
             </TouchableOpacity>
             {show && (
                 <DateTimePicker
-                    testID="dateTimePicker"
                     value={time}
-                    mode="time"
+                    mode={mode}
                     display="default"
                     onChange={onChange}
                 />
@@ -97,57 +70,53 @@ const TimePicker = ({ label, date, onTimeChange, disabled }) => {
     );
 };
 
-// Estilos del componente utilizando StyleSheet.create
 const styles = StyleSheet.create({
     labelContainer: {
-        width: 170, // Ancho del contenedor para la etiqueta
+        width: 170,
     },
     txtContainer: {
-        display: "flex", // Mostrar como contenedor flexible
-        width: 50, // Ancho del contenedor del texto de la etiqueta
-        alignSelf: "center", // Alineación del contenedor del texto al centro
-        textAlign: "left", // Alineación del texto a la izquierda
+        display: "flex",
+        width: 50,
+        alignSelf: "center",
+        textAlign: "left",
     },
     container: {
-        marginTop: 20, // Margen superior del contenedor principal
-        paddingRight: 20, // Relleno derecho del contenedor principal
-        paddingLeft: 20, // Relleno izquierdo del contenedor principal
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "row", // Dirección de los elementos en fila
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "row",
     },
     timeContainer: {
-        width: 300, // Ancho del contenedor para el selector de tiempo
-        height: 50, // Altura del contenedor para el selector de tiempo
-        borderWidth: 1, // Ancho del borde del contenedor
-        borderColor: "#4292F6", // Color del borde del contenedor
-        borderRadius: 8, // Radio de borde del contenedor
-        display: "flex", // Mostrar como contenedor flexible
-        flexDirection: "row", // Dirección de los elementos en fila
-        alignItems: "center", //centrar elementos
+        width: 300,
+        height: 50,
+        borderWidth: 1,
+        borderColor: "#4292F6",
+        borderRadius: 8,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
     },
     disabledContainer: {
         backgroundColor: "#f0f0f0",
         borderColor: "#d0d0d0",
     },
     label: {
-        textAlign: "left", // Alineación del texto a la izquierda
-        fontSize: 16, // Tamaño de la fuente del texto
-        marginBottom: 10, // Margen inferior del texto
-        alignSelf: "center", // Alineación del texto al centro
-        color: Color.colorfont5, // Color del texto utilizando la constante 'Color'
+        textAlign: "left",
+        fontSize: 16,
+        marginBottom: 10,
+        alignSelf: "center",
+        color: Color.colorfont5,
     },
     timeText: {
-        fontFamily: "Poppins-Regular", // Fuente del texto de la hora seleccionada
-        margin: 10, // Margen interno del texto
-        fontSize: 16, // Tamaño de la fuente del texto
-        color: Color.colorfont1, // Color del texto utilizando la constante 'Color'
+        fontFamily: "Poppins-Regular",
+        margin: 10,
+        fontSize: 16,
+        color: Color.colorfont1,
     },
     btnTime: {
-        alignSelf: "center", // Alineación de los elementos al centro
-        alignItems: "flex-end", // Alineación de los elementos al final
-        marginLeft: 100, // Margen izquierdo de los elementos
+        alignSelf: "center",
+        alignItems: "flex-end",
+        marginLeft: 100,
     },
 });
 
-// Exporta el componente TimePicker por defecto
 export default TimePicker;
