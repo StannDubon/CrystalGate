@@ -32,7 +32,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$GestorNotificacion->setToken($_POST[POST_TOKEN]) or
-                    !$GestorNotificacion->setIdUsuario($_POST[POST_ID_USUARIO]) or
+                    !$GestorNotificacion->setIdUsuario($_SESSION['idUsuario']) or
                     !$GestorNotificacion->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $GestorNotificacion->getDataError();

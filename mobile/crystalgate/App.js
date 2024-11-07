@@ -14,6 +14,7 @@ import PermissionDetail from "./components/permission-detail";
 import LoadingScreen from "./components/loading-screen";
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import fetchData from "./components/utils/database";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,27 +23,50 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== 'granted') {
-        alert('¡Se necesitan permisos para las notificaciones!');
-        return;
-      }
-    })();
+    registerForPushNotificationsAsync();
+
+    // Maneja la recepción de notificaciones
+    const notificationListener = Notifications.addNotificationReceivedListener(notification => {
+      console.log("Notificación recibida:", notification);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+    };
   }, []);
 
-  const getToken = async () => {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token); // Guarda este token en tu servidor para enviar notificaciones
-  };
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  });
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+      });
+    }
+  
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+  
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+      if(finalStatus === 'granted'){
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        const FORM = new FormData();
+        FORM.append('token',token);
+        FORM.append('estado',false);
+        await fetchData('gestor-notificacion.php','createRow',FORM);
+      }
+    }
+  
+    if (finalStatus === 'granted') {
+      localStorage.setItem('tokenNotifaction',token);
+    } else {
+      alert('¡If you dont allow notification permissions, your not going to be noficated when any update in your procceses!');
+    }
+  
+    return token;
+  }
 
 
   let [fontsLoaded] = useFonts({

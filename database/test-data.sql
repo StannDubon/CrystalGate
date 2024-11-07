@@ -120,7 +120,7 @@ INSERT INTO `tb_permisos` (`id_usuario`, `id_tipo_permiso`, `fecha_inicio`, `fec
 (5, 10, '2024-10-28 09:00:00', '2024-10-28 17:00:00', '2024-10-25 10:00:00', 'personal_day_doc.pdf', 'Día personal', '1'),
 (1, 11, '2024-10-30 09:00:00', '2024-10-30 17:00:00', '2024-10-25 09:00:00', 'other_doc.pdf', 'Otro tipo de permiso', '2');
 
-SELECT * FROM tb_permisos
+SELECT * FROM tb_permisos;
 
 SELECT * FROM tb_tipos_permisos WHERE tipo_permiso = 'Vacations';
 

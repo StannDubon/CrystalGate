@@ -5,8 +5,10 @@ require_once('../../models/data/notificacion-data.php');
 const POST_ID = "idNotificacion";
 const POST_ADMINISTRADOR_ID = "idAdministrador";
 const POST_PERMISO_ID = "idPermiso";
+const POST_PETICION_ID = "idPeticion";
 const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DESCRIPCION = "descripcion";
+const POST_TIPO_NOTIFICACION = "tipo_notificacion";
 const POST_TITLE = "title";
 const POST_TOKEN = "token";
 
@@ -48,8 +50,10 @@ if (isset($_GET['action'])) {
                 if (
                     !$Notificacion->setIdAdministrador($_SESSION[POST_ADMINISTRADOR_ID]) or
                     !$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID]) or
+                    !$Notificacion->setIdPeticion($_POST[POST_PETICION_ID]) or
                     !$Notificacion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
-                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])
+                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION]) or
+                    !$Notificacion->setTipoNotificacion($_POST[POST_TIPO_NOTIFICACION])
                 ) {
                     $result['error'] = $Notificacion->getDataError();
                 } elseif ($Notificacion->createRow()) {

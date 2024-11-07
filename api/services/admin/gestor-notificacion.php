@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/GestorNotificacion-data.php');
+require_once('../../models/data/gestor-notificacion-data.php');
 
 const POST_ID = "idGestor";
 const POST_ID_USUARIO = "idUsuario";
@@ -38,6 +38,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
                 } else {
+                    $result['status'] = 1;
                     $result['error'] = 'There aren´t registered managers';
                 }
                 break;

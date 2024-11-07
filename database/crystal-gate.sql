@@ -93,10 +93,10 @@ CREATE TABLE
     
 CREATE TABLE
 	 tb_gestores_notificaciones(
-		  id_gestor_notificacion PRIMARY KEY AUTO_INCREMENT,
+		  id_gestor_notificacion INT PRIMARY KEY AUTO_INCREMENT,
 		  id_usuario INT NOT NULL,
-		  token VARCHAR(MAX) NOT NULL UNIQUE,
-		  estado BOOL NOT NULL DEFAULT TRUE,
+		  token VARCHAR(256) UNIQUE,
+		  estado BOOLEAN DEFAULT TRUE,
 		  
 		  CONSTRAINT fk_notificacion_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario)
 	 );
@@ -363,40 +363,3 @@ BEGIN
 END $$
 
 DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER trg_after_update_estado_permiso
-AFTER UPDATE ON tb_permisos
-FOR EACH ROW
-BEGIN
-    -- Verifica si el estado ha cambiado
-    IF OLD.estado <> NEW.estado THEN
-        -- Inserta una notificación para cada token asociado al usuario del permiso
-        INSERT INTO tb_notificaciones (id_usuario, id_permiso, descripcion, fecha_envio)
-        SELECT NEW.id_usuario, NEW.id_permiso, CONCAT('El estado de tu permiso ha cambiado a ', NEW.estado), NOW()
-        FROM tb_gestores_notificaciones
-        WHERE tb_gestores_notificaciones.id_usuario = NEW.id_usuario AND tb_gestores_notificaciones.estado = TRUE;
-    END IF;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER trg_after_update_estado_peticion
-AFTER UPDATE ON tb_peticiones
-FOR EACH ROW
-BEGIN
-    -- Verifica si el estado ha cambiado
-    IF OLD.estado <> NEW.estado THEN
-        -- Inserta una notificación para cada token asociado al usuario de la petición
-        INSERT INTO tb_notificaciones (id_usuario, id_peticion, descripcion, fecha_envio)
-        SELECT NEW.id_usuario, NEW.id_peticion, CONCAT('El estado de tu petición ha cambiado a ', NEW.estado), NOW()
-        FROM tb_gestores_notificaciones
-        WHERE tb_gestores_notificaciones.id_usuario = NEW.id_usuario AND tb_gestores_notificaciones.estado = TRUE;
-    END IF;
-END //
-
-DELIMITER ;
-

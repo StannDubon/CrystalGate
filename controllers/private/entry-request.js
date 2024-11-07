@@ -211,6 +211,18 @@ const rejectPermission = async () => {
 }
 
 
+function getCurrentDateTime() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Meses de 0-11
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}  
 
 const openAccept = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
@@ -232,7 +244,7 @@ const openAccept = async () => {
             const RESULT = DATA.dataset;
 
             for(let i = 0; i<RESULT.length; i++){
-                const formData = new FormData;
+                const formData = new FormData();
                 formData.append('title','Permission Accepted');
                 formData.append('descripcino','Your permission was accepted by HR');
                 formData.append('token',RESULT[i].token);
@@ -240,6 +252,12 @@ const openAccept = async () => {
                 await fetchData(NOTIFICACION_API,'sendNotification',formData);
             }
 
+            const formData = new FormData();
+            formData.append('fechaEnvio',getCurrentDateTime());
+            formData.append('idPermiso',PARAMS.get('id'));
+            formData.append('descripcion','Your permission was accepted');
+
+            await fetchData('notificacion.php','createRow',formData);
 
             const RESPONSE = await confirmActionSuccess('Permission approved successfully');
             if(RESPONSE){
@@ -314,6 +332,12 @@ SAVE_FORM_REJECT.addEventListener('submit', async (event) => {
             formData.append('token',RESULT[i].token);
             await fetchData(NOTIFICACION_API,'sendNotification',formData);
         }
+
+        const formData = new FormData();
+        formData.append('fechaEnvio',getCurrentDateTime());
+        formData.append('idPermiso',PARAMS.get('id'));
+        formData.append('descripcion', document.getElementById('descripcion-modal').value);
+        await fetchData('notificacion.php','createRow',formData);
 
         const RESPONSE = await confirmActionSuccess('Permission rejected successfully');
         if(RESPONSE){
