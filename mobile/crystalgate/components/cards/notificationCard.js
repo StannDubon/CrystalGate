@@ -1,39 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
-// Import Svg de react-native-svg, para agregar archivos svg
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path } from "react-native-svg"; // Si es necesario usar iconos SVG
 
-// Definición del componente funcional NotificationCard
 const NotificationCard = ({
-    title,
-    type = 1,
-    dateBegin,
-    timeBegin = "7:00 a.m",
-    dateEnd,
-    timeEnd = "4:00 p.m",
+    message,
+    type = 1, // 1: positivo, 2: negativo
+    datetime,
 }) => {
-    // Estado local para manejar el color de fondo de la tarjeta
-    const [colorCard, setColorCard] = useState("#8DDA8C");
+    const [colorCard, setColorCard] = useState("#8DDA8C"); // Color por defecto
 
-    // useEffect se utiliza para cambiar el color de fondo basado en el tipo de notificación
     useEffect(() => {
         if (type === 1) {
-            setColorCard("#8DDA8C");
+            setColorCard("#8DDA8C"); // Verde para notificaciones positivas
         } else {
-            setColorCard("#F54C60");
+            setColorCard("#F54C60"); // Rojo para notificaciones negativas
         }
-    }, [type]); // Se ejecuta el efecto cada vez que type cambia
+    }, [type]);
 
-    // Renderizado del componente
+    // Formato para el datetime (si es necesario formatear el datetime, puedes usar librerías como moment.js o date-fns)
+    const formattedDateTime = new Date(datetime).toLocaleString();
+
     return (
         <View style={[styles.card, { backgroundColor: colorCard }]}>
             <View style={styles.cardBody}>
-                <Text style={styles.cardText}>{title}</Text>
-                <View style={styles.dateContainer}>
-                    <View style={styles.dateItem}>
-                        <Text style={styles.cardText}>{dateBegin}</Text>
-                        <Text style={styles.cardText}>{timeBegin}</Text>
-                    </View>
+                <Text style={styles.cardText}>{message}</Text>
+                <View style={styles.datetimeContainer}>
                     <Svg
                         width="27"
                         height="27"
@@ -46,55 +37,46 @@ const NotificationCard = ({
                             fill="white"
                         />
                     </Svg>
-                    <View style={styles.dateItem}>
-                        <Text style={styles.cardText}>{dateEnd}</Text>
-                        <Text style={styles.cardText}>{timeEnd}</Text>
-                    </View>
+                    <Text style={styles.cardText}>{formattedDateTime}</Text>
                 </View>
             </View>
         </View>
     );
 };
 
-// Definición de los estilos usando StyleSheet.create
 const styles = StyleSheet.create({
-  card: {
-    width: 250,
-    height: 120,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginTop: 20,
-    marginHorizontal: 10, 
-  },
-  cardBody:{
-    margin: 10,
-    display: "flex",
-    flexDirection: "column",
-    fontFamily: "Poppins-Regular",
-  },
-  cardText:{
-    alignSelf: "flex-start",
-    fontSize: 16,
-    fontFamily: "Poppins-Bold",
-    color: 'white',
-  },
-  dateContainer:{
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly"
-  },
-  dateItem:{
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardIcon:{
-    alignSelf: "center",
-  },
+    card: {
+        width: 250,
+        height: 120,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginTop: 20,
+        marginHorizontal: 10,
+    },
+    cardBody: {
+        margin: 10,
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Poppins-Regular",
+    },
+    cardText: {
+        alignSelf: "flex-start",
+        fontSize: 16,
+        fontFamily: "Poppins-Bold",
+        color: 'white',
+    },
+    datetimeContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    cardIcon: {
+        marginRight: 10,
+    },
 });
 
-// Exportar el componente NotificationCard como componente predeterminado
 export default NotificationCard;

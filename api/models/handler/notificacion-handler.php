@@ -53,19 +53,62 @@ class NotificacionHandler
     // Método para leer todas las notificaciones.
     public function readAll()
     {
-        $sql = 'SELECT a.id_notificacion, a.tipo_notificacion, b.id_administrador, c.id_permiso, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, a.fecha_envio, a.descripcion, c.id_usuario, c.fecha_inicio, c.fecha_final, c.estado, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado
-                FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d
-                WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario';
+        $sql = 'SELECT
+        n.id_notificacion,
+        n.fecha_envio,
+        n.descripcion,
+        n.tipo_notificacion,
+        CASE
+            WHEN n.id_permiso IS NOT NULL THEN
+                -- Si hay un permiso, mostramos información de permisos
+                p.id_permiso
+            ELSE
+                -- Si no hay permiso, mostramos información de peticiones
+                pe.id_peticion
+        END 
+        FROM 
+            tb_notificaciones n
+        LEFT JOIN 
+            tb_permisos p ON n.id_permiso = p.id_permiso
+        LEFT JOIN 
+            tb_peticiones pe ON n.id_peticion = pe.id_peticion
+        LEFT JOIN 
+            tb_usuarios u ON u.id_usuario = p.id_usuario  -- Unimos con tb_usuarios para obtener el usuario de permisos
+        LEFT JOIN 
+            tb_usuarios u2 ON u2.id_usuario = pe.id_usuario  -- Unimos con tb_usuarios para obtener el usuario de peticiones
+        ORDER BY n.fecha_envio DESC;';
         return Database::getRows($sql); // Obtiene y devuelve todas las notificaciones.
     }
 
     public function readAllByUser()
     {
-        $sql = 'SELECT a.id_notificacion, a.tipo_notificacion, b.id_administrador, c.id_permiso, e.id_peticion, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, a.fecha_envio, a.descripcion, c.id_usuario, c.fecha_inicio, c.fecha_final, c.estado, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado
-                FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d, tb_peticiones e
-                WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario AND d.id_usuario = ?
-                ORDER BY a.fecha_envio DESC';
-        $params = array($this->idUsuario);
+        $sql = 'SELECT
+                n.id_notificacion,
+                n.fecha_envio,
+                n.descripcion,
+                n.tipo_notificacion,
+                CASE
+                    WHEN n.id_permiso IS NOT NULL THEN
+                        -- Si hay un permiso, mostramos información de permisos
+                        p.id_permiso
+                    ELSE
+                        -- Si no hay permiso, mostramos información de peticiones
+                        pe.id_peticion
+                END 
+                FROM 
+                    tb_notificaciones n
+                LEFT JOIN 
+                    tb_permisos p ON n.id_permiso = p.id_permiso
+                LEFT JOIN 
+                    tb_peticiones pe ON n.id_peticion = pe.id_peticion
+                LEFT JOIN 
+                    tb_usuarios u ON u.id_usuario = p.id_usuario  -- Unimos con tb_usuarios para obtener el usuario de permisos
+                LEFT JOIN 
+                    tb_usuarios u2 ON u2.id_usuario = pe.id_usuario  -- Unimos con tb_usuarios para obtener el usuario de peticiones
+                WHERE 
+                    u.id_usuario = ? OR u2.id_usuario = ?
+                ORDER BY n.fecha_envio DESC;';
+        $params = array($this->idUsuario, $this->idUsuario);
         return Database::getRows($sql,$params); // Obtiene y devuelve todas las notificaciones.
     }
 

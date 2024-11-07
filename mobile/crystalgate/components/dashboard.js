@@ -11,6 +11,7 @@ import Svg, { Path } from "react-native-svg";
 import { Color } from "../assets/const/color";
 import HeaderSingle from "./header/headerSigle";
 import PermissionCard from "./cards/permissionCard";
+import NotificationCard from "./cards/notificationCard";
 import fetchData from "./utils/database";
 import { useNavigation } from '@react-navigation/native';
 
@@ -87,10 +88,12 @@ const Dashboard = () => {
                     contentContainerStyle={styles.notificationsContainer}
                     style={styles.notificationsScrollView}
                     showsHorizontalScrollIndicator={false}>
-                    {notifications.map((notification) => (
-                        <Text key={notification.id} style={styles.notificationItem}>
-                            {notification.message}
-                        </Text>
+                    {firstFiveNotifications.map((notification) => (
+                        <NotificationCard
+                            type={notification.tipo_notificacion}
+                            message={notification.descripcion}
+                            datetime={notification.fecha_envio}
+                        ></NotificationCard>
                     ))}
                 </ScrollView>
             )}
