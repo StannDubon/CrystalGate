@@ -90,6 +90,16 @@ CREATE TABLE
 
         CONSTRAINT fk_usuario_cargo FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id_cargo)
     );
+    
+CREATE TABLE
+	 tb_gestores_notificaciones(
+		  id_gestor_notificacion INT PRIMARY KEY AUTO_INCREMENT,
+		  id_usuario INT NOT NULL,
+		  token VARCHAR(256) UNIQUE,
+		  estado BOOLEAN DEFAULT TRUE,
+		  
+		  CONSTRAINT fk_notificacion_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario)
+	 );
 
 CREATE TABLE
     tb_peticiones (
@@ -104,7 +114,7 @@ CREATE TABLE
         nombre_entrega VARCHAR(64),
         email_entrega VARCHAR(128),
         telefono_contacto VARCHAR(16),
-        estado ENUM('1','2','3'), /*1= Pending, 2= Accepted, 3= Rejected */
+        estado ENUM('1','2','3','4'), /*1= Pending, 2= Accepted, 3= Rejected, 4 = Ready to pickup */
         fecha_envio DATETIME,
         CONSTRAINT fk_peticion_tipo FOREIGN KEY (id_tipo_peticion) REFERENCES tb_tipos_peticiones (id_tipo_peticion),
         CONSTRAINT fk_peticion_idioma FOREIGN KEY (id_idioma) REFERENCES tb_idiomas (id_idioma),
@@ -173,12 +183,15 @@ CREATE TABLE
         id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
         id_administrador INT,
         id_permiso INT,
+        id_peticion INT,
         /* NOT ID'S */
+        tipo_notificacion ENUM('1','2','3','4') DEFAULT '1', /*1 = Informative; 2 = Accepted; 3 = Declined; 4 = Ready to pickup*/
         fecha_envio DATETIME NOT NULL,
         descripcion VARCHAR(300),
 
         CONSTRAINT fk_notificacion_administrador FOREIGN KEY (id_administrador) REFERENCES tb_administradores(id_administrador),
-        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso)
+        CONSTRAINT fk_notificacion_permiso FOREIGN KEY (id_permiso) REFERENCES tb_permisos(id_permiso),
+        CONSTRAINT fk_notificacion_peticion FOREIGN KEY (id_peticion) REFERENCES tb_peticiones(id_peticion)
     );
 
 INSERT INTO tb_tipos_administradores VALUES(
@@ -351,3 +364,4 @@ BEGIN
 END $$
 
 DELIMITER ;
+

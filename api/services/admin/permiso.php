@@ -206,7 +206,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No tiene permisos para leer los administradores';
                 } elseif (
                     !$permiso->setId($_POST[POST_ID]) or
-                    !$permiso->setestado($_POST[POST_ESTADO])
+                    !$permiso->setEstado($_POST[POST_ESTADO])
                 ) {
                     $result['error'] = $permiso->getDataError();
                 } elseif ($permiso->updateState()) {

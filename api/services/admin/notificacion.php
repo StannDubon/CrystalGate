@@ -5,8 +5,12 @@ require_once('../../models/data/notificacion-data.php');
 const POST_ID = "idNotificacion";
 const POST_ADMINISTRADOR_ID = "idAdministrador";
 const POST_PERMISO_ID = "idPermiso";
+const POST_PETICION_ID = "idPeticion";
 const POST_FECHA_ENVIO = "fechaEnvio";
 const POST_DESCRIPCION = "descripcion";
+const POST_TIPO_NOTIFICACION = "tipoNotificacion";
+const POST_TITLE = "title";
+const POST_TOKEN = "token";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -46,8 +50,10 @@ if (isset($_GET['action'])) {
                 if (
                     !$Notificacion->setIdAdministrador($_SESSION[POST_ADMINISTRADOR_ID]) or
                     !$Notificacion->setIdPermiso($_POST[POST_PERMISO_ID]) or
+                    !$Notificacion->setIdPeticion($_POST[POST_PETICION_ID]) or
                     !$Notificacion->setFechaEnvio($_POST[POST_FECHA_ENVIO]) or
-                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])
+                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION]) or
+                    !$Notificacion->setTipoNotificacion($_POST[POST_TIPO_NOTIFICACION])
                 ) {
                     $result['error'] = $Notificacion->getDataError();
                 } elseif ($Notificacion->createRow()) {
@@ -113,6 +119,23 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Notification deleted succesfully';
                 } else {
                     $result['error'] = 'An error ocurred while deleting the notification';
+                }
+                break;
+
+            case 'sendNotification':
+                if(
+                    !$Notificacion->setTitle($_POST[POST_TITLE]) ||
+                    !$Notificacion->setToken($_POST[POST_TOKEN]) ||
+                    !$Notificacion->setDescripcion($_POST[POST_DESCRIPCION])  
+                ){
+                    $result['error'] = $Notificacion->getDataError();
+                }
+                else if ($Notificacion->sendNotification()){
+                    $result['status'] = 1;
+                    $result['message'] = "Notification sent succesfully";
+                }
+                else{
+                    $result['error'] = "There was a problem while sending the notification";
                 }
                 break;
             // Caso predeterminado.

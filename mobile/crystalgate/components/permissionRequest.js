@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import {
     StyleSheet,
     Text,
@@ -8,6 +8,7 @@ import {
     Alert,
     Button,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 // Importación del archivo de constantes de colores
 import { Color } from "../assets/const/color";
 // Encabezado para formularios en la aplicación
@@ -32,6 +33,21 @@ import TimePicker from "./pickers/timePicker";
 import FilePicker from "./pickers/filePicker";
 import SuccessModal from "./modal/alertModal";
 import fetchData from "./utils/database";
+import { format } from "date-fns";
+
+
+const getDateTime = () => {
+    const date = new Date();
+  
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
 
 const PermissionRequest = () => {
 
@@ -59,12 +75,14 @@ const PermissionRequest = () => {
     // Variables para capturar los datos del formulario
     const [permissionDescription, setPermissionDescription] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date());
+    const [startDate, setStartDate] = useState(getDateTime());
+    const [endDate, setEndDate] = useState(getDateTime());
+    const [startTime, setStartTime] = useState(getDateTime());
+    const [endTime, setEndTime] = useState(getDateTime());
+    const [isErrorVisible, setErrorVisible] = useState(false);
+    const [modalError, setModalError] = useState("");
     
-    /*useFocusEffect(
+    useFocusEffect(
         React.useCallback(() => {
             // Esta función se ejecutará cada vez que el componente esté enfocado
             loadData(); // Llamar a tu función para cargar datos
@@ -74,10 +92,10 @@ const PermissionRequest = () => {
             setSelectedSubType("");
             setPermissionDescription("");
             setSelectedFile(null);
-            setStartDate(new Date());
-            setEndDate(new Date());
-            setStartTime(new Date());
-            setEndTime(new Date());
+            setStartDate(getDateTime());
+            setEndDate(getDateTime());
+            setStartTime(getDateTime());
+            setEndTime(getDateTime());
             setSelectedOption("");
             setSubTypeDisabled(true);
             setDisabledDay(true);
@@ -88,7 +106,7 @@ const PermissionRequest = () => {
                 // Opcional: puedes agregar lógica de limpieza aquí si es necesario
             };
         }, [])
-    );*/
+    );
     
 
     const isDisabledSend =
@@ -99,7 +117,9 @@ const PermissionRequest = () => {
         !startDate ||
         !selectedOption ||
         (selectedOption == 'Days' ?
-            !endDate
+            !endDate  ||
+            !startDate ||
+            startDate > endDate
             :
             !startTime ||
             !endTime ||
@@ -178,18 +198,20 @@ const PermissionRequest = () => {
         setEndTime(getDateTime());
     },[navigation]);
 
-    const getDateTime = () => {
-        const date = new Date();
-      
+    function resetTime(dateTimeString, type) {
+        const date = new Date(dateTimeString);
+    
+        // Ajustar horas, minutos y segundos a cero
+        date.setHours(0, 0, 0, 0);
+    
+        // Convertir la fecha de nuevo al formato deseado
         const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        const seconds = date.getSeconds().toString().padStart(2, '0');
-      
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      };
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+    
+        if(type) return `${year}-${month}-${day} 00:00:00`;
+        else return `${year}-${month}-${day} 23:59:59`
+    }
 
     // Función para manejar el envío del formulario
     const handleSend = async () => {
@@ -197,14 +219,26 @@ const PermissionRequest = () => {
 
         formData.append('idTipoPermiso', selectedSubType);
         formData.append('descripcionPermiso', permissionDescription);
+        console.log(startDate);
         if (selectedOption == "Days") {
-            console.log(startDate);
-            console.log(endDate);
-            formData.append('fechaInicio', startDate);
-            formData.append('fechaFinal', endDate);
+            formData.append('fechaInicio', resetTime(startDate,1));
+            formData.append('fechaFinal', resetTime(endDate,0));
+
+            if(startDate>endDate){
+                setModalError("The range of dates are incorrect");
+                setErrorVisible(true);
+                return;
+            }
+
         } else if (selectedOption == "Hours") {
-            formData.append('fechaInicio', `${startTime}`);
-            formData.append('fechaFinal', `${endTime}`);
+            formData.append('fechaInicio', format(startDate,"yyyy-MM-dd")+" "+`${startTime}`);
+            formData.append('fechaFinal', format(startDate,"yyyy-MM-dd")+" "+`${endTime}`);
+
+            if(startTime>endTime){
+                setModalError("The range of time is incorrect");
+                setErrorVisible(true);
+                return;
+            }
 
         }
         formData.append('fechaEnvio',getDateTime());
@@ -242,6 +276,14 @@ const PermissionRequest = () => {
         setSelectedFile(file);
     };
 
+    const handleStartDateChange = (formattedDate) => {
+        setStartDate(formattedDate);
+    };
+    
+    const handleEndDateChange = (formattedDate) => {
+        setEndDate(formattedDate);
+    };
+
     // Renderizado del componente
     return (
         <View style={styles.container}>
@@ -274,22 +316,22 @@ const PermissionRequest = () => {
                     <>
                         <DatePicker label={"From: "}
                                     selectedDateTime={startDate}
-                                    onDateChange={setStartDate}></DatePicker>
+                                    onDateChange={handleStartDateChange}></DatePicker>
                         <DatePicker label={"To: "}
                                     selectedDateTime={endDate}
-                                    onDateChange={setEndDate}></DatePicker>
+                                    onDateChange={handleEndDateChange}></DatePicker>
                     </>
                     : selectedOption == "Hours" ?
                     <>
                         <DatePicker label={"Of: "}
                                     selectedDateTime={startDate}
-                                    onDateChange={setStartDate}></DatePicker>
+                                    onDateChange={handleStartDateChange}></DatePicker>
                         <TimePicker label={"From: "}
-                                    date={startDate}
+                                    date={startTime}
                                     disabled={false}
                                     onTimeChange={setStartTime}></TimePicker>
                         <TimePicker label={"To: "}
-                                    date={startDate}
+                                    date={endTime}
                                     disabled={false}
                                     onTimeChange={setEndTime}></TimePicker>
                     </>
@@ -302,6 +344,7 @@ const PermissionRequest = () => {
                 <SendButtonForm onPress={handleSend} isDisabled={isDisabledSend}></SendButtonForm>
             </View>
             <SuccessModal visible={isSuccessModalVisible} onClose={() => setSuccessModalVisible(false)} content={"Permission sent successfully"} />
+            <SuccessModal visible={isErrorVisible} onClose={() => setErrorVisible(false)} content={modalError} type={2}/>
         </View>
     );
 };
