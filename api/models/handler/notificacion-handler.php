@@ -81,6 +81,15 @@ class NotificacionHandler
         ORDER BY n.fecha_envio DESC;';
         return Database::getRows($sql); // Obtiene y devuelve todas las notificaciones.
     }
+    // Método para leer todas las notificaciones.
+    public function readAllPermission()
+    {
+        $sql = 'SELECT a.id_notificacion, b.id_administrador, b.nombre AS nombre_administrador, b.apellido AS apellido_administrador, a.id_permiso, a.fecha_envio, a.descripcion, d.nombre AS nombre_empleado, d.apellido AS apellido_empleado, c.descripcion_permiso AS descripcion, c.estado, c.fecha_inicio, c.fecha_final, c.fecha_envio
+                FROM tb_notificaciones a, tb_administradores b, tb_permisos c, tb_usuarios d
+                WHERE a.id_administrador = b.id_administrador AND a.id_permiso = c.id_permiso AND c.id_usuario = d.id_usuario  -- Unimos con tb_usuarios para obtener el usuario de peticiones
+                ORDER BY c.fecha_envio DESC;';
+        return Database::getRows($sql); // Obtiene y devuelve todas las notificaciones.
+    }
 
     public function readAllByUser()
     {

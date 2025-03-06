@@ -5,6 +5,8 @@ const PERMISO_API = 'services/admin/permiso.php',
 //Constantes para establecer los elementos donde se mostrará la información del empleado
 const NOMBRE_EMPLEADO = document.getElementById('employee-name'),
     CORREO_EMPLEADO = document.getElementById('employee-email'),
+    CLASIFICACION_PERMISO = document.getElementById('permission-clas'),
+    TIPO_PERMISO = document.getElementById('permission-type'),
     FECHA_INICIO = document.getElementById('start-date'),
     HORA_INICIO = document.getElementById('start-time'),
     FECHA_FINAL = document.getElementById('final-date'),
@@ -54,8 +56,10 @@ fillRequest = async(FORM) => {
         startDate = new Date(ROW.fecha_inicio.split(' ')[0] + 'T00:00:00');
         endDate = new Date(ROW.fecha_final.split(' ')[0] + 'T00:00:00');
 
-        NOMBRE_EMPLEADO.textContent = ROW.nombre + ' ' + ROW.apellido;
+        NOMBRE_EMPLEADO.textContent = 'Employee name: ' + ROW.nombre + ' ' + ROW.apellido;
         CORREO_EMPLEADO.textContent = ROW.correo;
+        CLASIFICACION_PERMISO.textContent = 'Permission clasification: ' + ROW.clasificacion_permiso;
+        TIPO_PERMISO.textContent = 'Permission type: ' + ROW.tipo_permiso;
 
         const ONLY_DAY = ROW.lapso;
         if (ONLY_DAY === '1'){

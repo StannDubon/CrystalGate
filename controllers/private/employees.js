@@ -143,7 +143,7 @@ const PermissionsPerUserGrapho = async () => {
         if(!quantity.every(item => item === 0)){
             document.getElementById("grapho-modal").classList.remove("inactive")
             graphoModal("Permissions per User");
-            pieGraph('chart', data, quantity);
+            barGraph('chart', data, quantity);
         } else{
             document.getElementById("grapho-modal").classList.add("inactive")
             graphoModal("There are no registered permissions"); 
@@ -167,7 +167,7 @@ const readPermissionTypePerUserGrapho = async (id, name) => {
         if(!quantity.every(item => item === 0)){
             document.getElementById("grapho-modal").classList.remove("inactive")
             graphoModal("Permissions per User: "+name);
-            pieGraph('chart', data, quantity);
+            barGraph('chart', data, quantity);
         } else{
             document.getElementById("grapho-modal").classList.add("inactive")
             graphoModal("There are no registered permissions"); 

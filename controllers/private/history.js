@@ -52,7 +52,7 @@ const fillTable = async (form = null) => {
 
     // Verificar la acción a realizar
     const searchValue = form.get("search");
-    const action = searchValue ? 'searchRows' : 'readAll';
+    const action = searchValue ? 'searchRows' : 'readAllPermissions';
 
     // Petición para obtener los registros disponibles
     const DATA = await fetchData(HISTORY_API, action, form);

@@ -72,6 +72,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There aren´t notifications registered';
                 }
                 break;
+            // Caso para leer todos los registros.
+            case 'readAllPermissions':
+                if ($result['dataset'] = $Notificacion->readAllPermission()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'There are ' . count($result['dataset']) . ' registers';
+                } else {
+                    $result['error'] = 'There aren´t permissions modified';
+                }
+                break;
             // Caso para leer un registro en particular.
             case 'readOne':
                 if (!$Notificacion->setId($_POST[POST_ID])) {

@@ -219,9 +219,9 @@ class PermisoHandler
     // Método para leer un permiso específico por su ID.
     public function readOne()
     {
-        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso, a.estado
-                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c
-                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso';
+        $sql = 'SELECT a.*, b.nombre, b.apellido, b.id_usuario, b.correo, c.lapso, a.estado, c.tipo_permiso, d.clasificacion_permiso
+                FROM tb_permisos a, tb_usuarios b, tb_tipos_permisos c, tb_clasificaciones_permisos d
+                WHERE a.id_permiso = ? AND a.id_usuario = b.id_usuario AND a.id_tipo_permiso = c.id_tipo_permiso AND c.id_clasificacion_permiso = d.id_clasificacion_permiso';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
